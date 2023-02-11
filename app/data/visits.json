@@ -1,0 +1,291 @@
+{
+  "olympiads": {
+    "1900": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1900.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8192713736",
+          "img": ""
+        }
+      }
+    },
+    "1908": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1908.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8476619711",
+          "img": ""
+        }
+      }
+    },
+    "1912": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1912.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8235488814",
+          "img": ""
+        }
+      }
+    },
+    "1920": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1920.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8105627730",
+          "img": ""
+        }
+      }
+    },
+    "1924": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1924.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8422088610",
+          "img": ""
+        }
+      }
+    },
+    "1928": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1928.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8071251510",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1928.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8433601650",
+          "img": ""
+        }
+      }
+    },
+    "1932": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1932.jpg"
+        },
+        "strava": {
+          "link": "",
+          "img": ""
+        }
+      }
+    },
+    "1964": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1964.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8368441721",
+          "img": ""
+        }
+      }
+    },
+    "1984": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1932.jpg"
+        },
+        "strava": {
+          "link": "",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1984.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8460254421",
+          "img": ""
+        }
+      }
+    },
+    "1936": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1936.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8320222220",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1936.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8363734150",
+          "img": ""
+        }
+      }
+    },
+    "1952": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1952.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8273823902",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1952.jpg"
+        },
+        "strava": {
+          "link": "",
+          "img": ""
+        }
+      }
+    },
+    "1972": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1972.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8351689352",
+          "img": ""
+        }
+      }
+    },
+    "1992": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1992.jpg"
+        },
+        "strava": {
+          "link": "",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1992.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8411955872",
+          "img": ""
+        }
+      }
+    },
+    "1948": {
+      "summer": {
+        "stadium": {
+          "img": "summer-1948.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8514882303",
+          "img": ""
+        }
+      },
+      "winter": {
+        "stadium": {
+          "img": "winter-1928.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8433601650",
+          "img": ""
+        }
+      }
+    },
+    "1976": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1964.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8368441721",
+          "img": ""
+        }
+      }
+    },
+    "1968": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1968.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8401167061",
+          "img": ""
+        }
+      }
+    },
+    "1994": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1994.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8214681062",
+          "img": ""
+        }
+      }
+    },
+    "2006": {
+      "winter": {
+        "stadium": {
+          "img": "winter-2006.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8390700201",
+          "img": ""
+        }
+      }
+    },
+    "2010": {
+      "winter": {
+        "stadium": {
+          "img": "winter-2010.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/6882511589",
+          "img": ""
+        }
+      }
+    },
+    "1956": {
+      "winter": {
+        "stadium": {
+          "img": "winter-1956.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8379636416",
+          "img": ""
+        }
+      }
+    },
+    "2012": {
+      "summer": {
+        "stadium": {
+          "img": "summer-2012.jpg"
+        },
+        "strava": {
+          "link": "https://www.strava.com/activities/8532253390",
+          "img": ""
+        }
+      }
+    }
+  },
+  "old_summer": [1900, 1908, 1912, 1920, 1928, 1932, 1936, 1952, 1972, 1984, 1992],
+  "old_winter": [1924, 1928, 1936, 1948, 1952, 1956, 1960, 1964, 1968, 1976, 1984, 1992, 1994, 2006, 2010]
+}
