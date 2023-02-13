@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { getPositionVector } from './utils';
+import { getPositionVector, globeRadius } from './utils';
 
 type Coordinate = [number, number];
 
@@ -8,8 +8,6 @@ type RouteTripProps = {
   coord2: Coordinate;
   isFlight?: boolean;
 };
-
-const globeRadius = 5;
 
 function flightScale(i: number) {
   return globeRadius + Math.sin((Math.PI * i) / 20) / 4;

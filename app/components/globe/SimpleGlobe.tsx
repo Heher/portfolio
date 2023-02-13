@@ -1,7 +1,24 @@
 import { useRef } from 'react';
-import * as THREE from 'three';
-import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
-import { Edges, OrbitControls } from '@react-three/drei';
+import {
+  LineBasicMaterial,
+  TextureLoader,
+  Euler,
+  AdditiveBlending,
+  BackSide,
+  Vector3,
+  LineSegments,
+  MeshBasicMaterial,
+  CylinderGeometry,
+  Mesh,
+  Group,
+  ShaderMaterial,
+  SphereGeometry,
+  TubeGeometry,
+  PerspectiveCamera,
+  CameraHelper
+} from 'three';
+import { Canvas, useLoader, useFrame, useThree, extend } from '@react-three/fiber';
+import { ArcballControls, Edges, OrbitControls } from '@react-three/drei';
 import { cities } from './coordinates';
 
 import earthImg from '~/data/map/earth.jpg';
@@ -11,11 +28,25 @@ import atmosphereVertex from '~/data/map/shaders/atmosphereVertex.glsl';
 import atmosphereFragment from '~/data/map/shaders/atmosphereFragment.glsl';
 import { animated, useSpring } from '@react-spring/three';
 
-import { MotionCanvas } from 'framer-motion-3d';
+// import { MotionCanvas } from '~/my-framer-motion-3d/MotionCanvas';
+import { LayoutCamera, motion, MotionCanvas } from 'framer-motion-3d';
 import { useEffect } from 'react';
-import { convertToRadians } from './utils';
-import { RouteTrip } from './RouteTrip';
+import { convertToRadians, globeRadius } from './utils';
 import { Route } from './Route';
+import { useControls } from 'leva';
+
+extend({
+  LineBasicMaterial,
+  LineSegments,
+  MeshBasicMaterial,
+  CylinderGeometry,
+  Mesh,
+  Group,
+  ShaderMaterial,
+  SphereGeometry,
+  TubeGeometry,
+  CameraHelper
+});
 
 function topColor(citySelected: string | undefined, selected: boolean, visited: boolean, cityType: string) {
   if (citySelected) {
@@ -58,7 +89,7 @@ function getPosition(coord, radius) {
 function getCoordRotation(coord) {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return [0, -lonRad, latRad - Math.PI * 0.5];
+  return new Euler(0, -lonRad, latRad - Math.PI * 0.5);
 }
 
 // [0, -(Math.PI / 2), 0]
@@ -66,7 +97,8 @@ function getCoordRotation(coord) {
 function getNewRotation(coord) {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return [latRad, lonRad - Math.PI / 2, 0];
+  // return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
+  return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
 }
 
 function placeObjectOnPlanet(coord, radius) {
@@ -78,7 +110,7 @@ function placeObjectOnPlanet(coord, radius) {
 }
 
 const CityMarker = ({ city, visited, citySelected, selected }) => {
-  const cityInfo = placeObjectOnPlanet(city.coord, 5);
+  const cityInfo = placeObjectOnPlanet(city.coord, globeRadius);
 
   return (
     <group>
@@ -100,11 +132,11 @@ const CityMarker = ({ city, visited, citySelected, selected }) => {
 };
 
 const Sphere = () => {
-  const earthMap = useLoader(THREE.TextureLoader, earthImg);
+  const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
     <mesh>
-      <sphereGeometry args={[5, 50, 50]} />
+      <sphereGeometry args={[globeRadius, 50, 50]} />
       <shaderMaterial
         vertexShader={vertex}
         fragmentShader={fragment}
@@ -117,83 +149,106 @@ const Sphere = () => {
 const Atmosphere = () => {
   return (
     <mesh>
-      <sphereGeometry args={[5, 50, 50]} />
+      <sphereGeometry args={[globeRadius, 50, 50]} />
       <shaderMaterial
         vertexShader={atmosphereVertex}
         fragmentShader={atmosphereFragment}
-        blending={THREE.AdditiveBlending}
-        side={THREE.BackSide}
+        blending={AdditiveBlending}
+        side={BackSide}
       />
     </mesh>
   );
 };
 
-// const initPosition = new THREE.Vector3(0, 0, 0);
-// const closePosition = new THREE.Vector3(1, 1, 1);
+// const initPosition = new Vector3(0, 0, 0);
+// const closePosition = new Vector3(1, 1, 1);
 
-let currentRotation = [0, -(Math.PI / 2), 0];
+// const currentRotation = new Euler(0, -(Math.PI / 2), 0);
 
 function getRotation(foundCity, routeSelected) {
   if (routeSelected) {
     return getNewRotation([52.37, -4.89]);
   }
 
-  return foundCity ? getNewRotation(foundCity.coord) : currentRotation;
+  return foundCity ? getNewRotation(foundCity.coord) : { rotateX: 0, rotateY: 0, rotateZ: 0 };
 }
 
 function getScale(foundCity, routeSelected) {
   if (routeSelected) {
-    return 2;
+    return 1;
   }
 
   return foundCity ? foundCity.scale : 1;
 }
 
+const globeVariants = {
+  rest: {
+    rotateY: -2 * Math.PI,
+    scale: 1,
+    transition: { rotateY: { ease: 'linear', duration: 20, repeat: Infinity } }
+  },
+  city: ({ foundCity, routeSelected }) => ({
+    ...getRotation(foundCity, routeSelected),
+    scale: getScale(foundCity, routeSelected)
+  }),
+  route: ({ foundCity, routeSelected }) => ({
+    ...getRotation(foundCity, routeSelected),
+    // rotateY: 0,
+    scale: getScale(foundCity, routeSelected)
+  })
+};
+
+const globeRotation = new Euler(0, 0, 0.5, 'ZXY');
+
+const findVariantType = (foundCity, routeSelected) => {
+  if (routeSelected) {
+    return 'route';
+  }
+
+  if (foundCity) {
+    return 'city';
+  }
+
+  return 'rest';
+};
+
 const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
-  const groupRef = useRef();
+  const groupRef = useRef(null);
+  const controlsRef = useRef(null);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
-  const { rotation, scale, position } = useSpring({
-    rotation: getRotation(foundCity, routeSelected),
-    scale: getScale(foundCity, routeSelected)
-    // position: foundCity ? [-5, -10, 0] : [0, 0, 0]
-  });
+  const { camera } = useThree();
 
-  // const { viewport } = useThree();
-  // console.log(viewport);
-
-  useFrame((state, delta) => {
-    if (!selectedCity && !routeSelected) {
-      groupRef.current.rotation.y += 0.001;
+  useEffect(() => {
+    if (camera && !routeSelected) {
+      console.log('camera', camera);
+      camera.position.set(0, 0, 18);
+      camera.rotation.set(0, 0, 0, 'ZXY');
+      // camera.lookAt(0, 0, 0);
     }
-  });
-
-  // useEffect(() => {
-  //   if (selectedCity) {
-  //     const newRotation = groupRef.current.rotation.toArray();
-  //     newRotation.pop();
-  //     currentRotation = newRotation;
-  //     console.log(currentRotation);
-  //   }
-  // }, [selectedCity]);
-
-  // console.log(scale);
+  }, [camera, routeSelected]);
 
   return (
-    <animated.group
+    <motion.group
+      custom={{ foundCity, routeSelected }}
       ref={groupRef}
-      // position-x={position}
-      // position-y={position}
-      // position-z={position}
-      position={position}
-      rotation={rotation}
-      scale={scale}
+      rotation={globeRotation}
+      variants={globeVariants}
+      animate={findVariantType(foundCity, routeSelected)}
     >
       <Atmosphere />
       <Sphere />
       {routeSelected && <Route />}
-      {routeSelected && <OrbitControls />}
+      <OrbitControls
+        ref={controlsRef}
+        enabled={routeSelected}
+        minPolarAngle={Math.PI / 4 - 0.2}
+        maxPolarAngle={Math.PI - 0.7}
+        maxDistance={45}
+        minDistance={10}
+        enablePan={false}
+      />
       {!routeSelected &&
         cities.map((city) => {
           let visited = false;
@@ -216,17 +271,53 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
             />
           );
         })}
-    </animated.group>
+    </motion.group>
   );
 };
 
-const cameraRotation = new THREE.Euler(0, 0, -0.5);
+const cameraPosition = new Vector3(0, 0, 18);
+const cameraRotation = new Euler(0, 0, 0);
+
+const canvasVariants = {
+  rest: {
+    // rotateX: 0,
+    // rotateY: 0,
+    // rotateZ: 0
+    scale: 0.5
+  }
+};
+
+// const CameraDebug = () => {
+//   const camera = new PerspectiveCamera(60, 1, 1, 3);
+
+//   return (
+//     <group position={[0, 0, 15]}>
+//       <cameraHelper args={[camera]} />
+//     </group>
+//   );
+// };
 
 const SimpleGlobe = ({ visits, selectedCity, routeSelected }) => {
   return (
-    <Canvas camera={{ position: [0, 0, 28], fov: 40, far: 50, rotation: routeSelected ? [0, 0, 0] : cameraRotation }}>
+    <MotionCanvas>
+      <LayoutCamera
+        position={cameraPosition}
+        fov={40}
+        far={50}
+        animate={
+          routeSelected
+            ? {}
+            : {
+                // x: 0,
+                // y: 0,
+                // z: 18
+              }
+        }
+        // variants={canvasVariants}
+      />
       <ConnectedEarth visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} />
-    </Canvas>
+      {/* <CameraDebug /> */}
+    </MotionCanvas>
   );
 };
 

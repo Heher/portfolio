@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'Olympic cities',
   viewport: 'width=device-width,initial-scale=1'
 });
 
@@ -27,12 +27,4 @@ export default function App() {
       </body>
     </html>
   );
-}
-
-{
-  /* <AnimatePresence mode="wait" initial={false}>
-          <div key={location.pathname}>
-            <Outlet />
-          </div>
-        </AnimatePresence> */
 }
