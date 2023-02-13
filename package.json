@@ -25,7 +25,6 @@
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "isbot": "^3.6.5",
-    "leva": "^0.9.34",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "react": "^18.2.0",

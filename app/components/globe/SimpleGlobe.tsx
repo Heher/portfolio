@@ -13,12 +13,10 @@ import {
   Group,
   ShaderMaterial,
   SphereGeometry,
-  TubeGeometry,
-  PerspectiveCamera,
-  CameraHelper
+  TubeGeometry
 } from 'three';
-import { Canvas, useLoader, useFrame, useThree, extend } from '@react-three/fiber';
-import { ArcballControls, Edges, OrbitControls } from '@react-three/drei';
+import { useLoader, useThree, extend } from '@react-three/fiber';
+import { Edges, OrbitControls } from '@react-three/drei';
 import { cities } from './coordinates';
 
 import earthImg from '~/data/map/earth.jpg';
@@ -26,14 +24,11 @@ import vertex from '../../data/map/shaders/vertex.glsl';
 import fragment from '~/data/map/shaders/fragment.glsl';
 import atmosphereVertex from '~/data/map/shaders/atmosphereVertex.glsl';
 import atmosphereFragment from '~/data/map/shaders/atmosphereFragment.glsl';
-import { animated, useSpring } from '@react-spring/three';
 
-// import { MotionCanvas } from '~/my-framer-motion-3d/MotionCanvas';
 import { LayoutCamera, motion, MotionCanvas } from 'framer-motion-3d';
 import { useEffect } from 'react';
 import { convertToRadians, globeRadius } from './utils';
 import { Route } from './Route';
-import { useControls } from 'leva';
 
 extend({
   LineBasicMaterial,
@@ -44,8 +39,7 @@ extend({
   Group,
   ShaderMaterial,
   SphereGeometry,
-  TubeGeometry,
-  CameraHelper
+  TubeGeometry
 });
 
 function topColor(citySelected: string | undefined, selected: boolean, visited: boolean, cityType: string) {
@@ -92,12 +86,9 @@ function getCoordRotation(coord) {
   return new Euler(0, -lonRad, latRad - Math.PI * 0.5);
 }
 
-// [0, -(Math.PI / 2), 0]
-
 function getNewRotation(coord) {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  // return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
   return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
 }
 
@@ -160,11 +151,6 @@ const Atmosphere = () => {
   );
 };
 
-// const initPosition = new Vector3(0, 0, 0);
-// const closePosition = new Vector3(1, 1, 1);
-
-// const currentRotation = new Euler(0, -(Math.PI / 2), 0);
-
 function getRotation(foundCity, routeSelected) {
   if (routeSelected) {
     return getNewRotation([52.37, -4.89]);
@@ -222,10 +208,8 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
 
   useEffect(() => {
     if (camera && !routeSelected) {
-      console.log('camera', camera);
       camera.position.set(0, 0, 18);
       camera.rotation.set(0, 0, 0, 'ZXY');
-      // camera.lookAt(0, 0, 0);
     }
   }, [camera, routeSelected]);
 
@@ -276,47 +260,12 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
 };
 
 const cameraPosition = new Vector3(0, 0, 18);
-const cameraRotation = new Euler(0, 0, 0);
-
-const canvasVariants = {
-  rest: {
-    // rotateX: 0,
-    // rotateY: 0,
-    // rotateZ: 0
-    scale: 0.5
-  }
-};
-
-// const CameraDebug = () => {
-//   const camera = new PerspectiveCamera(60, 1, 1, 3);
-
-//   return (
-//     <group position={[0, 0, 15]}>
-//       <cameraHelper args={[camera]} />
-//     </group>
-//   );
-// };
 
 const SimpleGlobe = ({ visits, selectedCity, routeSelected }) => {
   return (
     <MotionCanvas>
-      <LayoutCamera
-        position={cameraPosition}
-        fov={40}
-        far={50}
-        animate={
-          routeSelected
-            ? {}
-            : {
-                // x: 0,
-                // y: 0,
-                // z: 18
-              }
-        }
-        // variants={canvasVariants}
-      />
+      <LayoutCamera position={cameraPosition} fov={40} far={50} />
       <ConnectedEarth visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} />
-      {/* <CameraDebug /> */}
     </MotionCanvas>
   );
 };
