@@ -13,7 +13,7 @@ export const CityOlympiad = ({ olympiad, visit }) => {
         )}
         {visit?.stadium?.img && (
           <img
-            src={`https://res.cloudinary.com/globe-draft/image/upload/q_60/olympic-visits/${visit.stadium.img}`}
+            src={`https://res.cloudinary.com/globe-draft/image/upload/h_100,c_scale/q_60/f_auto/olympic-visits/${visit.stadium.img}`}
             alt=""
           />
         )}
