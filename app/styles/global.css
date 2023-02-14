@@ -1,0 +1,21 @@
+:root {
+  --select-border: #777;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+  --french-sky-blue: #89bbfe;
+  --gunmetal: #0a2933;
+  --flag-box-shadow: #505050;
+  --dark-blue: rgba(43, 149, 185, 1);
+  --navy: #001939;
+  --positive: #3dbd73;
+  --negative: #ff5a5a;
+  --link-hover: #eaf3ff;
+  --nav-background: #4D6F85;
+  --nav-text: #F2F5F8;
+  --nav-link: #CBD8E1;
+  --nav-border: #7D9FB5;
+  --max-width: 1500px;
+  --page-background: #D8E2E9;
+  --nav-link-hover: #97B2C3;
+  --cta: #74add4;
+}

@@ -5,23 +5,17 @@ import { groupBy } from 'lodash';
 import { OlympiadType } from '~/components/OlympiadType';
 import { getStravaActivities } from '~/utils/getStravaActivities';
 
-import styles from '~/styles/index.css';
+// import styles from '~/styles/index.css';
 import visitData from '~/data/visits.json';
-import SimpleGlobe, { MotionGlobe } from '~/components/globe/SimpleGlobe';
+import SimpleGlobe from '~/components/globe/SimpleGlobe';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ModalContainer from '~/components/modal/ModalContainer';
 import CitiesList from '~/components/CitiesList';
 
-// import stadiums from '~/images/stadiums';
-
-// import images from '~/images/stadiums';
-
-// console.log(images);
-
-export function links() {
-  return [{ rel: 'stylesheet', href: styles }];
-}
+// export function links() {
+//   return [{ rel: 'stylesheet', href: styles }];
+// }
 
 export async function loader() {
   const stravaResponse = await getStravaActivities();
@@ -98,10 +92,10 @@ export default function Index() {
   };
 
   return (
-    <main>
-      <div className="body-container">
+    <main className="relative w-full h-full bg-[var(--nav-background)]">
+      <div className="body-container max-w-[var(--max-width)] mx-auto">
         <motion.div
-          className="globe-container"
+          className="globe-container fixed h-[100vh] w-full"
           animate={
             {
               // opacity: selectedCity ? 1 : 0.5,
@@ -117,7 +111,11 @@ export default function Index() {
           <SimpleGlobe visits={visitData.olympiads} selectedCity={selectedCity} routeSelected={routeSelected} />
         </motion.div>
 
-        <button className="route-button" type="button" onClick={handleRouteSelection}>
+        <button
+          className="route-button relative px-[20px] py-[10px] bg-blue-500 mb-[50px]"
+          type="button"
+          onClick={handleRouteSelection}
+        >
           My route
         </button>
 

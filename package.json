@@ -2,8 +2,10 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev",
+    "build": "npm run build:css && remix build",
+    "build:css": "tailwindcss -m -i ./styles/tailwind.css -o ./app/styles/tailwind.css",
+    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/styles/tailwind.css --watch",
     "start": "cross-env NODE_ENV=production netlify dev",
     "typecheck": "tsc",
     "postinstall": "remix-esbuild-override"
@@ -44,6 +46,7 @@
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
+    "concurrently": "^7.6.0",
     "dotenv": "^16.0.3",
     "esbuild-plugin-glsl": "^1.1.0",
     "eslint": "^8.34.0",
@@ -52,6 +55,7 @@
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
     "remix-esbuild-override": "^3.0.4",
+    "tailwindcss": "^3.2.6",
     "typescript": "^4.9.5"
   },
   "engines": {

@@ -36,7 +36,9 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
     <motion.div
       ref={cityRef}
       role="button"
-      className={`olympiad-city ${isSelectedCity && 'selected'}`}
+      className={`olympiad-city group p-[20px] bg-[#e0e0e0] w-[400px] rounded-[8px] border border-solid border-transparent cursor-pointer hover:bg-[#f3f3f3] hover:border-[#e0e0e0] ${
+        isSelectedCity && 'selected'
+      }`}
       onClick={() => handleCitySelection(cityInfo)}
       animate={{
         // position: isSelectedCity ? 'fixed' : 'absolute',
@@ -45,17 +47,17 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
         height: isSelectedCity ? '600px' : '150px'
       }}
     >
-      <div className="header">
+      <div className="header flex items-center">
         <span
-          className={`city-status ${amountCompleted === totalOlympiads && 'visited'} ${
-            amountCompleted > 0 && amountCompleted < totalOlympiads && 'incomplete'
-          }`}
+          className={`city-status w-[15px] h-[15px] rounded-full bg-[var(--negative)] mr-[10px] ${
+            amountCompleted === totalOlympiads && 'bg-[var(--positive)]'
+          } ${amountCompleted > 0 && amountCompleted < totalOlympiads && 'bg-[#FFA566]'}`}
         />
-        <h3>
+        <h3 className="">
           {cityInfo.name}, {cityInfo.country.name}
         </h3>
       </div>
-      <ul>
+      <ul className="flex items-center list-none p-0 group-[.selected]:flex-col">
         {olympiads.map((olympiad) => {
           const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
 

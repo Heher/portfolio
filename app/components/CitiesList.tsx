@@ -2,7 +2,7 @@ import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
 const CitiesList = ({ olympiadList, visits, handleCitySelection, selectedCity, routeSelected }) => {
   return (
-    <div className={`cities-container ${routeSelected && 'route-selected'}`}>
+    <div className={`cities-container relative overflow-scroll ml-[30px] ${routeSelected && 'hidden'}`}>
       {Object.entries(olympiadList).map(([cityId, olympiads], index) => {
         const cityInfo = olympiads[0].city;
 
