@@ -64,7 +64,7 @@ export async function loader() {
 }
 
 const GlobeFallback = () => {
-  return <div className="w-full h-full bg-red-500">Loading...</div>;
+  return <div>Loading...</div>;
 };
 
 export default function Index() {
@@ -129,7 +129,7 @@ export default function Index() {
           </Suspense>
         </motion.div>
 
-        <div className="body-text mt-[15vh] px-[30px]">
+        <div className="body-text mt-[8vh] px-[30px]">
           <h1 className="text-slate-100 text-[2.5rem] leading-[1.2]">
             Olympic trip
             <br />
