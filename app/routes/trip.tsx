@@ -172,7 +172,7 @@ export default function Index() {
           <>
             <div className={`globe-background fixed top-0 left-0 z-10 w-full h-[50dvh]`}></div>
             <button
-              className={`fixed z-40 top-[10px] left-[10px] w-[40px] h-[20px]`}
+              className={`fixed z-40 top-[10px] left-[10px] w-[40px] h-[40px]`}
               type="button"
               onClick={handleBackButton}
             >
