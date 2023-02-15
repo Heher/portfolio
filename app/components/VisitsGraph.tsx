@@ -28,14 +28,12 @@ const VisitsGraph = ({ title, visits, total }) => {
         <path
           d={bgArc()}
           fill="none"
-          className={`fill-[var(--flag-box-shadow)] translate-x-[${size / 2}px] translate-y-[${
-            size / 2
-          }px] rotate-[215deg]`}
+          className={`fill-[var(--flag-box-shadow)] translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
         />
         <path
           d={mainArc()}
           fill="none"
-          className={`fill-[#dddddd] translate-x-[${size / 2}px] translate-y-[${size / 2}px] rotate-[215deg]`}
+          className={`fill-[#dddddd] translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
         />
       </svg>
       <p className="text-slate-100 text-center mt-[-90px]">

@@ -24,7 +24,7 @@ const CitiesList = ({
 }) => {
   return (
     <div
-      className={`cities-container relative mt-[25vh] pt-[25vh] pb-[20px] ${getVisibility(
+      className={`cities-container relative mt-[25dvh] pt-[25dvh] pb-[20px] ${getVisibility(
         routeSelected,
         showDetails,
         width

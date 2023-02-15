@@ -54,9 +54,9 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
         <motion.div
           ref={cityRef}
           layoutId="expandable-card"
-          className={`olympiad-city group fixed top-[25vh] left-0 h-[75vh] w-[100vw] p-[20px] bg-[#e0e0e0] border border-solid border-transparent cursor-pointer selected z-20 overflow-scroll`}
+          className={`olympiad-city group fixed top-[25dvh] left-0 h-[75dvh] w-[100vw] p-[20px] bg-[#e0e0e0] border border-solid border-transparent cursor-pointer selected z-20 overflow-scroll`}
         >
-          <motion.div layoutId="expandable-card-header" className="header mt-[20vh]">
+          <motion.div layoutId="expandable-card-header" className="header mt-[20dvh]">
             <div className="flex items-center">
               <motion.span
                 className={`city-status w-[15px] h-[15px] rounded-full mr-[10px] ${statusColor(

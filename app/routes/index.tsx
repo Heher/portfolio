@@ -17,7 +17,7 @@ function fizzBuzz() {
 export default function Index() {
   fizzBuzz();
   return (
-    <main className="w-[100vw] h-[100vh] flex items-center justify-center">
+    <main className="w-[100vw] h-[100dvh] flex items-center justify-center">
       <div>
         <h1>John Heher</h1>
         <h2>Web Developer</h2>

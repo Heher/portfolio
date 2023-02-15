@@ -73,7 +73,7 @@ function getGlobeContainerPosition(width, showDetails) {
       return 'bottom-auto top-0';
     }
 
-    return 'bottom-[-20vh] top-auto';
+    return 'bottom-[-20dvh] top-auto';
   }
 
   return 'bottom-0 top-auto';
@@ -102,13 +102,13 @@ function getTopPosition(width, showDetails) {
 function getGlobeHeight(width, routeSelected) {
   if (width < 768) {
     if (routeSelected) {
-      return 'h-[100vh]';
+      return 'h-[100dvh]';
     }
 
-    return 'h-[50vh]';
+    return 'h-[50dvh]';
   }
 
-  return 'h-[100vh]';
+  return 'h-[100dvh]';
 }
 
 export default function Index() {
@@ -166,11 +166,11 @@ export default function Index() {
   // console.log('width: ', width);
 
   return (
-    <main className={`relative w-full h-[100vh] bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}>
-      <div className="body-container h-[100vh] max-w-[var(--max-width)] mx-auto">
+    <main className={`relative w-full h-[100dvh] bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}>
+      <div className="body-container h-[100dvh] max-w-[var(--max-width)] mx-auto">
         {(routeSelected || selectedCity || showDetails) && (
           <>
-            <div className={`globe-background fixed top-0 left-0 z-10 w-full h-[50vh]`}></div>
+            <div className={`globe-background fixed top-0 left-0 z-10 w-full h-[50dvh]`}></div>
             <button
               className={`fixed z-40 top-[10px] left-[10px] w-[40px] h-[20px]`}
               type="button"
