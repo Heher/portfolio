@@ -8,6 +8,7 @@ const OlympiadMedia = ({ visit, olympiadType }) => {
             className="w-auto h-[120px] border-2 border-solid border-[var(--globe-background)] rounded-[3px])]"
             src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/q_40/olympic-visits/${visit.stadium.img}`}
             alt=""
+            loading="lazy"
           />
         </div>
       )}
