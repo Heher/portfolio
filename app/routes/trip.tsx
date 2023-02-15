@@ -228,7 +228,7 @@ export default function TripPage() {
           <p className="text-slate-200 text-md mt-[30px]">
             Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
             Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just
-            enjoy a part of the world I&rsquo;ve never been.
+            enjoy a part of the world I&rsquo;ve never been before.
           </p>
           <TripStatus olympiads={olympiads} visits={visitData.olympiads} />
         </motion.div>
