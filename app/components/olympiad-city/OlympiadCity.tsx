@@ -2,6 +2,7 @@ import { AnimateSharedLayout, LayoutGroup, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { CityOlympiad } from './CityOlympiad';
+import { OlympiadMedia } from './OlympiadMedia';
 
 function cityStatus(olympiads, visits) {
   let amountCompleted = 0;
@@ -30,11 +31,31 @@ function statusColor(amountCompleted, totalOlympiads) {
   return 'bg-[var(--negative)]';
 }
 
+const SharedOlympiads = ({ olympiads, visit }) => {
+  const olympiadYears = olympiads.map((olympiad) => olympiad.year);
+  const firstOlympiad = olympiads[0];
+
+  return (
+    <li className="city-olympiad mr-[20px]">
+      <div className="title grid grid-cols-[10px_1fr] gap-[7px] items-center">
+        <span className={`city-status w-[10px] h-[10px] rounded-full bg-[var(--positive)]`} />
+        <p className="m-0">
+          {olympiadYears.join(' and ')}
+          {` ${firstOlympiad.olympiadType.charAt(0) + firstOlympiad.olympiadType.slice(1).toLowerCase()} Games`}
+        </p>
+      </div>
+      <div className="media items-end mt-[20px] group-[.selected]:flex">
+        <OlympiadMedia visit={visit} olympiadType={firstOlympiad.olympiadType} />
+      </div>
+    </li>
+  );
+};
+
 // function backgroundColor() {
 //   cit
 // }
 
-export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection, selectedCity, top }) => {
+export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection, selectedCity, sharedStadiums }) => {
   // console.log(cityInfo);
   const cityRef = useRef(null);
   const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
@@ -48,6 +69,7 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
 
   //   observer.observe(cityRef.current);
   // }, []);
+
   return (
     <LayoutGroup id={cityInfo.name}>
       {isSelectedCity ? (
@@ -56,7 +78,7 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
           layoutId="expandable-card"
           className={`olympiad-city group fixed top-[25dvh] left-0 h-[75dvh] w-[100vw] p-[20px] bg-[#e0e0e0] border border-solid border-transparent cursor-pointer selected z-20 overflow-scroll`}
         >
-          <motion.div layoutId="expandable-card-header" className="header mt-[20dvh]">
+          <motion.div layoutId="expandable-card-header" className="header mt-[20vh]">
             <div className="flex items-center">
               <motion.span
                 className={`city-status w-[15px] h-[15px] rounded-full mr-[10px] ${statusColor(
@@ -66,16 +88,30 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
               />
               <motion.h3 className="block text-semibold text-[2rem] leading-none">{cityInfo.name}</motion.h3>
             </div>
-            <motion.h4 className="block text-bold text-[1.1rem] uppercase mt-[5px] ml-[25px]">
-              {cityInfo.country.name}
-            </motion.h4>
+            <div className="flex items-center mt-[8px]">
+              <motion.h4 className=" text-bold text-[1.1rem] uppercase ml-[25px] leading-none">
+                {cityInfo.country.name}
+              </motion.h4>
+              <img
+                className="h-[15px] w-auto ml-[10px] mt-[2px]"
+                src={cityInfo.country.flagByTimestamp.png}
+                alt={cityInfo.country.name}
+              />
+            </div>
           </motion.div>
           <ul className="flex flex-col list-none p-0 mt-[25px] ml-[25px]">
-            {olympiads.map((olympiad) => {
-              const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
+            {sharedStadiums ? (
+              <SharedOlympiads
+                olympiads={olympiads}
+                visit={visits[olympiads[0].year.toString()]?.[olympiads[0].olympiadType.toLowerCase()]}
+              />
+            ) : (
+              olympiads.map((olympiad) => {
+                const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
 
-              return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} selected />;
-            })}
+                return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} selected />;
+              })
+            )}
           </ul>
         </motion.div>
       ) : (

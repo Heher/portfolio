@@ -33,7 +33,9 @@ const VisitsGraph = ({ title, visits, total }) => {
         <path
           d={mainArc()}
           fill="none"
-          className={`fill-[#dddddd] translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
+          className={`${
+            title === 'Summer' ? 'fill-[var(--summer-background)]' : 'fill-[var(--winter-background)]'
+          } translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
         />
       </svg>
       <p className="text-slate-100 text-center mt-[-90px]">

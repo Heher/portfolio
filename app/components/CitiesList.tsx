@@ -12,6 +12,8 @@ function getVisibility(routeSelected, showDetails, width) {
   return 'block';
 }
 
+const sharedStadiums = ['St. Moritz', 'Los Angeles', 'Innsbruck'];
+
 const CitiesList = ({
   olympiadList,
   visits,
@@ -24,7 +26,7 @@ const CitiesList = ({
 }) => {
   return (
     <div
-      className={`cities-container relative mt-[25dvh] pt-[25dvh] pb-[20px] ${getVisibility(
+      className={`cities-container relative mt-[25vh] pt-[25vh] pb-[20px] bg-[var(--nav-background)] ${getVisibility(
         routeSelected,
         showDetails,
         width
@@ -48,7 +50,7 @@ const CitiesList = ({
             visits={visits}
             handleCitySelection={handleCitySelection}
             selectedCity={selectedCity}
-            top={`${170 * index}px`}
+            sharedStadiums={sharedStadiums.includes(cityInfo.name)}
           />
         );
       })}

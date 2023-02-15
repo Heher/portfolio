@@ -22,6 +22,8 @@ import TripStatus from '~/components/TripStatus';
 export async function loader() {
   const stravaResponse = await getStravaActivities();
 
+  const now = new Date().toISOString();
+
   const query = gql`
     {
       olympiads(orderBy: YEAR_ASC) {
@@ -35,6 +37,11 @@ export async function loader() {
             slug
             country {
               name
+              flagByTimestamp(
+                dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
+              ) {
+                png
+              }
             }
           }
         }
@@ -111,7 +118,14 @@ function getGlobeHeight(width, routeSelected) {
   return 'h-[100vh]';
 }
 
-export default function Index() {
+function toggleBodyBackground() {
+  const body = document.body;
+
+  body.classList.toggle('bg-[var(--globe-background)]');
+  body.classList.toggle('bg-[var(--nav-background)]');
+}
+
+export default function TripPage() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -124,8 +138,6 @@ export default function Index() {
   // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
 
   const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
-
-  // console.log(stravaData);
 
   const handleCitySelection = (city) => {
     if (selectedCity) {
@@ -158,12 +170,11 @@ export default function Index() {
 
     if (!selectedCity && !routeSelected && showDetails) {
       setShowDetails(false);
+      toggleBodyBackground();
     }
 
     setStopScroll(false);
   }
-
-  // console.log('width: ', width);
 
   return (
     <main className={`relative w-full h-[100dvh] bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}>
@@ -216,8 +227,8 @@ export default function Index() {
 
           <p className="text-slate-200 text-md mt-[30px]">
             Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
-            Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall
-            experience the culture.
+            Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just
+            enjoy a part of the world I&rsquo;ve never been.
           </p>
           <TripStatus olympiads={olympiads} visits={visitData.olympiads} />
         </motion.div>
@@ -236,7 +247,10 @@ export default function Index() {
           <button
             className={`absolute bottom-[50px] left-1/2 translate-x-[-50%] z-30 px-[30px] py-[15px] bg-[var(--cta)] rounded-[4px] uppercase text-slate-200 font-semibold`}
             type="button"
-            onClick={() => setShowDetails(true)}
+            onClick={() => {
+              toggleBodyBackground();
+              setShowDetails(true);
+            }}
           >
             Details
           </button>

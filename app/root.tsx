@@ -27,7 +27,7 @@ export default function App() {
         <Links />
         {/* {typeof document === 'undefined' ? '__STYLES__' : null} */}
       </head>
-      <body className={pathname === '/trip' ? 'bg-[var(--nav-background)]' : ''}>
+      <body className={pathname === '/trip' ? 'bg-[var(--nav-background)]' : 'bg-white'}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
