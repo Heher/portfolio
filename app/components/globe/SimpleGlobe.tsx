@@ -5,7 +5,6 @@ import {
   Euler,
   AdditiveBlending,
   BackSide,
-  Vector3,
   LineSegments,
   MeshBasicMaterial,
   CylinderGeometry,
@@ -15,7 +14,7 @@ import {
   SphereGeometry,
   TubeGeometry
 } from 'three';
-import { useLoader, useThree, extend } from '@react-three/fiber';
+import { useLoader, useThree, extend, Canvas, useFrame } from '@react-three/fiber';
 import { Edges, OrbitControls } from '@react-three/drei';
 import { cities } from './coordinates';
 
@@ -159,28 +158,34 @@ function getRotation(foundCity, routeSelected) {
   return foundCity ? getNewRotation(foundCity.coord) : { rotateX: 0, rotateY: 0, rotateZ: 0 };
 }
 
-function getScale(foundCity, routeSelected) {
+function getScale(foundCity, routeSelected, width) {
   if (routeSelected) {
     return 1;
   }
 
-  return foundCity ? foundCity.scale : 1;
+  if (foundCity) {
+    return foundCity.scale;
+  }
+
+  // if (width < 768) {
+  //   return 0.7;
+  // }
+  // console.log('width', width);
+
+  return width < 768 ? 1 : 1;
 }
 
 const globeVariants = {
-  rest: {
-    rotateY: -2 * Math.PI,
-    scale: 1,
-    transition: { rotateY: { ease: 'linear', duration: 20, repeat: Infinity } }
-  },
-  city: ({ foundCity, routeSelected }) => ({
-    ...getRotation(foundCity, routeSelected),
-    scale: getScale(foundCity, routeSelected)
+  rest: ({ foundCity, routeSelected, width }) => ({
+    scale: getScale(foundCity, routeSelected, width)
   }),
-  route: ({ foundCity, routeSelected }) => ({
+  city: ({ foundCity, routeSelected, width }) => ({
     ...getRotation(foundCity, routeSelected),
-    // rotateY: 0,
-    scale: getScale(foundCity, routeSelected)
+    scale: getScale(foundCity, routeSelected, width)
+  }),
+  route: ({ foundCity, routeSelected, width }) => ({
+    ...getRotation(foundCity, routeSelected),
+    scale: getScale(foundCity, routeSelected, width)
   })
 };
 
@@ -198,13 +203,19 @@ const findVariantType = (foundCity, routeSelected) => {
   return 'rest';
 };
 
-const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
+const ConnectedEarth = ({ visits, selectedCity, routeSelected, width }) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
   const { camera } = useThree();
+
+  useFrame(() => {
+    if (groupRef.current?.rotation && !routeSelected && !foundCity) {
+      groupRef.current.rotation.y += 0.001;
+    }
+  });
 
   useEffect(() => {
     if (camera && !routeSelected) {
@@ -213,9 +224,22 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
     }
   }, [camera, routeSelected]);
 
+  useEffect(() => {
+    if (groupRef.current && width) {
+      if (width < 768) {
+        groupRef.current.position.set(0, 0, 0);
+        // groupRef.current.scale.set(0.8);
+      } else {
+        groupRef.current.position.set(0, 0, 0);
+      }
+    }
+  }, [width]);
+
+  // console.log('width', width);
+
   return (
     <motion.group
-      custom={{ foundCity, routeSelected }}
+      custom={{ foundCity, routeSelected, width }}
       ref={groupRef}
       rotation={globeRotation}
       variants={globeVariants}
@@ -259,14 +283,16 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected }) => {
   );
 };
 
-const cameraPosition = new Vector3(0, 0, 18);
+// const GlobeCamera = ({ selectedCity, routeSelected }) => {
+//   return <LayoutCamera position={[0, 0, 18]} fov={40} far={50} />;
+// };
 
-const SimpleGlobe = ({ visits, selectedCity, routeSelected }) => {
+const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }) => {
   return (
-    <MotionCanvas>
-      <LayoutCamera position={cameraPosition} fov={40} far={50} />
-      <ConnectedEarth visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} />
-    </MotionCanvas>
+    <Canvas camera={{ position: [0, 0, 18], fov: 40, far: 50 }}>
+      {/* <GlobeCamera selectedCity={selectedCity} routeSelected={routeSelected} /> */}
+      <ConnectedEarth visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} width={width} />
+    </Canvas>
   );
 };
 

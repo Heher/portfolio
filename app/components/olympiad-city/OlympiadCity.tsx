@@ -18,6 +18,18 @@ function cityStatus(olympiads, visits) {
   };
 }
 
+function statusColor(amountCompleted, totalOlympiads) {
+  if (amountCompleted === totalOlympiads) {
+    return 'bg-[var(--positive)]';
+  }
+
+  if (amountCompleted < totalOlympiads && amountCompleted > 0) {
+    return 'bg-[#FFA566]';
+  }
+
+  return 'bg-[var(--negative)]';
+}
+
 export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection, selectedCity, top }) => {
   const cityRef = useRef(null);
   const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
@@ -49,9 +61,10 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
     >
       <div className="header flex items-center">
         <span
-          className={`city-status w-[15px] h-[15px] rounded-full bg-[var(--negative)] mr-[10px] ${
-            amountCompleted === totalOlympiads && 'bg-[var(--positive)]'
-          } ${amountCompleted > 0 && amountCompleted < totalOlympiads && 'bg-[#FFA566]'}`}
+          className={`city-status w-[15px] h-[15px] rounded-full mr-[10px] ${statusColor(
+            amountCompleted,
+            totalOlympiads
+          )}`}
         />
         <h3 className="">
           {cityInfo.name}, {cityInfo.country.name}
