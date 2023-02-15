@@ -1,8 +1,10 @@
-import { groupBy } from 'lodash';
+import VisitsGraph from './VisitsGraph';
 
 const TripStatus = ({ olympiads, visits }) => {
-  console.log(visits);
-  const olympiadsLength = olympiads.length;
+  // console.log(visits);
+  // const olympiadsLength = olympiads.length;
+
+  // console.log(olympiadsLength);
 
   const totalWinter = olympiads.filter((olympiad) => olympiad.olympiadType === 'WINTER').length;
   const totalSummer = olympiads.filter((olympiad) => olympiad.olympiadType === 'SUMMER').length;
@@ -16,21 +18,9 @@ const TripStatus = ({ olympiads, visits }) => {
   });
 
   return (
-    <div>
-      <div>
-        <h3>Summer</h3>
-        <p>
-          <span>{summerVisits}</span>
-          <span>{totalSummer}</span>
-        </p>
-      </div>
-      <div>
-        <h3>Winter</h3>
-        <p>
-          <span>{winterVisits}</span>
-          <span>{totalWinter}</span>
-        </p>
-      </div>
+    <div className="flex items-center justify-between w-[75vw] mx-auto mt-[50px]">
+      <VisitsGraph title="Summer" visits={summerVisits} total={totalSummer} />
+      <VisitsGraph title="Winter" visits={winterVisits} total={totalWinter} />
     </div>
   );
 };
