@@ -1,11 +1,6 @@
 import VisitsGraph from './VisitsGraph';
 
 const TripStatus = ({ olympiads, visits }) => {
-  // console.log(visits);
-  // const olympiadsLength = olympiads.length;
-
-  // console.log(olympiadsLength);
-
   const totalWinter = olympiads.filter((olympiad) => olympiad.olympiadType === 'WINTER').length;
   const totalSummer = olympiads.filter((olympiad) => olympiad.olympiadType === 'SUMMER').length;
 

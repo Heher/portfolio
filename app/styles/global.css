@@ -18,4 +18,12 @@
   --page-background: #D8E2E9;
   --nav-link-hover: #97B2C3;
   --cta: #74add4;
+  /* --globe-background: #3F2827; */
+  --globe-background: #0F161A;
+  --summer-background: #E7BEB1;
+  --winter-background: #CEE8F2;
+}
+
+.globe-background {
+  background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
 }

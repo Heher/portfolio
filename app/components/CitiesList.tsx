@@ -1,17 +1,37 @@
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
+function getVisibility(routeSelected, showDetails, width) {
+  if (width > 768) {
+    return 'block';
+  }
+
+  if (routeSelected || !showDetails) {
+    return 'hidden';
+  }
+
+  return 'block';
+}
+
 const CitiesList = ({
   olympiadList,
   visits,
   handleCitySelection,
   selectedCity,
   routeSelected,
-  handleRouteSelection
+  handleRouteSelection,
+  showDetails,
+  width
 }) => {
   return (
-    <div className={`cities-container relative ml-[30px] hidden md:block ${routeSelected ? 'hidden' : ''}`}>
+    <div
+      className={`cities-container relative mt-[25vh] pt-[25vh] pb-[20px] ${getVisibility(
+        routeSelected,
+        showDetails,
+        width
+      )}`}
+    >
       <button
-        className="route-button relative px-[20px] py-[10px] bg-blue-500 mb-[50px]"
+        className="route-button relative px-[20px] py-[20px] bg-[var(--globe-background)] w-[90vw] ml-[5vw] mb-[40px] text-[#e0e0e0] uppercase rounded-[6px] border border-solid border-[#9db7c6]"
         type="button"
         onClick={handleRouteSelection}
       >

@@ -164,7 +164,8 @@ function getScale(foundCity, routeSelected, width) {
   }
 
   if (foundCity) {
-    return foundCity.scale;
+    return 1;
+    // return foundCity.scale;
   }
 
   // if (width < 768) {
@@ -203,7 +204,7 @@ const findVariantType = (foundCity, routeSelected) => {
   return 'rest';
 };
 
-const ConnectedEarth = ({ visits, selectedCity, routeSelected, width }) => {
+const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetails }) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
 
@@ -224,16 +225,16 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width }) => {
     }
   }, [camera, routeSelected]);
 
-  useEffect(() => {
-    if (groupRef.current && width) {
-      if (width < 768) {
-        groupRef.current.position.set(0, 0, 0);
-        // groupRef.current.scale.set(0.8);
-      } else {
-        groupRef.current.position.set(0, 0, 0);
-      }
-    }
-  }, [width]);
+  // useEffect(() => {
+  //   if (groupRef.current && width) {
+  //     if (width < 768) {
+  //       groupRef.current.position.set(0, 0, 0);
+  //       // groupRef.current.scale.set(0.8);
+  //     } else {
+  //       groupRef.current.position.set(0, 0, 0);
+  //     }
+  //   }
+  // }, [width]);
 
   // console.log('width', width);
 
@@ -287,11 +288,17 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width }) => {
 //   return <LayoutCamera position={[0, 0, 18]} fov={40} far={50} />;
 // };
 
-const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }) => {
+const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, showDetails }) => {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 40, far: 50 }}>
       {/* <GlobeCamera selectedCity={selectedCity} routeSelected={routeSelected} /> */}
-      <ConnectedEarth visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} width={width} />
+      <ConnectedEarth
+        visits={visits}
+        selectedCity={selectedCity}
+        routeSelected={routeSelected}
+        width={width}
+        showDetails={showDetails}
+      />
     </Canvas>
   );
 };

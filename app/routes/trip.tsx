@@ -67,9 +67,55 @@ const GlobeFallback = () => {
   return <div>Loading...</div>;
 };
 
+function getGlobeContainerPosition(width, showDetails) {
+  if (width < 768) {
+    if (showDetails) {
+      return 'bottom-auto top-0';
+    }
+
+    return 'bottom-[-20vh] top-auto';
+  }
+
+  return 'bottom-0 top-auto';
+}
+
+function getBottomPosition(width, showDetails) {
+  if (width < 768) {
+    if (showDetails) {
+      return 'auto';
+    }
+
+    return '-20vh';
+  }
+
+  return '0';
+}
+
+function getTopPosition(width, showDetails) {
+  if (width < 768 && showDetails) {
+    return '0';
+  }
+
+  return 'auto';
+}
+
+function getGlobeHeight(width, routeSelected) {
+  if (width < 768) {
+    if (routeSelected) {
+      return 'h-[100vh]';
+    }
+
+    return 'h-[50vh]';
+  }
+
+  return 'h-[100vh]';
+}
+
 export default function Index() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [routeSelected, setRouteSelected] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [stopScroll, setStopScroll] = useState(false);
 
   const [globeContainerRef, { width, height }] = useMeasure({ debounce: 300 });
 
@@ -83,8 +129,10 @@ export default function Index() {
 
   const handleCitySelection = (city) => {
     if (selectedCity) {
+      setStopScroll(false);
       setSelectedCity(null);
     } else {
+      setStopScroll(true);
       setSelectedCity(city);
     }
 
@@ -99,37 +147,67 @@ export default function Index() {
     }
   };
 
+  function handleBackButton() {
+    if (routeSelected) {
+      setRouteSelected(false);
+    }
+
+    if (selectedCity) {
+      setSelectedCity(null);
+    }
+
+    if (!selectedCity && !routeSelected && showDetails) {
+      setShowDetails(false);
+    }
+
+    setStopScroll(false);
+  }
+
   // console.log('width: ', width);
 
   return (
-    <main className="relative w-full h-full bg-[var(--nav-background)]">
-      <div className="body-container max-w-[var(--max-width)] mx-auto">
+    <main className={`relative w-full h-[100vh] bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}>
+      <div className="body-container h-[100vh] max-w-[var(--max-width)] mx-auto">
+        {(routeSelected || selectedCity || showDetails) && (
+          <>
+            <div className={`globe-background fixed top-0 left-0 z-10 w-full h-[50vh]`}></div>
+            <button
+              className={`fixed z-40 top-[10px] left-[10px] w-[40px] h-[20px]`}
+              type="button"
+              onClick={handleBackButton}
+            >
+              <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill="#dddddd"
+                  d="m296.5 179.83c9.1094-9.1133 9.1094-23.887 0-32.996-9.1133-9.1133-23.887-9.1133-33 0l-81.656 81.656c0.003906-0.003907-0.003906 0.003906 0 0l-35.008 35.008c-4.1523 4.1523-6.4141 9.4766-6.7812 14.906-0.10547 1.5156-0.0625 3.0469 0.13281 4.5703 0.56641 4.4258 2.4023 8.7266 5.5117 12.305 0.40234 0.46484 0.82031 0.91016 1.2578 1.3398l116.54 116.54c9.1133 9.1133 23.887 9.1133 33 0 9.1094-9.1094 9.1094-23.883 0-32.996l-76.836-76.836h317c12.887 0 23.332-10.445 23.332-23.332s-10.445-23.332-23.332-23.332h-317z"
+                />
+              </svg>
+            </button>
+          </>
+        )}
         <motion.div
           ref={globeContainerRef}
-          className="globe-container fixed h-[50vh] bottom-[-20vh] w-[100vw] md:h-[100vh]"
-          animate={
-            {
-              // opacity: selectedCity ? 1 : 0.5,
-              // width: selectedCity ? '100%' : '50%'
-              // top: selectedCity ? '10%' : '0%',
-              // right: selectedCity ? '10%' : '0%'
-              // border: selectedCity ? '2px solid #333' : '0',
-              // borderRadius: selectedCity ? '10px' : '0'
-              // padding: selectedCity ? '0' : '30px'
-            }
-          }
+          className={`globe-container fixed w-[100vw] ${getGlobeHeight(
+            width,
+            routeSelected
+          )} ${getGlobeContainerPosition(width, showDetails)} z-30`}
+          animate={{
+            bottom: getBottomPosition(width, showDetails),
+            top: getTopPosition(width, showDetails)
+          }}
         >
           <Suspense fallback={<GlobeFallback />}>
             <SimpleGlobe
               visits={visitData.olympiads}
               selectedCity={selectedCity}
               routeSelected={routeSelected}
+              showDetails={showDetails}
               width={width}
             />
           </Suspense>
         </motion.div>
 
-        <div className="body-text mt-[8vh] px-[30px]">
+        <motion.div className="body-text pt-[8vh] px-[30px]" animate={{ display: showDetails ? 'none' : 'block' }}>
           <h1 className="text-slate-100 text-[2.5rem] leading-[1.2]">
             Olympic trip
             <br />
@@ -141,8 +219,8 @@ export default function Index() {
             Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall
             experience the culture.
           </p>
-        </div>
-        <TripStatus olympiads={olympiads} visits={visitData.olympiads} />
+          <TripStatus olympiads={olympiads} visits={visitData.olympiads} />
+        </motion.div>
 
         <CitiesList
           olympiadList={groupedOlympiads}
@@ -151,7 +229,18 @@ export default function Index() {
           selectedCity={selectedCity}
           routeSelected={routeSelected}
           handleRouteSelection={handleRouteSelection}
+          showDetails={showDetails}
+          width={width}
         />
+        {!showDetails && (
+          <button
+            className={`absolute bottom-[50px] left-1/2 translate-x-[-50%] z-30 px-[30px] py-[15px] bg-[var(--cta)] rounded-[4px] uppercase text-slate-200 font-semibold`}
+            type="button"
+            onClick={() => setShowDetails(true)}
+          >
+            Details
+          </button>
+        )}
       </div>
       {/* {selectedCity && <ModalContainer city={selectedCity} handleCitySelection={handleCitySelection} />} */}
     </main>
