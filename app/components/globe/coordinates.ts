@@ -62,7 +62,7 @@ export const cities = [
   { coord: coordinates['oslo'], scale: 2.2, name: 'oslo', type: 'winter', years: ['1952'] },
   { coord: coordinates['helsinki'], scale: 2.2, name: 'helsinki', type: 'summer', years: ['1952'] },
   { coord: coordinates['melbourne'], scale: 2.2, name: 'melbourne', type: 'summer', years: ['1956'] },
-  { coord: coordinates['cortina'], scale: 2.2, name: 'cortina-d-ampezzo', type: 'winter', years: ['1956'] },
+  { coord: coordinates['cortina'], scale: 2.2, name: 'cortina-dampezzo', type: 'winter', years: ['1956'] },
   { coord: coordinates['rome'], scale: 2.2, name: 'rome', type: 'summer', years: ['1960'] },
   { coord: coordinates['squaw'], scale: 2.2, name: 'squaw-valley', type: 'winter', years: ['1960'] },
   { coord: coordinates['tokyo'], scale: 2.2, name: 'tokyo', type: 'summer', years: ['1964', '2020'] },

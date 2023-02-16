@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const globeRadius = 5;
+export const globeRadius = 1;
 
 export function convertToRadians(coord) {
   const latRad = coord[0] * (Math.PI / 180);
