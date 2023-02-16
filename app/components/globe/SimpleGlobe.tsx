@@ -94,7 +94,7 @@ function getNewRotation(coord) {
 function placeObjectOnPlanet(coord, radius) {
   return {
     position: getPosition(coord, radius),
-    flagPosition: getPosition(coord, radius + 0.2),
+    flagPosition: getPosition(coord, radius + 0.1),
     rotation: getCoordRotation(coord)
   };
 }
@@ -105,11 +105,11 @@ const CityMarker = ({ city, visited, citySelected, selected }) => {
   return (
     <group>
       <mesh position={cityInfo.position} rotation={cityInfo.rotation}>
-        <cylinderGeometry args={citySelected ? [0.01, 0.01, 0.2, 32] : [0.02, 0.02, 0.4, 32]} />
+        <cylinderGeometry args={[0.01, 0.01, 0.2, 32]} />
         <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
       </mesh>
       <mesh position={cityInfo.flagPosition} rotation={cityInfo.rotation}>
-        <cylinderGeometry args={citySelected ? [0.02, 0.02, 0.02, 32] : [0.04, 0.04, 0.02, 32]} />
+        <cylinderGeometry args={[0.02, 0.02, 0.01, 32]} />
         <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
         <Edges
           scale={1}
@@ -290,7 +290,7 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
 
 const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, showDetails }) => {
   return (
-    <Canvas camera={{ position: [0, 0, 18], fov: 40, far: 50 }}>
+    <Canvas camera={{ position: [0, 0, 0], fov: 8 }}>
       {/* <GlobeCamera selectedCity={selectedCity} routeSelected={routeSelected} /> */}
       <ConnectedEarth
         visits={visits}
