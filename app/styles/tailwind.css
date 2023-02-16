@@ -571,8 +571,8 @@ video {
   bottom: 0px;
 }
 
-.bottom-\[-20dvh\] {
-  bottom: -20dvh;
+.bottom-\[-20vh\] {
+  bottom: -20vh;
 }
 
 .bottom-\[50px\] {
@@ -609,10 +609,6 @@ video {
 
 .top-auto {
   top: auto;
-}
-
-.bottom-\[-20vh\] {
-  bottom: -20vh;
 }
 
 .z-10 {
@@ -652,6 +648,10 @@ video {
   margin-bottom: 40px;
 }
 
+.ml-\[10px\] {
+  margin-left: 10px;
+}
+
 .ml-\[25px\] {
   margin-left: 25px;
 }
@@ -684,20 +684,24 @@ video {
   margin-top: 15px;
 }
 
-.mt-\[20dvh\] {
-  margin-top: 20dvh;
-}
-
 .mt-\[20px\] {
   margin-top: 20px;
 }
 
-.mt-\[25dvh\] {
-  margin-top: 25dvh;
+.mt-\[20vh\] {
+  margin-top: 20vh;
 }
 
 .mt-\[25px\] {
   margin-top: 25px;
+}
+
+.mt-\[25vh\] {
+  margin-top: 25vh;
+}
+
+.mt-\[2px\] {
+  margin-top: 2px;
 }
 
 .mt-\[30px\] {
@@ -708,36 +712,12 @@ video {
   margin-top: 50px;
 }
 
-.mt-\[5px\] {
-  margin-top: 5px;
-}
-
-.mt-\[25vh\] {
-  margin-top: 25vh;
-}
-
-.mt-\[20vh\] {
-  margin-top: 20vh;
-}
-
-.ml-\[10px\] {
-  margin-left: 10px;
-}
-
-.mt-\[2px\] {
-  margin-top: 2px;
-}
-
 .mt-\[8px\] {
   margin-top: 8px;
 }
 
 .block {
   display: block;
-}
-
-.inline-block {
-  display: inline-block;
 }
 
 .flex {
@@ -760,6 +740,10 @@ video {
   height: 100px;
 }
 
+.h-\[100vh\] {
+  height: 100vh;
+}
+
 .h-\[10px\] {
   height: 10px;
 }
@@ -772,32 +756,16 @@ video {
   height: 15px;
 }
 
-.h-\[20px\] {
-  height: 20px;
-}
-
-.h-\[50dvh\] {
-  height: 50dvh;
-}
-
-.h-\[75dvh\] {
-  height: 75dvh;
-}
-
 .h-\[40px\] {
   height: 40px;
-}
-
-.h-\[100vh\] {
-  height: 100vh;
 }
 
 .h-\[50vh\] {
   height: 50vh;
 }
 
-.h-\[30px\] {
-  height: 30px;
+.h-\[75dvh\] {
+  height: 75dvh;
 }
 
 .w-\[100px\] {
@@ -1005,10 +973,6 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.fill-\[\#dddddd\] {
-  fill: #dddddd;
-}
-
 .fill-\[var\(--flag-box-shadow\)\] {
   fill: var(--flag-box-shadow);
 }
@@ -1058,20 +1022,12 @@ video {
   padding-bottom: 20px;
 }
 
-.pt-\[25dvh\] {
-  padding-top: 25dvh;
-}
-
-.pt-\[8dvh\] {
-  padding-top: 8dvh;
+.pt-\[25vh\] {
+  padding-top: 25vh;
 }
 
 .pt-\[8vh\] {
   padding-top: 8vh;
-}
-
-.pt-\[25vh\] {
-  padding-top: 25vh;
 }
 
 .text-center {

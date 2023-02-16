@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import {
   LineBasicMaterial,
   TextureLoader,
@@ -18,7 +18,7 @@ import { useLoader, useThree, extend, Canvas, useFrame } from '@react-three/fibe
 import { Edges, OrbitControls } from '@react-three/drei';
 import { cities } from './coordinates';
 
-import earthImg from '~/data/map/earth.jpg';
+import earthImg from '~/data/map/new-earth.png';
 import vertex from '../../data/map/shaders/vertex.glsl';
 import fragment from '~/data/map/shaders/fragment.glsl';
 import atmosphereVertex from '~/data/map/shaders/atmosphereVertex.glsl';
@@ -40,6 +40,22 @@ extend({
   SphereGeometry,
   TubeGeometry
 });
+
+function formatCitiesWithVisits(visits) {
+  const citiesWithVisits = cities.map((city) => {
+    let visited = false;
+
+    city.years.forEach((year) => {
+      if (!visited && visits[year]?.[city.type]) {
+        visited = true;
+      }
+    });
+
+    return { ...city, visited };
+  });
+
+  return citiesWithVisits;
+}
 
 function topColor(citySelected: string | undefined, selected: boolean, visited: boolean, cityType: string) {
   if (citySelected) {
@@ -99,34 +115,37 @@ function placeObjectOnPlanet(coord, radius) {
   };
 }
 
+const markerGeometry = new CylinderGeometry(0.01, 0.01, 0.2, 32);
+const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
+const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
+
 const CityMarker = ({ city, visited, citySelected, selected }) => {
   const cityInfo = placeObjectOnPlanet(city.coord, globeRadius);
 
   return (
     <group>
-      <mesh position={cityInfo.position} rotation={cityInfo.rotation}>
-        <cylinderGeometry args={[0.01, 0.01, 0.2, 32]} />
+      <mesh position={cityInfo.position} rotation={cityInfo.rotation} geometry={markerGeometry}>
         <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
       </mesh>
-      <mesh position={cityInfo.flagPosition} rotation={cityInfo.rotation}>
-        <cylinderGeometry args={[0.02, 0.02, 0.01, 32]} />
+      <mesh position={cityInfo.flagPosition} rotation={cityInfo.rotation} geometry={markerTopGeometry}>
         <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
-        <Edges
-          scale={1}
-          threshold={30} // Display edges only when the angle between two faces exceeds this value (default=15 degrees)
-          color={city.type === 'summer' ? '#ff3366' : '#3366ff'}
-        />
       </mesh>
     </group>
   );
 };
 
+const globeGeometry = new SphereGeometry(globeRadius, 50, 50);
+// const globeMaterial = new ShaderMaterial({
+//   vertexShader: vertex,
+//   fragmentShader: fragment,
+//   uniforms: { globeTexture: { value: earthMap } }
+// });
+
 const Sphere = () => {
   const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
-    <mesh>
-      <sphereGeometry args={[globeRadius, 50, 50]} />
+    <mesh geometry={globeGeometry}>
       <shaderMaterial
         vertexShader={vertex}
         fragmentShader={fragment}
@@ -138,8 +157,7 @@ const Sphere = () => {
 
 const Atmosphere = () => {
   return (
-    <mesh>
-      <sphereGeometry args={[globeRadius, 50, 50]} />
+    <mesh geometry={globeGeometry}>
       <shaderMaterial
         vertexShader={atmosphereVertex}
         fragmentShader={atmosphereFragment}
@@ -208,6 +226,8 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
 
+  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(visits), [visits]);
+
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
   const { camera } = useThree();
@@ -259,22 +279,14 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
         enablePan={false}
       />
       {!routeSelected &&
-        cities.map((city) => {
-          let visited = false;
-
-          city.years.forEach((year) => {
-            if (!visited && visits[year]?.[city.type]) {
-              visited = true;
-            }
-          });
-
+        citiesWithVisits.map((city) => {
           const isSelectedCity = selectedCity?.slug === city.name;
 
           return (
             <CityMarker
               key={city.coord[0]}
               city={city}
-              visited={visited}
+              visited={city.visited}
               citySelected={selectedCity?.slug}
               selected={isSelectedCity}
             />
