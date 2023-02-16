@@ -34,15 +34,6 @@ const VisitsGraph = ({ title, visits, total }) => {
     <div>
       <h3 className="text-slate-100 uppercase font-semibold text-[0.9rem] text-center">{title}</h3>
       <svg className="w-[120px] h-[120px] mt-[10px]" viewBox={`0 0 ${size} ${size}`}>
-        <motion.path
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, type: 'spring' }}
-          d={d || ''}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
         <path
           d={bgArc || ''}
           fill="none"

@@ -2,12 +2,12 @@
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
 
-export const Route = () => {
+export const Route = ({ visible }) => {
   return (
-    <>
+    <group visible={visible}>
       {myRoute.map((coordData, index) => {
         return <RouteTrip key={index} {...coordData} />;
       })}
-    </>
+    </group>
   );
 };

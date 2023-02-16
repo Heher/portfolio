@@ -134,7 +134,7 @@ const CityMarker = ({ city, visited, citySelected, selected }) => {
   );
 };
 
-const globeGeometry = new SphereGeometry(globeRadius, 50, 50);
+const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 // const globeMaterial = new ShaderMaterial({
 //   vertexShader: vertex,
 //   fragmentShader: fragment,
@@ -232,9 +232,10 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
 
   const { camera } = useThree();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
+    // console.log(state, delta);
     if (groupRef.current?.rotation && !routeSelected && !foundCity) {
-      groupRef.current.rotation.y += 0.001;
+      groupRef.current.rotation.y += delta * 0.15;
     }
   });
 
@@ -268,7 +269,7 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
     >
       <Atmosphere />
       <Sphere />
-      {routeSelected && <Route />}
+      <Route visible={routeSelected} />
       <OrbitControls
         ref={controlsRef}
         enabled={routeSelected}
