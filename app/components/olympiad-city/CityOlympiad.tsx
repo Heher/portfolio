@@ -1,6 +1,6 @@
 import { OlympiadMedia } from './OlympiadMedia';
 
-export const CityOlympiad = ({ olympiad, visit, selected = false }) => {
+export const CityOlympiad = ({ olympiad, visit, selected = false, setSelectedImg }) => {
   return (
     <li className="city-olympiad mr-[20px]">
       <div className="title grid grid-cols-[10px_1fr] gap-[7px] items-center">
@@ -15,7 +15,7 @@ export const CityOlympiad = ({ olympiad, visit, selected = false }) => {
         </p>
       </div>
       <div className="media hidden items-end mt-[20px] group-[.selected]:flex">
-        {visit && <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} />}
+        {visit && <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} setSelectedImg={setSelectedImg} />}
       </div>
     </li>
   );

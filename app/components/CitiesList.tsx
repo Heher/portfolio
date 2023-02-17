@@ -22,7 +22,8 @@ const CitiesList = ({
   routeSelected,
   handleRouteSelection,
   showDetails,
-  width
+  width,
+  setSelectedImg
 }) => {
   return (
     <div
@@ -51,6 +52,7 @@ const CitiesList = ({
             handleCitySelection={handleCitySelection}
             selectedCity={selectedCity}
             sharedStadiums={sharedStadiums.includes(cityInfo.name)}
+            setSelectedImg={setSelectedImg}
           />
         );
       })}

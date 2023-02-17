@@ -14,6 +14,7 @@ import ModalContainer from '~/components/modal/ModalContainer';
 import CitiesList from '~/components/CitiesList';
 import useMeasure from 'react-use-measure';
 import TripStatus from '~/components/TripStatus';
+import { ImageModal } from '~/components/modal/ImageModal';
 
 // export function links() {
 //   return [{ rel: 'stylesheet', href: styles }];
@@ -130,6 +131,7 @@ export default function TripPage() {
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [stopScroll, setStopScroll] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const [globeContainerRef, { width, height }] = useMeasure({ debounce: 300 });
 
@@ -246,6 +248,7 @@ export default function TripPage() {
           handleRouteSelection={handleRouteSelection}
           showDetails={showDetails}
           width={width}
+          setSelectedImg={setSelectedImg}
         />
         {!showDetails && (
           <button
@@ -259,6 +262,7 @@ export default function TripPage() {
             Details
           </button>
         )}
+        {selectedImg && <ImageModal img={selectedImg} setSelectedImg={setSelectedImg} />}
       </div>
       {/* {selectedCity && <ModalContainer city={selectedCity} handleCitySelection={handleCitySelection} />} */}
     </main>

@@ -31,7 +31,7 @@ function statusColor(amountCompleted, totalOlympiads) {
   return 'bg-[var(--negative)]';
 }
 
-const SharedOlympiads = ({ olympiads, visit }) => {
+const SharedOlympiads = ({ olympiads, visit, setSelectedImg }) => {
   const olympiadYears = olympiads.map((olympiad) => olympiad.year);
   const firstOlympiad = olympiads[0];
 
@@ -45,7 +45,7 @@ const SharedOlympiads = ({ olympiads, visit }) => {
         </p>
       </div>
       <div className="media items-end mt-[20px] group-[.selected]:flex">
-        <OlympiadMedia visit={visit} olympiadType={firstOlympiad.olympiadType} />
+        <OlympiadMedia visit={visit} olympiadType={firstOlympiad.olympiadType} setSelectedImg={setSelectedImg} />
       </div>
     </li>
   );
@@ -55,7 +55,15 @@ const SharedOlympiads = ({ olympiads, visit }) => {
 //   cit
 // }
 
-export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection, selectedCity, sharedStadiums }) => {
+export const OlympiadCity = ({
+  cityInfo,
+  olympiads,
+  visits,
+  handleCitySelection,
+  selectedCity,
+  sharedStadiums,
+  setSelectedImg
+}) => {
   // console.log(cityInfo);
   const cityRef = useRef(null);
   const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
@@ -104,12 +112,21 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
               <SharedOlympiads
                 olympiads={olympiads}
                 visit={visits[olympiads[0].year.toString()]?.[olympiads[0].olympiadType.toLowerCase()]}
+                setSelectedImg={setSelectedImg}
               />
             ) : (
               olympiads.map((olympiad) => {
                 const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
 
-                return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} selected />;
+                return (
+                  <CityOlympiad
+                    key={olympiad.id}
+                    olympiad={olympiad}
+                    visit={visit}
+                    setSelectedImg={setSelectedImg}
+                    selected
+                  />
+                );
               })
             )}
           </ul>
@@ -140,7 +157,9 @@ export const OlympiadCity = ({ cityInfo, olympiads, visits, handleCitySelection,
             {olympiads.map((olympiad) => {
               const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
 
-              return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} />;
+              return (
+                <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} setSelectedImg={setSelectedImg} />
+              );
             })}
           </ul>
         </motion.div>

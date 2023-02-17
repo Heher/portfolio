@@ -1,4 +1,4 @@
-export const OlympiadMedia = ({ visit, olympiadType }) => {
+export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
   return (
     <div className="grid grid-cols-[1fr_100px] gap-[20px] justify-items-center mb-[20px]">
       {visit.stadium?.img && (
@@ -9,6 +9,7 @@ export const OlympiadMedia = ({ visit, olympiadType }) => {
             src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/q_40/olympic-visits/${visit.stadium.img}`}
             alt=""
             loading="lazy"
+            onClick={() => setSelectedImg(visit.stadium.img)}
           />
         </div>
       )}
