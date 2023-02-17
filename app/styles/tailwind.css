@@ -627,6 +627,10 @@ video {
   z-index: 40;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .m-0 {
   margin: 0px;
 }
@@ -766,6 +770,10 @@ video {
 
 .h-\[75dvh\] {
   height: 75dvh;
+}
+
+.h-\[50px\] {
+  height: 50px;
 }
 
 .w-\[100px\] {

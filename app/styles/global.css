@@ -22,8 +22,15 @@
   --globe-background: #0F161A;
   --summer-background: #E7BEB1;
   --winter-background: #CEE8F2;
+  --road: #E8E288;
+  --ferry: #009FB7;
+  --flight: #E6781E;
 }
 
 .globe-background {
   background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
+}
+
+.globe-background.route-selected {
+  background: linear-gradient(180deg, var(--globe-background) 0%, transparent 100%);
 }

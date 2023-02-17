@@ -28,6 +28,7 @@ import { LayoutCamera, motion, MotionCanvas } from 'framer-motion-3d';
 import { useEffect } from 'react';
 import { convertToRadians, globeRadius } from './utils';
 import { Route } from './Route';
+import { CityMarker } from './CityMarker';
 
 extend({
   LineBasicMaterial,
@@ -57,82 +58,15 @@ function formatCitiesWithVisits(visits) {
   return citiesWithVisits;
 }
 
-function topColor(citySelected: string | undefined, selected: boolean, visited: boolean, cityType: string) {
-  if (citySelected) {
-    if (selected) {
-      if (visited) {
-        return '#3dbd73';
-      }
-
-      if (cityType === 'summer') {
-        return '#ff3366';
-      }
-
-      return '#3366ff';
-    }
-
-    return '#cccccc';
-  }
-
-  if (visited) {
-    return '#3dbd73';
-  }
-
-  if (cityType === 'summer') {
-    return '#ff3366';
-  }
-
-  return '#3366ff';
-}
-
-function getPosition(coord, radius) {
-  const { latRad, lonRad } = convertToRadians(coord);
-
-  return [
-    Math.cos(latRad) * Math.cos(lonRad) * radius,
-    Math.sin(latRad) * radius,
-    Math.cos(latRad) * Math.sin(lonRad) * radius
-  ];
-}
-
-function getCoordRotation(coord) {
-  const { latRad, lonRad } = convertToRadians(coord);
-
-  return new Euler(0, -lonRad, latRad - Math.PI * 0.5);
-}
-
 function getNewRotation(coord) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
 }
 
-function placeObjectOnPlanet(coord, radius) {
-  return {
-    position: getPosition(coord, radius),
-    flagPosition: getPosition(coord, radius + 0.1),
-    rotation: getCoordRotation(coord)
-  };
-}
-
 const markerGeometry = new CylinderGeometry(0.01, 0.01, 0.2, 32);
 const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
-const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
-
-const CityMarker = ({ city, visited, citySelected, selected }) => {
-  const cityInfo = placeObjectOnPlanet(city.coord, globeRadius);
-
-  return (
-    <group>
-      <mesh position={cityInfo.position} rotation={cityInfo.rotation} geometry={markerGeometry}>
-        <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
-      </mesh>
-      <mesh position={cityInfo.flagPosition} rotation={cityInfo.rotation} geometry={markerTopGeometry}>
-        <meshBasicMaterial color={topColor(citySelected, selected, visited, city.type)} />
-      </mesh>
-    </group>
-  );
-};
+// const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
 
 const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 // const globeMaterial = new ShaderMaterial({
@@ -178,7 +112,7 @@ function getRotation(foundCity, routeSelected) {
 
 function getScale(foundCity, routeSelected, width) {
   if (routeSelected) {
-    return 1;
+    return 2.4;
   }
 
   if (foundCity) {
@@ -276,7 +210,7 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
         minPolarAngle={Math.PI / 4 - 0.2}
         maxPolarAngle={Math.PI - 0.7}
         maxDistance={45}
-        minDistance={10}
+        minDistance={5}
         enablePan={false}
       />
       {!routeSelected &&
@@ -286,10 +220,13 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
           return (
             <CityMarker
               key={city.coord[0]}
+              markerGeometry={markerGeometry}
+              markerTopGeometry={markerTopGeometry}
               city={city}
               visited={city.visited}
               citySelected={selectedCity?.slug}
               selected={isSelectedCity}
+              top={true}
             />
           );
         })}

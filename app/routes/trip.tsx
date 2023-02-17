@@ -181,9 +181,13 @@ export default function TripPage() {
       <div className="body-container h-[100dvh] max-w-[var(--max-width)] mx-auto">
         {(routeSelected || selectedCity || showDetails) && (
           <>
-            <div className={`globe-background fixed top-0 left-0 z-10 w-full h-[50vh]`}></div>
+            <div
+              className={`globe-background fixed top-0 left-0 ${routeSelected ? 'z-40' : 'z-10'} w-full ${
+                routeSelected ? 'h-[50px] route-selected' : 'h-[50vh]'
+              }`}
+            ></div>
             <button
-              className={`fixed z-40 top-[10px] left-[10px] w-[40px] h-[40px]`}
+              className={`fixed ${routeSelected ? 'z-50' : 'z-40'} top-[10px] left-[10px] w-[40px] h-[40px]`}
               type="button"
               onClick={handleBackButton}
             >

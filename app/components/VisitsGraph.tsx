@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
 const size = 100;
@@ -13,11 +12,6 @@ const arc = d3
   .cornerRadius(2)
   .startAngle(0)
   .endAngle(({ endAngle }) => endAngle);
-
-const lineGen = d3.line();
-
-// bg: Math.PI * 1.6
-// main: Math.PI * arcPercent
 
 const VisitsGraph = ({ title, visits, total }) => {
   const svgRef = useRef<SVGSVGElement>(null);
