@@ -141,6 +141,13 @@ export default function TripPage() {
 
   const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
 
+  function handleImageModal(show = true) {
+    const body = document.body;
+
+    body.classList.toggle('bg-slate-200');
+    setSelectedImg(show);
+  }
+
   const handleCitySelection = (city) => {
     if (selectedCity) {
       setStopScroll(false);
@@ -212,6 +219,7 @@ export default function TripPage() {
             bottom: getBottomPosition(width, showDetails),
             top: getTopPosition(width, showDetails)
           }}
+          transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
         >
           <Suspense fallback={<GlobeFallback />}>
             <SimpleGlobe
@@ -224,7 +232,7 @@ export default function TripPage() {
           </Suspense>
         </motion.div>
 
-        <motion.div className="body-text pt-[8vh] px-[30px]" animate={{ display: showDetails ? 'none' : 'block' }}>
+        <motion.div className="body-text pt-[5vh] px-[30px]" animate={{ display: showDetails ? 'none' : 'block' }}>
           <h1 className="text-slate-100 text-[2.5rem] leading-[1.2]">
             Olympic trip
             <br />
@@ -248,11 +256,11 @@ export default function TripPage() {
           handleRouteSelection={handleRouteSelection}
           showDetails={showDetails}
           width={width}
-          setSelectedImg={setSelectedImg}
+          setSelectedImg={handleImageModal}
         />
         {!showDetails && (
           <button
-            className={`absolute bottom-[50px] left-1/2 translate-x-[-50%] z-30 px-[30px] py-[15px] bg-[var(--cta)] rounded-[4px] uppercase text-slate-200 font-semibold`}
+            className={`absolute bottom-[50px] left-1/2 translate-x-[-50%] z-30 px-[30px] py-[15px] bg-[var(--globe-background)] rounded-[4px] uppercase text-slate-200 font-semibold border border-solid border-slate-400`}
             type="button"
             onClick={() => {
               toggleBodyBackground();
@@ -262,7 +270,7 @@ export default function TripPage() {
             Details
           </button>
         )}
-        {selectedImg && <ImageModal img={selectedImg} setSelectedImg={setSelectedImg} />}
+        {selectedImg && <ImageModal img={selectedImg} closeModal={() => handleImageModal(false)} />}
       </div>
       {/* {selectedCity && <ModalContainer city={selectedCity} handleCitySelection={handleCitySelection} />} */}
     </main>

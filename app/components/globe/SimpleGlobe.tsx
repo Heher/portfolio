@@ -200,6 +200,7 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
       rotation={globeRotation}
       variants={globeVariants}
       animate={findVariantType(foundCity, routeSelected)}
+      transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
       <Atmosphere />
       <Sphere />

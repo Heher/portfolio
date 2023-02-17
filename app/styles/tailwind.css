@@ -994,6 +994,16 @@ video {
   border-color: transparent;
 }
 
+.border-slate-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+}
+
+.border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
+}
+
 .bg-\[\#FFA566\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 165 102 / var(--tw-bg-opacity));
@@ -1115,6 +1125,10 @@ video {
 
 .pt-\[8vh\] {
   padding-top: 8vh;
+}
+
+.pt-\[5vh\] {
+  padding-top: 5vh;
 }
 
 .text-center {

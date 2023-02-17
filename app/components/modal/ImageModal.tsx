@@ -1,9 +1,9 @@
 import { CloseIcon } from '../icons/CloseIcon';
 
-export const ImageModal = ({ img, setSelectedImg }) => {
+export const ImageModal = ({ img, closeModal }) => {
   return (
     <div className="fixed top-0 left-0 z-50 bg-slate-200 w-[100vw] h-[100vh] flex items-center justify-center">
-      <button type="button" onClick={() => setSelectedImg(null)} className="absolute top-[20px] left-[5vw]">
+      <button type="button" onClick={closeModal} className="absolute top-[20px] left-[5vw]">
         <CloseIcon />
       </button>
       <img
