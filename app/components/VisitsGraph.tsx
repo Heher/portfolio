@@ -1,17 +1,18 @@
 import * as d3 from 'd3';
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 const size = 100;
 const outerRadius = size / 2 - 1;
 const thickness = 10;
 
-const arcGen = d3
+const arc = d3
   .arc()
   .innerRadius(outerRadius - thickness)
   .outerRadius(outerRadius)
   .cornerRadius(2)
   .startAngle(0)
-  .endAngle(Math.PI * 1.6);
+  .endAngle(({ endAngle }) => endAngle);
 
 const lineGen = d3.line();
 
@@ -19,32 +20,43 @@ const lineGen = d3.line();
 // main: Math.PI * arcPercent
 
 const VisitsGraph = ({ title, visits, total }) => {
-  const arcPercent = (visits / total) * 1.6;
+  const svgRef = useRef<SVGSVGElement>(null);
+  const arcPercent = visits / total;
 
-  let bgArc = arcGen();
+  const bgArc = arc({ endAngle: 2 * Math.PI * 0.8 });
+  const mainArc = arc({ endAngle: 0 });
 
-  const mainArc = arcGen();
+  useEffect(() => {
+    if (svgRef?.current) {
+      const path = d3.select(`.main-arc-${title}`);
 
-  let d = lineGen([
-    [0, 0],
-    [100, 100]
-  ]);
+      path
+        .transition()
+        .duration(1000)
+        .attrTween('d', function () {
+          const interpolate = d3.interpolate(0, 2 * 0.8 * Math.PI * arcPercent);
+
+          return (t) => {
+            const endAngle = interpolate(t);
+            return arc({ endAngle });
+          };
+        });
+    }
+  }, []);
 
   return (
     <div>
       <h3 className="text-slate-100 uppercase font-semibold text-[0.9rem] text-center">{title}</h3>
-      <svg className="w-[120px] h-[120px] mt-[10px]" viewBox={`0 0 ${size} ${size}`}>
-        <path
-          d={bgArc || ''}
-          fill="none"
-          className={`fill-[var(--flag-box-shadow)] translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
-        />
-        <path
-          d={mainArc || ''}
-          className={`${
-            title === 'Summer' ? 'fill-[var(--summer-background)]' : 'fill-[var(--winter-background)]'
-          } translate-x-[50%] translate-y-[50%] rotate-[215deg]`}
-        />
+      <svg ref={svgRef} className="w-[120px] h-[120px] mt-[10px]" viewBox={`0 0 ${size} ${size}`}>
+        <g className="translate-x-[50%] translate-y-[50%] rotate-[215deg]">
+          <path className="fill-[var(--flag-box-shadow)]" d={bgArc} fill="none" />
+          <path
+            className={`main-arc-${title} ${
+              title === 'Summer' ? 'fill-[var(--summer-background)]' : 'fill-[var(--winter-background)]'
+            }`}
+            d={mainArc}
+          />
+        </g>
       </svg>
       <p className="text-slate-100 text-center mt-[-90px]">
         <span className="text-[2.3rem]">{visits}</span>
