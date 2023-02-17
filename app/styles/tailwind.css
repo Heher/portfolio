@@ -43,7 +43,7 @@ html {
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Sofia Sans Semi Condensed", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -595,6 +595,10 @@ video {
   left: 10px;
 }
 
+.left-\[5vw\] {
+  left: 5vw;
+}
+
 .top-0 {
   top: 0px;
 }
@@ -603,36 +607,16 @@ video {
   top: 10px;
 }
 
+.top-\[20px\] {
+  top: 20px;
+}
+
 .top-\[25dvh\] {
   top: 25dvh;
 }
 
 .top-auto {
   top: auto;
-}
-
-.left-\[20px\] {
-  left: 20px;
-}
-
-.top-\[20px\] {
-  top: 20px;
-}
-
-.left-\[10vw\] {
-  left: 10vw;
-}
-
-.top-\[10vh\] {
-  top: 10vh;
-}
-
-.top-\[25px\] {
-  top: 25px;
-}
-
-.left-\[5vw\] {
-  left: 5vw;
 }
 
 .z-10 {
@@ -784,8 +768,16 @@ video {
   height: 15px;
 }
 
+.h-\[20px\] {
+  height: 20px;
+}
+
 .h-\[40px\] {
   height: 40px;
+}
+
+.h-\[50px\] {
+  height: 50px;
 }
 
 .h-\[50vh\] {
@@ -796,16 +788,8 @@ video {
   height: 75dvh;
 }
 
-.h-\[50px\] {
-  height: 50px;
-}
-
 .h-auto {
   height: auto;
-}
-
-.h-\[20px\] {
-  height: 20px;
 }
 
 .w-\[100px\] {
@@ -828,6 +812,10 @@ video {
   width: 15px;
 }
 
+.w-\[20px\] {
+  width: 20px;
+}
+
 .w-\[40px\] {
   width: 40px;
 }
@@ -846,14 +834,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-\[80vw\] {
-  width: 80vw;
-}
-
-.w-\[20px\] {
-  width: 20px;
 }
 
 .max-w-\[var\(--max-width\)\] {
@@ -877,15 +857,6 @@ video {
 
 .rotate-\[215deg\] {
   --tw-rotate: 215deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.rotate-\[288deg\] {
-  --tw-rotate: 288deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -990,18 +961,13 @@ video {
   border-color: var(--globe-background);
 }
 
-.border-transparent {
-  border-color: transparent;
-}
-
-.border-slate-200 {
-  --tw-border-opacity: 1;
-  border-color: rgb(226 232 240 / var(--tw-border-opacity));
-}
-
 .border-slate-400 {
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
+}
+
+.border-transparent {
+  border-color: transparent;
 }
 
 .bg-\[\#FFA566\] {
@@ -1017,10 +983,6 @@ video {
 .bg-\[\#fc4c02\] {
   --tw-bg-opacity: 1;
   background-color: rgb(252 76 2 / var(--tw-bg-opacity));
-}
-
-.bg-\[var\(--cta\)\] {
-  background-color: var(--cta);
 }
 
 .bg-\[var\(--globe-background\)\] {
@@ -1039,23 +1001,22 @@ video {
   background-color: var(--positive);
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-slate-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
-}
-
 .bg-slate-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .fill-\[var\(--flag-box-shadow\)\] {
   fill: var(--flag-box-shadow);
+}
+
+.fill-\[var\(--globe-background\)\] {
+  fill: var(--globe-background);
 }
 
 .fill-\[var\(--summer-background\)\] {
@@ -1064,22 +1025,6 @@ video {
 
 .fill-\[var\(--winter-background\)\] {
   fill: var(--winter-background);
-}
-
-.fill-slate-50 {
-  fill: #f8fafc;
-}
-
-.fill-slate-900 {
-  fill: #0f172a;
-}
-
-.fill-slate-800 {
-  fill: #1e293b;
-}
-
-.fill-\[var\(--globe-background\)\] {
-  fill: var(--globe-background);
 }
 
 .p-0 {
@@ -1121,10 +1066,6 @@ video {
 
 .pt-\[25vh\] {
   padding-top: 25vh;
-}
-
-.pt-\[8vh\] {
-  padding-top: 8vh;
 }
 
 .pt-\[5vh\] {

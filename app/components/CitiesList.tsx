@@ -34,7 +34,7 @@ const CitiesList = ({
       )}`}
     >
       <button
-        className="route-button relative px-[20px] py-[20px] bg-[var(--globe-background)] w-[90vw] ml-[5vw] mb-[40px] text-[#e0e0e0] uppercase rounded-[6px] border border-solid border-[#9db7c6]"
+        className="route-button relative px-[20px] py-[20px] bg-[var(--globe-background)] w-[90vw] ml-[5vw] mb-[40px] text-[#e0e0e0] uppercase font-semibold rounded-[6px] border border-solid border-[#9db7c6]"
         type="button"
         onClick={handleRouteSelection}
       >

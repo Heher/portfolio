@@ -27,6 +27,24 @@
   --flight: #E6781E;
 }
 
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* sofia-sans-semi-condensed-800 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 .globe-background {
   background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
 }
