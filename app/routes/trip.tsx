@@ -104,7 +104,7 @@ function getBottomPosition(width: number, showDetails: boolean) {
     return '-20vh';
   }
 
-  return '0';
+  return 'auto';
 }
 
 function getTopPosition(width: number, showDetails: boolean) {
@@ -227,14 +227,17 @@ export default function TripPage() {
             width,
             routeSelected
           )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw]`}
-          // animate={
-          //   width < 768
-          //     ? {
-          //         bottom: getBottomPosition(width, showDetails),
-          //         top: getTopPosition(width, showDetails)
-          //       }
-          //     : {}
-          // }
+          animate={
+            width < 768
+              ? {
+                  bottom: getBottomPosition(width, showDetails),
+                  top: getTopPosition(width, showDetails)
+                }
+              : {
+                  bottom: 'auto',
+                  top: 'auto'
+                }
+          }
           transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
         >
           <Suspense fallback={<GlobeFallback />}>
