@@ -26,7 +26,7 @@ import atmosphereFragment from '~/data/map/shaders/atmosphereFragment.glsl';
 
 import { LayoutCamera, motion, MotionCanvas } from 'framer-motion-3d';
 import { useEffect } from 'react';
-import { convertToRadians, globeRadius } from './utils';
+import { convertToRadians, globeRadius, placeObjectOnPlanet } from './utils';
 import { Route } from './Route';
 import { CityMarker } from './CityMarker';
 
@@ -44,6 +44,7 @@ extend({
 
 function formatCitiesWithVisits(visits) {
   const citiesWithVisits = cities.map((city) => {
+    const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;
 
     city.years.forEach((year) => {
@@ -52,7 +53,7 @@ function formatCitiesWithVisits(visits) {
       }
     });
 
-    return { ...city, visited };
+    return { ...city, visited, markerInfo };
   });
 
   return citiesWithVisits;
@@ -167,9 +168,12 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
   const { camera } = useThree();
 
   useFrame((state, delta) => {
-    // console.log(state, delta);
     if (groupRef.current?.rotation && !routeSelected && !foundCity) {
-      groupRef.current.rotation.y += delta * 0.15;
+      if (groupRef.current.rotation.y > 2 * Math.PI) {
+        groupRef.current.rotation.y = 0;
+      } else {
+        groupRef.current.rotation.y += delta * 0.15;
+      }
     }
   });
 
@@ -179,19 +183,6 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
       camera.rotation.set(0, 0, 0, 'ZXY');
     }
   }, [camera, routeSelected]);
-
-  // useEffect(() => {
-  //   if (groupRef.current && width) {
-  //     if (width < 768) {
-  //       groupRef.current.position.set(0, 0, 0);
-  //       // groupRef.current.scale.set(0.8);
-  //     } else {
-  //       groupRef.current.position.set(0, 0, 0);
-  //     }
-  //   }
-  // }, [width]);
-
-  // console.log('width', width);
 
   return (
     <motion.group
@@ -224,7 +215,6 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
               markerGeometry={markerGeometry}
               markerTopGeometry={markerTopGeometry}
               city={city}
-              visited={city.visited}
               citySelected={selectedCity?.slug}
               selected={isSelectedCity}
               top={true}
@@ -235,14 +225,9 @@ const ConnectedEarth = ({ visits, selectedCity, routeSelected, width, showDetail
   );
 };
 
-// const GlobeCamera = ({ selectedCity, routeSelected }) => {
-//   return <LayoutCamera position={[0, 0, 18]} fov={40} far={50} />;
-// };
-
 const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, showDetails }) => {
   return (
     <Canvas camera={{ position: [0, 0, 0], fov: 8 }}>
-      {/* <GlobeCamera selectedCity={selectedCity} routeSelected={routeSelected} /> */}
       <ConnectedEarth
         visits={visits}
         selectedCity={selectedCity}

@@ -1,11 +1,11 @@
 export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
   return (
-    <div className="grid grid-cols-[1fr_100px] gap-[20px] justify-items-center mb-[20px]">
+    <div className="mb-[20px] grid grid-cols-[1fr_100px] justify-items-center gap-[20px]">
       {visit.stadium?.img && (
         <div>
-          <p className="uppercase text-center text-[0.7rem] text-bold mb-[10px]">Stadium</p>
+          <p className="text-bold mb-[10px] text-center text-[0.7rem] uppercase">Stadium</p>
           <img
-            className="w-auto h-[120px] border-2 border-solid border-[var(--globe-background)] rounded-[3px])]"
+            className="rounded-[3px])] h-[120px] w-auto border-2 border-solid border-[var(--globe-background)]"
             src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/q_40/olympic-visits/${visit.stadium.img}`}
             alt=""
             loading="lazy"
@@ -15,11 +15,11 @@ export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
       )}
       {visit.strava?.link && (
         <div>
-          <p className="uppercase text-center text-[0.7rem] text-bold mb-[10px]">
+          <p className="text-bold mb-[10px] text-center text-[0.7rem] uppercase">
             {olympiadType === 'SUMMER' ? 'Run' : 'Ski'}
           </p>
           <a
-            className="strava-link block bg-[#fc4c02] w-[100px] text-white font-semibold uppercase py-[10px] px-[20px] rounded-[8px] no-underline"
+            className="strava-link block w-[100px] rounded-[8px] bg-[#fc4c02] py-[10px] px-[20px] font-semibold uppercase text-white no-underline"
             href={visit.strava.link}
             target="_blank"
             rel="noreferrer"

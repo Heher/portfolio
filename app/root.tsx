@@ -6,7 +6,6 @@ import styles from '~/styles/tailwind.css';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'Olympic cities',
   viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
 });
 

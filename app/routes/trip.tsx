@@ -15,10 +15,18 @@ import CitiesList from '~/components/CitiesList';
 import useMeasure from 'react-use-measure';
 import TripStatus from '~/components/TripStatus';
 import { ImageModal } from '~/components/modal/ImageModal';
+import type { MetaFunction } from '@remix-run/node';
 
 // export function links() {
 //   return [{ rel: 'stylesheet', href: styles }];
 // }
+
+export const meta: MetaFunction = () => ({
+  charset: 'utf-8',
+  title: 'John Heher | Olympic Trip',
+  description: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games.",
+  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
+});
 
 export async function loader() {
   const stravaResponse = await getStravaActivities();
@@ -84,10 +92,10 @@ function getGlobeContainerPosition(width, showDetails) {
     return 'bottom-[-20vh] top-auto';
   }
 
-  return 'bottom-0 top-auto';
+  return 'top-0 bottom-auto';
 }
 
-function getBottomPosition(width, showDetails) {
+function getBottomPosition(width: number, showDetails: boolean) {
   if (width < 768) {
     if (showDetails) {
       return 'auto';
@@ -99,7 +107,7 @@ function getBottomPosition(width, showDetails) {
   return '0';
 }
 
-function getTopPosition(width, showDetails) {
+function getTopPosition(width: number, showDetails: boolean) {
   if (width < 768 && showDetails) {
     return '0';
   }
@@ -131,9 +139,9 @@ export default function TripPage() {
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [stopScroll, setStopScroll] = useState(false);
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState<boolean | null>(null);
 
-  const [globeContainerRef, { width, height }] = useMeasure({ debounce: 300 });
+  const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
 
   const { olympiads, stravaData } = useLoaderData<typeof loader>();
 
@@ -148,7 +156,7 @@ export default function TripPage() {
     setSelectedImg(show);
   }
 
-  const handleCitySelection = (city) => {
+  function handleCitySelection(city) {
     if (selectedCity) {
       setStopScroll(false);
       setSelectedCity(null);
@@ -158,15 +166,15 @@ export default function TripPage() {
     }
 
     // setSelectedCity(city);
-  };
+  }
 
-  const handleRouteSelection = () => {
+  function handleRouteSelection() {
     if (routeSelected) {
       setRouteSelected(false);
     } else {
       setRouteSelected(true);
     }
-  };
+  }
 
   function handleBackButton() {
     if (routeSelected) {
@@ -185,18 +193,23 @@ export default function TripPage() {
     setStopScroll(false);
   }
 
+  // console.log(width);
+
   return (
-    <main className={`relative w-full h-[100dvh] bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}>
-      <div className="body-container h-[100dvh] max-w-[var(--max-width)] mx-auto">
+    <main
+      ref={pageContainerRef}
+      className={`relative h-[100dvh] w-full bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}
+    >
+      <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {(routeSelected || selectedCity || showDetails) && (
           <>
             <div
               className={`globe-background fixed top-0 left-0 ${routeSelected ? 'z-40' : 'z-10'} w-full ${
-                routeSelected ? 'h-[50px] route-selected' : 'h-[50vh]'
+                routeSelected ? 'route-selected h-[50px]' : 'h-[50vh]'
               }`}
             ></div>
             <button
-              className={`fixed ${routeSelected ? 'z-50' : 'z-40'} top-[10px] left-[10px] w-[40px] h-[40px]`}
+              className={`fixed ${routeSelected ? 'z-50' : 'z-40'} top-[10px] left-[10px] h-[40px] w-[40px]`}
               type="button"
               onClick={handleBackButton}
             >
@@ -210,15 +223,18 @@ export default function TripPage() {
           </>
         )}
         <motion.div
-          ref={globeContainerRef}
           className={`globe-container fixed w-[100vw] ${getGlobeHeight(
             width,
             routeSelected
-          )} ${getGlobeContainerPosition(width, showDetails)} z-30`}
-          animate={{
-            bottom: getBottomPosition(width, showDetails),
-            top: getTopPosition(width, showDetails)
-          }}
+          )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw]`}
+          // animate={
+          //   width < 768
+          //     ? {
+          //         bottom: getBottomPosition(width, showDetails),
+          //         top: getTopPosition(width, showDetails)
+          //       }
+          //     : {}
+          // }
           transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
         >
           <Suspense fallback={<GlobeFallback />}>
@@ -232,14 +248,17 @@ export default function TripPage() {
           </Suspense>
         </motion.div>
 
-        <motion.div className="body-text pt-[5vh] px-[30px]" animate={{ display: showDetails ? 'none' : 'block' }}>
-          <h1 className="text-slate-100 text-[2.5rem] leading-[1.2]">
+        <motion.div
+          className="body-text px-[30px] pt-[5vh] md:max-w-md"
+          animate={{ display: showDetails ? 'none' : 'block' }}
+        >
+          <h1 className="text-[2.5rem] leading-[1.2] text-slate-100">
             Olympic trip
             <br />
             around the world
           </h1>
 
-          <p className="text-slate-200 text-md mt-[30px]">
+          <p className="text-md mt-[30px] text-slate-200">
             Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
             Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just
             enjoy a part of the world I&rsquo;ve never been before.
@@ -258,9 +277,9 @@ export default function TripPage() {
           width={width}
           setSelectedImg={handleImageModal}
         />
-        {!showDetails && (
+        {!showDetails && width < 768 && (
           <button
-            className={`absolute bottom-[50px] left-1/2 translate-x-[-50%] z-30 px-[30px] py-[15px] bg-[var(--globe-background)] rounded-[4px] uppercase text-slate-200 font-semibold border border-solid border-slate-400`}
+            className={`absolute bottom-[50px] left-1/2 z-30 translate-x-[-50%] rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}
             type="button"
             onClick={() => {
               toggleBodyBackground();
