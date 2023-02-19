@@ -27,14 +27,14 @@ const CitiesList = ({
 }) => {
   return (
     <div
-      className={`cities-container relative mt-[25vh] bg-[var(--nav-background)] pt-[25vh] pb-[20px] ${getVisibility(
+      className={`cities-container relative mt-[25vh] bg-[var(--nav-background)] px-[5vw] pt-[25vh] pb-[20px] ${getVisibility(
         routeSelected,
         showDetails,
         width
       )} md:mt-0 md:max-w-[40vw] md:px-[30px] md:pt-[100px]`}
     >
       <button
-        className="route-button relative ml-[5vw] mb-[40px] w-[90vw] rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0] md:ml-0 md:w-[40vw]"
+        className="route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0]"
         type="button"
         onClick={handleRouteSelection}
       >

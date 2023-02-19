@@ -1,7 +1,6 @@
 import { Vector3, CatmullRomCurve3 } from 'three';
+import type { Coordinate } from 'types/globe';
 import { getPositionVector, globeRadius } from './utils';
-
-type Coordinate = [number, number];
 
 type RouteTripProps = {
   coord1: Coordinate;

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { Coordinate } from 'types/globe';
 
 export const globeRadius = 1;
 
@@ -12,7 +13,7 @@ export function convertToRadians(coord) {
   };
 }
 
-export function getPositionVector(coord, radius) {
+export function getPositionVector(coord: Coordinate, radius: number) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return new THREE.Vector3(
@@ -22,7 +23,7 @@ export function getPositionVector(coord, radius) {
   );
 }
 
-function getPosition(coord, radius) {
+function getPosition(coord: Coordinate, radius: number) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return [
@@ -32,13 +33,23 @@ function getPosition(coord, radius) {
   ];
 }
 
+export function getPointPosition(coord: Coordinate, radius: number) {
+  const { latRad, lonRad } = convertToRadians(coord);
+
+  return [
+    Math.cos(latRad) * Math.cos(lonRad) * radius,
+    Math.sin(latRad) * radius,
+    Math.cos(latRad) * Math.sin(lonRad) * (radius + Math.random() * 0.2)
+  ];
+}
+
 function getCoordRotation(coord) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return [0, -lonRad, latRad - Math.PI * 0.5];
 }
 
-export function placeObjectOnPlanet(coord, radius) {
+export function placeObjectOnPlanet(coord: Coordinate, radius: number) {
   return {
     position: getPosition(coord, radius),
     flagPosition: getPosition(coord, radius + 0.1),

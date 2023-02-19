@@ -294,11 +294,6 @@ export default function TripPage() {
         )}
         {selectedImg && <ImageModal img={selectedImg} closeModal={() => handleImageModal(false)} />}
       </div>
-      {/* {selectedCity && <ModalContainer city={selectedCity} handleCitySelection={handleCitySelection} />} */}
     </main>
   );
-}
-
-{
-  /* <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}></motion.main> */
 }

@@ -1,4 +1,14 @@
-export const coordinates = {
+import type { Coordinate } from 'types/globe';
+
+export type City = {
+  coord: Coordinate;
+  scale: number;
+  name: string;
+  type: 'summer' | 'winter';
+  years: string[];
+};
+
+export const coordinates: { [key: string]: Coordinate } = {
   athens: [37.9838, -23.7275],
   paris: [48.8566, -2.3522],
   stLouis: [38.627, 90.1994],
@@ -45,7 +55,7 @@ export const coordinates = {
   pyeongchang: [37.3705, -128.39]
 };
 
-export const cities = [
+export const cities: City[] = [
   { coord: coordinates['athens'], scale: 2.2, name: 'athens', type: 'summer', years: ['1896', '2004'] },
   { coord: coordinates['paris'], scale: 2.2, name: 'paris', type: 'summer', years: ['1900', '1924'] },
   { coord: coordinates['stLouis'], scale: 2.2, name: 'st-louis', type: 'summer', years: ['1904'] },
