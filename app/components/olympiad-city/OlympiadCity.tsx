@@ -1,5 +1,4 @@
 import { LayoutGroup, motion } from 'framer-motion';
-import { useRef } from 'react';
 import { CityOlympiad } from './CityOlympiad';
 import { OlympiadMedia } from './OlympiadMedia';
 
@@ -59,25 +58,14 @@ export const OlympiadCity = ({
   sharedStadiums,
   setSelectedImg
 }) => {
-  // console.log(cityInfo);
-  const cityRef = useRef(null);
   const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
 
   const isSelectedCity = selectedCity?.name === cityInfo.name;
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver((entries) => {
-  //     entries[0].target.classList.toggle('visible', entries[0].isIntersecting);
-  //   });
-
-  //   observer.observe(cityRef.current);
-  // }, []);
 
   return (
     <LayoutGroup id={cityInfo.name}>
       {isSelectedCity ? (
         <motion.div
-          ref={cityRef}
           layoutId="expandable-card"
           className={`olympiad-city selected group fixed top-[25dvh] left-0 z-20 h-[75dvh] w-[100vw] cursor-pointer overflow-scroll border border-solid border-transparent bg-[#e0e0e0] p-[20px]`}
         >
@@ -128,7 +116,6 @@ export const OlympiadCity = ({
         </motion.div>
       ) : (
         <motion.div
-          ref={cityRef}
           layoutId="expandable-card"
           role="button"
           className={`olympiad-city group static mb-[20px] h-[100px] w-full cursor-pointer rounded-[6px] border border-solid border-transparent bg-[#e0e0e0] p-[20px] hover:border-[#e0e0e0] hover:bg-[#f3f3f3]`}

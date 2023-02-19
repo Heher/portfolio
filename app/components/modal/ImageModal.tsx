@@ -8,7 +8,7 @@ export const ImageModal = ({ img, closeModal }) => {
       </button>
       <img
         className="h-auto w-[90vw] border-4 border-solid border-[var(--globe-background)]"
-        src={`https://res.cloudinary.com/globe-draft/image/upload/q_30/olympic-visits/${img}`}
+        src={`https://res.cloudinary.com/globe-draft/image/upload/q_10/olympic-visits/${img}`}
         alt=""
         loading="lazy"
       />

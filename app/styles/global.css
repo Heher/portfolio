@@ -46,7 +46,7 @@
 }
 
 .globe-background {
-  background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
+  background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, rgba(15, 22, 26, 0.3) 80%, transparent 100%);
 }
 
 .globe-background.route-selected {

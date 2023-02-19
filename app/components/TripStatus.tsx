@@ -13,7 +13,7 @@ const TripStatus = ({ olympiads, visits }) => {
   });
 
   return (
-    <div className="mx-auto mt-[50px] flex w-[75vw] items-center justify-between md:w-auto">
+    <div className="mx-auto mt-[30px] flex w-[75vw] items-center justify-between md:mt-[40px] md:w-auto md:px-[30px]">
       <VisitsGraph title="Summer" visits={summerVisits} total={totalSummer} />
       <VisitsGraph title="Winter" visits={winterVisits} total={totalWinter} />
     </div>
