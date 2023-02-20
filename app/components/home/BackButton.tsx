@@ -1,7 +1,13 @@
-const BackButton = ({ routeSelected, handleBackButton }: { routeSelected: boolean; handleBackButton: () => void }) => {
+type BackButtonProps = {
+  routeSelected: boolean;
+  globeMoveable: boolean;
+  handleBackButton: () => void;
+};
+
+const BackButton = ({ routeSelected, globeMoveable, handleBackButton }: BackButtonProps) => {
   return (
     <button
-      className={`fixed ${routeSelected ? 'z-50' : 'z-40'} top-[10px] left-[10px] h-[40px] w-[40px]`}
+      className={`fixed ${routeSelected || globeMoveable ? 'z-50' : 'z-40'} top-[10px] left-[10px] h-[40px] w-[40px]`}
       type="button"
       onClick={handleBackButton}
     >

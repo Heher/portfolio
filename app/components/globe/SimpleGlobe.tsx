@@ -109,11 +109,11 @@ const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 //   uniforms: { globeTexture: { value: earthMap } }
 // });
 
-const Sphere = () => {
+const Sphere = ({ setMoveable }) => {
   const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
-    <mesh geometry={globeGeometry}>
+    <mesh geometry={globeGeometry} onClick={setMoveable}>
       <meshStandardMaterial map={earthMap} />
     </mesh>
   );
@@ -192,7 +192,7 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps) => {
+const NewGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMoveable }: NewGlobeProps) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
@@ -284,15 +284,18 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
 
   useEffect(() => {
-    if (camera && !routeSelected) {
+    if (camera && !routeSelected && !moveable) {
       camera.position.set(0, 0, 18);
       camera.rotation.set(0, 0, 0, 'ZXY');
     }
-  }, [camera, routeSelected]);
+  }, [camera, routeSelected, moveable]);
 
   useFrame((state, delta) => {
     if (foundCity || routeSelected) {
-      const newProps = { ...getRotation(foundCity, routeSelected), scale: getScale(foundCity, routeSelected, width) };
+      const newProps = {
+        ...getRotation(foundCity, routeSelected),
+        scale: getScale(foundCity, routeSelected, width)
+      };
 
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
@@ -303,7 +306,15 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
       );
     }
 
-    if (!routeSelected && !foundCity) {
+    // if (moveable) {
+    //   groupRef.current.scale.set(
+    //     MathUtils.lerp(groupRef.current.scale.x, 1.3, delta * 5),
+    //     MathUtils.lerp(groupRef.current.scale.y, 1.3, delta * 5),
+    //     MathUtils.lerp(groupRef.current.scale.z, 1.3, delta * 5)
+    //   );
+    // }
+
+    if (!routeSelected && !foundCity && !moveable) {
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
       groupRef.current.scale.set(
         MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
@@ -329,11 +340,11 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
       // animate={findVariantType(foundCity, routeSelected)}
       // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
-      <Sphere />
+      <Sphere setMoveable={setMoveable} />
       <Route visible={routeSelected} />
       <OrbitControls
         ref={controlsRef}
-        enabled={routeSelected}
+        enabled={routeSelected || moveable}
         minPolarAngle={Math.PI / 4 - 0.2}
         maxPolarAngle={Math.PI - 0.7}
         maxDistance={45}
@@ -371,12 +382,19 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
 };
 
-const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }: SimpleGlobeProps) => {
+const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMoveable }: SimpleGlobeProps) => {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
       <directionalLight position={[10, 10, 5]} color="white" />
-      <NewGlobe visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} width={width} />
+      <NewGlobe
+        visits={visits}
+        selectedCity={selectedCity}
+        routeSelected={routeSelected}
+        width={width}
+        moveable={moveable}
+        setMoveable={setMoveable}
+      />
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
       </EffectComposer>

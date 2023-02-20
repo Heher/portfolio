@@ -132,9 +132,9 @@ function getTopPosition(width: number, showDetails: boolean) {
   return 'auto';
 }
 
-function getGlobeHeight(width: number, routeSelected: boolean) {
+function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: boolean) {
   if (width < 768) {
-    if (routeSelected) {
+    if (routeSelected || moveableGlobe) {
       return 'h-[100vh]';
     }
 
@@ -155,6 +155,7 @@ export default function TripPage() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [moveableGlobe, setMoveableGlobe] = useState(false);
   const [stopScroll, setStopScroll] = useState(false);
   const [selectedImg, setSelectedImg] = useState<boolean | null>(null);
 
@@ -194,17 +195,21 @@ export default function TripPage() {
   }
 
   function handleBackButton() {
-    if (routeSelected) {
-      setRouteSelected(false);
-    }
+    if (moveableGlobe) {
+      setMoveableGlobe(false);
+    } else {
+      if (routeSelected) {
+        setRouteSelected(false);
+      }
 
-    if (selectedCity) {
-      setSelectedCity(null);
-    }
+      if (selectedCity) {
+        setSelectedCity(null);
+      }
 
-    if (!selectedCity && !routeSelected && showDetails) {
-      setShowDetails(false);
-      toggleBodyBackground();
+      if (!selectedCity && !routeSelected && showDetails) {
+        setShowDetails(false);
+        toggleBodyBackground();
+      }
     }
 
     setStopScroll(false);
@@ -216,23 +221,28 @@ export default function TripPage() {
       className={`relative h-[100dvh] w-full bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
-        {(routeSelected || selectedCity || showDetails) && (
+        {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
           <>
             <div
               className={`globe-background fixed top-0 left-0 ${routeSelected ? 'z-40' : 'z-10'} w-full ${
                 routeSelected ? 'route-selected h-[50px]' : 'h-[50vh]'
               }`}
             ></div>
-            <BackButton routeSelected={routeSelected} handleBackButton={handleBackButton} />
+            <BackButton
+              routeSelected={routeSelected}
+              globeMoveable={moveableGlobe}
+              handleBackButton={handleBackButton}
+            />
           </>
         )}
         <motion.div
           className={`globe-container fixed w-[100vw] ${getGlobeHeight(
             width,
-            routeSelected
+            routeSelected,
+            moveableGlobe
           )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw] ${
             selectedCity && 'city-selected'
-          }`}
+          } ${moveableGlobe && 'md:right-0 md:h-[100vh] md:w-[100vw]'}`}
           animate={
             width < 768
               ? {
@@ -253,11 +263,18 @@ export default function TripPage() {
               routeSelected={routeSelected}
               showDetails={showDetails}
               width={width}
+              moveable={moveableGlobe}
+              setMoveable={() => setMoveableGlobe(true)}
             />
           </Suspense>
         </motion.div>
 
-        <MainCopy showDetails={showDetails} olympiads={olympiads} visits={visitData.olympiads} />
+        <MainCopy
+          showDetails={showDetails}
+          olympiads={olympiads}
+          visits={visitData.olympiads}
+          globeMoveable={moveableGlobe}
+        />
 
         <CitiesList
           olympiadList={groupedOlympiads}
@@ -269,6 +286,7 @@ export default function TripPage() {
           showDetails={showDetails}
           width={width}
           setSelectedImg={handleImageModal}
+          globeMoveable={moveableGlobe}
         />
         {!showDetails && width < 768 && (
           <button
