@@ -230,7 +230,9 @@ export default function TripPage() {
           className={`globe-container fixed w-[100vw] ${getGlobeHeight(
             width,
             routeSelected
-          )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw]`}
+          )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw] ${
+            selectedCity && 'city-selected'
+          }`}
           animate={
             width < 768
               ? {

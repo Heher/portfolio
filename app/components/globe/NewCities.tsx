@@ -9,6 +9,7 @@ export function NewCities({
   flagMaterial,
   visitedMaterial,
   offMaterial,
+  offVisitedMaterial,
   flagGeometry,
   city,
   citySelected,
@@ -52,7 +53,7 @@ export function NewCities({
 
   function findFlagMaterial() {
     if (citySelected && citySelected !== city.name) {
-      return offMaterial;
+      return city.visited ? offVisitedMaterial : offMaterial;
     }
 
     return city.visited ? visitedMaterial : flagMaterial;
