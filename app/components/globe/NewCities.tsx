@@ -21,7 +21,6 @@ export function NewCities({
         rotation={city.markerInfo.rotation}
         geometry={markerGeometry}
         material={city.type === 'summer' ? summerMarkerMaterial : winterMarkerMaterial}
-        castShadow={false}
       ></mesh>
       <mesh
         position={city.markerInfo.flagPosition}

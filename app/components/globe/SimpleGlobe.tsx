@@ -95,8 +95,10 @@ function getNewRotation(coord: Coordinate) {
 //   return { rotateX: 0, rotateZ: 0.5 };
 // }
 
-const markerGeometry = new CylinderGeometry(0.005, 0.005, 0.2, 32);
-const flagGeometry = new CylinderGeometry(0.005, 0.005, 0.01, 32);
+const markerRadius = 0.007;
+
+const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.2, 32);
+const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 // const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
 // const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
 
@@ -194,29 +196,25 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
-  const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
+  // const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(visits), [visits]);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
-  const [ao, color, height, normal, roughness] = useTexture([
-    cyndAO,
-    cyndColor,
-    cyndHeight,
-    cyndNormal,
-    cyndRoughness
-    // 'cylinder/Substance_Graph_BaseColor.jpg',
-    // 'cylinder/Substance_Graph_Height.jpg',
-    // 'cylinder/Substance_Graph_Normal.jpg',
-    // 'cylinder/Substance_Graph_Roughness.jpg'
-  ]);
+  // const [ao, color, height, normal, roughness] = useTexture([
+  //   cyndAO,
+  //   cyndColor,
+  //   cyndHeight,
+  //   cyndNormal,
+  //   cyndRoughness
+  // ]);
 
   const summerMarkerMaterial = useMemo(
     () =>
-      new MeshBasicMaterial({
+      new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        color: 'red'
+        color: '#fc8d6a'
         // emissiveIntensity: 20,
         // toneMapped: false
         // emissiveIntensity: 0.3
@@ -225,9 +223,9 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
   const winterMarkerMaterial = useMemo(
     () =>
-      new MeshBasicMaterial({
+      new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        color: 'blue'
+        color: '#5bcaf5'
         // emissiveIntensity: 20,
         // toneMapped: false
         // emissiveIntensity: 0.3
@@ -238,8 +236,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: 'red',
-        emissiveIntensity: 8,
+        emissive: '#ff5a5a',
+        emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -249,8 +247,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: 'green',
-        emissiveIntensity: 8,
+        emissive: '#3dbd73',
+        emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -293,7 +291,7 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
       ref={groupRef}
       // custom={{ foundCity, routeSelected, width }}
       scale={1}
-      rotation={globeRotation}
+      rotation={[0, 0, 0.5, 'ZXY']}
       // variants={globeVariants}
       // animate={findVariantType(foundCity, routeSelected)}
       // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
