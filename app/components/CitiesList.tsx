@@ -34,7 +34,9 @@ const CitiesList = ({
       )} md:mt-0 md:max-w-[40vw] md:px-[30px] md:pt-[100px]`}
     >
       <button
-        className="route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0]"
+        className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0] ${
+          !selectedCity && 'md:z-40'
+        }`}
         type="button"
         onClick={handleRouteSelection}
       >
