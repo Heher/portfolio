@@ -2,24 +2,18 @@ import { useLoaderData } from '@remix-run/react';
 import { gql, GraphQLClient } from 'graphql-request';
 import { groupBy } from 'lodash';
 
-import { OlympiadType } from '~/components/OlympiadType';
 import { getStravaActivities } from '~/utils/getStravaActivities';
 
-// import styles from '~/styles/index.css';
 import visitData from '~/data/visits.json';
 import SimpleGlobe from '~/components/globe/SimpleGlobe';
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
-import ModalContainer from '~/components/modal/ModalContainer';
 import CitiesList from '~/components/CitiesList';
 import useMeasure from 'react-use-measure';
-import TripStatus from '~/components/TripStatus';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
-
-// export function links() {
-//   return [{ rel: 'stylesheet', href: styles }];
-// }
+import BackButton from '~/components/home/BackButton';
+import MainCopy from '~/components/home/MainCopy';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -28,8 +22,31 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
 });
 
+type OlympiadType = 'SUMMER' | 'WINTER';
+
+export type OlympiadsResponse = {
+  olympiads: {
+    nodes: {
+      id: string;
+      year: number;
+      olympiadType: OlympiadType;
+      city: {
+        id: string;
+        name: string;
+        slug: string;
+        country: {
+          name: string;
+          flagByTimestamp: {
+            png: string;
+          };
+        };
+      };
+    }[];
+  };
+};
+
 export async function loader() {
-  const stravaResponse = await getStravaActivities();
+  // const stravaResponse = await getStravaActivities();
 
   const now = new Date().toISOString();
 
@@ -76,14 +93,14 @@ export async function loader() {
     return true;
   });
 
-  return { olympiads: response.olympiads.nodes, stravaData: stravaResponse };
+  return { olympiads: response.olympiads.nodes };
 }
 
-const GlobeFallback = () => {
+function GlobeFallback() {
   return <div>Loading...</div>;
-};
+}
 
-function getGlobeContainerPosition(width, showDetails) {
+function getGlobeContainerPosition(width: number, showDetails: boolean) {
   if (width < 768) {
     if (showDetails) {
       return 'bottom-auto top-0';
@@ -115,7 +132,7 @@ function getTopPosition(width: number, showDetails: boolean) {
   return 'auto';
 }
 
-function getGlobeHeight(width, routeSelected) {
+function getGlobeHeight(width: number, routeSelected: boolean) {
   if (width < 768) {
     if (routeSelected) {
       return 'h-[100vh]';
@@ -143,7 +160,7 @@ export default function TripPage() {
 
   const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
 
-  const { olympiads, stravaData } = useLoaderData<typeof loader>();
+  const { olympiads } = useLoaderData<typeof loader>();
 
   // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
 
@@ -193,8 +210,6 @@ export default function TripPage() {
     setStopScroll(false);
   }
 
-  // console.log(width);
-
   return (
     <main
       ref={pageContainerRef}
@@ -208,18 +223,7 @@ export default function TripPage() {
                 routeSelected ? 'route-selected h-[50px]' : 'h-[50vh]'
               }`}
             ></div>
-            <button
-              className={`fixed ${routeSelected ? 'z-50' : 'z-40'} top-[10px] left-[10px] h-[40px] w-[40px]`}
-              type="button"
-              onClick={handleBackButton}
-            >
-              <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill="#dddddd"
-                  d="m296.5 179.83c9.1094-9.1133 9.1094-23.887 0-32.996-9.1133-9.1133-23.887-9.1133-33 0l-81.656 81.656c0.003906-0.003907-0.003906 0.003906 0 0l-35.008 35.008c-4.1523 4.1523-6.4141 9.4766-6.7812 14.906-0.10547 1.5156-0.0625 3.0469 0.13281 4.5703 0.56641 4.4258 2.4023 8.7266 5.5117 12.305 0.40234 0.46484 0.82031 0.91016 1.2578 1.3398l116.54 116.54c9.1133 9.1133 23.887 9.1133 33 0 9.1094-9.1094 9.1094-23.883 0-32.996l-76.836-76.836h317c12.887 0 23.332-10.445 23.332-23.332s-10.445-23.332-23.332-23.332h-317z"
-                />
-              </svg>
-            </button>
+            <BackButton routeSelected={routeSelected} handleBackButton={handleBackButton} />
           </>
         )}
         <motion.div
@@ -251,23 +255,7 @@ export default function TripPage() {
           </Suspense>
         </motion.div>
 
-        <motion.div
-          className="body-text px-[30px] pt-[5vh] md:max-w-md"
-          animate={{ display: showDetails ? 'none' : 'block' }}
-        >
-          <h1 className="text-[2.5rem] leading-[1.2] text-slate-100">
-            Olympic trip
-            <br />
-            around the world
-          </h1>
-
-          <p className="text-md mt-[30px] text-slate-200">
-            Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
-            Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just
-            enjoy a part of the world I&rsquo;ve never been before.
-          </p>
-          <TripStatus olympiads={olympiads} visits={visitData.olympiads} />
-        </motion.div>
+        <MainCopy showDetails={showDetails} olympiads={olympiads} visits={visitData.olympiads} />
 
         <CitiesList
           olympiadList={groupedOlympiads}
