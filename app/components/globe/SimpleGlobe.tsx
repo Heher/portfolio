@@ -95,8 +95,10 @@ function getNewRotation(coord: Coordinate) {
 //   return { rotateX: 0, rotateZ: 0.5 };
 // }
 
-const markerGeometry = new CylinderGeometry(0.005, 0.005, 0.2, 32);
-const flagGeometry = new CylinderGeometry(0.005, 0.005, 0.01, 32);
+const markerRadius = 0.007;
+
+const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.2, 32);
+const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 // const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
 // const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
 
@@ -107,11 +109,18 @@ const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 //   uniforms: { globeTexture: { value: earthMap } }
 // });
 
-const Sphere = () => {
+const Sphere = ({ width, showDetails, setMoveable }) => {
   const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
-    <mesh geometry={globeGeometry}>
+    <mesh
+      geometry={globeGeometry}
+      onClick={() => {
+        if (width >= 768 || (width < 768 && showDetails)) {
+          setMoveable();
+        }
+      }}
+    >
       <meshStandardMaterial map={earthMap} />
     </mesh>
   );
@@ -131,8 +140,8 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   }
 
   if (foundCity) {
-    return 1;
-    // return foundCity.scale;
+    // return 1;
+    return foundCity.scale;
   }
 
   // if (width < 768) {
@@ -190,33 +199,39 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps) => {
+const NewGlobe = ({
+  visits,
+  selectedCity,
+  routeSelected,
+  width,
+  moveable,
+  setMoveable,
+  showDetails
+}: NewGlobeProps) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
-  const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
+  // const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(visits), [visits]);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
-  const [ao, color, height, normal, roughness] = useTexture([
-    cyndAO,
-    cyndColor,
-    cyndHeight,
-    cyndNormal,
-    cyndRoughness
-    // 'cylinder/Substance_Graph_BaseColor.jpg',
-    // 'cylinder/Substance_Graph_Height.jpg',
-    // 'cylinder/Substance_Graph_Normal.jpg',
-    // 'cylinder/Substance_Graph_Roughness.jpg'
-  ]);
+  // const [ao, color, height, normal, roughness] = useTexture([
+  //   cyndAO,
+  //   cyndColor,
+  //   cyndHeight,
+  //   cyndNormal,
+  //   cyndRoughness
+  // ]);
+
+  const markerMaterial = useMemo(() => new MeshStandardMaterial(), []);
 
   const summerMarkerMaterial = useMemo(
     () =>
-      new MeshBasicMaterial({
+      new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        color: 'red'
+        color: '#fc8d6a'
         // emissiveIntensity: 20,
         // toneMapped: false
         // emissiveIntensity: 0.3
@@ -225,9 +240,9 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
   const winterMarkerMaterial = useMemo(
     () =>
-      new MeshBasicMaterial({
+      new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        color: 'blue'
+        color: '#5bcaf5'
         // emissiveIntensity: 20,
         // toneMapped: false
         // emissiveIntensity: 0.3
@@ -238,8 +253,9 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: 'red',
-        emissiveIntensity: 8,
+        color: '#ff5a5a',
+        emissive: '#ff5a5a',
+        emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -249,8 +265,33 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: 'green',
-        emissiveIntensity: 8,
+        color: '#3dbd73',
+        emissive: '#3dbd73',
+        emissiveIntensity: 10,
+        toneMapped: false
+        // emissiveIntensity: 0.3
+      }),
+    []
+  );
+  const offVisitedMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        // emissive: topColor(citySelected, selected, city.visited, city.type),
+        color: '#3dbd73',
+        emissive: 'black',
+        emissiveIntensity: 0,
+        toneMapped: false
+        // emissiveIntensity: 0.3
+      }),
+    []
+  );
+  const offMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        // emissive: topColor(citySelected, selected, city.visited, city.type),
+        color: '#ff5a5a',
+        emissive: 'black',
+        emissiveIntensity: 0,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -258,28 +299,44 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
 
   useEffect(() => {
-    if (camera && !routeSelected) {
+    if (camera && !routeSelected && !moveable) {
       camera.position.set(0, 0, 18);
       camera.rotation.set(0, 0, 0, 'ZXY');
     }
-  }, [camera, routeSelected]);
-
-  // useEffect(() => {
-  //   if (groupRef.current) {
-  //     groupRef.current.rotation.set(0, 0, 0.5, 'ZXY');
-  //   }
-  // }, []);
+  }, [camera, routeSelected, moveable]);
 
   useFrame((state, delta) => {
     if (foundCity || routeSelected) {
-      const newProps = { ...getRotation(foundCity, routeSelected), scale: getScale(foundCity, routeSelected, width) };
+      const newProps = {
+        ...getRotation(foundCity, routeSelected),
+        scale: getScale(foundCity, routeSelected, width)
+      };
+
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      groupRef.current.scale.set(
+        MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.z, newProps.scale, delta * 5)
+      );
     }
 
-    if (!routeSelected && !foundCity) {
-      // console.log(groupRef.current.rotation.y);
+    // if (moveable) {
+    //   groupRef.current.scale.set(
+    //     MathUtils.lerp(groupRef.current.scale.x, 1.3, delta * 5),
+    //     MathUtils.lerp(groupRef.current.scale.y, 1.3, delta * 5),
+    //     MathUtils.lerp(groupRef.current.scale.z, 1.3, delta * 5)
+    //   );
+    // }
+
+    if (!routeSelected && !foundCity && !moveable) {
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
+      groupRef.current.scale.set(
+        MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.y, 1, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.z, 1, delta * 5)
+      );
+
       if (groupRef.current.rotation.y > 2 * Math.PI) {
         groupRef.current.rotation.y = 0;
       } else {
@@ -293,16 +350,16 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
       ref={groupRef}
       // custom={{ foundCity, routeSelected, width }}
       scale={1}
-      rotation={globeRotation}
+      rotation={[0, 0, 0.5, 'ZXY']}
       // variants={globeVariants}
       // animate={findVariantType(foundCity, routeSelected)}
       // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
-      <Sphere />
+      <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} />
       <OrbitControls
         ref={controlsRef}
-        enabled={routeSelected}
+        enabled={routeSelected || moveable}
         minPolarAngle={Math.PI / 4 - 0.2}
         maxPolarAngle={Math.PI - 0.7}
         maxDistance={45}
@@ -319,15 +376,17 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
             <NewCities
               key={city.coord[0]}
               markerGeometry={markerGeometry}
+              markerMaterial={markerMaterial}
               summerMarkerMaterial={summerMarkerMaterial}
               winterMarkerMaterial={winterMarkerMaterial}
-              visitedMaterial={visitedMaterial}
               flagGeometry={flagGeometry}
               flagMaterial={flagMaterial}
+              visitedMaterial={visitedMaterial}
+              offMaterial={offMaterial}
+              offVisitedMaterial={offVisitedMaterial}
               city={city}
-              citySelected={selectedCity?.slug}
+              citySelected={selectedCity?.slug || false}
               selected={isSelectedCity}
-              top={true}
             />
           );
         })}
@@ -338,12 +397,28 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   );
 };
 
-const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }: SimpleGlobeProps) => {
+const SimpleGlobe = ({
+  visits,
+  selectedCity,
+  routeSelected,
+  width,
+  moveable,
+  setMoveable,
+  showDetails
+}: SimpleGlobeProps) => {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
       <directionalLight position={[10, 10, 5]} color="white" />
-      <NewGlobe visits={visits} selectedCity={selectedCity} routeSelected={routeSelected} width={width} />
+      <NewGlobe
+        visits={visits}
+        selectedCity={selectedCity}
+        routeSelected={routeSelected}
+        width={width}
+        moveable={moveable}
+        setMoveable={setMoveable}
+        showDetails={showDetails}
+      />
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
       </EffectComposer>

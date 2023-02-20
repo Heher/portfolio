@@ -57,3 +57,12 @@
   left: auto !important;
   right: 0 !important;
 }
+
+.globe-container {
+  clip-path: circle(100%);
+  transition: clip-path .6s;
+}
+
+.globe-container.city-selected {
+  clip-path: circle(40%);
+}
