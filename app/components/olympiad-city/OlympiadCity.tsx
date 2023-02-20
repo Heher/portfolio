@@ -131,7 +131,9 @@ export const OlympiadCity = ({
           ref={cityRef}
           layoutId="expandable-card"
           role="button"
-          className={`olympiad-city group static mb-[20px] h-[100px] w-full cursor-pointer rounded-[6px] border border-solid border-transparent bg-[#e0e0e0] p-[20px] hover:border-[#e0e0e0] hover:bg-[#f3f3f3]`}
+          className={`olympiad-city group static mb-[20px] h-[100px] w-full cursor-pointer rounded-[6px] border border-solid border-transparent bg-[#e0e0e0] p-[20px] hover:border-[#e0e0e0] hover:bg-[#f3f3f3] md:relative ${
+            !selectedCity && 'md:z-40'
+          }`}
           onClick={() => handleCitySelection(cityInfo)}
         >
           <motion.div layoutId="expandable-card-header" className="header flex items-center">

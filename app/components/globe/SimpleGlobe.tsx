@@ -14,18 +14,15 @@ import {
   SphereGeometry,
   TubeGeometry,
   DynamicDrawUsage,
-  MeshStandardMaterial
+  MeshStandardMaterial,
+  MathUtils
 } from 'three';
 import { useLoader, useThree, extend, Canvas, useFrame } from '@react-three/fiber';
-import { Effects, OrbitControls, useTexture } from '@react-three/drei';
+import { Effects, OrbitControls, useTexture, Stats, Environment, Center } from '@react-three/drei';
 import { cities, coordinates } from './coordinates';
 import type { City } from './coordinates';
 
 import earthImg from '~/data/map/new-earth.png';
-import vertex from '../../data/map/shaders/vertex.glsl';
-import fragment from '~/data/map/shaders/fragment.glsl';
-import atmosphereVertex from '~/data/map/shaders/atmosphereVertex.glsl';
-import atmosphereFragment from '~/data/map/shaders/atmosphereFragment.glsl';
 
 import cyndAO from '~/data/map/cylinder/Substance_Graph_AmbientOcclusion.jpg';
 import cyndColor from '~/data/map/cylinder/Substance_Graph_BaseColor.jpg';
@@ -41,7 +38,7 @@ import cyndRoughness from '~/data/map/cylinder/Substance_Graph_Roughness.jpg';
 
 import { motion } from 'framer-motion-3d';
 import { useEffect } from 'react';
-import { convertToRadians, getPointPosition, getPosition, globeRadius, placeObjectOnPlanet } from './utils';
+import { convertToRadians, globeRadius, placeObjectOnPlanet } from './utils';
 import { Route } from './Route';
 import { CityMarker } from './CityMarker';
 import type { Coordinate, VisitYear } from 'types/globe';
@@ -59,20 +56,17 @@ extend({
   ShaderMaterial,
   SphereGeometry,
   TubeGeometry
-  // EffectComposer,
-  // RenderPass,
-  // UnrealBloomPass
 });
 
-function Post() {
-  const { scene, camera } = useThree();
-  return (
-    <EffectComposer>
-      {/* <sSAOPass args={[scene, camera]} kernelRadius={0.5} maxDistance={0.1} /> */}
-      <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
-    </EffectComposer>
-  );
-}
+// function Post() {
+//   const { scene, camera } = useThree();
+//   return (
+//     <EffectComposer>
+//       {/* <sSAOPass args={[scene, camera]} kernelRadius={0.5} maxDistance={0.1} /> */}
+//       <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+//     </EffectComposer>
+//   );
+// }
 
 function formatCitiesWithVisits(visits) {
   const citiesWithVisits = cities.map((city) => {
@@ -94,8 +88,12 @@ function formatCitiesWithVisits(visits) {
 function getNewRotation(coord: Coordinate) {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return { rotateX: latRad, rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
+  return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
 }
+
+// function resetRotation() {
+//   return { rotateX: 0, rotateZ: 0.5 };
+// }
 
 const markerGeometry = new CylinderGeometry(0.005, 0.005, 0.2, 32);
 const flagGeometry = new CylinderGeometry(0.005, 0.005, 0.01, 32);
@@ -119,25 +117,12 @@ const Sphere = () => {
   );
 };
 
-const Atmosphere = () => {
-  return (
-    <mesh geometry={globeGeometry}>
-      <shaderMaterial
-        vertexShader={atmosphereVertex}
-        fragmentShader={atmosphereFragment}
-        blending={AdditiveBlending}
-        side={BackSide}
-      />
-    </mesh>
-  );
-};
-
 function getRotation(foundCity: City | undefined, routeSelected: boolean) {
   if (routeSelected) {
     return getNewRotation([52.37, -4.89]);
   }
 
-  return foundCity ? getNewRotation(foundCity.coord) : { rotateX: 0, rotateZ: 0.5 };
+  return foundCity ? getNewRotation(foundCity.coord) : {};
 }
 
 function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
@@ -158,40 +143,40 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   return width < 768 ? 1 : 1;
 }
 
-type VariantVariables = {
-  foundCity: City | undefined;
-  routeSelected: boolean;
-  width: number;
-};
+// type VariantVariables = {
+//   foundCity: City | undefined;
+//   routeSelected: boolean;
+//   width: number;
+// };
 
-const globeVariants = {
-  rest: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-    // ...getRotation(foundCity, routeSelected),
-    scale: getScale(foundCity, routeSelected, width)
-  }),
-  city: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-    ...getRotation(foundCity, routeSelected),
-    scale: getScale(foundCity, routeSelected, width)
-  }),
-  route: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-    ...getRotation(foundCity, routeSelected),
-    scale: getScale(foundCity, routeSelected, width)
-  })
-};
+// const globeVariants = {
+//   rest: ({ foundCity, routeSelected, width }: VariantVariables) => ({
+//     ...resetRotation(),
+//     scale: getScale(foundCity, routeSelected, width)
+//   }),
+//   city: ({ foundCity, routeSelected, width }: VariantVariables) => ({
+//     ...getRotation(foundCity, routeSelected),
+//     scale: getScale(foundCity, routeSelected, width)
+//   }),
+//   route: ({ foundCity, routeSelected, width }: VariantVariables) => ({
+//     ...getRotation(foundCity, routeSelected),
+//     scale: getScale(foundCity, routeSelected, width)
+//   })
+// };
 
-const globeRotation = new Euler(0, Math.PI, 0.5, 'ZXY');
+// const globeRotation = new Euler(0, Math.PI, 0.5, 'ZXY');
 
-const findVariantType = (foundCity: City | undefined, routeSelected: boolean) => {
-  if (routeSelected) {
-    return 'route';
-  }
+// const findVariantType = (foundCity: City | undefined, routeSelected: boolean) => {
+//   if (routeSelected) {
+//     return 'route';
+//   }
 
-  if (foundCity) {
-    return 'city';
-  }
+//   if (foundCity) {
+//     return 'city';
+//   }
 
-  return 'rest';
-};
+//   return 'rest';
+// };
 
 type NewGlobeProps = {
   visits: VisitYear[];
@@ -205,51 +190,11 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-// function getPoints() {
-//   let pos = [];
-//   const cols = [];
-//   for (let i = 0; i < 100; i++) {
-//     pos = [...pos, ...getPointPosition(coordinates.losAngeles, globeRadius)];
-
-//     cols.push(1); // r
-//     cols.push(0.5); // g
-//     cols.push(0.5); // b
-//     cols.push(0.1); // alpha
-//   }
-
-//   return [new Float32Array(pos), new Float32Array(cols)];
-// }
-
-// function MyPoints() {
-//   const [positions, colors] = getPoints();
-
-//   return (
-//     <points>
-//       <bufferGeometry attach="geometry">
-//         <bufferAttribute
-//           attach="attributes-position"
-//           count={positions.length / 3}
-//           array={positions}
-//           itemSize={3}
-//           usage={DynamicDrawUsage}
-//         />
-//         <bufferAttribute
-//           attach="attributes-color"
-//           count={colors.length / 3}
-//           array={colors}
-//           itemSize={3}
-//           usage={DynamicDrawUsage}
-//         />
-//       </bufferGeometry>
-//       <pointsMaterial attach="material" vertexColors size={1} sizeAttenuation={false} />
-//     </points>
-//   );
-// }
-
 const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
+  const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(visits), [visits]);
 
@@ -319,14 +264,22 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     }
   }, [camera, routeSelected]);
 
-  useEffect(() => {
-    if (groupRef.current) {
-      groupRef.current.rotation.set(0, 0, 0.5, 'ZXY');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (groupRef.current) {
+  //     groupRef.current.rotation.set(0, 0, 0.5, 'ZXY');
+  //   }
+  // }, []);
 
   useFrame((state, delta) => {
-    if (groupRef.current && !routeSelected && !foundCity) {
+    if (foundCity || routeSelected) {
+      const newProps = { ...getRotation(foundCity, routeSelected), scale: getScale(foundCity, routeSelected, width) };
+      groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
+      groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+    }
+
+    if (!routeSelected && !foundCity) {
+      // console.log(groupRef.current.rotation.y);
+      groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
       if (groupRef.current.rotation.y > 2 * Math.PI) {
         groupRef.current.rotation.y = 0;
       } else {
@@ -338,12 +291,12 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   return (
     <motion.group
       ref={groupRef}
-      custom={{ foundCity, routeSelected, width }}
+      // custom={{ foundCity, routeSelected, width }}
       scale={1}
-      // rotation={globeRotation}
-      variants={globeVariants}
-      animate={findVariantType(foundCity, routeSelected)}
-      transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
+      rotation={globeRotation}
+      // variants={globeVariants}
+      // animate={findVariantType(foundCity, routeSelected)}
+      // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
       <Sphere />
       <Route visible={routeSelected} />
@@ -355,6 +308,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
         maxDistance={45}
         minDistance={5}
         enablePan={false}
+        rotateSpeed={0.25}
+        target={[0, 0, 0]}
       />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
@@ -392,6 +347,7 @@ const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }: SimpleGlobe
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
       </EffectComposer>
+      {/* <Stats className="stats" /> */}
     </Canvas>
   );
 };
