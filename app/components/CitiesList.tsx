@@ -1,11 +1,14 @@
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
-function getVisibility(routeSelected, showDetails, width) {
+function getVisibility(routeSelected, showDetails, width, globeMoveable) {
   if (width > 768) {
+    if (globeMoveable) {
+      return 'hidden';
+    }
     return 'block';
   }
 
-  if (routeSelected || !showDetails) {
+  if (routeSelected || !showDetails || globeMoveable) {
     return 'hidden';
   }
 
@@ -23,14 +26,16 @@ const CitiesList = ({
   handleRouteSelection,
   showDetails,
   width,
-  setSelectedImg
+  setSelectedImg,
+  globeMoveable
 }) => {
   return (
     <div
       className={`cities-container relative mt-[25vh] bg-[var(--nav-background)] px-[5vw] pt-[25vh] pb-[20px] ${getVisibility(
         routeSelected,
         showDetails,
-        width
+        width,
+        globeMoveable
       )} md:mt-0 md:max-w-[40vw] md:px-[30px] md:pt-[100px]`}
     >
       <button

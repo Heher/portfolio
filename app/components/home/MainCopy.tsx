@@ -5,11 +5,11 @@ type MainCopyProps = {
   showDetails: boolean;
 };
 
-const MainCopy = ({ showDetails, olympiads, visits }: MainCopyProps) => {
+const MainCopy = ({ showDetails, olympiads, visits, globeMoveable }: MainCopyProps) => {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-md"
-      animate={{ display: showDetails ? 'none' : 'block' }}
+      animate={{ display: showDetails || globeMoveable ? 'none' : 'block' }}
     >
       <h1 className="text-[2.5rem] leading-[1.2] text-slate-100">
         Olympic trip
