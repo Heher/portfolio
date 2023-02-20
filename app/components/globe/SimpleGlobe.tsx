@@ -133,8 +133,8 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   }
 
   if (foundCity) {
-    return 1;
-    // return foundCity.scale;
+    // return 1;
+    return foundCity.scale;
   }
 
   // if (width < 768) {
@@ -238,7 +238,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: 'red',
+        color: '#ff5a5a',
+        emissive: '#ff5a5a',
         emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
@@ -249,8 +250,21 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
+        color: '#3dbd73',
         emissive: '#3dbd73',
         emissiveIntensity: 10,
+        toneMapped: false
+        // emissiveIntensity: 0.3
+      }),
+    []
+  );
+  const offVisitedMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        // emissive: topColor(citySelected, selected, city.visited, city.type),
+        color: '#3dbd73',
+        emissive: 'black',
+        emissiveIntensity: 0,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -260,8 +274,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
+        color: '#ff5a5a',
         emissive: 'black',
-        color: 'black',
         emissiveIntensity: 0,
         toneMapped: false
         // emissiveIntensity: 0.3
@@ -276,22 +290,27 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     }
   }, [camera, routeSelected]);
 
-  // useEffect(() => {
-  //   if (groupRef.current) {
-  //     groupRef.current.rotation.set(0, 0, 0.5, 'ZXY');
-  //   }
-  // }, []);
-
   useFrame((state, delta) => {
     if (foundCity || routeSelected) {
       const newProps = { ...getRotation(foundCity, routeSelected), scale: getScale(foundCity, routeSelected, width) };
+
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      groupRef.current.scale.set(
+        MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.z, newProps.scale, delta * 5)
+      );
     }
 
     if (!routeSelected && !foundCity) {
-      // console.log(groupRef.current.rotation.y);
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
+      groupRef.current.scale.set(
+        MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.y, 1, delta * 5),
+        MathUtils.lerp(groupRef.current.scale.z, 1, delta * 5)
+      );
+
       if (groupRef.current.rotation.y > 2 * Math.PI) {
         groupRef.current.rotation.y = 0;
       } else {
@@ -338,6 +357,7 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
               flagMaterial={flagMaterial}
               visitedMaterial={visitedMaterial}
               offMaterial={offMaterial}
+              offVisitedMaterial={offVisitedMaterial}
               city={city}
               citySelected={selectedCity?.slug || false}
               selected={isSelectedCity}
@@ -360,7 +380,7 @@ const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }: SimpleGlobe
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
       </EffectComposer>
-      {/* <Stats className="stats" /> */}
+      <Stats className="stats" />
     </Canvas>
   );
 };
