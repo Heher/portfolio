@@ -18,7 +18,11 @@ module.exports = {
   serverBuildTarget: 'netlify',
   server: process.env.NETLIFY || process.env.NETLIFY_LOCAL ? './server.js' : undefined,
   ignoredRouteFiles: ['**/.*'],
-  serverDependenciesToBundle: ['framer-motion-3d', 'react-merge-refs', 'd3', /^d3-*/]
+  serverDependenciesToBundle: ['framer-motion-3d', 'react-merge-refs', 'd3', /^d3-*/],
+  future: {
+    unstable_tailwind: true,
+    unstable_postcss: true
+  }
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
