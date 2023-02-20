@@ -109,11 +109,18 @@ const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 //   uniforms: { globeTexture: { value: earthMap } }
 // });
 
-const Sphere = ({ setMoveable }) => {
+const Sphere = ({ width, showDetails, setMoveable }) => {
   const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
-    <mesh geometry={globeGeometry} onClick={setMoveable}>
+    <mesh
+      geometry={globeGeometry}
+      onClick={() => {
+        if (width >= 768 || (width < 768 && showDetails)) {
+          setMoveable();
+        }
+      }}
+    >
       <meshStandardMaterial map={earthMap} />
     </mesh>
   );
@@ -192,7 +199,15 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-const NewGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMoveable }: NewGlobeProps) => {
+const NewGlobe = ({
+  visits,
+  selectedCity,
+  routeSelected,
+  width,
+  moveable,
+  setMoveable,
+  showDetails
+}: NewGlobeProps) => {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
@@ -340,7 +355,7 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMov
       // animate={findVariantType(foundCity, routeSelected)}
       // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
-      <Sphere setMoveable={setMoveable} />
+      <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} />
       <OrbitControls
         ref={controlsRef}
@@ -382,7 +397,15 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMov
   );
 };
 
-const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, moveable, setMoveable }: SimpleGlobeProps) => {
+const SimpleGlobe = ({
+  visits,
+  selectedCity,
+  routeSelected,
+  width,
+  moveable,
+  setMoveable,
+  showDetails
+}: SimpleGlobeProps) => {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
@@ -394,6 +417,7 @@ const SimpleGlobe = ({ visits, selectedCity, routeSelected, width, moveable, set
         width={width}
         moveable={moveable}
         setMoveable={setMoveable}
+        showDetails={showDetails}
       />
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
