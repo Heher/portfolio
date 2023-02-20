@@ -380,7 +380,7 @@ const SimpleGlobe = ({ visits, selectedCity, routeSelected, width }: SimpleGlobe
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
       </EffectComposer>
-      <Stats className="stats" />
+      {/* <Stats className="stats" /> */}
     </Canvas>
   );
 };
