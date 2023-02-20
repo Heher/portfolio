@@ -210,6 +210,8 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
   //   cyndRoughness
   // ]);
 
+  const markerMaterial = useMemo(() => new MeshStandardMaterial(), []);
+
   const summerMarkerMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
@@ -236,7 +238,7 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        emissive: '#ff5a5a',
+        emissive: 'red',
         emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
@@ -249,6 +251,18 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
         // emissive: topColor(citySelected, selected, city.visited, city.type),
         emissive: '#3dbd73',
         emissiveIntensity: 10,
+        toneMapped: false
+        // emissiveIntensity: 0.3
+      }),
+    []
+  );
+  const offMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        // emissive: topColor(citySelected, selected, city.visited, city.type),
+        emissive: 'black',
+        color: 'black',
+        emissiveIntensity: 0,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -317,15 +331,16 @@ const NewGlobe = ({ visits, selectedCity, routeSelected, width }: NewGlobeProps)
             <NewCities
               key={city.coord[0]}
               markerGeometry={markerGeometry}
+              markerMaterial={markerMaterial}
               summerMarkerMaterial={summerMarkerMaterial}
               winterMarkerMaterial={winterMarkerMaterial}
-              visitedMaterial={visitedMaterial}
               flagGeometry={flagGeometry}
               flagMaterial={flagMaterial}
+              visitedMaterial={visitedMaterial}
+              offMaterial={offMaterial}
               city={city}
-              citySelected={selectedCity?.slug}
+              citySelected={selectedCity?.slug || false}
               selected={isSelectedCity}
-              top={true}
             />
           );
         })}
