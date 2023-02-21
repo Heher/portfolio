@@ -20,14 +20,14 @@ function cityStatus(olympiads, visits): { amountCompleted: number; totalOlympiad
 
 function statusColor(amountCompleted: number, totalOlympiads: number) {
   if (amountCompleted === totalOlympiads) {
-    return 'bg-[var(--positive)]';
+    return 'border-[var(--positive)]';
   }
 
   if (amountCompleted < totalOlympiads && amountCompleted > 0) {
-    return 'bg-[#FFA566]';
+    return 'border-[#FFA566]';
   }
 
-  return 'bg-[var(--negative)]';
+  return 'border-[var(--negative)]';
 }
 
 const SharedOlympiads = ({ olympiads, visit, setSelectedImg }) => {
@@ -131,34 +131,33 @@ export const OlympiadCity = ({
           ref={cityRef}
           layoutId="expandable-card"
           role="button"
-          className={`olympiad-city group static mb-[20px] h-[100px] w-full cursor-pointer rounded-[6px] border border-solid border-transparent bg-[#e0e0e0] p-[20px] hover:border-[#e0e0e0] hover:bg-[#f3f3f3] md:relative ${
+          className={`olympiad-city group static mb-[20px] flex w-full cursor-pointer rounded-[6px] bg-[#e0e0e0] py-[30px] px-[25px] md:relative ${
             !selectedCity && 'md:z-40'
-          }`}
+          } border-l-[15px] border-solid ${statusColor(amountCompleted, totalOlympiads)}`}
           onClick={() => handleCitySelection(cityInfo)}
         >
-          <motion.div layoutId="expandable-card-header" className="header flex items-center">
-            <motion.span
-              className={`city-status mr-[10px] h-[15px] w-[15px] rounded-full ${statusColor(
-                amountCompleted,
-                totalOlympiads
-              )}`}
-            />
-            <div className="flex items-center">
-              <motion.h3 className="text-[1rem]">{cityInfo.name}</motion.h3>
-              <motion.h4 className="text-[1rem]">
-                , {cityInfo.country.name === 'United States of America' ? 'USA' : cityInfo.country.name}
-              </motion.h4>
-            </div>
-          </motion.div>
-          <ul className="ml-[25px] mt-[15px] flex list-none items-center p-0">
-            {olympiads.map((olympiad) => {
-              const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
+          {/* <motion.span
+            className={`city-status mr-[10px] h-full w-[15px] ${statusColor(amountCompleted, totalOlympiads)}`}
+          /> */}
+          <div>
+            <motion.div layoutId="expandable-card-header" className="header flex items-center">
+              <div className="">
+                <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">{cityInfo.name}</motion.h3>
+                <motion.h4 className="text-[1rem]">
+                  {cityInfo.country.name === 'United States of America' ? 'USA' : cityInfo.country.name}
+                </motion.h4>
+              </div>
+            </motion.div>
+            <ul className="mt-[20px] flex list-none items-center p-0">
+              {olympiads.map((olympiad) => {
+                const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
 
-              return (
-                <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} setSelectedImg={setSelectedImg} />
-              );
-            })}
-          </ul>
+                return (
+                  <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} setSelectedImg={setSelectedImg} />
+                );
+              })}
+            </ul>
+          </div>
         </motion.div>
       )}
     </LayoutGroup>
