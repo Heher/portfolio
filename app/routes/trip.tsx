@@ -144,6 +144,44 @@ function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: bo
   return 'h-[100vh]';
 }
 
+function getGlobeStyles(
+  width: number,
+  showDetails: boolean,
+  routeSelected: boolean,
+  moveableGlobe: boolean,
+  selectedCity: any
+) {
+  // let top = 'top-0';
+  // let bottom = 'bottom-0';
+  // let right = 'right-0';
+
+  const styles = [];
+
+  if (width < 768) {
+    if (showDetails) {
+      if (routeSelected || moveableGlobe) {
+        styles.push('top-0 bottom-0 right-0');
+      } else {
+        styles.push('top-0 bottom-auto right-0');
+      }
+    } else {
+      styles.push('top-auto bottom-[-20vh] right-0');
+    }
+  } else {
+    if (routeSelected || moveableGlobe) {
+      styles.push('md:top-0 md:bottom-0 md:right-0 lg:top-0 lg:bottom-0 lg:right-0');
+    } else {
+      styles.push(
+        `md:top-0 md:bottom-auto ${
+          selectedCity ? 'md:right-0 lg:right-0' : 'md:right-[-40vw] lg:right-[-20vw]'
+        } lg:top-0 lg:bottom-auto`
+      );
+    }
+  }
+
+  return styles[0];
+}
+
 function toggleBodyBackground() {
   const body = document.body;
 
@@ -224,9 +262,9 @@ export default function TripPage() {
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
           <>
             <div
-              className={`globe-background fixed top-0 left-0 ${routeSelected ? 'z-40' : 'z-10'} w-full ${
-                routeSelected ? 'route-selected h-[50px]' : 'h-[50vh]'
-              }`}
+              className={`globe-background fixed top-0 left-0 ${
+                routeSelected || moveableGlobe ? 'z-40' : 'z-10'
+              } w-full ${routeSelected || moveableGlobe ? 'route-selected h-[50px]' : 'h-[50vh]'}`}
             ></div>
             <BackButton
               routeSelected={routeSelected}
@@ -240,9 +278,15 @@ export default function TripPage() {
             width,
             routeSelected,
             moveableGlobe
-          )} ${getGlobeContainerPosition(width, showDetails)} z-30 md:right-[-20vw] md:h-[90vh] md:w-[90vw] ${
-            selectedCity && 'city-selected'
-          } ${moveableGlobe && 'md:right-0 md:h-[100vh] md:w-[100vw]'}`}
+          )} ${getGlobeStyles(
+            width,
+            showDetails,
+            routeSelected,
+            moveableGlobe,
+            selectedCity
+          )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${selectedCity && !moveableGlobe && 'clip-container'} ${
+            moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'
+          }`}
           animate={
             width < 768
               ? {

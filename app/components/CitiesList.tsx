@@ -1,7 +1,7 @@
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
 function getVisibility(routeSelected, showDetails, width, globeMoveable) {
-  if (width > 768) {
+  if (width >= 768) {
     if (globeMoveable) {
       return 'hidden';
     }
@@ -36,7 +36,7 @@ const CitiesList = ({
         showDetails,
         width,
         globeMoveable
-      )} md:mt-0 md:max-w-[40vw] md:px-[30px] md:pt-[100px]`}
+      )} md:mt-0 md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]`}
     >
       <button
         className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0] ${
