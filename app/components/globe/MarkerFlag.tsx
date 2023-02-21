@@ -2,7 +2,7 @@ import { Instance } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 
-export function NewCities({
+export function MarkerFlag({
   markerGeometry,
   markerMaterial,
   summerMarkerMaterial,
@@ -62,10 +62,14 @@ export function NewCities({
 
   return (
     <Instance
-      position={city.markerInfo.position}
+      position={city.markerInfo.flagPosition}
       rotation={city.markerInfo.rotation}
-      color={city.type === 'summer' ? 'red' : 'blue'}
-    ></Instance>
+      color={selected ? 'purple' : 'yellow'}
+      // emissive={selected ? 'purple' : 'yellow'}
+      // emissiveIntensity={selected ? 80 : 40}
+    >
+      <instancedBufferAttribute attach={'emissive'} args={[10, 10, 10]} />
+    </Instance>
   );
 }
 

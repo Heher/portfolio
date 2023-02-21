@@ -18,7 +18,7 @@ import {
   MathUtils
 } from 'three';
 import { useLoader, useThree, extend, Canvas, useFrame } from '@react-three/fiber';
-import { Effects, OrbitControls, useTexture, Stats, Environment, Center } from '@react-three/drei';
+import { Effects, OrbitControls, useTexture, Stats, Environment, Center, Instances } from '@react-three/drei';
 import { cities, coordinates } from './coordinates';
 import type { City } from './coordinates';
 
@@ -45,6 +45,7 @@ import type { Coordinate, VisitYear } from 'types/globe';
 import { NewCities } from './NewCities';
 // import { SSAOPass, UnrealBloomPass } from 'three-stdlib';
 import { Bloom, EffectComposer, Select, Selection, SelectiveBloom } from '@react-three/postprocessing';
+import { MarkerFlag } from './MarkerFlag';
 
 extend({
   LineBasicMaterial,
@@ -253,9 +254,6 @@ const NewGlobe = ({
     () =>
       new MeshStandardMaterial({
         // emissive: topColor(citySelected, selected, city.visited, city.type),
-        color: '#ff5a5a',
-        emissive: '#ff5a5a',
-        emissiveIntensity: 10,
         toneMapped: false
         // emissiveIntensity: 0.3
       }),
@@ -368,28 +366,54 @@ const NewGlobe = ({
         rotateSpeed={0.25}
         target={[0, 0, 0]}
       />
-      {!routeSelected &&
-        citiesWithVisits.map((city) => {
-          const isSelectedCity = selectedCity?.slug === city.name;
+      <Instances limit={60} range={60} geometry={markerGeometry} material={markerMaterial}>
+        {!routeSelected &&
+          citiesWithVisits.map((city) => {
+            const isSelectedCity = selectedCity?.slug === city.name;
 
-          return (
-            <NewCities
-              key={city.coord[0]}
-              markerGeometry={markerGeometry}
-              markerMaterial={markerMaterial}
-              summerMarkerMaterial={summerMarkerMaterial}
-              winterMarkerMaterial={winterMarkerMaterial}
-              flagGeometry={flagGeometry}
-              flagMaterial={flagMaterial}
-              visitedMaterial={visitedMaterial}
-              offMaterial={offMaterial}
-              offVisitedMaterial={offVisitedMaterial}
-              city={city}
-              citySelected={selectedCity?.slug || false}
-              selected={isSelectedCity}
-            />
-          );
-        })}
+            return (
+              <NewCities
+                key={city.coord[0]}
+                markerGeometry={markerGeometry}
+                markerMaterial={markerMaterial}
+                summerMarkerMaterial={summerMarkerMaterial}
+                winterMarkerMaterial={winterMarkerMaterial}
+                flagGeometry={flagGeometry}
+                flagMaterial={flagMaterial}
+                visitedMaterial={visitedMaterial}
+                offMaterial={offMaterial}
+                offVisitedMaterial={offVisitedMaterial}
+                city={city}
+                citySelected={selectedCity?.slug || false}
+                selected={isSelectedCity}
+              />
+            );
+          })}
+      </Instances>
+      <Instances limit={60} range={60} geometry={flagGeometry} material={flagMaterial}>
+        {!routeSelected &&
+          citiesWithVisits.map((city) => {
+            const isSelectedCity = selectedCity?.slug === city.name;
+
+            return (
+              <MarkerFlag
+                key={city.coord[0]}
+                markerGeometry={markerGeometry}
+                markerMaterial={markerMaterial}
+                summerMarkerMaterial={summerMarkerMaterial}
+                winterMarkerMaterial={winterMarkerMaterial}
+                flagGeometry={flagGeometry}
+                flagMaterial={flagMaterial}
+                visitedMaterial={visitedMaterial}
+                offMaterial={offMaterial}
+                offVisitedMaterial={offVisitedMaterial}
+                city={city}
+                citySelected={selectedCity?.slug || false}
+                selected={isSelectedCity}
+              />
+            );
+          })}
+      </Instances>
       {/* <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} mipmapBlur />
       </EffectComposer> */}
