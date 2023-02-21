@@ -262,9 +262,9 @@ export default function TripPage() {
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
           <>
             <div
-              className={`globe-background fixed top-0 left-0 ${
-                routeSelected || moveableGlobe ? 'z-40' : 'z-10'
-              } w-full ${routeSelected || moveableGlobe ? 'route-selected h-[50px]' : 'h-[50vh]'}`}
+              className={`globe-background fixed top-0 left-0 w-full ${width < 768 && 'mobile'} ${
+                routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : 'z-10 h-[50vh]'
+              }`}
             ></div>
             <BackButton
               routeSelected={routeSelected}
@@ -284,9 +284,9 @@ export default function TripPage() {
             routeSelected,
             moveableGlobe,
             selectedCity
-          )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${selectedCity && !moveableGlobe && 'clip-container'} ${
-            moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'
-          }`}
+          )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${
+            selectedCity && !moveableGlobe && 'clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]'
+          } ${moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
           animate={
             width < 768
               ? {
