@@ -6,7 +6,8 @@
     "dev": "remix dev",
     "start": "cross-env NODE_ENV=production netlify dev",
     "typecheck": "tsc",
-    "postinstall": "remix-esbuild-override"
+    "postinstall": "remix-esbuild-override",
+    "test": "cypress run"
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",
@@ -50,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "autoprefixer": "^10.4.13",
+    "cypress": "^12.6.0",
     "dotenv": "^16.0.3",
     "esbuild-plugin-glsl": "^1.1.0",
     "eslint": "^8.34.0",

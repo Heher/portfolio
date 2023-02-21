@@ -14,7 +14,7 @@
   --nav-text: #F2F5F8;
   --nav-link: #CBD8E1;
   --nav-border: #7D9FB5;
-  --max-width: 1500px;
+  --max-width: 1100px;
   --page-background: #D8E2E9;
   --nav-link-hover: #97B2C3;
   --cta: #74add4;
@@ -63,6 +63,6 @@
   transition: clip-path .6s;
 }
 
-.globe-container.city-selected {
+.globe-container.clip-container {
   clip-path: circle(40%);
 }

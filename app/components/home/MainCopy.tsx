@@ -8,16 +8,16 @@ type MainCopyProps = {
 const MainCopy = ({ showDetails, olympiads, visits, globeMoveable }: MainCopyProps) => {
   return (
     <motion.div
-      className="body-text px-[30px] pt-[5vh] md:max-w-md"
+      className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
       animate={{ display: showDetails || globeMoveable ? 'none' : 'block' }}
     >
-      <h1 className="text-[2.5rem] leading-[1.2] text-slate-100">
+      <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
         Olympic trip
         <br />
         around the world
       </h1>
 
-      <p className="text-md mt-[30px] text-slate-200">
+      <p className="mt-[30px] text-[1.1rem] text-slate-200 lg:text-[1.3rem]">
         Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
         Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just enjoy
         a part of the world I&rsquo;ve never been before.
