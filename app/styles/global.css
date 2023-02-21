@@ -25,6 +25,7 @@
   --road: #E8E288;
   --ferry: #009FB7;
   --flight: #E6781E;
+  --text: #13171a;
 }
 
 @font-face {
@@ -49,9 +50,14 @@
   background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
 }
 
+.globe-background.mobile {
+  background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, rgba(77, 111, 133, 1) 75%, transparent 100%);
+}
+
 .globe-background.route-selected {
   background: linear-gradient(180deg, var(--globe-background) 0%, transparent 100%);
 }
+
 
 .stats {
   left: auto !important;
