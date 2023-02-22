@@ -19,7 +19,7 @@ const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected
       </h1>
 
       <p className="mt-[30px] text-[1.1rem] text-slate-200 lg:text-[1.3rem]">
-        Combining my two passions of the Olympics and travelling, I decided to set a goal to travel to all of the
+        As a person who thoroughly enjoys the Olympics and travelling, I decided to set a goal to travel to all of the
         Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just enjoy
         a part of the world I&rsquo;ve never been before.
       </p>
