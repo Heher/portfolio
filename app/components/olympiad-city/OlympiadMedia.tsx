@@ -6,7 +6,7 @@ export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
           <p className="mb-[10px] text-center text-[0.8rem] uppercase">Stadium</p>
           <div className="h-auto w-auto md:max-w-[250px]">
             <img
-              className="rounded-[3px])] w-full border-2 border-solid border-[var(--globe-background)]"
+              className="rounded-[3px])] w-full cursor-pointer border-2 border-solid border-[var(--globe-background)]"
               src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/q_40/olympic-visits/${visit.stadium.img}`}
               alt=""
               loading="lazy"
