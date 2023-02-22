@@ -100,17 +100,17 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-function getGlobeContainerPosition(width: number, showDetails: boolean) {
-  if (width < 768) {
-    if (showDetails) {
-      return 'bottom-auto top-0';
-    }
+// function getGlobeContainerPosition(width: number, showDetails: boolean) {
+//   if (width < 768) {
+//     if (showDetails) {
+//       return 'bottom-auto top-0';
+//     }
 
-    return 'bottom-[-20vh] top-auto';
-  }
+//     return 'bottom-[-20vh] top-auto';
+//   }
 
-  return 'top-0 bottom-auto';
-}
+//   return 'top-0 bottom-auto';
+// }
 
 function getBottomPosition(width: number, showDetails: boolean) {
   if (width < 768) {
@@ -274,6 +274,7 @@ export default function TripPage() {
           </>
         )}
         <motion.div
+          // eslint-disable-next-line tailwindcss/classnames-order
           className={`globe-container fixed w-[100vw] ${getGlobeHeight(
             width,
             routeSelected,
@@ -285,7 +286,7 @@ export default function TripPage() {
             moveableGlobe,
             selectedCity
           )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${
-            selectedCity && !moveableGlobe && 'clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]'
+            selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
           } ${moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
           animate={
             width < 768
