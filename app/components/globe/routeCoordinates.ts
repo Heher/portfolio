@@ -1,6 +1,7 @@
+import type { Coordinate, RouteInfo } from 'types/globe';
 import { coordinates } from './coordinates';
 
-const extraCoordinates = {
+const extraCoordinates: { [key: string]: Coordinate } = {
   ghent: [51.05, -3.73],
   ieper: [50.8492, -2.8779],
   brussels: [50.8476, -4.3572],
@@ -23,50 +24,124 @@ const extraCoordinates = {
   vienna: [48.2082, -16.3738]
 };
 
-export const myRoute = [
-  { coord1: coordinates.amsterdam, coord2: coordinates.antwerp, type: 'ground', createMarker: true },
-  { coord1: coordinates.antwerp, coord2: extraCoordinates.ghent, type: 'ground' },
-  { coord1: extraCoordinates.ghent, coord2: extraCoordinates.ieper, type: 'ground' },
-  { coord1: extraCoordinates.ieper, coord2: extraCoordinates.brussels, type: 'ground' },
-  { coord1: extraCoordinates.brussels, coord2: extraCoordinates.luxembourg, type: 'ground' },
-  { coord1: extraCoordinates.luxembourg, coord2: coordinates.paris, type: 'ground' },
-  { coord1: coordinates.paris, coord2: coordinates.oslo, type: 'flight' },
-  { coord1: coordinates.oslo, coord2: coordinates.lillehammer, type: 'ground' },
-  { coord1: coordinates.lillehammer, coord2: coordinates.oslo, type: 'ground' },
-  { coord1: coordinates.oslo, coord2: extraCoordinates.gothenburg, type: 'ground' },
-  { coord1: extraCoordinates.gothenburg, coord2: coordinates.stockholm, type: 'ground' },
-  { coord1: coordinates.stockholm, coord2: extraCoordinates.tallin, type: 'ferry' },
-  { coord1: extraCoordinates.tallin, coord2: extraCoordinates.riga, type: 'ground' },
-  { coord1: extraCoordinates.riga, coord2: extraCoordinates.tallin, type: 'ground' },
-  { coord1: extraCoordinates.tallin, coord2: coordinates.helsinki, type: 'ferry' },
-  { coord1: coordinates.berlin, coord2: extraCoordinates.liepzig, type: 'ground' },
-  { coord1: extraCoordinates.liepzig, coord2: extraCoordinates.dresden, type: 'ground' },
-  { coord1: extraCoordinates.dresden, coord2: extraCoordinates.nuremberg, type: 'ground' },
-  { coord1: extraCoordinates.nuremberg, coord2: coordinates.munich, type: 'ground' },
-  { coord1: coordinates.munich, coord2: coordinates.garmisch, type: 'ground' },
-  { coord1: coordinates.garmisch, coord2: coordinates.innsbruck, type: 'ground' },
-  { coord1: coordinates.innsbruck, coord2: coordinates.cortina, type: 'ground' },
-  { coord1: coordinates.cortina, coord2: extraCoordinates.venice, type: 'ground' },
-  { coord1: extraCoordinates.venice, coord2: extraCoordinates.bologna, type: 'ground' },
-  { coord1: extraCoordinates.bologna, coord2: coordinates.torino, type: 'ground' },
-  { coord1: coordinates.torino, coord2: extraCoordinates.sestriere, type: 'ground' },
-  { coord1: extraCoordinates.sestriere, coord2: coordinates.grenoble, type: 'ground' },
-  { coord1: coordinates.grenoble, coord2: coordinates.albertville, type: 'ground' },
-  { coord1: coordinates.albertville, coord2: extraCoordinates.annecy, type: 'ground' },
-  { coord1: extraCoordinates.annecy, coord2: coordinates.chamonix, type: 'ground' },
-  { coord1: coordinates.chamonix, coord2: extraCoordinates.geneva, type: 'ground' },
-  { coord1: extraCoordinates.geneva, coord2: extraCoordinates.zurich, type: 'ground' },
-  { coord1: extraCoordinates.zurich, coord2: extraCoordinates.chur, type: 'ground' },
-  { coord1: extraCoordinates.chur, coord2: coordinates.stMoritz, type: 'ground' },
-  { coord1: coordinates.stMoritz, coord2: extraCoordinates.chur, type: 'ground' },
-  { coord1: extraCoordinates.chur, coord2: extraCoordinates.sargans, type: 'ground' },
-  { coord1: extraCoordinates.sargans, coord2: extraCoordinates.vaduz, type: 'ground' },
-  { coord1: extraCoordinates.vaduz, coord2: extraCoordinates.sargans, type: 'ground' },
-  { coord1: extraCoordinates.sargans, coord2: extraCoordinates.zurich, type: 'ground' },
-  { coord1: extraCoordinates.zurich, coord2: coordinates.sarajevo, type: 'flight' },
-  // { coord1: extraCoordinates.zurich, coord2: extraCoordinates.vienna, type: 'ground'},
-  // { coord1: extraCoordinates.vienna, coord2: coordinates.sarajevo, type: 'ground'},
-  // { coord1: coordinates.sarajevo, coord2: extraCoordinates.vienna, type: 'ground'},
-  { coord1: coordinates.sarajevo, coord2: coordinates.london, type: 'flight' }
-  // { coord1: extraCoordinates.vienna, coord2: coordinates.london }
+export const myRoute: RouteInfo[] = [
+  {
+    coords: [
+      coordinates.amsterdam,
+      coordinates.antwerp,
+      extraCoordinates.ghent,
+      extraCoordinates.ieper,
+      extraCoordinates.brussels,
+      extraCoordinates.luxembourg,
+      coordinates.paris
+    ],
+    type: 'ground'
+  },
+  {
+    coords: [coordinates.paris, coordinates.oslo],
+    type: 'flight'
+  },
+  {
+    coords: [
+      coordinates.oslo,
+      coordinates.lillehammer,
+      coordinates.oslo,
+      extraCoordinates.gothenburg,
+      coordinates.stockholm
+    ],
+    type: 'ground'
+  },
+  {
+    coords: [coordinates.stockholm, extraCoordinates.tallin],
+    type: 'ferry'
+  },
+  {
+    coords: [extraCoordinates.tallin, extraCoordinates.riga, extraCoordinates.tallin],
+    type: 'ground'
+  },
+  {
+    coords: [extraCoordinates.tallin, coordinates.helsinki],
+    type: 'ferry'
+  },
+  {
+    coords: [
+      coordinates.berlin,
+      extraCoordinates.liepzig,
+      extraCoordinates.dresden,
+      extraCoordinates.nuremberg,
+      coordinates.munich,
+      coordinates.garmisch,
+      coordinates.innsbruck,
+      coordinates.cortina,
+      extraCoordinates.venice,
+      extraCoordinates.bologna,
+      coordinates.torino,
+      extraCoordinates.sestriere,
+      coordinates.grenoble,
+      coordinates.albertville,
+      extraCoordinates.annecy,
+      coordinates.chamonix,
+      extraCoordinates.geneva,
+      extraCoordinates.zurich,
+      extraCoordinates.chur,
+      coordinates.stMoritz,
+      extraCoordinates.chur,
+      extraCoordinates.sargans,
+      extraCoordinates.vaduz,
+      extraCoordinates.sargans,
+      extraCoordinates.zurich
+    ],
+    type: 'ground'
+  },
+  {
+    coords: [extraCoordinates.zurich, coordinates.sarajevo],
+    type: 'flight'
+  },
+  {
+    coords: [coordinates.sarajevo, coordinates.london],
+    type: 'flight'
+  }
 ];
+// export const myRoute = [
+//   { coord1: coordinates.amsterdam, coord2: , type: 'ground', createMarker: true },
+//   { coord1: coordinates.antwerp, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.ghent, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.ieper, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.brussels, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.luxembourg, coord2: , type: 'ground' },
+//   { coord1: coordinates.paris, coord2: coordinates.oslo, type: 'flight' },
+//   { coord1: coordinates.oslo, coord2: coordinates.lillehammer, type: 'ground' },
+//   { coord1: coordinates.lillehammer, coord2: coordinates.oslo, type: 'ground' },
+//   { coord1: coordinates.oslo, coord2: extraCoordinates.gothenburg, type: 'ground' },
+//   { coord1: extraCoordinates.gothenburg, coord2: coordinates.stockholm, type: 'ground' },
+//   { coord1: coordinates.stockholm, coord2: extraCoordinates.tallin, type: 'ferry' },
+//   { coord1: extraCoordinates.tallin, coord2: extraCoordinates.riga, type: 'ground' },
+//   { coord1: extraCoordinates.riga, coord2: extraCoordinates.tallin, type: 'ground' },
+//   { coord1: extraCoordinates.tallin, coord2: coordinates.helsinki, type: 'ferry' },
+//   { coord1: coordinates.berlin, coord2: extraCoordinates.liepzig, type: 'ground' },
+//   { coord1: extraCoordinates.liepzig, coord2: extraCoordinates.dresden, type: 'ground' },
+//   { coord1: extraCoordinates.dresden, coord2: extraCoordinates.nuremberg, type: 'ground' },
+//   { coord1: extraCoordinates.nuremberg, coord2: coordinates.munich, type: 'ground' },
+//   { coord1: coordinates.munich, coord2: coordinates.garmisch, type: 'ground' },
+//   { coord1: coordinates.garmisch, coord2: coordinates.innsbruck, type: 'ground' },
+//   { coord1: coordinates.innsbruck, coord2: coordinates.cortina, type: 'ground' },
+//   { coord1: coordinates.cortina, coord2: extraCoordinates.venice, type: 'ground' },
+//   { coord1: extraCoordinates.venice, coord2: extraCoordinates.bologna, type: 'ground' },
+//   { coord1: extraCoordinates.bologna, coord2: coordinates.torino, type: 'ground' },
+//   { coord1: coordinates.torino, coord2: extraCoordinates.sestriere, type: 'ground' },
+//   { coord1: extraCoordinates.sestriere, coord2: coordinates.grenoble, type: 'ground' },
+//   { coord1: coordinates.grenoble, coord2: coordinates.albertville, type: 'ground' },
+//   { coord1: coordinates.albertville, coord2: extraCoordinates.annecy, type: 'ground' },
+//   { coord1: extraCoordinates.annecy, coord2: coordinates.chamonix, type: 'ground' },
+//   { coord1: coordinates.chamonix, coord2: extraCoordinates.geneva, type: 'ground' },
+//   { coord1: extraCoordinates.geneva, coord2: extraCoordinates.zurich, type: 'ground' },
+//   { coord1: extraCoordinates.zurich, coord2: extraCoordinates.chur, type: 'ground' },
+//   { coord1: extraCoordinates.chur, coord2: coordinates.stMoritz, type: 'ground' },
+//   { coord1: coordinates.stMoritz, coord2: extraCoordinates.chur, type: 'ground' },
+//   { coord1: extraCoordinates.chur, coord2: extraCoordinates.sargans, type: 'ground' },
+//   { coord1: extraCoordinates.sargans, coord2: extraCoordinates.vaduz, type: 'ground' },
+//   { coord1: extraCoordinates.vaduz, coord2: extraCoordinates.sargans, type: 'ground' },
+//   { coord1: extraCoordinates.sargans, coord2: extraCoordinates.zurich, type: 'ground' },
+//   { coord1: extraCoordinates.zurich, coord2: coordinates.sarajevo, type: 'flight' },
+//   { coord1: coordinates.sarajevo, coord2: coordinates.london, type: 'flight' }
+// ];

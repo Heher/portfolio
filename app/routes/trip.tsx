@@ -287,7 +287,7 @@ export default function TripPage() {
             selectedCity
           )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${
             selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
-          } ${moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
+          } ${routeSelected || moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
           animate={
             width < 768
               ? {
@@ -319,6 +319,7 @@ export default function TripPage() {
           olympiads={olympiads}
           visits={visitData.olympiads}
           globeMoveable={moveableGlobe}
+          routeSelected={routeSelected}
         />
 
         <CitiesList
@@ -332,6 +333,7 @@ export default function TripPage() {
           width={width}
           setSelectedImg={handleImageModal}
           globeMoveable={moveableGlobe}
+          routeSelected={routeSelected}
         />
         {!showDetails && width < 768 && (
           <button

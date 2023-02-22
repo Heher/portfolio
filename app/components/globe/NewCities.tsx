@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 
 export function NewCities({
   markerGeometry,
-  markerMaterial,
   summerMarkerMaterial,
   winterMarkerMaterial,
   flagMaterial,
@@ -13,7 +12,8 @@ export function NewCities({
   flagGeometry,
   city,
   citySelected,
-  selected
+  selected,
+  flagPosition
 }) {
   // console.log(selected, citySelected);
   const ref = useRef(null);
@@ -70,7 +70,7 @@ export function NewCities({
       ></mesh>
       <mesh
         ref={ref}
-        position={city.markerInfo.flagPosition}
+        position={flagPosition}
         rotation={city.markerInfo.rotation}
         geometry={flagGeometry}
         material={findFlagMaterial()}

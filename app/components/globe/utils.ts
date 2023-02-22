@@ -23,7 +23,7 @@ export function getPositionVector(coord: Coordinate, radius: number) {
   );
 }
 
-function getPosition(coord: Coordinate, radius: number) {
+export function getPosition(coord: Coordinate, radius: number) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return [
@@ -52,7 +52,7 @@ function getCoordRotation(coord) {
 export function placeObjectOnPlanet(coord: Coordinate, radius: number) {
   return {
     position: getPosition(coord, radius),
-    flagPosition: getPosition(coord, radius + 0.1),
+    // flagPosition: getPosition(coord, radius + 0.1),
     rotation: getCoordRotation(coord)
   };
 }
@@ -83,4 +83,21 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   }
 
   return '#3366ff';
+}
+
+export function formatCitiesWithVisits(cities, visits) {
+  const citiesWithVisits = cities.map((city) => {
+    const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
+    let visited = false;
+
+    city.years.forEach((year) => {
+      if (!visited && visits[year]?.[city.type]) {
+        visited = true;
+      }
+    });
+
+    return { ...city, visited, markerInfo };
+  });
+
+  return citiesWithVisits;
 }

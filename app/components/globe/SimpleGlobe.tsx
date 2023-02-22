@@ -38,7 +38,7 @@ import cyndRoughness from '~/data/map/cylinder/Substance_Graph_Roughness.jpg';
 
 import { motion } from 'framer-motion-3d';
 import { useEffect } from 'react';
-import { convertToRadians, globeRadius, placeObjectOnPlanet } from './utils';
+import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius, placeObjectOnPlanet } from './utils';
 import { Route } from './Route';
 import { CityMarker } from './CityMarker';
 import type { Coordinate, VisitYear } from 'types/globe';
@@ -68,23 +68,6 @@ extend({
 //   );
 // }
 
-function formatCitiesWithVisits(visits) {
-  const citiesWithVisits = cities.map((city) => {
-    const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
-    let visited = false;
-
-    city.years.forEach((year) => {
-      if (!visited && visits[year]?.[city.type]) {
-        visited = true;
-      }
-    });
-
-    return { ...city, visited, markerInfo };
-  });
-
-  return citiesWithVisits;
-}
-
 function getNewRotation(coord: Coordinate) {
   const { latRad, lonRad } = convertToRadians(coord);
 
@@ -96,8 +79,9 @@ function getNewRotation(coord: Coordinate) {
 // }
 
 const markerRadius = 0.007;
+const markerHeight = 0.2;
 
-const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.2, 32);
+const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
 const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 // const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
 // const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
@@ -128,7 +112,7 @@ const Sphere = ({ width, showDetails, setMoveable }) => {
 
 function getRotation(foundCity: City | undefined, routeSelected: boolean) {
   if (routeSelected) {
-    return getNewRotation([52.37, -4.89]);
+    return { ...getNewRotation([52.37, -4.89]), rotateZ: 0 };
   }
 
   return foundCity ? getNewRotation(foundCity.coord) : {};
@@ -213,7 +197,7 @@ const NewGlobe = ({
   const { camera } = useThree();
   // const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
 
-  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(visits), [visits]);
+  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
@@ -314,6 +298,11 @@ const NewGlobe = ({
 
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+
+      // if (newProps.rotateZ) {
+      //   groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, newProps.rotateZ, delta * 5);
+      // }
+
       groupRef.current.scale.set(
         MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
         MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
@@ -356,7 +345,7 @@ const NewGlobe = ({
       // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
     >
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
-      <Route visible={routeSelected} />
+      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
       <OrbitControls
         ref={controlsRef}
         enabled={routeSelected || moveable}
@@ -372,11 +361,12 @@ const NewGlobe = ({
         citiesWithVisits.map((city) => {
           const isSelectedCity = selectedCity?.slug === city.name;
 
+          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
+
           return (
             <NewCities
               key={city.coord[0]}
               markerGeometry={markerGeometry}
-              markerMaterial={markerMaterial}
               summerMarkerMaterial={summerMarkerMaterial}
               winterMarkerMaterial={winterMarkerMaterial}
               flagGeometry={flagGeometry}
@@ -387,6 +377,7 @@ const NewGlobe = ({
               city={city}
               citySelected={selectedCity?.slug || false}
               selected={isSelectedCity}
+              flagPosition={flagPosition}
             />
           );
         })}
