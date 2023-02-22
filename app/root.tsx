@@ -1,5 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import { withSentry } from '@sentry/remix';
 
 import globalStyles from '~/styles/global.css';
 // import styles from '~/styles/tailwind.css';
@@ -18,7 +19,7 @@ export function links() {
   ];
 }
 
-export default function App() {
+function App() {
   const { pathname } = useLocation();
 
   return (
@@ -37,3 +38,5 @@ export default function App() {
     </html>
   );
 }
+
+export default withSentry(App);
