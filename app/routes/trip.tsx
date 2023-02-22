@@ -19,7 +19,9 @@ export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'John Heher | Olympic Trip',
   description: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games.",
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
+  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+  'og:title': 'John Heher | Olympic Trip',
+  'og:image': '/olympic-cities-og.jpg'
 });
 
 type OlympiadType = 'SUMMER' | 'WINTER';
