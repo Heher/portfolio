@@ -3,8 +3,7 @@ import type { Coordinate } from 'types/globe';
 import { getPositionVector, globeRadius } from './utils';
 
 type RouteTripProps = {
-  coord1: Coordinate;
-  coord2: Coordinate;
+  coords: Coordinate[];
   type: 'flight' | 'ferry' | 'ground';
 };
 
@@ -14,32 +13,47 @@ const colors = {
   flight: '#E6781E'
 };
 
-const tubeSections = 20;
+// const tubeSections = 20;
 
-function flightScale(i: number) {
+function flightScale(i: number, tubeSections: number) {
   return globeRadius + Math.sin((Math.PI * i) / tubeSections) * (globeRadius * 0.1);
 }
 
-export const RouteTrip = ({ coord1, coord2, type }: RouteTripProps) => {
-  const city1 = getPositionVector(coord1, globeRadius);
-  const city2 = getPositionVector(coord2, globeRadius);
+const sectionsPerCity = 10;
+
+export const RouteTrip = ({ coords, type }: RouteTripProps) => {
+  // const city1 = getPositionVector(coord1, globeRadius);
+  // const city2 = getPositionVector(coord2, globeRadius);
+
+  const cityVectors = coords.map((coord) => {
+    return getPositionVector(coord, globeRadius);
+  });
+
+  const tubeSections = coords.length * sectionsPerCity;
 
   let points = [];
 
-  for (let i = 0; i <= tubeSections; i++) {
-    let p = new Vector3().lerpVectors(city1, city2, i / tubeSections);
-    p.normalize();
-    p.multiplyScalar(type === 'flight' ? flightScale(i) : globeRadius);
+  for (let i = 0; i < coords.length; i++) {
+    for (let j = 0; j < sectionsPerCity; j++) {
+      console.log(cityVectors[i]);
+      // let p = new Vector3().lerpVectors(cityVectors[i], cityVectors[i + 1], j / sectionsPerCity);
+      // p.normalize();
+      // p.multiplyScalar(type === 'flight' ? flightScale(i, tubeSections) : globeRadius);
 
-    points.push(p);
+      // points.push(p);
+    }
   }
 
-  let path = new CatmullRomCurve3(points);
+  // console.log(points);
 
-  return (
-    <mesh>
-      <tubeGeometry args={[path, tubeSections, 0.003, 8, false]} />
-      <meshBasicMaterial color={colors[type]} />
-    </mesh>
-  );
+  return null;
+
+  // let path = new CatmullRomCurve3(points);
+
+  // return (
+  //   <mesh>
+  //     <tubeGeometry args={[path, tubeSections, 0.003, 8, false]} />
+  //     <meshStandardMaterial color={colors[type]} />
+  //   </mesh>
+  // );
 };

@@ -2,7 +2,7 @@ import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
 function getVisibility(routeSelected, showDetails, width, globeMoveable) {
   if (width >= 768) {
-    if (globeMoveable) {
+    if (globeMoveable || routeSelected) {
       return 'hidden';
     }
     return 'block';

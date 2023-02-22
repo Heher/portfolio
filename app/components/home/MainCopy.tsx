@@ -3,13 +3,14 @@ import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
   showDetails: boolean;
+  routeSelected: boolean;
 };
 
-const MainCopy = ({ showDetails, olympiads, visits, globeMoveable }: MainCopyProps) => {
+const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected }: MainCopyProps) => {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
-      animate={{ display: showDetails || globeMoveable ? 'none' : 'block' }}
+      animate={{ display: showDetails || globeMoveable || routeSelected ? 'none' : 'block' }}
     >
       <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
         Olympic trip
