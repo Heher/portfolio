@@ -91,7 +91,7 @@ export const OlympiadCity = ({
                   )}`}
                 />
                 <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
-                  {cityInfo.name}
+                  {cityInfo.name === 'Squaw Valley' ? 'Palisades Tahoe' : cityInfo.name}
                 </motion.h3>
               </div>
               <div className="mt-[10px] flex items-center">
@@ -143,7 +143,9 @@ export const OlympiadCity = ({
           <div className="text-[var(--text)]">
             <motion.div layoutId="expandable-card-header" className="header flex items-center">
               <div className="">
-                <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">{cityInfo.name}</motion.h3>
+                <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">
+                  {cityInfo.name === 'Squaw Valley' ? 'Palisades Tahoe' : cityInfo.name}
+                </motion.h3>
                 <motion.h4 className="text-[1rem]">
                   {cityInfo.country.name === 'United States of America' ? 'USA' : cityInfo.country.name}
                 </motion.h4>
