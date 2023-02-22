@@ -1,6 +1,7 @@
+import type { Coordinate, RouteInfo } from 'types/globe';
 import { coordinates } from './coordinates';
 
-const extraCoordinates = {
+const extraCoordinates: { [key: string]: Coordinate } = {
   ghent: [51.05, -3.73],
   ieper: [50.8492, -2.8779],
   brussels: [50.8476, -4.3572],
@@ -23,7 +24,45 @@ const extraCoordinates = {
   vienna: [48.2082, -16.3738]
 };
 
-export const myRoute = [
+export const myRoute: RouteInfo[] = [
+  {
+    coords: [
+      coordinates.amsterdam,
+      coordinates.antwerp,
+      extraCoordinates.ghent,
+      extraCoordinates.ieper,
+      extraCoordinates.brussels,
+      extraCoordinates.luxembourg,
+      coordinates.paris
+    ],
+    type: 'ground'
+  },
+  {
+    coords: [coordinates.paris, coordinates.oslo],
+    type: 'flight'
+  },
+  {
+    coords: [
+      coordinates.oslo,
+      coordinates.lillehammer,
+      coordinates.oslo,
+      extraCoordinates.gothenburg,
+      coordinates.stockholm
+    ],
+    type: 'ground'
+  },
+  {
+    coords: [coordinates.stockholm, extraCoordinates.tallin],
+    type: 'ferry'
+  },
+  {
+    coords: [extraCoordinates.tallin, extraCoordinates.riga, extraCoordinates.tallin],
+    type: 'ground'
+  },
+  {
+    coords: [extraCoordinates.tallin, coordinates.helsinki],
+    type: 'ferry'
+  },
   {
     coords: [
       coordinates.berlin,
@@ -31,18 +70,45 @@ export const myRoute = [
       extraCoordinates.dresden,
       extraCoordinates.nuremberg,
       coordinates.munich,
-      coordinates.garmisch
+      coordinates.garmisch,
+      coordinates.innsbruck,
+      coordinates.cortina,
+      extraCoordinates.venice,
+      extraCoordinates.bologna,
+      coordinates.torino,
+      extraCoordinates.sestriere,
+      coordinates.grenoble,
+      coordinates.albertville,
+      extraCoordinates.annecy,
+      coordinates.chamonix,
+      extraCoordinates.geneva,
+      extraCoordinates.zurich,
+      extraCoordinates.chur,
+      coordinates.stMoritz,
+      extraCoordinates.chur,
+      extraCoordinates.sargans,
+      extraCoordinates.vaduz,
+      extraCoordinates.sargans,
+      extraCoordinates.zurich
     ],
     type: 'ground'
+  },
+  {
+    coords: [extraCoordinates.zurich, coordinates.sarajevo],
+    type: 'flight'
+  },
+  {
+    coords: [coordinates.sarajevo, coordinates.london],
+    type: 'flight'
   }
 ];
 // export const myRoute = [
-//   { coord1: coordinates.amsterdam, coord2: coordinates.antwerp, type: 'ground', createMarker: true },
-//   { coord1: coordinates.antwerp, coord2: extraCoordinates.ghent, type: 'ground' },
-//   { coord1: extraCoordinates.ghent, coord2: extraCoordinates.ieper, type: 'ground' },
-//   { coord1: extraCoordinates.ieper, coord2: extraCoordinates.brussels, type: 'ground' },
-//   { coord1: extraCoordinates.brussels, coord2: extraCoordinates.luxembourg, type: 'ground' },
-//   { coord1: extraCoordinates.luxembourg, coord2: coordinates.paris, type: 'ground' },
+//   { coord1: coordinates.amsterdam, coord2: , type: 'ground', createMarker: true },
+//   { coord1: coordinates.antwerp, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.ghent, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.ieper, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.brussels, coord2: , type: 'ground' },
+//   { coord1: extraCoordinates.luxembourg, coord2: , type: 'ground' },
 //   { coord1: coordinates.paris, coord2: coordinates.oslo, type: 'flight' },
 //   { coord1: coordinates.oslo, coord2: coordinates.lillehammer, type: 'ground' },
 //   { coord1: coordinates.lillehammer, coord2: coordinates.oslo, type: 'ground' },
