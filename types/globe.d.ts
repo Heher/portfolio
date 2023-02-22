@@ -37,3 +37,8 @@ export type VisitYear = {
     winter?: Visit;
   };
 };
+
+export type RouteInfo = {
+  coords: Coordinate[];
+  type: 'flight' | 'ferry' | 'ground';
+};
