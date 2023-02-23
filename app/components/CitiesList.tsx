@@ -17,7 +17,16 @@ function getVisibility(routeSelected, showDetails, width, globeMoveable) {
 
 const sharedStadiums = ['St. Moritz', 'Los Angeles', 'Innsbruck'];
 
-const CitiesList = ({
+type CitiesListProps = {
+  routeSelected: boolean;
+  handleRouteSelection: () => void;
+  showDetails: boolean;
+  width: number;
+  setSelectedImg: (img: string) => void;
+  globeMoveable: boolean;
+};
+
+function CitiesList({
   olympiadList,
   visits,
   handleCitySelection,
@@ -28,7 +37,7 @@ const CitiesList = ({
   width,
   setSelectedImg,
   globeMoveable
-}) => {
+}: CitiesListProps) {
   return (
     <div
       className={`cities-container relative mt-[25vh] bg-[var(--nav-background)] px-[5vw] pt-[25vh] pb-[20px] ${getVisibility(
@@ -47,7 +56,7 @@ const CitiesList = ({
       >
         My route
       </button>
-      {Object.entries(olympiadList).map(([cityId, olympiads], index) => {
+      {Object.entries(olympiadList).map(([cityId, olympiads]) => {
         const cityInfo = olympiads[0].city;
 
         return (
@@ -65,6 +74,6 @@ const CitiesList = ({
       })}
     </div>
   );
-};
+}
 
 export default CitiesList;
