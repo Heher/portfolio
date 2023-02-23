@@ -20,7 +20,6 @@ const visitedCountries = [
   'Luxembourg',
   'Belgium',
   'Netherlands',
-  'Canada',
   'United States of America'
 ];
 
@@ -83,10 +82,10 @@ export default function Index() {
 
   return (
     <main className="flex h-[100dvh] w-[100vw] items-center justify-center text-[18px]">
-      <div className="flex max-w-[200px] flex-col items-end">
+      <div className="mr-[30px] flex h-[223px] w-[200px] flex-col items-end">
         <div>
-          <h1>John Heher</h1>
-          <h2>
+          <h1 className="mb-3 text-2xl">John Heher</h1>
+          <h2 className="mb-1 text-lg">
             <a href="https://github.com/Heher" className="text-[var(--cta)] underline">
               Web Developer
             </a>
@@ -100,7 +99,7 @@ export default function Index() {
         </div>
         <div className="flags-container relative mt-[8px] h-[200px] w-[200px]">
           <div className="flags-overlay absolute top-[-4px] left-0 z-10 h-[28px]"></div>
-          <div className="flags-overlay-full absolute bottom-0 left-0 z-10 h-[177px]"></div>
+          <div className="flags-overlay-full absolute bottom-0 left-0 z-10 h-[88px]"></div>
           <div className="absolute top-0 right-0 flex flex-row-reverse flex-wrap items-center">
             {visitedCountries.map((countryName) => {
               const flag = flags.find((flag) => flag.name === countryName);
