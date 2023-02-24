@@ -187,9 +187,13 @@ function toggleBodyBackground() {
   body.classList.toggle('bg-[var(--nav-background)]');
 }
 
-function getGlobeContainerRight(width) {
+function getGlobeContainerRight(width, citySelected = false) {
   // Mobile
   if (width < 768) {
+    return '0px';
+  }
+
+  if (citySelected) {
     return '0px';
   }
 
@@ -224,13 +228,21 @@ function getMoveableGlobeContainerRight(width, moveableMobile = false) {
   return `0px`;
 }
 
-function getGlobeHeight(width, moveableMobile = false) {
+function getGlobeHeight(width, moveableMobile = false, citySelected = false) {
+  if (citySelected) {
+    return '500px';
+  }
+
   if (width < 768) {
     if (moveableMobile) {
       return '100vh';
     }
     return '50vh';
   }
+
+  // if (citySelected) {
+  //   return '500px';
+  // }
 
   return '100vh';
 }
@@ -251,9 +263,13 @@ function getGlobeContainerBottom(width, showDetails = false) {
   return 'auto';
 }
 
-function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean) {
-  // console.log(moveableGlobe, routeSelected, showDetails);
+function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean, citySelected) {
+  if (citySelected && !moveableGlobe) {
+    return 'citySelected';
+  }
+
   if (showDetails) {
+    // Mobile
     if (moveableGlobe) {
       return 'moveableMobile';
     }
@@ -295,8 +311,22 @@ const variants = {
     top: getGlobeContainerTop(width, true),
     right: getMoveableGlobeContainerRight(width, true),
     bottom: getGlobeContainerBottom(width, true)
+  }),
+  citySelected: (width: number) => ({
+    width: '500px',
+    height: getGlobeHeight(width, false, true),
+    top: getGlobeContainerTop(width),
+    right: getGlobeContainerRight(width, true),
+    bottom: getGlobeContainerBottom(width)
   })
 };
+
+function getGlobeContainerMaxes(citySelected, moveableGlobe) {
+  // if (citySelected && !moveableGlobe) {
+  //   return 'clip-container md:max-h-[500px] md:max-w-[500px]';
+  // }
+  return 'md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)]';
+}
 
 export default function TripPage() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -385,12 +415,12 @@ export default function TripPage() {
         )}
         {width && (
           <motion.div
-            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
-              selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
+            className={`globe-container fixed z-30 ${getGlobeContainerMaxes(selectedCity, moveableGlobe)} ${
+              selectedCity && !moveableGlobe && 'clip-container'
             } @container`}
             custom={width}
             variants={variants}
-            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails)}
+            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity)}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
