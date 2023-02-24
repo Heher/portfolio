@@ -134,17 +134,17 @@ function getTopPosition(width: number, showDetails: boolean) {
   return 'auto';
 }
 
-function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: boolean) {
-  if (width < 768) {
-    if (routeSelected || moveableGlobe) {
-      return 'h-[100vh]';
-    }
+// function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: boolean) {
+//   if (width < 768) {
+//     if (routeSelected || moveableGlobe) {
+//       return 'h-[100vh]';
+//     }
 
-    return 'h-[50vh]';
-  }
+//     return 'h-[50vh]';
+//   }
 
-  return 'h-[100vh]';
-}
+//   return 'h-[100vh]';
+// }
 
 function getGlobeStyles(
   width: number,
@@ -187,15 +187,16 @@ function toggleBodyBackground() {
   body.classList.toggle('bg-[var(--nav-background)]');
 }
 
-function getGlobeContainerRight(width: number) {
+function getGlobeContainerRight(width) {
+  // Mobile
   if (width < 768) {
     return '0px';
   }
 
+  // XL
   if (width > 2000) {
     const difference = (width - 1100) / 2;
-    console.log(difference);
-    return `${difference * 0.7}px`;
+    return `${difference - 500}px`;
   }
 
   if (width > 1100) {
@@ -210,33 +211,90 @@ function getGlobeContainerRight(width: number) {
   return `-${width * 0.3}px`;
 }
 
-function getMoveableGlobeContainerRight(width: number) {
-  if (width < 768 || width > 1200) {
-    const difference = (width - 1200) / 2;
+function getMoveableGlobeContainerRight(width, moveableMobile = false) {
+  if (moveableMobile) {
+    return '0px';
+  }
+
+  if (width < 768 || width > 1100) {
+    const difference = (width - 1100) / 2;
     return `${difference}px`;
   }
 
-  // if (width > 1200) {
-  //   const difference = (width - 1200) / 2;
-  //   console.log(difference);
-  //   return `${difference}px`;
-  // }
-
   return `0px`;
+}
+
+function getGlobeHeight(width, moveableMobile = false) {
+  if (width < 768) {
+    if (moveableMobile) {
+      return '100vh';
+    }
+    return '50vh';
+  }
+
+  return '100vh';
+}
+
+function getGlobeContainerTop(width, showDetails = false) {
+  if (width < 768 && !showDetails) {
+    return 'auto';
+  }
+
+  return '0vh';
+}
+
+function getGlobeContainerBottom(width, showDetails = false) {
+  if (width < 768 && !showDetails) {
+    return '-20vh';
+  }
+
+  return 'auto';
+}
+
+function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean) {
+  // console.log(moveableGlobe, routeSelected, showDetails);
+  if (showDetails) {
+    if (moveableGlobe) {
+      return 'moveableMobile';
+    }
+    return 'showDetails';
+  }
+
+  if (routeSelected || moveableGlobe) {
+    return 'moveable';
+  }
+
+  return 'notMoveable';
 }
 
 const variants = {
   moveable: (width: number) => ({
     width: '100%',
-    height: '100vh',
-    top: '0vh',
-    right: getMoveableGlobeContainerRight(width)
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width),
+    right: getMoveableGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width)
   }),
   notMoveable: (width: number) => ({
     width: '100%',
-    height: '100vh',
-    top: '0vh',
-    right: getGlobeContainerRight(width)
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width),
+    right: getGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width)
+  }),
+  showDetails: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width, true),
+    right: getGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width, true)
+  }),
+  moveableMobile: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width, true),
+    top: getGlobeContainerTop(width, true),
+    right: getMoveableGlobeContainerRight(width, true),
+    bottom: getGlobeContainerBottom(width, true)
   })
 };
 
@@ -249,6 +307,7 @@ export default function TripPage() {
   const [selectedImg, setSelectedImg] = useState<boolean | null>(null);
 
   const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
+  const [mainContentRef, { width: mainContentWidth, height: mainContentHeight }] = useMeasure({ debounce: 300 });
 
   const { olympiads } = useLoaderData<typeof loader>();
 
@@ -326,24 +385,13 @@ export default function TripPage() {
         )}
         {width && (
           <motion.div
-            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[1200px] ${
+            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
               selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
             } @container`}
             custom={width}
             variants={variants}
-            // animate={
-            //   width < 768
-            //     ? {
-            //         bottom: getBottomPosition(width, showDetails),
-            //         top: getTopPosition(width, showDetails)
-            //       }
-            //     : {
-            //         bottom: 'auto',
-            //         top: 'auto'
-            //       }
-            // }
-            animate={routeSelected || moveableGlobe ? 'moveable' : 'notMoveable'}
-            // transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
+            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails)}
+            transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
             <Suspense fallback={<GlobeFallback />}>
@@ -361,6 +409,7 @@ export default function TripPage() {
         )}
 
         <MainCopy
+          ref={mainContentRef}
           showDetails={showDetails}
           olympiads={olympiads}
           visits={visitData.olympiads}
@@ -368,19 +417,21 @@ export default function TripPage() {
           routeSelected={routeSelected}
         />
 
-        <CitiesList
-          olympiadList={groupedOlympiads}
-          visits={visitData.olympiads}
-          handleCitySelection={handleCitySelection}
-          selectedCity={selectedCity}
-          routeSelected={routeSelected}
-          handleRouteSelection={handleRouteSelection}
-          showDetails={showDetails}
-          width={width}
-          setSelectedImg={handleImageModal}
-          globeMoveable={moveableGlobe}
-          routeSelected={routeSelected}
-        />
+        {width && (
+          <CitiesList
+            olympiadList={groupedOlympiads}
+            visits={visitData.olympiads}
+            handleCitySelection={handleCitySelection}
+            selectedCity={selectedCity}
+            routeSelected={routeSelected}
+            handleRouteSelection={handleRouteSelection}
+            showDetails={showDetails}
+            width={width}
+            setSelectedImg={handleImageModal}
+            globeMoveable={moveableGlobe}
+            routeSelected={routeSelected}
+          />
+        )}
         {!showDetails && width < 768 && (
           <button
             className={`absolute bottom-[50px] left-1/2 z-30 translate-x-[-50%] rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}

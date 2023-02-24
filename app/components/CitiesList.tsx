@@ -64,7 +64,7 @@ function CitiesList({
       >
         My route
       </button>
-      {/* {Object.entries(olympiadList).map(([cityId, olympiads]) => {
+      {Object.entries(olympiadList).map(([cityId, olympiads]) => {
         const cityInfo = olympiads[0].city;
 
         return (
@@ -79,7 +79,7 @@ function CitiesList({
             setSelectedImg={setSelectedImg}
           />
         );
-      })} */}
+      })}
     </motion.div>
   );
 }

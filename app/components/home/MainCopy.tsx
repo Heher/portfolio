@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
 import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
@@ -11,9 +12,11 @@ const variants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
 
-const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected }: MainCopyProps) => {
+const MainCopy = forwardRef(function ForwardedCopy(props, ref) {
+  const { showDetails, olympiads, visits, globeMoveable, routeSelected } = props;
   return (
     <motion.div
+      ref={ref}
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
       variants={variants}
       animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
@@ -32,6 +35,6 @@ const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected
       <TripStatus olympiads={olympiads} visits={visits} />
     </motion.div>
   );
-};
+});
 
 export default MainCopy;
