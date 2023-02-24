@@ -171,13 +171,9 @@ function getGlobeStyles(
     }
   } else {
     if (routeSelected || moveableGlobe) {
-      styles.push('md:top-0 md:bottom-0 md:right-0 lg:top-0 lg:bottom-0 lg:right-0');
+      styles.push('md:top-0 md:bottom-0 lg:top-0 lg:bottom-0 ');
     } else {
-      styles.push(
-        `md:top-0 md:bottom-auto ${
-          selectedCity ? 'md:right-0 lg:right-0' : 'md:right-[-40vw] lg:right-[-20vw]'
-        } lg:top-0 lg:bottom-auto`
-      );
+      styles.push(`md:top-0 md:bottom-auto ${selectedCity ? '' : 'md:right-[-40vw]'} lg:top-0 lg:bottom-auto`);
     }
   }
 
@@ -190,6 +186,59 @@ function toggleBodyBackground() {
   body.classList.toggle('bg-[var(--globe-background)]');
   body.classList.toggle('bg-[var(--nav-background)]');
 }
+
+function getGlobeContainerRight(width: number) {
+  if (width < 768) {
+    return '0px';
+  }
+
+  if (width > 2000) {
+    const difference = (width - 1100) / 2;
+    console.log(difference);
+    return `${difference * 0.7}px`;
+  }
+
+  if (width > 1100) {
+    const difference = (width - 1100) / 2;
+    return `${difference - 1100 * 0.35}px`;
+  }
+
+  if (width < 1000) {
+    return `-${width * 0.5}px`;
+  }
+
+  return `-${width * 0.3}px`;
+}
+
+function getMoveableGlobeContainerRight(width: number) {
+  if (width < 768 || width > 1200) {
+    const difference = (width - 1200) / 2;
+    return `${difference}px`;
+  }
+
+  // if (width > 1200) {
+  //   const difference = (width - 1200) / 2;
+  //   console.log(difference);
+  //   return `${difference}px`;
+  // }
+
+  return `0px`;
+}
+
+const variants = {
+  moveable: (width: number) => ({
+    width: '100%',
+    height: '100vh',
+    top: '0vh',
+    right: getMoveableGlobeContainerRight(width)
+  }),
+  notMoveable: (width: number) => ({
+    width: '100%',
+    height: '100vh',
+    top: '0vh',
+    right: getGlobeContainerRight(width)
+  })
+};
 
 export default function TripPage() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -275,46 +324,41 @@ export default function TripPage() {
             />
           </>
         )}
-        <motion.div
-          // eslint-disable-next-line tailwindcss/classnames-order
-          className={`globe-container fixed w-[100vw] ${getGlobeHeight(
-            width,
-            routeSelected,
-            moveableGlobe
-          )} ${getGlobeStyles(
-            width,
-            showDetails,
-            routeSelected,
-            moveableGlobe,
-            selectedCity
-          )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${
-            selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
-          } ${routeSelected || moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
-          animate={
-            width < 768
-              ? {
-                  bottom: getBottomPosition(width, showDetails),
-                  top: getTopPosition(width, showDetails)
-                }
-              : {
-                  bottom: 'auto',
-                  top: 'auto'
-                }
-          }
-          transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
-        >
-          <Suspense fallback={<GlobeFallback />}>
-            <SimpleGlobe
-              visits={visitData.olympiads}
-              selectedCity={selectedCity}
-              routeSelected={routeSelected}
-              showDetails={showDetails}
-              width={width}
-              moveable={moveableGlobe}
-              setMoveable={() => setMoveableGlobe(true)}
-            />
-          </Suspense>
-        </motion.div>
+        {width && (
+          <motion.div
+            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[1200px] ${
+              selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
+            } @container`}
+            custom={width}
+            variants={variants}
+            // animate={
+            //   width < 768
+            //     ? {
+            //         bottom: getBottomPosition(width, showDetails),
+            //         top: getTopPosition(width, showDetails)
+            //       }
+            //     : {
+            //         bottom: 'auto',
+            //         top: 'auto'
+            //       }
+            // }
+            animate={routeSelected || moveableGlobe ? 'moveable' : 'notMoveable'}
+            // transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
+            initial={false}
+          >
+            <Suspense fallback={<GlobeFallback />}>
+              <SimpleGlobe
+                visits={visitData.olympiads}
+                selectedCity={selectedCity}
+                routeSelected={routeSelected}
+                showDetails={showDetails}
+                width={width}
+                moveable={moveableGlobe}
+                setMoveable={() => setMoveableGlobe(true)}
+              />
+            </Suspense>
+          </motion.div>
+        )}
 
         <MainCopy
           showDetails={showDetails}

@@ -6,11 +6,17 @@ type MainCopyProps = {
   routeSelected: boolean;
 };
 
+const variants = {
+  hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
+  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
+};
+
 const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected }: MainCopyProps) => {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
-      animate={{ display: showDetails || globeMoveable || routeSelected ? 'none' : 'block' }}
+      variants={variants}
+      animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
     >
       <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
         Olympic trip

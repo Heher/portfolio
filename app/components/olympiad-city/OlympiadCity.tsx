@@ -35,9 +35,9 @@ export const OlympiadCity: React.FC<OlympiadCityProps> = ({
       {isSelectedCity ? (
         <SelectedCity
           cityRef={cityRef}
+          cityInfo={cityInfo}
           amountCompleted={amountCompleted}
           totalOlympiads={totalOlympiads}
-          cityInfo={cityInfo}
           sharedStadiums={sharedStadiums}
           setSelectedImg={setSelectedImg}
           olympiads={olympiads}

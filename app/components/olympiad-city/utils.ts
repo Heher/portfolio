@@ -13,14 +13,20 @@ export function cityStatus(olympiads, visits): { amountCompleted: number; totalO
   };
 }
 
-export function statusColor(amountCompleted: number, totalOlympiads: number) {
+export function statusColor(amountCompleted: number, totalOlympiads: number, card = false) {
+  let color = '[var(--negative)]';
+
   if (amountCompleted === totalOlympiads) {
-    return 'border-[var(--positive)]';
+    color = '[var(--positive)]';
   }
 
   if (amountCompleted < totalOlympiads && amountCompleted > 0) {
-    return 'border-[#FFA566]';
+    color = '[#FFA566]';
   }
 
-  return 'border-[var(--negative)]';
+  if (card) {
+    return `bg-${color};`;
+  }
+
+  return `border-${color}`;
 }
