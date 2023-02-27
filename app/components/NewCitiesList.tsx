@@ -28,11 +28,6 @@ type CitiesListProps = {
   globeMoveable: boolean;
 };
 
-const variants = {
-  hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
-  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
-};
-
 const List = ({ match, history }) => (
   <ul className="card-list">
     <li>Test</li>
@@ -42,9 +37,9 @@ const List = ({ match, history }) => (
 function CitiesList({ olympiadList, visits, variants, showDetails, globeMoveable, routeSelected }) {
   return (
     <motion.div
-      className="cities-container mt-[25vh] flex flex-col px-[5vw] pt-[25vh] pb-[20px] md:mt-0 md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]"
+      className="cities-container flex flex-col bg-[var(--nav-background)] px-[5vw] pb-[20px] md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]"
       variants={variants}
-      animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
+      animate={globeMoveable || routeSelected ? 'hidden' : 'visible'}
     >
       {Object.entries(olympiadList).map(([cityId, olympiads]) => {
         const cityInfo = olympiads[0].city;

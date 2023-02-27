@@ -113,7 +113,7 @@ function CityPage() {
           totalOlympiads
         )}`}
       />
-      <motion.div className="mx-auto md:max-w-[800px]">
+      <motion.div className="mx-auto px-[5vw] md:max-w-[800px]">
         <motion.div className="header mt-[25vh] md:mt-[15vh]">
           <div className="flex items-center">
             {/* <motion.span

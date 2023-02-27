@@ -94,6 +94,18 @@ const animationVariants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
 
+function getCitiesListVisibility(width, showDetails) {
+  if (width >= 768) {
+    return true;
+  }
+
+  if (showDetails) {
+    return true;
+  }
+
+  return false;
+}
+
 export default function TripIndex() {
   const {
     handleImageModal,
@@ -106,7 +118,8 @@ export default function TripIndex() {
     setRouteSelected,
     showDetails,
     setShowDetails,
-    visits
+    visits,
+    toggleBodyBackground
   } = useOutletContext();
 
   // const [mainContentRef, { width: mainContentWidth, height: mainContentHeight }] = useMeasure({ debounce: 300 });
@@ -148,7 +161,7 @@ export default function TripIndex() {
         variants={animationVariants}
       />
 
-      {width && (
+      {getCitiesListVisibility(width, showDetails) && (
         <NewCitiesList
           olympiadList={groupedOlympiads}
           visits={visits}

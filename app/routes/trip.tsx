@@ -148,6 +148,10 @@ function getGlobeContainerTop(width, showDetails = false, citySelected = false) 
   }
 
   if (citySelected) {
+    if (width < 1000) {
+      return '-10vh';
+    }
+
     return '-20vh';
   }
 
@@ -182,7 +186,11 @@ function getGlobeContainerRight(width, citySelected = false) {
   }
 
   if (citySelected) {
-    return '-200px';
+    if (width < 1600) {
+      return '-150px';
+    }
+
+    return '0px';
   }
 
   // XL
@@ -257,7 +265,7 @@ const variants = {
     height: getGlobeHeight(width, false, true),
     top: getGlobeContainerTop(width, false, true),
     right: getGlobeContainerRight(width, true),
-    bottom: getGlobeContainerBottom(width)
+    bottom: getGlobeContainerBottom(width, true)
   })
 };
 
@@ -358,7 +366,7 @@ export default function TripPage() {
           <motion.div
             className={`globe-container fixed z-30 ${getGlobeContainerMaxes(selectedCity, moveableGlobe)} ${
               selectedCity && !moveableGlobe && 'clip-container'
-            } @container`}
+            } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
             custom={width}
             variants={variants}
             animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity)}
@@ -392,7 +400,8 @@ export default function TripPage() {
               setRouteSelected,
               showDetails,
               setShowDetails,
-              visits: visitData.olympiads
+              visits: visitData.olympiads,
+              toggleBodyBackground
             }}
           />
         </AnimatePresence>

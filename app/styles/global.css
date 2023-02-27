@@ -74,6 +74,10 @@
   clip-path: circle(20%);
 }
 
+.globe-container.clip-container.mobile {
+  clip-path: circle(40%);
+}
+
 /* @media screen and (min-width: 1024px) {
   .globe-container.clip-container {
     right: 20%;
