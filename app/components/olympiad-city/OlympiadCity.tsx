@@ -23,7 +23,7 @@ export const OlympiadCity: React.FC<OlympiadCityProps> = ({
   handleCitySelection,
   selectedCity,
   sharedStadiums,
-  setSelectedImg
+  handleImageModal
 }) => {
   const cityRef = useRef(null);
   const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
@@ -39,7 +39,7 @@ export const OlympiadCity: React.FC<OlympiadCityProps> = ({
           amountCompleted={amountCompleted}
           totalOlympiads={totalOlympiads}
           sharedStadiums={sharedStadiums}
-          setSelectedImg={setSelectedImg}
+          handleImageModal={handleImageModal}
           olympiads={olympiads}
           visits={visits}
         />
@@ -52,7 +52,7 @@ export const OlympiadCity: React.FC<OlympiadCityProps> = ({
           totalOlympiads={totalOlympiads}
           olympiads={olympiads}
           visits={visits}
-          setSelectedImg={setSelectedImg}
+          handleImageModal={handleImageModal}
           isSelectedCity={isSelectedCity}
         />
       )}

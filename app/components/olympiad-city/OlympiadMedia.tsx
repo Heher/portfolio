@@ -1,4 +1,4 @@
-export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
+export const OlympiadMedia = ({ visit, olympiadType, handleImageModal }) => {
   return (
     <div className="grid w-full grid-cols-[1fr_1fr] justify-items-center gap-[20px] pb-[80px] md:max-w-[500px]">
       {visit.stadium?.img && (
@@ -10,7 +10,7 @@ export const OlympiadMedia = ({ visit, olympiadType, setSelectedImg }) => {
               src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/q_40/olympic-visits/${visit.stadium.img}`}
               alt=""
               loading="lazy"
-              onClick={() => setSelectedImg(visit.stadium.img)}
+              onClick={() => handleImageModal(visit.stadium.img)}
             />
           </div>
         </div>

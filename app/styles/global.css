@@ -70,7 +70,7 @@
 }
 
 .globe-container.clip-container {
-  clip-path: circle(40%);
+  clip-path: circle(20%);
 }
 
 /* @media screen and (min-width: 1024px) {

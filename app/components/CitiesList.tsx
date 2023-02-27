@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
+import { sharedStadiums } from './olympiad-city/settings';
 
 function getVisibility(routeSelected: boolean, showDetails: boolean, width: number, globeMoveable: boolean) {
   if (width >= 768) {
@@ -16,14 +17,12 @@ function getVisibility(routeSelected: boolean, showDetails: boolean, width: numb
   return 'block';
 }
 
-const sharedStadiums = ['St. Moritz', 'Los Angeles', 'Innsbruck'];
-
 type CitiesListProps = {
   routeSelected: boolean;
   handleRouteSelection: () => void;
   showDetails: boolean;
   width: number;
-  setSelectedImg: (img: string) => void;
+  handleImageModal: (img: string) => void;
   globeMoveable: boolean;
 };
 
@@ -41,7 +40,7 @@ function CitiesList({
   handleRouteSelection,
   showDetails,
   width,
-  setSelectedImg,
+  handleImageModal,
   globeMoveable
 }: CitiesListProps) {
   return (
@@ -76,7 +75,7 @@ function CitiesList({
             handleCitySelection={handleCitySelection}
             selectedCity={selectedCity}
             sharedStadiums={sharedStadiums.includes(cityInfo.name)}
-            setSelectedImg={setSelectedImg}
+            handleImageModal={handleImageModal}
           />
         );
       })}

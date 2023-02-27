@@ -1,27 +1,7 @@
 import { motion } from 'framer-motion';
 import { CityOlympiad } from './CityOlympiad';
-import { OlympiadMedia } from './OlympiadMedia';
+import SharedOlympiads from './SharedOlympiads';
 import { statusColor } from './utils';
-
-function SharedOlympiads({ olympiads, visit, setSelectedImg }) {
-  const olympiadYears = olympiads.map((olympiad) => olympiad.year);
-  const firstOlympiad = olympiads[0];
-
-  return (
-    <li className="city-olympiad mr-[20px]">
-      <div className="title grid grid-cols-[10px_1fr] items-center gap-[7px]">
-        <span className={`city-status h-[10px] w-[10px] rounded-full bg-[var(--positive)]`} />
-        <p className="m-0 text-[1.2rem]">
-          {olympiadYears.join(' and ')}
-          {` ${firstOlympiad.olympiadType.charAt(0) + firstOlympiad.olympiadType.slice(1).toLowerCase()} Games`}
-        </p>
-      </div>
-      <div className="media mt-[20px] items-end group-[.selected]:flex">
-        <OlympiadMedia visit={visit} olympiadType={firstOlympiad.olympiadType} setSelectedImg={setSelectedImg} />
-      </div>
-    </li>
-  );
-}
 
 const SelectedCity = ({
   cityRef,
@@ -29,7 +9,7 @@ const SelectedCity = ({
   totalOlympiads,
   cityInfo,
   sharedStadiums,
-  setSelectedImg,
+  handleImageModal,
   olympiads,
   visits
 }) => {
@@ -81,7 +61,7 @@ const SelectedCity = ({
             <SharedOlympiads
               olympiads={olympiads}
               visit={visits[olympiads[0].year.toString()]?.[olympiads[0].olympiadType.toLowerCase()]}
-              setSelectedImg={setSelectedImg}
+              handleImageModal={handleImageModal}
             />
           ) : (
             olympiads.map((olympiad) => {
@@ -92,7 +72,7 @@ const SelectedCity = ({
                   key={olympiad.id}
                   olympiad={olympiad}
                   visit={visit}
-                  setSelectedImg={setSelectedImg}
+                  handleImageModal={handleImageModal}
                   selected
                 />
               );
