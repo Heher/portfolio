@@ -56,7 +56,7 @@ const SelectedCity = ({
             />
           </div>
         </motion.div>
-        <motion.ul className="mt-[40px] ml-[25px] flex list-none flex-col p-0">
+        <motion.ul className="mt-[40px] flex list-none flex-col p-0">
           {sharedStadiums ? (
             <SharedOlympiads
               olympiads={olympiads}

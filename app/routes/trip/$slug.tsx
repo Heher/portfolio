@@ -52,13 +52,34 @@ export async function loader({ params }) {
 
   const response = await graphQLClient.request(query);
 
-  // const response = await request('http://localhost:5433/appApi/graphql', query);
+  //* filter out 1906 Athens and 1956 Stockholm
+  response.cityBySlug.olympiads.nodes = response.cityBySlug.olympiads.nodes.filter((olympiad) => {
+    if (olympiad.year === 1906) {
+      return false;
+    }
+
+    if (olympiad.year === 1956) {
+      if (response.cityBySlug.name === 'Stockholm') {
+        return false;
+      }
+    }
+    return true;
+  });
 
   return { city: response.cityBySlug };
 }
 
+const variants = {
+  show: {
+    y: 0
+  },
+  hide: {
+    y: '100%'
+  }
+};
+
 function CityPage() {
-  const { handleImageModal, setStopScroll, width, visits, setSelectedCity } = useOutletContext();
+  const { handleImageModal, setStopScroll, width, visits, setSelectedCity, moveableGlobe } = useOutletContext();
   const { city } = useLoaderData();
 
   const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);
@@ -81,20 +102,26 @@ function CityPage() {
         height: '75vh',
         width: '100vw'
       }}
+      variants={variants}
+      animate={moveableGlobe ? 'hide' : 'show'}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <motion.span
         // layoutId="expandable-card-status"
-        className={`block w-full border-t-[15px] border-solid ${statusColor(amountCompleted, totalOlympiads)}`}
+        className={`city-status block w-full border-t-[15px] border-solid ${statusColor(
+          amountCompleted,
+          totalOlympiads
+        )}`}
       />
       <motion.div className="mx-auto md:max-w-[800px]">
         <motion.div className="header mt-[25vh] md:mt-[15vh]">
           <div className="flex items-center">
-            <motion.span
+            {/* <motion.span
               className={`city-status mr-[10px] h-[15px] w-[15px] rounded-full ${statusColor(
                 amountCompleted,
                 totalOlympiads
               )}`}
-            />
+            /> */}
             <motion.h3
               // layoutId="expandable-card-city"
               className="block text-[2rem] font-semibold uppercase leading-none tracking-wide"
@@ -103,7 +130,7 @@ function CityPage() {
             </motion.h3>
           </div>
           <div className="mt-[10px] flex items-center">
-            <motion.h4 className="ml-[25px] text-[1.1rem] uppercase leading-none">{city.country.name}</motion.h4>
+            <motion.h4 className="text-[1.1rem] uppercase leading-none">{city.country.name}</motion.h4>
             <img
               className="ml-[10px] mt-[-1px] h-[15px] w-auto"
               src={city.country.flagByTimestamp.png}
@@ -111,7 +138,7 @@ function CityPage() {
             />
           </div>
         </motion.div>
-        <motion.ul className="mt-[40px] ml-[25px] flex list-none flex-col p-0">
+        <motion.ul className="mt-[40px] flex list-none flex-col p-0">
           {sharedStadiums.includes(city.name) ? (
             <SharedOlympiads
               olympiads={city.olympiads.nodes}
