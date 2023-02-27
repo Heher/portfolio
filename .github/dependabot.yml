@@ -9,3 +9,5 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "staging"
+    open-pull-requests-limit: 10
