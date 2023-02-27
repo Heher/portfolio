@@ -16,6 +16,7 @@ import MainCopy from '~/components/home/MainCopy';
 import NewCitiesList from '~/components/NewCitiesList';
 
 import visitData from '~/data/visits.json';
+import BackButtonContainer from '~/components/home/BackButtonContainer';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -260,6 +261,8 @@ const variants = {
   })
 };
 
+const cityRegex = /\/trip\/(\w|-)+/g;
+
 export default function TripPage() {
   const location = useLocation();
 
@@ -271,6 +274,8 @@ export default function TripPage() {
   const [selectedCity, setSelectedCity] = useState(null);
 
   const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
+
+  const isCityPage = location?.pathname.match(cityRegex);
 
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
@@ -341,18 +346,13 @@ export default function TripPage() {
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
-          <>
-            <div
-              className={`globe-background fixed top-0 left-0 w-full ${width < 768 && 'mobile'} ${
-                routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : 'z-10 h-[50vh]'
-              }`}
-            ></div>
-            <BackButton
-              routeSelected={routeSelected}
-              globeMoveable={moveableGlobe}
-              handleBackButton={handleBackButton}
-            />
-          </>
+          <BackButtonContainer
+            routeSelected={routeSelected}
+            moveableGlobe={moveableGlobe}
+            width={width}
+            handleBackButton={handleBackButton}
+            isCityPage={isCityPage}
+          />
         )}
         {width && (
           <motion.div

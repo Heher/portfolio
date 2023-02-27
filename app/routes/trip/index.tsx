@@ -2,25 +2,16 @@ import { useLoaderData, useOutletContext } from '@remix-run/react';
 import { gql, GraphQLClient } from 'graphql-request';
 import { groupBy } from 'lodash';
 
-import { getStravaActivities } from '~/utils/getStravaActivities';
-
-import SimpleGlobe from '~/components/globe/SimpleGlobe';
-import { Suspense, useState } from 'react';
-import { motion } from 'framer-motion';
-import CitiesList from '~/components/CitiesList';
-import useMeasure from 'react-use-measure';
-import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
-import BackButton from '~/components/home/BackButton';
 import MainCopy from '~/components/home/MainCopy';
 import NewCitiesList from '~/components/NewCitiesList';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'John Heher | Olympic Trip',
+  title: 'Olympic Trip | John Heher',
   description: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games.",
   viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
-  'og:title': 'John Heher | Olympic Trip',
+  'og:title': 'Olympic Trip | John Heher',
   'og:image': '/olympic-cities-og.jpg'
 });
 
@@ -98,83 +89,10 @@ export async function loader() {
   return { olympiads: response.olympiads.nodes };
 }
 
-// function getGlobeContainerPosition(width: number, showDetails: boolean) {
-//   if (width < 768) {
-//     if (showDetails) {
-//       return 'bottom-auto top-0';
-//     }
-
-//     return 'bottom-[-20vh] top-auto';
-//   }
-
-//   return 'top-0 bottom-auto';
-// }
-
-// function getBottomPosition(width: number, showDetails: boolean) {
-//   if (width < 768) {
-//     if (showDetails) {
-//       return 'auto';
-//     }
-
-//     return '-20vh';
-//   }
-
-//   return 'auto';
-// }
-
-// function getTopPosition(width: number, showDetails: boolean) {
-//   if (width < 768 && showDetails) {
-//     return '0';
-//   }
-
-//   return 'auto';
-// }
-
-// function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: boolean) {
-//   if (width < 768) {
-//     if (routeSelected || moveableGlobe) {
-//       return 'h-[100vh]';
-//     }
-
-//     return 'h-[50vh]';
-//   }
-
-//   return 'h-[100vh]';
-// }
-
-// function getGlobeStyles(
-//   width: number,
-//   showDetails: boolean,
-//   routeSelected: boolean,
-//   moveableGlobe: boolean,
-//   selectedCity: any
-// ) {
-//   // let top = 'top-0';
-//   // let bottom = 'bottom-0';
-//   // let right = 'right-0';
-
-//   const styles = [];
-
-//   if (width < 768) {
-//     if (showDetails) {
-//       if (routeSelected || moveableGlobe) {
-//         styles.push('top-0 bottom-0 right-0');
-//       } else {
-//         styles.push('top-0 bottom-auto right-0');
-//       }
-//     } else {
-//       styles.push('top-auto bottom-[-20vh] right-0');
-//     }
-//   } else {
-//     if (routeSelected || moveableGlobe) {
-//       styles.push('md:top-0 md:bottom-0 lg:top-0 lg:bottom-0 ');
-//     } else {
-//       styles.push(`md:top-0 md:bottom-auto ${selectedCity ? '' : 'md:right-[-40vw]'} lg:top-0 lg:bottom-auto`);
-//     }
-//   }
-
-//   return styles[0];
-// }
+const animationVariants = {
+  hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
+  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
+};
 
 export default function TripIndex() {
   const {
@@ -184,7 +102,6 @@ export default function TripIndex() {
     selectedCity,
     setSelectedCity,
     moveableGlobe,
-    setMoveableGlobe,
     routeSelected,
     setRouteSelected,
     showDetails,
@@ -228,6 +145,7 @@ export default function TripIndex() {
         visits={visits}
         globeMoveable={moveableGlobe}
         routeSelected={routeSelected}
+        variants={animationVariants}
       />
 
       {width && (
@@ -242,7 +160,7 @@ export default function TripIndex() {
           width={width}
           handleImageModal={handleImageModal}
           globeMoveable={moveableGlobe}
-          routeSelected={routeSelected}
+          variants={animationVariants}
         />
       )}
       {!showDetails && width < 768 && (

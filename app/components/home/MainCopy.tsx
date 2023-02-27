@@ -6,12 +6,7 @@ type MainCopyProps = {
   routeSelected: boolean;
 };
 
-const variants = {
-  hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
-  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
-};
-
-function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected }) {
+function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }) {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"

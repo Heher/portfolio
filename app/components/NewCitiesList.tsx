@@ -39,9 +39,13 @@ const List = ({ match, history }) => (
   </ul>
 );
 
-function CitiesList({ olympiadList, visits }) {
+function CitiesList({ olympiadList, visits, variants, showDetails, globeMoveable, routeSelected }) {
   return (
-    <div className="cities-container mt-[25vh] flex flex-col px-[5vw] pt-[25vh] pb-[20px] md:mt-0 md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]">
+    <motion.div
+      className="cities-container mt-[25vh] flex flex-col px-[5vw] pt-[25vh] pb-[20px] md:mt-0 md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]"
+      variants={variants}
+      animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
+    >
       {Object.entries(olympiadList).map(([cityId, olympiads]) => {
         const cityInfo = olympiads[0].city;
 
@@ -49,7 +53,7 @@ function CitiesList({ olympiadList, visits }) {
 
         return <NewOlympiadCity key={cityId} cityInfo={cityInfo} olympiads={olympiads} visits={visits} />;
       })}
-    </div>
+    </motion.div>
   );
 }
 

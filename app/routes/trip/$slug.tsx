@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { gql, GraphQLClient } from 'graphql-request';
@@ -8,6 +8,17 @@ import { CityOlympiad } from '~/components/olympiad-city/CityOlympiad';
 import { sharedStadiums } from '~/components/olympiad-city/settings';
 import SharedOlympiads from '~/components/olympiad-city/SharedOlympiads';
 import { cityStatus, statusColor } from '~/components/olympiad-city/utils';
+
+export const meta: MetaFunction = ({ data }) => {
+  return {
+    charset: 'utf-8',
+    title: `${data.city.name}, ${data.city.country.name} | Olympic Trip`,
+    description: `John Heher's trip to ${data.city.name}, ${data.city.country.name}.`,
+    viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+    'og:title': `${data.city.name}, ${data.city.country.name} | Olympic Trip`,
+    'og:image': '/olympic-cities-og.jpg'
+  };
+};
 
 export async function loader({ params }) {
   const now = new Date().toISOString();
