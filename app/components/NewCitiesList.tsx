@@ -37,7 +37,7 @@ const List = ({ match, history }) => (
 function CitiesList({ olympiadList, visits, variants, showDetails, globeMoveable, routeSelected }) {
   return (
     <motion.div
-      className="cities-container relative z-40 flex flex-col bg-[var(--nav-background)] px-[5vw] pb-[20px] md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]"
+      className="cities-container relative z-0 flex flex-col bg-[var(--nav-background)] px-[5vw] pb-[20px] md:z-40 md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]"
       variants={variants}
       animate={globeMoveable || routeSelected ? 'hidden' : 'visible'}
     >
