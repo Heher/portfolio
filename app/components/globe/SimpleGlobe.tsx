@@ -1,72 +1,19 @@
-import { useMemo, useRef, useState } from 'react';
-import {
-  LineBasicMaterial,
-  TextureLoader,
-  Euler,
-  AdditiveBlending,
-  BackSide,
-  LineSegments,
-  MeshBasicMaterial,
-  CylinderGeometry,
-  Mesh,
-  Group,
-  ShaderMaterial,
-  SphereGeometry,
-  TubeGeometry,
-  DynamicDrawUsage,
-  MeshStandardMaterial,
-  MathUtils
-} from 'three';
-import { useLoader, useThree, extend, Canvas, useFrame } from '@react-three/fiber';
-import { Effects, OrbitControls, useTexture, Stats, Environment, Center } from '@react-three/drei';
-import { cities, coordinates } from './coordinates';
+import { useMemo, useRef } from 'react';
+import { TextureLoader, CylinderGeometry, SphereGeometry, MeshStandardMaterial, MathUtils } from 'three';
+import { useLoader, useThree, Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { cities } from './coordinates';
 import type { City } from './coordinates';
 
 import earthImg from '~/data/map/new-earth.png';
 
-import cyndAO from '~/data/map/cylinder/Substance_Graph_AmbientOcclusion.jpg';
-import cyndColor from '~/data/map/cylinder/Substance_Graph_BaseColor.jpg';
-import cyndHeight from '~/data/map/cylinder/Substance_Graph_Height.png';
-import cyndNormal from '~/data/map/cylinder/Substance_Graph_Normal.jpg';
-import cyndRoughness from '~/data/map/cylinder/Substance_Graph_Roughness.jpg';
-
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-// import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-
-// import { EffectComposer, Bloom } from '@react-three/postprocessing';
-
 import { motion } from 'framer-motion-3d';
 import { useEffect } from 'react';
-import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius, placeObjectOnPlanet } from './utils';
+import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius } from './utils';
 import { Route } from './Route';
-import { CityMarker } from './CityMarker';
 import type { Coordinate, VisitYear } from 'types/globe';
 import { NewCities } from './NewCities';
-// import { SSAOPass, UnrealBloomPass } from 'three-stdlib';
-import { Bloom, EffectComposer, Select, Selection, SelectiveBloom } from '@react-three/postprocessing';
-
-extend({
-  LineBasicMaterial,
-  LineSegments,
-  MeshBasicMaterial,
-  CylinderGeometry,
-  Mesh,
-  Group,
-  ShaderMaterial,
-  SphereGeometry,
-  TubeGeometry
-});
-
-// function Post() {
-//   const { scene, camera } = useThree();
-//   return (
-//     <EffectComposer>
-//       {/* <sSAOPass args={[scene, camera]} kernelRadius={0.5} maxDistance={0.1} /> */}
-//       <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
-//     </EffectComposer>
-//   );
-// }
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
 function getNewRotation(coord: Coordinate) {
   const { latRad, lonRad } = convertToRadians(coord);
@@ -74,24 +21,13 @@ function getNewRotation(coord: Coordinate) {
   return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
 }
 
-// function resetRotation() {
-//   return { rotateX: 0, rotateZ: 0.5 };
-// }
-
 const markerRadius = 0.007;
 const markerHeight = 0.2;
 
 const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
 const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
-// const markerTopGeometry = new CylinderGeometry(0.02, 0.02, 0.01, 32);
-// const markerMaterial = new MeshBasicMaterial({ color: '#cccccc' });
 
 const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
-// const globeMaterial = new ShaderMaterial({
-//   vertexShader: vertex,
-//   fragmentShader: fragment,
-//   uniforms: { globeTexture: { value: earthMap } }
-// });
 
 const Sphere = ({ width, showDetails, setMoveable }) => {
   const earthMap = useLoader(TextureLoader, earthImg);
@@ -124,52 +60,11 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   }
 
   if (foundCity) {
-    // return 1;
     return foundCity.scale;
   }
 
-  // if (width < 768) {
-  //   return 0.7;
-  // }
-  // console.log('width', width);
-
   return width < 768 ? 1 : 1;
 }
-
-// type VariantVariables = {
-//   foundCity: City | undefined;
-//   routeSelected: boolean;
-//   width: number;
-// };
-
-// const globeVariants = {
-//   rest: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-//     ...resetRotation(),
-//     scale: getScale(foundCity, routeSelected, width)
-//   }),
-//   city: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-//     ...getRotation(foundCity, routeSelected),
-//     scale: getScale(foundCity, routeSelected, width)
-//   }),
-//   route: ({ foundCity, routeSelected, width }: VariantVariables) => ({
-//     ...getRotation(foundCity, routeSelected),
-//     scale: getScale(foundCity, routeSelected, width)
-//   })
-// };
-
-// const globeRotation = new Euler(0, Math.PI, 0.5, 'ZXY');
-
-// const findVariantType = (foundCity: City | undefined, routeSelected: boolean) => {
-//   if (routeSelected) {
-//     return 'route';
-//   }
-
-//   if (foundCity) {
-//     return 'city';
-//   }
-
-//   return 'rest';
-// };
 
 type NewGlobeProps = {
   visits: VisitYear[];
@@ -195,89 +90,62 @@ const NewGlobe = ({
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
-  // const [globeRotation, setGlobeRotation] = useState(new Euler(0, 0, 0.5, 'ZXY'));
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
   const foundCity = cities.find((city) => city.name === selectedCity?.slug);
 
-  // const [ao, color, height, normal, roughness] = useTexture([
-  //   cyndAO,
-  //   cyndColor,
-  //   cyndHeight,
-  //   cyndNormal,
-  //   cyndRoughness
-  // ]);
-
-  const markerMaterial = useMemo(() => new MeshStandardMaterial(), []);
-
   const summerMarkerMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#fc8d6a'
-        // emissiveIntensity: 20,
-        // toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
   const winterMarkerMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#5bcaf5'
-        // emissiveIntensity: 20,
-        // toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
   const flagMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#ff5a5a',
         emissive: '#ff5a5a',
         emissiveIntensity: 10,
         toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
   const visitedMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#3dbd73',
         emissive: '#3dbd73',
         emissiveIntensity: 10,
         toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
   const offVisitedMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#3dbd73',
         emissive: 'black',
         emissiveIntensity: 0,
         toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
   const offMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
-        // emissive: topColor(citySelected, selected, city.visited, city.type),
         color: '#ff5a5a',
         emissive: 'black',
         emissiveIntensity: 0,
         toneMapped: false
-        // emissiveIntensity: 0.3
       }),
     []
   );
@@ -299,24 +167,12 @@ const NewGlobe = ({
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
 
-      // if (newProps.rotateZ) {
-      //   groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, newProps.rotateZ, delta * 5);
-      // }
-
       groupRef.current.scale.set(
         MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
         MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
         MathUtils.lerp(groupRef.current.scale.z, newProps.scale, delta * 5)
       );
     }
-
-    // if (moveable) {
-    //   groupRef.current.scale.set(
-    //     MathUtils.lerp(groupRef.current.scale.x, 1.3, delta * 5),
-    //     MathUtils.lerp(groupRef.current.scale.y, 1.3, delta * 5),
-    //     MathUtils.lerp(groupRef.current.scale.z, 1.3, delta * 5)
-    //   );
-    // }
 
     if (!routeSelected && !foundCity && !moveable) {
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
@@ -335,15 +191,7 @@ const NewGlobe = ({
   });
 
   return (
-    <motion.group
-      ref={groupRef}
-      // custom={{ foundCity, routeSelected, width }}
-      scale={1}
-      rotation={[0, 0, 0.5, 'ZXY']}
-      // variants={globeVariants}
-      // animate={findVariantType(foundCity, routeSelected)}
-      // transition={{ type: 'tween', ease: 'easeInOut', duration: 0.6 }}
-    >
+    <motion.group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
       <OrbitControls
@@ -381,14 +229,11 @@ const NewGlobe = ({
             />
           );
         })}
-      {/* <EffectComposer>
-        <Bloom luminanceThreshold={1} intensity={0.85} levels={9} mipmapBlur />
-      </EffectComposer> */}
     </motion.group>
   );
 };
 
-const SimpleGlobe = ({
+export function SimpleGlobe({
   visits,
   selectedCity,
   routeSelected,
@@ -396,7 +241,7 @@ const SimpleGlobe = ({
   moveable,
   setMoveable,
   showDetails
-}: SimpleGlobeProps) => {
+}: SimpleGlobeProps) {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
@@ -416,6 +261,4 @@ const SimpleGlobe = ({
       {/* <Stats className="stats" /> */}
     </Canvas>
   );
-};
-
-export default SimpleGlobe;
+}

@@ -1,6 +1,18 @@
 import { OlympiadMedia } from './OlympiadMedia';
 
-export const CityOlympiad = ({ olympiad, visit, selected = false, handleImageModal, expanded = false }) => {
+type CityOlympiadProps = {
+  selected?: boolean;
+  handleImageModal: (img: string) => void;
+  expanded?: boolean;
+};
+
+export const CityOlympiad = ({
+  olympiad,
+  visit,
+  selected = false,
+  handleImageModal,
+  expanded = false
+}: CityOlympiadProps) => {
   return (
     <li className={`city-olympiad ${!selected && 'mr-[25px]'}`}>
       <div className="title grid grid-cols-[12px_1fr] items-center gap-[10px]">

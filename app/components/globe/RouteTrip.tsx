@@ -1,6 +1,6 @@
 import { CatmullRomLine } from '@react-three/drei';
-import { Vector3, CatmullRomCurve3, MeshStandardMaterial } from 'three';
-import type { Coordinate, RouteInfo } from 'types/globe';
+import { Vector3, CatmullRomCurve3 } from 'three';
+import type { RouteInfo } from 'types/globe';
 import { getPositionVector, globeRadius } from './utils';
 
 const colors = {
