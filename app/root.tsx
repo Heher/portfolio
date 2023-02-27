@@ -3,7 +3,6 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocatio
 import { withSentry } from '@sentry/remix';
 
 import globalStyles from '~/styles/global.css';
-// import styles from '~/styles/tailwind.css';
 
 import stylesheet from '~/tailwind.css';
 
@@ -20,18 +19,21 @@ export function links() {
 }
 
 function App() {
-  const { pathname } = useLocation();
+  const appLocation = useLocation();
 
   return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
-        {/* {typeof document === 'undefined' ? '__STYLES__' : null} */}
       </head>
-      <body className={pathname === '/trip' ? 'bg-[var(--nav-background)]' : 'bg-white'}>
+      <body className={appLocation.pathname.includes('trip') ? 'bg-[var(--nav-background)]' : 'bg-white'}>
         <Outlet />
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={(location, matches) => {
+            return location.pathname;
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>

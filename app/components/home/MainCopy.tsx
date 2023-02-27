@@ -6,11 +6,12 @@ type MainCopyProps = {
   routeSelected: boolean;
 };
 
-const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected }: MainCopyProps) => {
+function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }) {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
-      animate={{ display: showDetails || globeMoveable || routeSelected ? 'none' : 'block' }}
+      variants={variants}
+      animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
     >
       <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
         Olympic trip
@@ -26,6 +27,6 @@ const MainCopy = ({ showDetails, olympiads, visits, globeMoveable, routeSelected
       <TripStatus olympiads={olympiads} visits={visits} />
     </motion.div>
   );
-};
+}
 
 export default MainCopy;
