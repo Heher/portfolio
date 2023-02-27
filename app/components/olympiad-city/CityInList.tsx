@@ -30,7 +30,10 @@ const CityInList = ({
     >
       <motion.span
         // layoutId="expandable-card-status"
-        className={`block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(amountCompleted, totalOlympiads)}`}
+        className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(
+          amountCompleted,
+          totalOlympiads
+        )}`}
       />
       <div className={`flex py-[30px] px-[25px]`}>
         <div className="text-[var(--text)]">

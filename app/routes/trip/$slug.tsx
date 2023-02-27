@@ -61,7 +61,7 @@ function CityPage() {
   return (
     <motion.div
       layout
-      layoutId="expandable-card"
+      // layoutId="expandable-card"
       className={`olympiad-city selected group z-20 overflow-scroll bg-[#e0e0e0]`}
       style={{
         position: 'fixed',
@@ -72,11 +72,11 @@ function CityPage() {
       }}
     >
       <motion.span
-        layoutId="expandable-card-status"
+        // layoutId="expandable-card-status"
         className={`block w-full border-t-[15px] border-solid ${statusColor(amountCompleted, totalOlympiads)}`}
       />
       <motion.div className="mx-auto md:max-w-[800px]">
-        <motion.div layoutId="expandable-card-header" className="header mt-[25vh] md:mt-[15vh]">
+        <motion.div className="header mt-[25vh] md:mt-[15vh]">
           <div className="flex items-center">
             <motion.span
               className={`city-status mr-[10px] h-[15px] w-[15px] rounded-full ${statusColor(
@@ -85,7 +85,7 @@ function CityPage() {
               )}`}
             />
             <motion.h3
-              layoutId="expandable-card-city"
+              // layoutId="expandable-card-city"
               className="block text-[2rem] font-semibold uppercase leading-none tracking-wide"
             >
               {city.name === 'Squaw Valley' ? 'Palisades Tahoe' : city.name}

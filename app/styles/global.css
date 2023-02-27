@@ -9,6 +9,7 @@
   --navy: #001939;
   --positive: #3dbd73;
   --negative: #ff5a5a;
+  --incomplete: #FFA566;
   --link-hover: #eaf3ff;
   --nav-background: #4D6F85;
   --nav-text: #F2F5F8;
@@ -97,4 +98,14 @@
 
 .flags-container:hover .flags-overlay-full {
   width: 0;
+}
+
+.city-status.positive {
+  border-color: var(--positive)
+}
+.city-status.negative {
+  border-color: var(--negative)
+}
+.city-status.incomplete {
+  border-color: var(--incomplete)
 }

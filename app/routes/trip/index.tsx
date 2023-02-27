@@ -176,7 +176,7 @@ export async function loader() {
 //   return styles[0];
 // }
 
-export default function TripPage() {
+export default function TripIndex() {
   const {
     handleImageModal,
     setStopScroll,

@@ -13,20 +13,34 @@ export function cityStatus(olympiads, visits): { amountCompleted: number; totalO
   };
 }
 
-export function statusColor(amountCompleted: number, totalOlympiads: number, card = false) {
-  let color = '[var(--negative)]';
+//* Not sure why this isn't working with variables
+//* but I had to change it to hex values to get it to work
+// export function statusColor(amountCompleted: number, totalOlympiads: number, card = false) {
+//   let color = '[color:var(--negative)]';
 
+//   if (amountCompleted === totalOlympiads) {
+//     color = '[color:var(--positive)]';
+//   }
+
+//   if (amountCompleted < totalOlympiads && amountCompleted > 0) {
+//     color = '[#FFA566]';
+//   }
+
+//   if (card) {
+//     return `bg-${color}`;
+//   }
+
+//   return `border-${color}`;
+// }
+
+export function statusColor(amountCompleted: number, totalOlympiads: number, card = false) {
   if (amountCompleted === totalOlympiads) {
-    color = '[var(--positive)]';
+    return 'positive';
   }
 
   if (amountCompleted < totalOlympiads && amountCompleted > 0) {
-    color = '[#FFA566]';
+    return 'incomplete';
   }
 
-  if (card) {
-    return `bg-${color};`;
-  }
-
-  return `border-${color}`;
+  return `negative`;
 }
