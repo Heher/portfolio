@@ -34,7 +34,6 @@ const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHe
 const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 
 export const Route = ({ visible, citiesWithVisits }) => {
-  // const markerMaterial = useMemo(() => new MeshStandardMaterial(), []);
   const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
 
   const summerMarkerMaterial = useMemo(
