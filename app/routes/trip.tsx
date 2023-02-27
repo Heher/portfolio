@@ -1,19 +1,22 @@
-import { useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData, useLocation, useOutletContext } from '@remix-run/react';
 import { gql, GraphQLClient } from 'graphql-request';
 import { groupBy } from 'lodash';
 
 import { getStravaActivities } from '~/utils/getStravaActivities';
 
-import visitData from '~/data/visits.json';
 import SimpleGlobe from '~/components/globe/SimpleGlobe';
-import { Suspense, useState } from 'react';
-import { motion } from 'framer-motion';
+import { Suspense, useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import CitiesList from '~/components/CitiesList';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
 import BackButton from '~/components/home/BackButton';
 import MainCopy from '~/components/home/MainCopy';
+import NewCitiesList from '~/components/NewCitiesList';
+
+import visitData from '~/data/visits.json';
+import BackButtonContainer from '~/components/home/BackButtonContainer';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -98,92 +101,6 @@ export async function loader() {
   return { olympiads: response.olympiads.nodes };
 }
 
-function GlobeFallback() {
-  return <div>Loading...</div>;
-}
-
-// function getGlobeContainerPosition(width: number, showDetails: boolean) {
-//   if (width < 768) {
-//     if (showDetails) {
-//       return 'bottom-auto top-0';
-//     }
-
-//     return 'bottom-[-20vh] top-auto';
-//   }
-
-//   return 'top-0 bottom-auto';
-// }
-
-function getBottomPosition(width: number, showDetails: boolean) {
-  if (width < 768) {
-    if (showDetails) {
-      return 'auto';
-    }
-
-    return '-20vh';
-  }
-
-  return 'auto';
-}
-
-function getTopPosition(width: number, showDetails: boolean) {
-  if (width < 768 && showDetails) {
-    return '0';
-  }
-
-  return 'auto';
-}
-
-function getGlobeHeight(width: number, routeSelected: boolean, moveableGlobe: boolean) {
-  if (width < 768) {
-    if (routeSelected || moveableGlobe) {
-      return 'h-[100vh]';
-    }
-
-    return 'h-[50vh]';
-  }
-
-  return 'h-[100vh]';
-}
-
-function getGlobeStyles(
-  width: number,
-  showDetails: boolean,
-  routeSelected: boolean,
-  moveableGlobe: boolean,
-  selectedCity: any
-) {
-  // let top = 'top-0';
-  // let bottom = 'bottom-0';
-  // let right = 'right-0';
-
-  const styles = [];
-
-  if (width < 768) {
-    if (showDetails) {
-      if (routeSelected || moveableGlobe) {
-        styles.push('top-0 bottom-0 right-0');
-      } else {
-        styles.push('top-0 bottom-auto right-0');
-      }
-    } else {
-      styles.push('top-auto bottom-[-20vh] right-0');
-    }
-  } else {
-    if (routeSelected || moveableGlobe) {
-      styles.push('md:top-0 md:bottom-0 md:right-0 lg:top-0 lg:bottom-0 lg:right-0');
-    } else {
-      styles.push(
-        `md:top-0 md:bottom-auto ${
-          selectedCity ? 'md:right-0 lg:right-0' : 'md:right-[-40vw] lg:right-[-20vw]'
-        } lg:top-0 lg:bottom-auto`
-      );
-    }
-  }
-
-  return styles[0];
-}
-
 function toggleBodyBackground() {
   const body = document.body;
 
@@ -191,47 +108,198 @@ function toggleBodyBackground() {
   body.classList.toggle('bg-[var(--nav-background)]');
 }
 
+function getGlobeContainerMaxes(citySelected, moveableGlobe) {
+  // if (citySelected && !moveableGlobe) {
+  //   return 'clip-container md:max-h-[500px] md:max-w-[500px]';
+  // }
+  return 'md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)]';
+}
+
+function GlobeFallback() {
+  return <div>Loading...</div>;
+}
+
+function getGlobeHeight(width, moveableMobile = false, citySelected = false) {
+  // if (citySelected) {
+  //   return '500px';
+  // }
+
+  if (width < 768) {
+    if (moveableMobile) {
+      return '100vh';
+    }
+    return '50vh';
+  }
+
+  // if (citySelected) {
+  //   return '500px';
+  // }
+
+  return '100vh';
+}
+
+function getGlobeContainerTop(width, showDetails = false, citySelected = false) {
+  if (width < 768) {
+    if (!showDetails) {
+      return 'auto';
+    }
+
+    return '0vh';
+  }
+
+  if (citySelected) {
+    if (width < 1000) {
+      return '-10vh';
+    }
+
+    return '-20vh';
+  }
+
+  return '0vh';
+}
+
+function getMoveableGlobeContainerRight(width, moveableMobile = false) {
+  if (moveableMobile) {
+    return '0px';
+  }
+
+  if (width < 768 || width > 1100) {
+    const difference = (width - 1100) / 2;
+    return `${difference}px`;
+  }
+
+  return `0px`;
+}
+
+function getGlobeContainerBottom(width, showDetails = false) {
+  if (width < 768 && !showDetails) {
+    return '-20vh';
+  }
+
+  return 'auto';
+}
+
+function getGlobeContainerRight(width, citySelected = false) {
+  // Mobile
+  if (width < 768) {
+    return '0px';
+  }
+
+  if (citySelected) {
+    if (width < 1600) {
+      return '-150px';
+    }
+
+    return '0px';
+  }
+
+  // XL
+  if (width > 2000) {
+    const difference = (width - 1100) / 2;
+    return `${difference - 500}px`;
+  }
+
+  if (width > 1100) {
+    const difference = (width - 1100) / 2;
+    return `${difference - 1100 * 0.35}px`;
+  }
+
+  if (width < 1000) {
+    return `-${width * 0.5}px`;
+  }
+
+  return `-${width * 0.3}px`;
+}
+
+function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean, citySelected) {
+  if (citySelected && !moveableGlobe) {
+    return 'citySelected';
+  }
+
+  if (showDetails) {
+    // Mobile
+    if (moveableGlobe) {
+      return 'moveableMobile';
+    }
+    return 'showDetails';
+  }
+
+  if (routeSelected || moveableGlobe) {
+    return 'moveable';
+  }
+
+  return 'notMoveable';
+}
+
+const variants = {
+  moveable: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width),
+    right: getMoveableGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width)
+  }),
+  notMoveable: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width),
+    right: getGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width)
+  }),
+  showDetails: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width),
+    top: getGlobeContainerTop(width, true),
+    right: getGlobeContainerRight(width),
+    bottom: getGlobeContainerBottom(width, true)
+  }),
+  moveableMobile: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width, true),
+    top: getGlobeContainerTop(width, true),
+    right: getMoveableGlobeContainerRight(width, true),
+    bottom: getGlobeContainerBottom(width, true)
+  }),
+  citySelected: (width: number) => ({
+    width: '100%',
+    height: getGlobeHeight(width, false, true),
+    top: getGlobeContainerTop(width, false, true),
+    right: getGlobeContainerRight(width, true),
+    bottom: getGlobeContainerBottom(width, true)
+  })
+};
+
+const cityRegex = /\/trip\/(\w|-)+/g;
+
 export default function TripPage() {
-  const [selectedCity, setSelectedCity] = useState(null);
+  const location = useLocation();
+
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [stopScroll, setStopScroll] = useState(false);
+  const [moveableGlobe, setMoveableGlobe] = useState(false);
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [moveableGlobe, setMoveableGlobe] = useState(false);
-  const [stopScroll, setStopScroll] = useState(false);
-  const [selectedImg, setSelectedImg] = useState<boolean | null>(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
   const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
 
+  const isCityPage = location?.pathname.match(cityRegex);
+
+  useEffect(() => {
+    if (location?.pathname === '/' || location?.pathname === '/trip') {
+      setSelectedCity(null);
+    }
+  }, [location.pathname]);
+
+  // const [mainContentRef, { width: mainContentWidth, height: mainContentHeight }] = useMeasure({ debounce: 300 });
+
   const { olympiads } = useLoaderData<typeof loader>();
 
-  // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
-
-  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
-
-  function handleImageModal(show = true) {
+  function handleImageModal(img: string | null) {
     const body = document.body;
 
     body.classList.toggle('bg-slate-200');
-    setSelectedImg(show);
-  }
-
-  function handleCitySelection(city) {
-    if (selectedCity) {
-      setStopScroll(false);
-      setSelectedCity(null);
-    } else {
-      setStopScroll(true);
-      setSelectedCity(city);
-    }
-
-    // setSelectedCity(city);
-  }
-
-  function handleRouteSelection() {
-    if (routeSelected) {
-      setRouteSelected(false);
-    } else {
-      setRouteSelected(true);
-    }
+    setSelectedImg(img);
   }
 
   function handleBackButton() {
@@ -255,6 +323,30 @@ export default function TripPage() {
     setStopScroll(false);
   }
 
+  // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
+
+  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
+
+  function handleCitySelection(city) {
+    if (selectedCity) {
+      setStopScroll(false);
+      setSelectedCity(null);
+    } else {
+      setStopScroll(true);
+      setSelectedCity(city);
+    }
+
+    // setSelectedCity(city);
+  }
+
+  function handleRouteSelection() {
+    if (routeSelected) {
+      setRouteSelected(false);
+    } else {
+      setRouteSelected(true);
+    }
+  }
+
   return (
     <main
       ref={pageContainerRef}
@@ -262,94 +354,58 @@ export default function TripPage() {
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
-          <>
-            <div
-              className={`globe-background fixed top-0 left-0 w-full ${width < 768 && 'mobile'} ${
-                routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : 'z-10 h-[50vh]'
-              }`}
-            ></div>
-            <BackButton
-              routeSelected={routeSelected}
-              globeMoveable={moveableGlobe}
-              handleBackButton={handleBackButton}
-            />
-          </>
+          <BackButtonContainer
+            routeSelected={routeSelected}
+            moveableGlobe={moveableGlobe}
+            width={width}
+            handleBackButton={handleBackButton}
+            isCityPage={isCityPage}
+          />
         )}
-        <motion.div
-          // eslint-disable-next-line tailwindcss/classnames-order
-          className={`globe-container fixed w-[100vw] ${getGlobeHeight(
-            width,
-            routeSelected,
-            moveableGlobe
-          )} ${getGlobeStyles(
-            width,
-            showDetails,
-            routeSelected,
-            moveableGlobe,
-            selectedCity
-          )} z-30 md:max-h-[800px] lg:max-h-[1000px] ${
-            selectedCity && !moveableGlobe && `clip-container md:max-h-[500px] md:max-w-[500px] lg:max-h-[500px]`
-          } ${routeSelected || moveableGlobe ? 'md:h-[100vh] md:w-[100vw]' : 'md:h-[90vh] md:w-[90vw]'}`}
-          animate={
-            width < 768
-              ? {
-                  bottom: getBottomPosition(width, showDetails),
-                  top: getTopPosition(width, showDetails)
-                }
-              : {
-                  bottom: 'auto',
-                  top: 'auto'
-                }
-          }
-          transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
-        >
-          <Suspense fallback={<GlobeFallback />}>
-            <SimpleGlobe
-              visits={visitData.olympiads}
-              selectedCity={selectedCity}
-              routeSelected={routeSelected}
-              showDetails={showDetails}
-              width={width}
-              moveable={moveableGlobe}
-              setMoveable={() => setMoveableGlobe(true)}
-            />
-          </Suspense>
-        </motion.div>
-
-        <MainCopy
-          showDetails={showDetails}
-          olympiads={olympiads}
-          visits={visitData.olympiads}
-          globeMoveable={moveableGlobe}
-          routeSelected={routeSelected}
-        />
-
-        <CitiesList
-          olympiadList={groupedOlympiads}
-          visits={visitData.olympiads}
-          handleCitySelection={handleCitySelection}
-          selectedCity={selectedCity}
-          routeSelected={routeSelected}
-          handleRouteSelection={handleRouteSelection}
-          showDetails={showDetails}
-          width={width}
-          setSelectedImg={handleImageModal}
-          globeMoveable={moveableGlobe}
-          routeSelected={routeSelected}
-        />
-        {!showDetails && width < 768 && (
-          <button
-            className={`absolute bottom-[50px] left-1/2 z-30 translate-x-[-50%] rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}
-            type="button"
-            onClick={() => {
-              toggleBodyBackground();
-              setShowDetails(true);
-            }}
+        {width && (
+          <motion.div
+            className={`globe-container fixed z-30 ${getGlobeContainerMaxes(selectedCity, moveableGlobe)} ${
+              selectedCity && !moveableGlobe && 'clip-container'
+            } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
+            custom={width}
+            variants={variants}
+            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity)}
+            transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
+            initial={false}
           >
-            Details
-          </button>
+            <Suspense fallback={<GlobeFallback />}>
+              <SimpleGlobe
+                visits={visitData.olympiads}
+                selectedCity={selectedCity}
+                routeSelected={routeSelected}
+                showDetails={width >= 768 ? true : showDetails}
+                width={width}
+                moveable={moveableGlobe}
+                setMoveable={() => setMoveableGlobe(true)}
+              />
+            </Suspense>
+          </motion.div>
         )}
-        {selectedImg && <ImageModal img={selectedImg} closeModal={() => handleImageModal(false)} />}
+        <AnimatePresence>
+          <Outlet
+            context={{
+              handleImageModal,
+              setStopScroll,
+              width,
+              selectedCity,
+              setSelectedCity,
+              moveableGlobe,
+              setMoveableGlobe,
+              routeSelected,
+              setRouteSelected,
+              showDetails,
+              setShowDetails,
+              visits: visitData.olympiads,
+              toggleBodyBackground
+            }}
+          />
+        </AnimatePresence>
+        {selectedImg && <ImageModal img={selectedImg} closeModal={() => handleImageModal(null)} />}
       </div>
     </main>
   );
