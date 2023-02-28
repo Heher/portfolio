@@ -78,15 +78,7 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-const NewGlobe = ({
-  visits,
-  selectedCity,
-  routeSelected,
-  width,
-  moveable,
-  setMoveable,
-  showDetails
-}: NewGlobeProps) => {
+function Globe({ visits, selectedCity, routeSelected, width, moveable, setMoveable, showDetails }: NewGlobeProps) {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
@@ -231,7 +223,7 @@ const NewGlobe = ({
         })}
     </motion.group>
   );
-};
+}
 
 export function SimpleGlobe({
   visits,
@@ -246,7 +238,7 @@ export function SimpleGlobe({
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
       <directionalLight position={[10, 10, 5]} color="white" />
-      <NewGlobe
+      <Globe
         visits={visits}
         selectedCity={selectedCity}
         routeSelected={routeSelected}
