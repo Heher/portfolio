@@ -45,56 +45,56 @@ export type OlympiadsResponse = {
   };
 };
 
-export async function loader() {
-  // const stravaResponse = await getStravaActivities();
+// export async function loader() {
+//   // const stravaResponse = await getStravaActivities();
 
-  const now = new Date().toISOString();
+//   const now = new Date().toISOString();
 
-  const query = gql`
-    {
-      olympiads(orderBy: YEAR_ASC) {
-        nodes {
-          id
-          year
-          olympiadType
-          city {
-            id
-            name
-            slug
-            country {
-              name
-              flagByTimestamp(
-                dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-              ) {
-                png
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+//   const query = gql`
+//     {
+//       olympiads(orderBy: YEAR_ASC) {
+//         nodes {
+//           id
+//           year
+//           olympiadType
+//           city {
+//             id
+//             name
+//             slug
+//             country {
+//               name
+//               flagByTimestamp(
+//                 dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
+//               ) {
+//                 png
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   `;
 
-  const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
+//   const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
 
-  const response = await graphQLClient.request(query);
+//   const response = await graphQLClient.request(query);
 
-  //* filter out 1906 Athens and 1956 Stockholm
-  response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
-    if (olympiad.year === 1906) {
-      return false;
-    }
+//   //* filter out 1906 Athens and 1956 Stockholm
+//   response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
+//     if (olympiad.year === 1906) {
+//       return false;
+//     }
 
-    if (olympiad.year === 1956) {
-      if (olympiad.city.name === 'Stockholm') {
-        return false;
-      }
-    }
-    return true;
-  });
+//     if (olympiad.year === 1956) {
+//       if (olympiad.city.name === 'Stockholm') {
+//         return false;
+//       }
+//     }
+//     return true;
+//   });
 
-  return { olympiads: response.olympiads.nodes };
-}
+//   return { olympiads: response.olympiads.nodes };
+// }
 
 function toggleBodyBackground() {
   const body = document.body;
@@ -196,16 +196,16 @@ function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDet
     return 'citySelected';
   }
 
-  if (showDetails) {
-    // Mobile
-    if (moveableGlobe) {
+  if (routeSelected || moveableGlobe) {
+    if (showDetails) {
+      // Mobile
       return 'moveableMobile';
     }
-    return 'showDetails';
+    return 'moveable';
   }
 
-  if (routeSelected || moveableGlobe) {
-    return 'moveable';
+  if (showDetails) {
+    return 'showDetails';
   }
 
   return 'notMoveable';
@@ -271,7 +271,7 @@ export default function TripPage() {
     }
   }, [location.pathname]);
 
-  const { olympiads } = useLoaderData<typeof loader>();
+  // const { olympiads } = useLoaderData<typeof loader>();
 
   function handleImageModal(img: string | null) {
     const body = document.body;
