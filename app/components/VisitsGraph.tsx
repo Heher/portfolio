@@ -40,8 +40,8 @@ const VisitsGraph = ({ title, visits, total }) => {
 
   return (
     <div>
-      <h3 className="text-slate-100 uppercase font-semibold text-[0.9rem] text-center">{title}</h3>
-      <svg ref={svgRef} className="w-[120px] h-[120px] mt-[10px]" viewBox={`0 0 ${size} ${size}`}>
+      <h3 className="text-center text-[0.9rem] font-semibold uppercase text-slate-100">{title}</h3>
+      <svg ref={svgRef} className="mt-[10px] h-[120px] w-[120px]" viewBox={`0 0 ${size} ${size}`}>
         <g className="translate-x-[50%] translate-y-[50%] rotate-[215deg]">
           <path className="fill-[var(--flag-box-shadow)]" d={bgArc} fill="none" />
           <path
@@ -52,7 +52,7 @@ const VisitsGraph = ({ title, visits, total }) => {
           />
         </g>
       </svg>
-      <p className="text-slate-100 text-center mt-[-90px]">
+      <p className="mt-[-90px] text-center text-slate-100">
         <span className="text-[2.3rem]">{visits}</span>
         <span className="ml-[5px]">/ {total}</span>
       </p>

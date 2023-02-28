@@ -5,31 +5,16 @@ import { statusColor } from './utils';
 
 const MotionLink = motion(Link);
 
-const CityInList = ({
-  cityRef,
-  cityInfo,
-  amountCompleted,
-  totalOlympiads,
-  handleCitySelection,
-  olympiads,
-  visits,
-  isSelectedCity
-}) => {
+const CityInList = ({ cityRef, cityInfo, amountCompleted, totalOlympiads, olympiads, visits }) => {
   return (
     <MotionLink
       ref={cityRef}
       layout
-      // layoutId="expandable-card"
       initial={false}
       className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0]`}
-      // style={{
-      //   position: 'relative',
-      //   width: '100%'
-      // }}
       to={`/trip/${cityInfo.slug}`}
     >
       <motion.span
-        // layoutId="expandable-card-status"
         className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(
           amountCompleted,
           totalOlympiads

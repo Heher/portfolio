@@ -1,19 +1,14 @@
-import { Outlet, useLoaderData, useLocation, useOutletContext } from '@remix-run/react';
+import { Outlet, useLoaderData, useLocation } from '@remix-run/react';
 import { gql, GraphQLClient } from 'graphql-request';
-import { groupBy } from 'lodash';
 
-import { getStravaActivities } from '~/utils/getStravaActivities';
+// import { getStravaActivities } from '~/utils/getStravaActivities';
 
-import SimpleGlobe from '~/components/globe/SimpleGlobe';
+import { SimpleGlobe } from '~/components/globe/SimpleGlobe';
 import { Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import CitiesList from '~/components/CitiesList';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
-import BackButton from '~/components/home/BackButton';
-import MainCopy from '~/components/home/MainCopy';
-import NewCitiesList from '~/components/NewCitiesList';
 
 import visitData from '~/data/visits.json';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
@@ -108,32 +103,17 @@ function toggleBodyBackground() {
   body.classList.toggle('bg-[var(--nav-background)]');
 }
 
-function getGlobeContainerMaxes(citySelected, moveableGlobe) {
-  // if (citySelected && !moveableGlobe) {
-  //   return 'clip-container md:max-h-[500px] md:max-w-[500px]';
-  // }
-  return 'md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)]';
-}
-
 function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-function getGlobeHeight(width, moveableMobile = false, citySelected = false) {
-  // if (citySelected) {
-  //   return '500px';
-  // }
-
+function getGlobeHeight(width, moveableMobile = false) {
   if (width < 768) {
     if (moveableMobile) {
       return '100vh';
     }
     return '50vh';
   }
-
-  // if (citySelected) {
-  //   return '500px';
-  // }
 
   return '100vh';
 }
@@ -262,7 +242,7 @@ const variants = {
   }),
   citySelected: (width: number) => ({
     width: '100%',
-    height: getGlobeHeight(width, false, true),
+    height: getGlobeHeight(width, false),
     top: getGlobeContainerTop(width, false, true),
     right: getGlobeContainerRight(width, true),
     bottom: getGlobeContainerBottom(width, true)
@@ -281,7 +261,7 @@ export default function TripPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
 
-  const [pageContainerRef, { width, height }] = useMeasure({ debounce: 300 });
+  const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
   const isCityPage = location?.pathname.match(cityRegex);
 
@@ -290,8 +270,6 @@ export default function TripPage() {
       setSelectedCity(null);
     }
   }, [location.pathname]);
-
-  // const [mainContentRef, { width: mainContentWidth, height: mainContentHeight }] = useMeasure({ debounce: 300 });
 
   const { olympiads } = useLoaderData<typeof loader>();
 
@@ -323,30 +301,6 @@ export default function TripPage() {
     setStopScroll(false);
   }
 
-  // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
-
-  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
-
-  function handleCitySelection(city) {
-    if (selectedCity) {
-      setStopScroll(false);
-      setSelectedCity(null);
-    } else {
-      setStopScroll(true);
-      setSelectedCity(city);
-    }
-
-    // setSelectedCity(city);
-  }
-
-  function handleRouteSelection() {
-    if (routeSelected) {
-      setRouteSelected(false);
-    } else {
-      setRouteSelected(true);
-    }
-  }
-
   return (
     <main
       ref={pageContainerRef}
@@ -364,7 +318,7 @@ export default function TripPage() {
         )}
         {width && (
           <motion.div
-            className={`globe-container fixed z-30 ${getGlobeContainerMaxes(selectedCity, moveableGlobe)} ${
+            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
               selectedCity && !moveableGlobe && 'clip-container'
             } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
             custom={width}

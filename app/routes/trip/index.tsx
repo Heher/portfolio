@@ -4,7 +4,7 @@ import { groupBy } from 'lodash';
 
 import type { MetaFunction } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
-import NewCitiesList from '~/components/NewCitiesList';
+import { CitiesList } from '~/components/CitiesList';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -107,48 +107,12 @@ function getCitiesListVisibility(width, showDetails) {
 }
 
 export default function TripIndex() {
-  const {
-    handleImageModal,
-    setStopScroll,
-    width,
-    selectedCity,
-    setSelectedCity,
-    moveableGlobe,
-    routeSelected,
-    setRouteSelected,
-    showDetails,
-    setShowDetails,
-    visits,
-    toggleBodyBackground
-  } = useOutletContext();
-
-  // const [mainContentRef, { width: mainContentWidth, height: mainContentHeight }] = useMeasure({ debounce: 300 });
+  const { width, moveableGlobe, routeSelected, showDetails, setShowDetails, visits, toggleBodyBackground } =
+    useOutletContext();
 
   const { olympiads } = useLoaderData<typeof loader>();
 
-  // const separatedOlympiads = groupBy(olympiads, (olympiad) => olympiad.olympiadType);
-
   const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
-
-  function handleCitySelection(city) {
-    if (selectedCity) {
-      setStopScroll(false);
-      setSelectedCity(null);
-    } else {
-      setStopScroll(true);
-      setSelectedCity(city);
-    }
-
-    // setSelectedCity(city);
-  }
-
-  function handleRouteSelection() {
-    if (routeSelected) {
-      setRouteSelected(false);
-    } else {
-      setRouteSelected(true);
-    }
-  }
 
   return (
     <div>
@@ -162,18 +126,12 @@ export default function TripIndex() {
       />
 
       {getCitiesListVisibility(width, showDetails) && (
-        <NewCitiesList
+        <CitiesList
           olympiadList={groupedOlympiads}
           visits={visits}
-          handleCitySelection={handleCitySelection}
-          selectedCity={selectedCity}
-          routeSelected={routeSelected}
-          handleRouteSelection={handleRouteSelection}
-          showDetails={showDetails}
-          width={width}
-          handleImageModal={handleImageModal}
-          globeMoveable={moveableGlobe}
           variants={animationVariants}
+          globeMoveable={moveableGlobe}
+          routeSelected={routeSelected}
         />
       )}
       {!showDetails && width < 768 && (

@@ -1,9 +1,8 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { gql, GraphQLClient } from 'graphql-request';
-import { useEffect, useState } from 'react';
-import { ImageModal } from '~/components/modal/ImageModal';
+import { useEffect } from 'react';
 import { CityOlympiad } from '~/components/olympiad-city/CityOlympiad';
 import { sharedStadiums } from '~/components/olympiad-city/settings';
 import SharedOlympiads from '~/components/olympiad-city/SharedOlympiads';
@@ -79,7 +78,7 @@ const variants = {
 };
 
 function CityPage() {
-  const { handleImageModal, setStopScroll, width, visits, setSelectedCity, moveableGlobe } = useOutletContext();
+  const { handleImageModal, visits, setSelectedCity, moveableGlobe } = useOutletContext();
   const { city } = useLoaderData();
 
   const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);
@@ -93,7 +92,6 @@ function CityPage() {
   return (
     <motion.div
       layout
-      // layoutId="expandable-card"
       className={`olympiad-city selected group z-20 overflow-scroll bg-[#e0e0e0]`}
       style={{
         position: 'fixed',
@@ -107,7 +105,6 @@ function CityPage() {
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <motion.span
-        // layoutId="expandable-card-status"
         className={`city-status block w-full border-t-[15px] border-solid ${statusColor(
           amountCompleted,
           totalOlympiads
@@ -116,16 +113,7 @@ function CityPage() {
       <motion.div className="mx-auto px-[5vw] md:max-w-[800px]">
         <motion.div className="header mt-[25vh] md:mt-[15vh]">
           <div className="flex items-center">
-            {/* <motion.span
-              className={`city-status mr-[10px] h-[15px] w-[15px] rounded-full ${statusColor(
-                amountCompleted,
-                totalOlympiads
-              )}`}
-            /> */}
-            <motion.h3
-              // layoutId="expandable-card-city"
-              className="block text-[2rem] font-semibold uppercase leading-none tracking-wide"
-            >
+            <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
               {city.name === 'Squaw Valley' ? 'Palisades Tahoe' : city.name}
             </motion.h3>
           </div>
