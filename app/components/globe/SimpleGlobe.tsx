@@ -78,15 +78,16 @@ type SimpleGlobeProps = {
   width: number;
 };
 
-const NewGlobe = ({
+function Globe({
   visits,
   selectedCity,
   routeSelected,
   width,
   moveable,
   setMoveable,
-  showDetails
-}: NewGlobeProps) => {
+  showDetails,
+  selectedRouteLeg
+}: NewGlobeProps) {
   const groupRef = useRef(null);
   const controlsRef = useRef(null);
   const { camera } = useThree();
@@ -193,7 +194,7 @@ const NewGlobe = ({
   return (
     <motion.group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
-      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
+      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
       <OrbitControls
         ref={controlsRef}
         enabled={routeSelected || moveable}
@@ -231,7 +232,7 @@ const NewGlobe = ({
         })}
     </motion.group>
   );
-};
+}
 
 export function SimpleGlobe({
   visits,
@@ -240,13 +241,14 @@ export function SimpleGlobe({
   width,
   moveable,
   setMoveable,
-  showDetails
+  showDetails,
+  selectedRouteLeg
 }: SimpleGlobeProps) {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
       <directionalLight position={[10, 10, 5]} color="white" />
-      <NewGlobe
+      <Globe
         visits={visits}
         selectedCity={selectedCity}
         routeSelected={routeSelected}
@@ -254,6 +256,7 @@ export function SimpleGlobe({
         moveable={moveable}
         setMoveable={setMoveable}
         showDetails={showDetails}
+        selectedRouteLeg={selectedRouteLeg}
       />
       <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />

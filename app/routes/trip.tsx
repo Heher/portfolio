@@ -12,6 +12,13 @@ import type { MetaFunction } from '@remix-run/node';
 
 import visitData from '~/data/visits.json';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
+import {
+  citySelectedPositioning,
+  moveableMobilePositioning,
+  moveablePositioning,
+  notMoveablePositioning,
+  showDetailsPositioning
+} from '~/components/globe/globePositioning';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -45,56 +52,56 @@ export type OlympiadsResponse = {
   };
 };
 
-export async function loader() {
-  // const stravaResponse = await getStravaActivities();
+// export async function loader() {
+//   // const stravaResponse = await getStravaActivities();
 
-  const now = new Date().toISOString();
+//   const now = new Date().toISOString();
 
-  const query = gql`
-    {
-      olympiads(orderBy: YEAR_ASC) {
-        nodes {
-          id
-          year
-          olympiadType
-          city {
-            id
-            name
-            slug
-            country {
-              name
-              flagByTimestamp(
-                dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-              ) {
-                png
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+//   const query = gql`
+//     {
+//       olympiads(orderBy: YEAR_ASC) {
+//         nodes {
+//           id
+//           year
+//           olympiadType
+//           city {
+//             id
+//             name
+//             slug
+//             country {
+//               name
+//               flagByTimestamp(
+//                 dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
+//               ) {
+//                 png
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   `;
 
-  const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
+//   const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
 
-  const response = await graphQLClient.request(query);
+//   const response = await graphQLClient.request(query);
 
-  //* filter out 1906 Athens and 1956 Stockholm
-  response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
-    if (olympiad.year === 1906) {
-      return false;
-    }
+//   //* filter out 1906 Athens and 1956 Stockholm
+//   response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
+//     if (olympiad.year === 1906) {
+//       return false;
+//     }
 
-    if (olympiad.year === 1956) {
-      if (olympiad.city.name === 'Stockholm') {
-        return false;
-      }
-    }
-    return true;
-  });
+//     if (olympiad.year === 1956) {
+//       if (olympiad.city.name === 'Stockholm') {
+//         return false;
+//       }
+//     }
+//     return true;
+//   });
 
-  return { olympiads: response.olympiads.nodes };
-}
+//   return { olympiads: response.olympiads.nodes };
+// }
 
 function toggleBodyBackground() {
   const body = document.body;
@@ -107,146 +114,38 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-function getGlobeHeight(width, moveableMobile = false) {
-  if (width < 768) {
-    if (moveableMobile) {
-      return '100vh';
-    }
-    return '50vh';
-  }
-
-  return '100vh';
-}
-
-function getGlobeContainerTop(width, showDetails = false, citySelected = false) {
-  if (width < 768) {
-    if (!showDetails) {
-      return 'auto';
-    }
-
-    return '0vh';
-  }
-
-  if (citySelected) {
-    if (width < 1000) {
-      return '-10vh';
-    }
-
-    return '-20vh';
-  }
-
-  return '0vh';
-}
-
-function getMoveableGlobeContainerRight(width, moveableMobile = false) {
-  if (moveableMobile) {
-    return '0px';
-  }
-
-  if (width < 768 || width > 1100) {
-    const difference = (width - 1100) / 2;
-    return `${difference}px`;
-  }
-
-  return `0px`;
-}
-
-function getGlobeContainerBottom(width, showDetails = false) {
-  if (width < 768 && !showDetails) {
-    return '-20vh';
-  }
-
-  return 'auto';
-}
-
-function getGlobeContainerRight(width, citySelected = false) {
-  // Mobile
-  if (width < 768) {
-    return '0px';
-  }
-
-  if (citySelected) {
-    if (width < 1600) {
-      return '-150px';
-    }
-
-    return '0px';
-  }
-
-  // XL
-  if (width > 2000) {
-    const difference = (width - 1100) / 2;
-    return `${difference - 500}px`;
-  }
-
-  if (width > 1100) {
-    const difference = (width - 1100) / 2;
-    return `${difference - 1100 * 0.35}px`;
-  }
-
-  if (width < 1000) {
-    return `-${width * 0.5}px`;
-  }
-
-  return `-${width * 0.3}px`;
-}
-
-function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean, citySelected) {
+function getGlobeVariant(
+  routeSelected: boolean,
+  moveableGlobe: boolean,
+  showDetails: boolean,
+  citySelected: boolean,
+  width: number
+) {
   if (citySelected && !moveableGlobe) {
     return 'citySelected';
   }
 
-  if (showDetails) {
-    // Mobile
-    if (moveableGlobe) {
+  if (routeSelected || moveableGlobe) {
+    if (width < 768) {
+      // Mobile
       return 'moveableMobile';
     }
-    return 'showDetails';
+    return 'moveable';
   }
 
-  if (routeSelected || moveableGlobe) {
-    return 'moveable';
+  if (showDetails) {
+    return 'showDetails';
   }
 
   return 'notMoveable';
 }
 
 const variants = {
-  moveable: (width: number) => ({
-    width: '100%',
-    height: getGlobeHeight(width),
-    top: getGlobeContainerTop(width),
-    right: getMoveableGlobeContainerRight(width),
-    bottom: getGlobeContainerBottom(width)
-  }),
-  notMoveable: (width: number) => ({
-    width: '100%',
-    height: getGlobeHeight(width),
-    top: getGlobeContainerTop(width),
-    right: getGlobeContainerRight(width),
-    bottom: getGlobeContainerBottom(width)
-  }),
-  showDetails: (width: number) => ({
-    width: '100%',
-    height: getGlobeHeight(width),
-    top: getGlobeContainerTop(width, true),
-    right: getGlobeContainerRight(width),
-    bottom: getGlobeContainerBottom(width, true)
-  }),
-  moveableMobile: (width: number) => ({
-    width: '100%',
-    height: getGlobeHeight(width, true),
-    top: getGlobeContainerTop(width, true),
-    right: getMoveableGlobeContainerRight(width, true),
-    bottom: getGlobeContainerBottom(width, true)
-  }),
-  citySelected: (width: number) => ({
-    width: '100%',
-    height: getGlobeHeight(width, false),
-    top: getGlobeContainerTop(width, false, true),
-    right: getGlobeContainerRight(width, true),
-    bottom: getGlobeContainerBottom(width, true)
-  })
+  moveable: (width: number) => moveablePositioning(width),
+  notMoveable: (width: number) => notMoveablePositioning(width),
+  showDetails: (width: number) => showDetailsPositioning(width),
+  moveableMobile: (width: number) => moveableMobilePositioning(width),
+  citySelected: (width: number) => citySelectedPositioning(width)
 };
 
 const cityRegex = /\/trip\/(\w|-)+/g;
@@ -260,6 +159,7 @@ export default function TripPage() {
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedRouteLeg, setSelectedRouteLeg] = useState(0);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -268,10 +168,12 @@ export default function TripPage() {
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
       setSelectedCity(null);
+      setRouteSelected(false);
+      setSelectedRouteLeg(0);
     }
   }, [location.pathname]);
 
-  const { olympiads } = useLoaderData<typeof loader>();
+  // const { olympiads } = useLoaderData<typeof loader>();
 
   function handleImageModal(img: string | null) {
     const body = document.body;
@@ -323,7 +225,7 @@ export default function TripPage() {
             } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
             custom={width}
             variants={variants}
-            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity)}
+            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity, width)}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
@@ -336,6 +238,7 @@ export default function TripPage() {
                 width={width}
                 moveable={moveableGlobe}
                 setMoveable={() => setMoveableGlobe(true)}
+                selectedRouteLeg={selectedRouteLeg}
               />
             </Suspense>
           </motion.div>
@@ -355,7 +258,9 @@ export default function TripPage() {
               showDetails,
               setShowDetails,
               visits: visitData.olympiads,
-              toggleBodyBackground
+              toggleBodyBackground,
+              selectedRouteLeg,
+              setSelectedRouteLeg
             }}
           />
         </AnimatePresence>

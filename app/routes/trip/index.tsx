@@ -5,6 +5,7 @@ import { groupBy } from 'lodash';
 import type { MetaFunction } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
+import { Selector } from '~/components/route/Selector';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -146,6 +147,7 @@ export default function TripIndex() {
           Details
         </button>
       )}
+      {routeSelected && <Selector width={width} />}
     </div>
   );
 }

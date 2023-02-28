@@ -33,7 +33,7 @@ const markerRadius = 0.003;
 const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
 const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 
-export const Route = ({ visible, citiesWithVisits }) => {
+export function Route({ visible, citiesWithVisits, selectedRouteLeg }) {
   const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
 
   const summerMarkerMaterial = useMemo(
@@ -91,9 +91,11 @@ export const Route = ({ visible, citiesWithVisits }) => {
     []
   );
 
+  const selectedRoute = selectedRouteLeg === 0 ? myRoute : [myRoute[selectedRouteLeg - 1]];
+
   return (
     <group visible={visible}>
-      {myRoute.map((coordData, index) => {
+      {selectedRoute.map((coordData, index) => {
         return <RouteTrip key={index} {...coordData} />;
       })}
       {onlyVisited.map((city) => {
@@ -119,4 +121,4 @@ export const Route = ({ visible, citiesWithVisits }) => {
       })}
     </group>
   );
-};
+}
