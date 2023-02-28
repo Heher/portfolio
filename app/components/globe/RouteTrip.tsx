@@ -19,7 +19,7 @@ const sectionsPerCity = 20;
 
 // const material = new MeshStandardMaterial({ color: 'red' });
 
-export const RouteTrip = ({ coords, type }: RouteInfo) => {
+export function RouteTrip({ coords, type }: RouteInfo) {
   // const city1 = getPositionVector(coord1, globeRadius);
   // const city2 = getPositionVector(coord2, globeRadius);
 
@@ -53,4 +53,4 @@ export const RouteTrip = ({ coords, type }: RouteInfo) => {
   //     <meshStandardMaterial color={colors[type]} />
   //   </mesh>
   // );
-};
+}
