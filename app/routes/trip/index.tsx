@@ -108,16 +108,8 @@ function getCitiesListVisibility(width, showDetails) {
 }
 
 export default function TripIndex() {
-  const {
-    width,
-    moveableGlobe,
-    routeSelected,
-    showDetails,
-    setShowDetails,
-    visits,
-    toggleBodyBackground,
-    setRouteSelected
-  } = useOutletContext();
+  const { width, moveableGlobe, routeSelected, showDetails, setShowDetails, visits, toggleBodyBackground } =
+    useOutletContext();
 
   const { olympiads } = useLoaderData<typeof loader>();
 
@@ -141,7 +133,6 @@ export default function TripIndex() {
           variants={animationVariants}
           globeMoveable={moveableGlobe}
           routeSelected={routeSelected}
-          setRouteSelected={setRouteSelected}
         />
       )}
       {!showDetails && width < 768 && (

@@ -11,7 +11,7 @@ type CitiesListProps = {
   globeMoveable: boolean;
 };
 
-export function CitiesList({ olympiadList, visits, variants, globeMoveable, routeSelected, setRouteSelected }) {
+export function CitiesList({ olympiadList, visits, variants, globeMoveable, routeSelected }) {
   return (
     <motion.div
       className={`cities-container relative z-0 flex flex-col bg-[var(--nav-background)] px-[5vw] pb-[20px] ${

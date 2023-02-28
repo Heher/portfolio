@@ -79,7 +79,7 @@ const variants = {
 };
 
 function RoutePage() {
-  const { handleImageModal, visits, setSelectedCity, moveableGlobe, width, setRouteSelected } = useOutletContext();
+  const { width, setRouteSelected, selectedRouteLeg, setSelectedRouteLeg } = useOutletContext();
   // const { city } = useLoaderData();
 
   // const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);
@@ -90,7 +90,7 @@ function RoutePage() {
     }
   }, [setRouteSelected]);
 
-  return <Selector width={width} />;
+  return <Selector width={width} selectedRouteLeg={selectedRouteLeg} setSelectedRouteLeg={setSelectedRouteLeg} />;
 }
 
 export default RoutePage;

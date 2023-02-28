@@ -114,13 +114,19 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-function getGlobeVariant(routeSelected: boolean, moveableGlobe: boolean, showDetails: boolean, citySelected: boolean) {
+function getGlobeVariant(
+  routeSelected: boolean,
+  moveableGlobe: boolean,
+  showDetails: boolean,
+  citySelected: boolean,
+  width: number
+) {
   if (citySelected && !moveableGlobe) {
     return 'citySelected';
   }
 
   if (routeSelected || moveableGlobe) {
-    if (showDetails) {
+    if (width < 768) {
       // Mobile
       return 'moveableMobile';
     }
@@ -153,6 +159,7 @@ export default function TripPage() {
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedRouteLeg, setSelectedRouteLeg] = useState(0);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -162,6 +169,7 @@ export default function TripPage() {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
       setSelectedCity(null);
       setRouteSelected(false);
+      setSelectedRouteLeg(0);
     }
   }, [location.pathname]);
 
@@ -217,7 +225,7 @@ export default function TripPage() {
             } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
             custom={width}
             variants={variants}
-            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity)}
+            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity, width)}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
@@ -230,6 +238,7 @@ export default function TripPage() {
                 width={width}
                 moveable={moveableGlobe}
                 setMoveable={() => setMoveableGlobe(true)}
+                selectedRouteLeg={selectedRouteLeg}
               />
             </Suspense>
           </motion.div>
@@ -249,7 +258,9 @@ export default function TripPage() {
               showDetails,
               setShowDetails,
               visits: visitData.olympiads,
-              toggleBodyBackground
+              toggleBodyBackground,
+              selectedRouteLeg,
+              setSelectedRouteLeg
             }}
           />
         </AnimatePresence>
