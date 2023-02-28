@@ -1,3 +1,4 @@
+import { Link } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
@@ -19,13 +20,13 @@ export function CitiesList({ olympiadList, visits, variants, globeMoveable, rout
       variants={variants}
       animate={globeMoveable || routeSelected ? 'hidden' : 'visible'}
     >
-      <button
-        className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] font-semibold uppercase text-[#e0e0e0]`}
+      <Link
+        className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] text-center font-semibold uppercase text-[#e0e0e0]`}
         type="button"
-        onClick={() => setRouteSelected(true)}
+        to={'route'}
       >
         My route
-      </button>
+      </Link>
       {Object.entries(olympiadList).map(([cityId, olympiads]) => {
         const cityInfo = olympiads[0].city;
 
