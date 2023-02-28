@@ -113,3 +113,7 @@
 .city-status.incomplete {
   border-color: var(--incomplete)
 }
+
+.route-selector-container {
+  background:rgba(15, 22, 26, 0.7)
+}
