@@ -24,6 +24,7 @@ export function CitiesList({ olympiadList, visits, variants, globeMoveable, rout
         className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] text-center font-semibold uppercase text-[#e0e0e0]`}
         type="button"
         to={'route'}
+        prefetch="intent"
       >
         My route
       </Link>

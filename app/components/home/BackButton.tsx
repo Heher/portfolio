@@ -18,6 +18,7 @@ function BackButton({ routeSelected, globeMoveable, handleBackButton, isLink = f
         <Link
           className="mt-[10px] ml-[10px] block h-[30px] w-[45px] px-[10px] py-[5px] transition hover:-translate-x-1"
           to={'/trip'}
+          prefetch="intent"
         >
           <svg className="" version="1.1" viewBox="100 80 500 400" xmlns="http://www.w3.org/2000/svg">
             <path

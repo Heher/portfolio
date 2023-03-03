@@ -92,7 +92,7 @@ export default function Index() {
           </h2>
           <p>
             Currently in{' '}
-            <Link to="/trip" className="text-[var(--cta)] underline">
+            <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
               London, UK
             </Link>
           </p>
