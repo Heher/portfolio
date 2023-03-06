@@ -42,7 +42,7 @@
     "three-stdlib": "^2.21.8"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.13.0",
+    "@remix-run/dev": "^1.14.0",
     "@remix-run/eslint-config": "^1.13.0",
     "@remix-run/serve": "^1.13.0",
     "@types/d3": "^7.4.0",
