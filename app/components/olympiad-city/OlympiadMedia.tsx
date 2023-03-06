@@ -1,6 +1,6 @@
 export function OlympiadMedia({ visit, olympiadType, handleImageModal }) {
   return (
-    <div className="grid w-full grid-cols-[1fr_1fr] justify-items-center gap-[20px] pb-[120px] md:max-w-[500px]">
+    <div className="grid w-full grid-cols-[1fr_1fr] justify-items-center gap-[20px] pb-[80px] md:max-w-[500px]">
       {visit.stadium?.img && (
         <div>
           <p className="mb-[10px] text-center text-[0.8rem] uppercase">Stadium</p>

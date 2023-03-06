@@ -105,10 +105,14 @@ function CityPage() {
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <motion.span
-        className={`city-status block w-full border-t-[15px] border-solid ${statusColor(
+        className={`city-status fixed block w-full border-t-[15px] border-solid ${statusColor(
           amountCompleted,
           totalOlympiads
         )}`}
+      />
+      <motion.div
+        className={`city-status-bg fixed block h-[10vh] w-full ${statusColor(amountCompleted, totalOlympiads)}`}
+        layoutId={`city-status`}
       />
       <motion.div className="mx-auto px-[5vw] md:max-w-[800px]">
         <motion.div className="header mt-[25vh] md:mt-[15vh]">
@@ -126,7 +130,7 @@ function CityPage() {
             />
           </div>
         </motion.div>
-        <motion.ul className="mt-[40px] flex list-none flex-col p-0">
+        <motion.ul className="mt-[40px] flex list-none flex-col p-0 pb-[40px]">
           {sharedStadiums.includes(city.name) ? (
             <SharedOlympiads
               olympiads={city.olympiads.nodes}

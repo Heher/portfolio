@@ -114,6 +114,16 @@
   border-color: var(--incomplete)
 }
 
+.city-status-bg.positive {
+  background: linear-gradient(180deg, var(--positive) 0%, transparent 100%);
+}
+.city-status-bg.negative {
+  background: linear-gradient(180deg, var(--negative) 0%, transparent 100%);
+}
+.city-status-bg.incomplete {
+  background: linear-gradient(180deg, var(--incomplete) 0%, transparent 100%);
+}
+
 .route-selector-container {
   background:rgba(15, 22, 26, 0.7)
 }

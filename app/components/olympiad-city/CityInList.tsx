@@ -19,6 +19,7 @@ const CityInList = ({ cityRef, cityInfo, amountCompleted, totalOlympiads, olympi
           amountCompleted,
           totalOlympiads
         )}`}
+        layoutId={`city-status`}
       />
       <div className={`flex py-[30px] px-[25px]`}>
         <div className="text-[var(--text)]">
