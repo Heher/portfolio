@@ -19,6 +19,7 @@ import {
   notMoveablePositioning,
   showDetailsPositioning
 } from '~/components/globe/globePositioning';
+import { ShaderGlobe } from '~/components/globe/ShaderGlobe';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -230,16 +231,7 @@ export default function TripPage() {
             initial={false}
           >
             <Suspense fallback={<GlobeFallback />}>
-              <SimpleGlobe
-                visits={visitData.olympiads}
-                selectedCity={selectedCity}
-                routeSelected={routeSelected}
-                showDetails={width >= 768 ? true : showDetails}
-                width={width}
-                moveable={moveableGlobe}
-                setMoveable={() => setMoveableGlobe(true)}
-                selectedRouteLeg={selectedRouteLeg}
-              />
+              <ShaderGlobe />
             </Suspense>
           </motion.div>
         )}
