@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=production netlify dev",
     "typecheck": "tsc",
     "postinstall": "remix-esbuild-override",
-    "test": "cypress run"
+    "test": "cypress run",
+    "codegen": "graphql-codegen"
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",
@@ -42,6 +43,9 @@
     "three-stdlib": "^2.21.8"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/client-preset": "^2.1.1",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
     "@remix-run/dev": "^1.14.0",
     "@remix-run/eslint-config": "^1.13.0",
     "@remix-run/serve": "^1.13.0",
