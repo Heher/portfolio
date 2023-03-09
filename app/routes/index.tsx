@@ -4,6 +4,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { useEffect } from 'react';
 
 const visitedCountries = [
+  'United States of America',
   'Great Britain',
   'Bosnia-Herzegovina',
   'Liechtenstein',
@@ -93,7 +94,7 @@ export default function Index() {
           <p>
             Currently in{' '}
             <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-              London, UK
+              Austin, TX
             </Link>
           </p>
         </div>
