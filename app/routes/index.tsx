@@ -1,7 +1,9 @@
 import type { MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { gql, GraphQLClient } from 'graphql-request';
+import { request } from 'graphql-request';
 import { useEffect } from 'react';
+import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
   'United States of America',
@@ -27,26 +29,9 @@ const visitedCountries = [
 export async function loader() {
   const now = new Date().toISOString();
 
-  const query = gql`
-    {
-      countries(filter: { name: { in: ${JSON.stringify(visitedCountries)} } }) {
-        nodes {
-          name
-          flagByTimestamp(
-            dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-          ) {
-            png
-          }
-        }
-      }
-    }
-  `;
+  const response = await request(process.env.API_ENDPOINT || '', GetFlagsDocument, { now, visitedCountries });
 
-  const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
-
-  const response = await graphQLClient.request(query);
-
-  return { flags: response.countries.nodes };
+  return json({ flags: response?.countries?.nodes });
 }
 
 function fizzBuzz() {
@@ -102,18 +87,24 @@ export default function Index() {
           <div className="flags-overlay absolute top-[-4px] left-0 z-10 h-[28px]"></div>
           <div className="flags-overlay-full absolute bottom-0 left-0 z-10 h-[88px]"></div>
           <div className="absolute top-0 right-0 flex flex-row-reverse flex-wrap items-center">
-            {visitedCountries.map((countryName) => {
-              const flag = flags.find((flag) => flag.name === countryName);
+            {flags
+              ? visitedCountries.map((countryName) => {
+                  const flag = flags.find((flag) => flag?.name === countryName);
 
-              return (
-                <img
-                  key={flag.name}
-                  className="mr-[4px] mb-[4px] h-[20px] w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
-                  src={flag.flagByTimestamp.png}
-                  alt={flag.name}
-                />
-              );
-            })}
+                  if (!flag?.flagByTimestamp?.png || !flag.name) {
+                    return null;
+                  }
+
+                  return (
+                    <img
+                      key={flag.name}
+                      className="mr-[4px] mb-[4px] h-[20px] w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
+                      src={flag.flagByTimestamp.png}
+                      alt={flag.name}
+                    />
+                  );
+                })
+              : null}
           </div>
         </div>
       </div>
