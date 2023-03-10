@@ -1,5 +1,7 @@
 import { useMemo, useRef } from 'react';
+// import type { Group } from 'three';
 import { TextureLoader, CylinderGeometry, SphereGeometry, MeshStandardMaterial, MathUtils } from 'three';
+import type { GroupProps } from '@react-three/fiber';
 import { useLoader, useThree, Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { cities } from './coordinates';
@@ -15,7 +17,13 @@ import type { Coordinate, Visit } from 'types/globe';
 import { NewCities } from './NewCities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
-function getNewRotation(coord: Coordinate) {
+type RotationResponse = {
+  rotateX?: number;
+  rotateY?: number;
+  rotateZ?: number;
+};
+
+function getNewRotation(coord: Coordinate): RotationResponse {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
@@ -29,7 +37,13 @@ const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 
 const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
 
-const Sphere = ({ width, showDetails, setMoveable }) => {
+type SphereProps = {
+  width: number;
+  showDetails: boolean;
+  setMoveable: () => void;
+};
+
+const Sphere = ({ width, showDetails, setMoveable }: SphereProps) => {
   const earthMap = useLoader(TextureLoader, earthImg);
 
   return (
@@ -46,7 +60,7 @@ const Sphere = ({ width, showDetails, setMoveable }) => {
   );
 };
 
-function getRotation(foundCity: City | undefined, routeSelected: boolean) {
+function getRotation(foundCity: City | undefined, routeSelected: boolean): RotationResponse {
   if (routeSelected) {
     return { ...getNewRotation([52.37, -4.89]), rotateZ: 0 };
   }
@@ -68,14 +82,24 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
 
 type NewGlobeProps = {
   visits: Visit[];
+  selectedCity: string | null;
   routeSelected: boolean;
+  showDetails: boolean;
   width: number;
+  moveable: boolean;
+  setMoveable: () => void;
+  selectedRouteLeg: number;
 };
 
 type SimpleGlobeProps = {
   visits: Visit[];
+  selectedCity: string | null;
   routeSelected: boolean;
+  showDetails: boolean;
   width: number;
+  moveable: boolean;
+  setMoveable: () => void;
+  selectedRouteLeg: number;
 };
 
 function Globe({
@@ -88,13 +112,13 @@ function Globe({
   showDetails,
   selectedRouteLeg
 }: NewGlobeProps) {
-  const groupRef = useRef(null);
+  const groupRef = useRef<GroupProps>(null!);
   const controlsRef = useRef(null);
   const { camera } = useThree();
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
-  const foundCity = cities.find((city) => city.name === selectedCity?.slug);
+  const foundCity = cities.find((city) => city.name === selectedCity);
 
   const summerMarkerMaterial = useMemo(
     () =>
@@ -159,14 +183,21 @@ function Globe({
   }, [camera, routeSelected, moveable]);
 
   useFrame((state, delta) => {
+    if (!groupRef?.current?.rotation || !groupRef.current.scale) return;
+
     if (foundCity || routeSelected) {
       const newProps = {
         ...getRotation(foundCity, routeSelected),
         scale: getScale(foundCity, routeSelected, width)
       };
 
-      groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
-      groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      if (newProps.rotateX) {
+        groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
+      }
+
+      if (newProps.rotateY) {
+        groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      }
 
       groupRef.current.scale.set(
         MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
@@ -208,7 +239,7 @@ function Globe({
       />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          const isSelectedCity = selectedCity?.slug === city.name;
+          const isSelectedCity = selectedCity === city.name;
 
           const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
 
@@ -224,7 +255,7 @@ function Globe({
               offMaterial={offMaterial}
               offVisitedMaterial={offVisitedMaterial}
               city={city}
-              citySelected={selectedCity?.slug || false}
+              citySelected={selectedCity || false}
               selected={isSelectedCity}
               flagPosition={flagPosition}
             />

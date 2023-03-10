@@ -1,0 +1,26 @@
+fragment CityOlympiad on Olympiad {
+  id
+  year
+  olympiadType
+}
+
+query GetCity($slug: String!, $now: Datetime!) {
+  cityBySlug(slug: $slug) {
+    id
+    name
+    slug
+    country {
+      name
+      flagByTimestamp(
+        dateTimestamp: { start: { value: $now, inclusive: true }, end: { value: $now, inclusive: true } }
+      ) {
+        png
+      }
+    }
+    olympiads(orderBy: YEAR_ASC) {
+      nodes {
+        ...CityOlympiad
+      }
+    }
+  }
+}

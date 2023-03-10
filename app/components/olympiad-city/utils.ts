@@ -1,3 +1,5 @@
+import type { CityOlympiadFragment } from '~/gql/graphql';
+
 export function cityStatus(olympiads, visits): { amountCompleted: number; totalOlympiads: number } {
   let amountCompleted = 0;
 
@@ -43,4 +45,24 @@ export function statusColor(amountCompleted: number, totalOlympiads: number, car
   }
 
   return `negative`;
+}
+
+export function filterOutNonOlympiads(cityName: string, olympiads: readonly CityOlympiadFragment[]) {
+  //* filter out 1906 Athens and 1956 Stockholm
+  return olympiads.filter((olympiad) => {
+    if (!olympiad) {
+      return false;
+    }
+
+    if (olympiad.year === 1906) {
+      return false;
+    }
+
+    if (olympiad.year === 1956) {
+      if (cityName === 'Stockholm') {
+        return false;
+      }
+    }
+    return true;
+  });
 }

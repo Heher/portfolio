@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import type { Coordinate } from 'types/globe';
+import type { Coordinate, Visit } from 'types/globe';
+import type { City } from './coordinates';
 
 export const globeRadius = 1;
 
@@ -85,13 +86,14 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   return '#3366ff';
 }
 
-export function formatCitiesWithVisits(cities, visits) {
+export function formatCitiesWithVisits(cities: City[], visits: Visit[]) {
   const citiesWithVisits = cities.map((city) => {
     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;
 
     city.years.forEach((year) => {
-      if (!visited && visits[year]?.[city.type]) {
+      const visitedCity = visits.find((visit) => visit.year === year && visit.type === city.type);
+      if (!visited && visitedCity) {
         visited = true;
       }
     });

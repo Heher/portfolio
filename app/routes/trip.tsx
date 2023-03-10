@@ -60,7 +60,7 @@ function getGlobeVariant(
   routeSelected: boolean,
   moveableGlobe: boolean,
   showDetails: boolean,
-  citySelected: boolean,
+  citySelected: string | null,
   width: number
 ) {
   if (citySelected && !moveableGlobe) {
@@ -100,7 +100,7 @@ export default function TripPage() {
   const [moveableGlobe, setMoveableGlobe] = useState(false);
   const [routeSelected, setRouteSelected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedRouteLeg, setSelectedRouteLeg] = useState(0);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });

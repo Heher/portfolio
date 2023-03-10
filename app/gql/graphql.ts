@@ -52,7 +52,6 @@ export type Athlete = Node & {
   usedName?: Maybe<Scalars['String']>;
 };
 
-
 export type AthleteMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -306,7 +305,6 @@ export type City = Node & {
   slug?: Maybe<Scalars['String']>;
 };
 
-
 /** Cities that hosted an olympiad. */
 export type CityOlympiadsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -458,7 +456,6 @@ export type Country = Node & {
   slug?: Maybe<Scalars['String']>;
 };
 
-
 export type CountryCitiesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -470,11 +467,9 @@ export type CountryCitiesArgs = {
   orderBy?: InputMaybe<Array<CitiesOrderBy>>;
 };
 
-
 export type CountryFlagByTimestampArgs = {
   dateTimestamp?: InputMaybe<DatetimeRangeInput>;
 };
-
 
 export type CountryFlagsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -487,7 +482,6 @@ export type CountryFlagsArgs = {
   orderBy?: InputMaybe<Array<FlagsOrderBy>>;
 };
 
-
 export type CountryGroupMedalsByBadCountryNegativeArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -498,7 +492,6 @@ export type CountryGroupMedalsByBadCountryNegativeArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
-
 
 export type CountryGroupMedalsByBadCountryPositiveArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -511,7 +504,6 @@ export type CountryGroupMedalsByBadCountryPositiveArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
 
-
 export type CountryGroupMedalsByGoodCountryNegativeArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -522,7 +514,6 @@ export type CountryGroupMedalsByGoodCountryNegativeArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
-
 
 export type CountryGroupMedalsByGoodCountryPositiveArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -535,7 +526,6 @@ export type CountryGroupMedalsByGoodCountryPositiveArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
 
-
 export type CountryGroupOlympiadCountriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -546,7 +536,6 @@ export type CountryGroupOlympiadCountriesArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupOlympiadCountriesOrderBy>>;
 };
-
 
 export type CountryGroupOlympiadsByBadCountryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -559,7 +548,6 @@ export type CountryGroupOlympiadsByBadCountryIdArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
 
-
 export type CountryGroupOlympiadsByGoodCountryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -570,7 +558,6 @@ export type CountryGroupOlympiadsByGoodCountryIdArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
-
 
 export type CountryGroupOlympiadsBySuggestedCountryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -583,7 +570,6 @@ export type CountryGroupOlympiadsBySuggestedCountryIdArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
 
-
 export type CountryMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -595,7 +581,6 @@ export type CountryMedalsArgs = {
   orderBy?: InputMaybe<Array<MedalsOrderBy>>;
 };
 
-
 export type CountryMedalsByOlympiadArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -605,7 +590,6 @@ export type CountryMedalsByOlympiadArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   olympiadSlug?: InputMaybe<Scalars['String']>;
 };
-
 
 export type CountryOlympiadCountriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -693,7 +677,6 @@ export type CreateGroupMedalPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our create `GroupMedal` mutation. */
 export type CreateGroupMedalPayloadGroupMedalEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
@@ -738,7 +721,6 @@ export type CreateGroupOlympiadPayload = {
   suggestedCountry?: Maybe<Country>;
 };
 
-
 /** The output of our create `GroupOlympiad` mutation. */
 export type CreateGroupOlympiadPayloadGroupOlympiadEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
@@ -774,7 +756,6 @@ export type CreateGroupOlympiadPlayerPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
-
 
 /** The output of our create `GroupOlympiadPlayer` mutation. */
 export type CreateGroupOlympiadPlayerPayloadGroupOlympiadPlayerEdgeArgs = {
@@ -814,7 +795,6 @@ export type CreateOlympiadCountryPayload = {
   region?: Maybe<Region>;
 };
 
-
 /** The output of our create `OlympiadCountry` mutation. */
 export type CreateOlympiadCountryPayloadOlympiadCountryEdgeArgs = {
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
@@ -851,7 +831,6 @@ export type CreateOlympiadRegionSettingPayload = {
   region?: Maybe<Region>;
 };
 
-
 /** The output of our create `OlympiadRegionSetting` mutation. */
 export type CreateOlympiadRegionSettingPayloadOlympiadRegionSettingEdgeArgs = {
   orderBy?: InputMaybe<Array<OlympiadRegionSettingsOrderBy>>;
@@ -883,7 +862,6 @@ export type CreateRegionPayload = {
   /** An edge for our `Region`. May be used by Relay 1. */
   regionEdge?: Maybe<RegionsEdge>;
 };
-
 
 /** The output of our create `Region` mutation. */
 export type CreateRegionPayloadRegionEdgeArgs = {
@@ -1047,7 +1025,6 @@ export type DeleteGroupMedalPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our delete `GroupMedal` mutation. */
 export type DeleteGroupMedalPayloadGroupMedalEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
@@ -1104,7 +1081,6 @@ export type DeleteGroupOlympiadPayload = {
   suggestedCountry?: Maybe<Country>;
 };
 
-
 /** The output of our delete `GroupOlympiad` mutation. */
 export type DeleteGroupOlympiadPayloadGroupOlympiadEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
@@ -1153,7 +1129,6 @@ export type DeleteGroupOlympiadPlayerPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
-
 
 /** The output of our delete `GroupOlympiadPlayer` mutation. */
 export type DeleteGroupOlympiadPlayerPayloadGroupOlympiadPlayerEdgeArgs = {
@@ -1205,7 +1180,6 @@ export type DeleteOlympiadCountryPayload = {
   region?: Maybe<Region>;
 };
 
-
 /** The output of our delete `OlympiadCountry` mutation. */
 export type DeleteOlympiadCountryPayloadOlympiadCountryEdgeArgs = {
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
@@ -1253,7 +1227,6 @@ export type DeleteOlympiadRegionSettingPayload = {
   /** Reads a single `Region` that is related to this `OlympiadRegionSetting`. */
   region?: Maybe<Region>;
 };
-
 
 /** The output of our delete `OlympiadRegionSetting` mutation. */
 export type DeleteOlympiadRegionSettingPayloadOlympiadRegionSettingEdgeArgs = {
@@ -1318,7 +1291,6 @@ export type DeleteRegionPayload = {
   regionEdge?: Maybe<RegionsEdge>;
 };
 
-
 /** The output of our delete `Region` mutation. */
 export type DeleteRegionPayloadRegionEdgeArgs = {
   orderBy?: InputMaybe<Array<RegionsOrderBy>>;
@@ -1358,7 +1330,6 @@ export type DraftCountryPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our `draftCountry` mutation. */
 export type DraftCountryPayloadGroupOlympiadCountryEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadCountriesOrderBy>>;
@@ -1384,7 +1355,6 @@ export type Event = Node & {
   sportId: Scalars['UUID'];
   team?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** Specific events that are part of a sport. */
 export type EventOlympiadEventsArgs = {
@@ -1616,7 +1586,6 @@ export type Group = Node & {
   nodeId: Scalars['ID'];
 };
 
-
 export type GroupGroupMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1628,7 +1597,6 @@ export type GroupGroupMedalsArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
 
-
 export type GroupGroupOlympiadsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1639,7 +1607,6 @@ export type GroupGroupOlympiadsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
-
 
 export type GroupGroupPlayersArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -1926,7 +1893,6 @@ export type GroupOlympiad = Node & {
   suggestedCountryId?: Maybe<Scalars['UUID']>;
 };
 
-
 export type GroupOlympiadGroupOlympiadCountriesByGroupIdAndOlympiadIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1937,7 +1903,6 @@ export type GroupOlympiadGroupOlympiadCountriesByGroupIdAndOlympiadIdArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupOlympiadCountriesOrderBy>>;
 };
-
 
 export type GroupOlympiadGroupOlympiadPlayersByGroupIdAndOlympiadIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -2079,7 +2044,6 @@ export type GroupOlympiadCountry = Node & {
   playerId?: Maybe<Scalars['UUID']>;
   roundnum?: Maybe<Scalars['Int']>;
 };
-
 
 export type GroupOlympiadCountryMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -2446,7 +2410,6 @@ export type GroupPlayer = Node & {
   playerId: Scalars['UUID'];
 };
 
-
 export type GroupPlayerGroupOlympiadPlayersByGroupIdAndPlayerIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -2717,7 +2680,6 @@ export type Medal = Node & {
   verified?: Maybe<Scalars['Boolean']>;
 };
 
-
 /** A medal awarded at an olympiad. */
 export type MedalGroupMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -2730,12 +2692,10 @@ export type MedalGroupMedalsArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
 
-
 /** A medal awarded at an olympiad. */
 export type MedalPlayerMedalByGroupArgs = {
   selectedGroupId?: InputMaybe<Scalars['UUID']>;
 };
-
 
 /** A medal awarded at an olympiad. */
 export type MedalPlayerMedalsArgs = {
@@ -2756,7 +2716,6 @@ export type MedalClass = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
 };
-
 
 export type MedalClassMedalsByMedalClassArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -2883,7 +2842,6 @@ export type MedalTeam = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
 };
-
 
 export type MedalTeamMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -3158,222 +3116,185 @@ export type Mutation = {
   upsertGroupMedal?: Maybe<UpsertGroupMedalPayload>;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateGroupMedalArgs = {
   input: CreateGroupMedalInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateGroupOlympiadArgs = {
   input: CreateGroupOlympiadInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateGroupOlympiadPlayerArgs = {
   input: CreateGroupOlympiadPlayerInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateOlympiadCountryArgs = {
   input: CreateOlympiadCountryInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateOlympiadRegionSettingArgs = {
   input: CreateOlympiadRegionSettingInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateRegionArgs = {
   input: CreateRegionInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupMedalArgs = {
   input: DeleteGroupMedalInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupMedalByNodeIdArgs = {
   input: DeleteGroupMedalByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupOlympiadArgs = {
   input: DeleteGroupOlympiadInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupOlympiadByNodeIdArgs = {
   input: DeleteGroupOlympiadByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupOlympiadPlayerArgs = {
   input: DeleteGroupOlympiadPlayerInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteGroupOlympiadPlayerByNodeIdArgs = {
   input: DeleteGroupOlympiadPlayerByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOlympiadCountryArgs = {
   input: DeleteOlympiadCountryInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOlympiadCountryByNodeIdArgs = {
   input: DeleteOlympiadCountryByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOlympiadRegionSettingArgs = {
   input: DeleteOlympiadRegionSettingInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOlympiadRegionSettingByNodeIdArgs = {
   input: DeleteOlympiadRegionSettingByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRegionArgs = {
   input: DeleteRegionInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRegionByNameArgs = {
   input: DeleteRegionByNameInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRegionByNodeIdArgs = {
   input: DeleteRegionByNodeIdInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRegionBySlugArgs = {
   input: DeleteRegionBySlugInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDraftCountryArgs = {
   input: DraftCountryInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationRegisterPlayerArgs = {
   input: RegisterPlayerInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupMedalArgs = {
   input: UpdateGroupMedalInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupMedalByNodeIdArgs = {
   input: UpdateGroupMedalByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupOlympiadArgs = {
   input: UpdateGroupOlympiadInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupOlympiadByNodeIdArgs = {
   input: UpdateGroupOlympiadByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupOlympiadPlayerArgs = {
   input: UpdateGroupOlympiadPlayerInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGroupOlympiadPlayerByNodeIdArgs = {
   input: UpdateGroupOlympiadPlayerByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOlympiadCountryArgs = {
   input: UpdateOlympiadCountryInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOlympiadCountryByNodeIdArgs = {
   input: UpdateOlympiadCountryByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOlympiadRegionSettingArgs = {
   input: UpdateOlympiadRegionSettingInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOlympiadRegionSettingByNodeIdArgs = {
   input: UpdateOlympiadRegionSettingByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRegionArgs = {
   input: UpdateRegionInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRegionByNameArgs = {
   input: UpdateRegionByNameInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRegionByNodeIdArgs = {
   input: UpdateRegionByNodeIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRegionBySlugArgs = {
   input: UpdateRegionBySlugInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertGroupMedalArgs = {
@@ -3420,7 +3341,6 @@ export type Olympiad = Node & {
   year: Scalars['Int'];
 };
 
-
 /** Olympiads that have existed. */
 export type OlympiadGroupOlympiadsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -3432,7 +3352,6 @@ export type OlympiadGroupOlympiadsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
-
 
 /** Olympiads that have existed. */
 export type OlympiadOlympiadCountriesArgs = {
@@ -3446,7 +3365,6 @@ export type OlympiadOlympiadCountriesArgs = {
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
 };
 
-
 /** Olympiads that have existed. */
 export type OlympiadOlympiadEventsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -3458,7 +3376,6 @@ export type OlympiadOlympiadEventsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OlympiadEventsOrderBy>>;
 };
-
 
 /** Olympiads that have existed. */
 export type OlympiadOlympiadRegionSettingsArgs = {
@@ -3472,7 +3389,6 @@ export type OlympiadOlympiadRegionSettingsArgs = {
   orderBy?: InputMaybe<Array<OlympiadRegionSettingsOrderBy>>;
 };
 
-
 /** Olympiads that have existed. */
 export type OlympiadOlympiadSportsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -3485,7 +3401,6 @@ export type OlympiadOlympiadSportsArgs = {
   orderBy?: InputMaybe<Array<OlympiadSportsOrderBy>>;
 };
 
-
 /** Olympiads that have existed. */
 export type OlympiadSportsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -3495,7 +3410,6 @@ export type OlympiadSportsArgs = {
   last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };
-
 
 /** Olympiads that have existed. */
 export type OlympiadUpcomingEventsArgs = {
@@ -3606,7 +3520,6 @@ export type OlympiadCountry = Node & {
   regionId?: Maybe<Scalars['UUID']>;
 };
 
-
 export type OlympiadCountryMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -3675,7 +3588,6 @@ export type OlympiadEvent = Node & {
   olympiad?: Maybe<Olympiad>;
   olympiadId: Scalars['UUID'];
 };
-
 
 export type OlympiadEventMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4136,7 +4048,6 @@ export type Player = Node & {
   username?: Maybe<Scalars['String']>;
 };
 
-
 /** Players who are playing games. */
 export type PlayerGroupMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4148,7 +4059,6 @@ export type PlayerGroupMedalsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
-
 
 /** Players who are playing games. */
 export type PlayerGroupOlympiadCountriesArgs = {
@@ -4162,7 +4072,6 @@ export type PlayerGroupOlympiadCountriesArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadCountriesOrderBy>>;
 };
 
-
 /** Players who are playing games. */
 export type PlayerGroupOlympiadsByCommissionerIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4175,7 +4084,6 @@ export type PlayerGroupOlympiadsByCommissionerIdArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
 
-
 /** Players who are playing games. */
 export type PlayerGroupPlayersArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4187,7 +4095,6 @@ export type PlayerGroupPlayersArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupPlayersOrderBy>>;
 };
-
 
 /** Players who are playing games. */
 export type PlayerGroupsByCommissionerIdArgs = {
@@ -4432,24 +4339,20 @@ export type Query = Node & {
   sports?: Maybe<SportsConnection>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryAthleteArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAthleteByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryAthleteBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAthletesArgs = {
@@ -4463,7 +4366,6 @@ export type QueryAthletesArgs = {
   orderBy?: InputMaybe<Array<AthletesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryAthletesByCountryArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4475,7 +4377,6 @@ export type QueryAthletesByCountryArgs = {
   orderBy?: InputMaybe<Array<AthletesOrderBy>>;
   slug?: InputMaybe<Scalars['String']>;
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCitiesArgs = {
@@ -4489,24 +4390,20 @@ export type QueryCitiesArgs = {
   orderBy?: InputMaybe<Array<CitiesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryCityArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCityByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryCityBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCountriesArgs = {
@@ -4520,24 +4417,20 @@ export type QueryCountriesArgs = {
   orderBy?: InputMaybe<Array<CountriesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryFlagsByTimestampArgs = {
@@ -4545,31 +4438,26 @@ export type QueryCountryFlagsByTimestampArgs = {
   olympiadDates?: InputMaybe<DatetimeRangeInput>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryFlagsByYearArgs = {
   countryId?: InputMaybe<Scalars['UUID']>;
   olympiadYear?: InputMaybe<Scalars['Int']>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryEventArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEventByFullSlugArgs = {
   fullSlug: Scalars['String'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryEventByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEventsArgs = {
@@ -4583,7 +4471,6 @@ export type QueryEventsArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryEventsBySportSlugArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4595,18 +4482,15 @@ export type QueryEventsBySportSlugArgs = {
   sportSlug?: InputMaybe<Scalars['String']>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryFlagArgs = {
   id: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryFlagByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryFlagsArgs = {
@@ -4620,24 +4504,20 @@ export type QueryFlagsArgs = {
   orderBy?: InputMaybe<Array<FlagsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupByNameArgs = {
   name: Scalars['String'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupMedalArgs = {
@@ -4645,12 +4525,10 @@ export type QueryGroupMedalArgs = {
   medalId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupMedalByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupMedalsArgs = {
@@ -4663,7 +4541,6 @@ export type QueryGroupMedalsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupMedalsByDateArgs = {
@@ -4678,19 +4555,16 @@ export type QueryGroupMedalsByDateArgs = {
   olympiadid?: InputMaybe<Scalars['UUID']>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadArgs = {
   groupId: Scalars['UUID'];
   olympiadId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadCountriesArgs = {
@@ -4704,7 +4578,6 @@ export type QueryGroupOlympiadCountriesArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadCountriesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadCountryArgs = {
   countryId: Scalars['UUID'];
@@ -4712,12 +4585,10 @@ export type QueryGroupOlympiadCountryArgs = {
   olympiadId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadCountryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadPlayerArgs = {
@@ -4726,12 +4597,10 @@ export type QueryGroupOlympiadPlayerArgs = {
   playerId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadPlayerByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadPlayersArgs = {
@@ -4745,7 +4614,6 @@ export type QueryGroupOlympiadPlayersArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadPlayersOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupOlympiadsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4758,19 +4626,16 @@ export type QueryGroupOlympiadsArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupPlayerArgs = {
   groupId: Scalars['UUID'];
   playerId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupPlayerByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupPlayersArgs = {
@@ -4784,7 +4649,6 @@ export type QueryGroupPlayersArgs = {
   orderBy?: InputMaybe<Array<GroupPlayersOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryGroupsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4797,30 +4661,25 @@ export type QueryGroupsArgs = {
   orderBy?: InputMaybe<Array<GroupsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalClassArgs = {
   medalRank: Scalars['Int'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalClassByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalClassesArgs = {
@@ -4834,18 +4693,15 @@ export type QueryMedalClassesArgs = {
   orderBy?: InputMaybe<Array<MedalClassesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalTeamArgs = {
   id: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalTeamByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalTeamsArgs = {
@@ -4859,7 +4715,6 @@ export type QueryMedalTeamsArgs = {
   orderBy?: InputMaybe<Array<MedalTeamsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryMedalsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4872,30 +4727,25 @@ export type QueryMedalsArgs = {
   orderBy?: InputMaybe<Array<MedalsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadArgs = {
   id: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadCountriesArgs = {
@@ -4909,31 +4759,26 @@ export type QueryOlympiadCountriesArgs = {
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadCountryArgs = {
   countryId: Scalars['UUID'];
   olympiadId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadCountryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventArgs = {
   id: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventBySlugsArgs = {
@@ -4941,7 +4786,6 @@ export type QueryOlympiadEventBySlugsArgs = {
   olympiadSlug?: InputMaybe<Scalars['String']>;
   sportSlug?: InputMaybe<Scalars['String']>;
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventsArgs = {
@@ -4955,7 +4799,6 @@ export type QueryOlympiadEventsArgs = {
   orderBy?: InputMaybe<Array<OlympiadEventsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventsByDateArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4967,7 +4810,6 @@ export type QueryOlympiadEventsByDateArgs = {
   olympiaddate?: InputMaybe<Scalars['Datetime']>;
   olympiadslug?: InputMaybe<Scalars['String']>;
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadEventsBySlugsArgs = {
@@ -4981,7 +4823,6 @@ export type QueryOlympiadEventsBySlugsArgs = {
   sportSlug?: InputMaybe<Scalars['String']>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadMedalsBySlugArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -4993,19 +4834,16 @@ export type QueryOlympiadMedalsBySlugArgs = {
   olympiadslug?: InputMaybe<Scalars['String']>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadRegionSettingArgs = {
   olympiadId: Scalars['UUID'];
   regionId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadRegionSettingByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadRegionSettingsArgs = {
@@ -5019,19 +4857,16 @@ export type QueryOlympiadRegionSettingsArgs = {
   orderBy?: InputMaybe<Array<OlympiadRegionSettingsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadSportArgs = {
   olympiadId: Scalars['UUID'];
   sportId: Scalars['UUID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadSportByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadSportsArgs = {
@@ -5045,7 +4880,6 @@ export type QueryOlympiadSportsArgs = {
   orderBy?: InputMaybe<Array<OlympiadSportsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryOlympiadsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -5058,30 +4892,25 @@ export type QueryOlympiadsArgs = {
   orderBy?: InputMaybe<Array<OlympiadsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryPlayerArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPlayerByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryPlayerBySlugArgs = {
   slug: Scalars['String'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryPlayerByUsernameArgs = {
   username: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPlayersArgs = {
@@ -5095,30 +4924,25 @@ export type QueryPlayersArgs = {
   orderBy?: InputMaybe<Array<PlayersOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryRegionArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryRegionByNameArgs = {
   name: Scalars['String'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryRegionByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryRegionBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryRegionsArgs = {
@@ -5132,30 +4956,25 @@ export type QueryRegionsArgs = {
   orderBy?: InputMaybe<Array<RegionsOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QuerySportArgs = {
   id: Scalars['UUID'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySportByNameArgs = {
   name: Scalars['String'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QuerySportByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QuerySportBySlugArgs = {
   slug: Scalars['String'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySportsArgs = {
@@ -5184,7 +5003,6 @@ export type Region = Node & {
   slug?: Maybe<Scalars['String']>;
 };
 
-
 export type RegionCountriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -5196,7 +5014,6 @@ export type RegionCountriesArgs = {
   orderBy?: InputMaybe<Array<CountriesOrderBy>>;
 };
 
-
 export type RegionOlympiadCountriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -5207,7 +5024,6 @@ export type RegionOlympiadCountriesArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
 };
-
 
 export type RegionOlympiadRegionSettingsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -5328,7 +5144,6 @@ export type RegisterPlayerPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our `registerPlayer` mutation. */
 export type RegisterPlayerPayloadPlayerEdgeArgs = {
   orderBy?: InputMaybe<Array<PlayersOrderBy>>;
@@ -5351,7 +5166,6 @@ export type Sport = Node & {
   slug?: Maybe<Scalars['String']>;
 };
 
-
 /** Sports that took place at an olympiad. */
 export type SportEventsArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -5363,7 +5177,6 @@ export type SportEventsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
-
 
 /** Sports that took place at an olympiad. */
 export type SportOlympiadSportsArgs = {
@@ -5682,7 +5495,6 @@ export type UpdateGroupMedalPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our update `GroupMedal` mutation. */
 export type UpdateGroupMedalPayloadGroupMedalEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
@@ -5742,7 +5554,6 @@ export type UpdateGroupOlympiadPayload = {
   suggestedCountry?: Maybe<Country>;
 };
 
-
 /** The output of our update `GroupOlympiad` mutation. */
 export type UpdateGroupOlympiadPayloadGroupOlympiadEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupOlympiadsOrderBy>>;
@@ -5794,7 +5605,6 @@ export type UpdateGroupOlympiadPlayerPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
-
 
 /** The output of our update `GroupOlympiadPlayer` mutation. */
 export type UpdateGroupOlympiadPlayerPayloadGroupOlympiadPlayerEdgeArgs = {
@@ -5849,7 +5659,6 @@ export type UpdateOlympiadCountryPayload = {
   region?: Maybe<Region>;
 };
 
-
 /** The output of our update `OlympiadCountry` mutation. */
 export type UpdateOlympiadCountryPayloadOlympiadCountryEdgeArgs = {
   orderBy?: InputMaybe<Array<OlympiadCountriesOrderBy>>;
@@ -5900,7 +5709,6 @@ export type UpdateOlympiadRegionSettingPayload = {
   /** Reads a single `Region` that is related to this `OlympiadRegionSetting`. */
   region?: Maybe<Region>;
 };
-
 
 /** The output of our update `OlympiadRegionSetting` mutation. */
 export type UpdateOlympiadRegionSettingPayloadOlympiadRegionSettingEdgeArgs = {
@@ -5972,7 +5780,6 @@ export type UpdateRegionPayload = {
   regionEdge?: Maybe<RegionsEdge>;
 };
 
-
 /** The output of our update `Region` mutation. */
 export type UpdateRegionPayloadRegionEdgeArgs = {
   orderBy?: InputMaybe<Array<RegionsOrderBy>>;
@@ -6024,10 +5831,42 @@ export type UpsertGroupMedalPayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our `upsertGroupMedal` mutation. */
 export type UpsertGroupMedalPayloadGroupMedalEdgeArgs = {
   orderBy?: InputMaybe<Array<GroupMedalsOrderBy>>;
+};
+
+export type CityOlympiadFragment = {
+  __typename?: 'Olympiad';
+  id: any;
+  year: number;
+  olympiadType?: Olympiadtype | null;
+} & { ' $fragmentName'?: 'CityOlympiadFragment' };
+
+export type GetCityQueryVariables = Exact<{
+  slug: Scalars['String'];
+  now: Scalars['Datetime'];
+}>;
+
+export type GetCityQuery = {
+  __typename?: 'Query';
+  cityBySlug?: {
+    __typename?: 'City';
+    id: any;
+    name?: string | null;
+    slug?: string | null;
+    country?: {
+      __typename?: 'Country';
+      name?: string | null;
+      flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
+    } | null;
+    olympiads: {
+      __typename?: 'OlympiadsConnection';
+      nodes: Array<
+        ({ __typename?: 'Olympiad' } & { ' $fragmentRefs'?: { CityOlympiadFragment: CityOlympiadFragment } }) | null
+      >;
+    };
+  } | null;
 };
 
 export type GetFlagsQueryVariables = Exact<{
@@ -6035,16 +5874,471 @@ export type GetFlagsQueryVariables = Exact<{
   now: Scalars['Datetime'];
 }>;
 
-
-export type GetFlagsQuery = { __typename?: 'Query', countries?: { __typename?: 'CountriesConnection', nodes: Array<{ __typename?: 'Country', name?: string | null, flagByTimestamp?: { __typename?: 'Flag', png?: string | null } | null } | null> } | null };
+export type GetFlagsQuery = {
+  __typename?: 'Query';
+  countries?: {
+    __typename?: 'CountriesConnection';
+    nodes: Array<{
+      __typename?: 'Country';
+      name?: string | null;
+      flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
+    } | null>;
+  } | null;
+};
 
 export type GetOlympiadsQueryVariables = Exact<{
   now: Scalars['Datetime'];
 }>;
 
+export type GetOlympiadsQuery = {
+  __typename?: 'Query';
+  olympiads?: {
+    __typename?: 'OlympiadsConnection';
+    nodes: Array<{
+      __typename?: 'Olympiad';
+      id: any;
+      year: number;
+      olympiadType?: Olympiadtype | null;
+      city?: {
+        __typename?: 'City';
+        id: any;
+        name?: string | null;
+        slug?: string | null;
+        country?: {
+          __typename?: 'Country';
+          name?: string | null;
+          flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
+        } | null;
+      } | null;
+    } | null>;
+  } | null;
+};
 
-export type GetOlympiadsQuery = { __typename?: 'Query', olympiads?: { __typename?: 'OlympiadsConnection', nodes: Array<{ __typename?: 'Olympiad', id: any, year: number, olympiadType?: Olympiadtype | null, city?: { __typename?: 'City', id: any, name?: string | null, slug?: string | null, country?: { __typename?: 'Country', name?: string | null, flagByTimestamp?: { __typename?: 'Flag', png?: string | null } | null } | null } | null } | null> } | null };
-
-
-export const GetFlagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFlags"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"visitedCountries"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"now"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Datetime"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"countries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"visitedCountries"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"flagByTimestamp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"dateTimestamp"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"start"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"now"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"inclusive"},"value":{"kind":"BooleanValue","value":true}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"end"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"now"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"inclusive"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"png"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetFlagsQuery, GetFlagsQueryVariables>;
-export const GetOlympiadsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOlympiads"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"now"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Datetime"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"olympiads"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"olympiadType"}},{"kind":"Field","name":{"kind":"Name","value":"city"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"flagByTimestamp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"dateTimestamp"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"start"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"now"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"inclusive"},"value":{"kind":"BooleanValue","value":true}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"end"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"value"},"value":{"kind":"Variable","name":{"kind":"Name","value":"now"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"inclusive"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"png"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetOlympiadsQuery, GetOlympiadsQueryVariables>;
+export const CityOlympiadFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityOlympiad' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CityOlympiadFragment, unknown>;
+export const GetCityDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'cityBySlug' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'country' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'flagByTimestamp' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'dateTimestamp' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'start' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'value' },
+                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                      },
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'inclusive' },
+                                        value: { kind: 'BooleanValue', value: true }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'end' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'value' },
+                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                      },
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'inclusive' },
+                                        value: { kind: 'BooleanValue', value: true }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'olympiads' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'orderBy' },
+                      value: { kind: 'EnumValue', value: 'YEAR_ASC' }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CityOlympiad' } }]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityOlympiad' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetCityQuery, GetCityQueryVariables>;
+export const GetFlagsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetFlags' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitedCountries' } },
+          type: {
+            kind: 'ListType',
+            type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'countries' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'name' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'in' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'visitedCountries' } }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'flagByTimestamp' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'dateTimestamp' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'start' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'value' },
+                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                      },
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'inclusive' },
+                                        value: { kind: 'BooleanValue', value: true }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'end' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'value' },
+                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                      },
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'inclusive' },
+                                        value: { kind: 'BooleanValue', value: true }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetFlagsQuery, GetFlagsQueryVariables>;
+export const GetOlympiadsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetOlympiads' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'olympiads' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'YEAR_ASC' }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'city' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'flagByTimestamp' },
+                                    arguments: [
+                                      {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'dateTimestamp' },
+                                        value: {
+                                          kind: 'ObjectValue',
+                                          fields: [
+                                            {
+                                              kind: 'ObjectField',
+                                              name: { kind: 'Name', value: 'start' },
+                                              value: {
+                                                kind: 'ObjectValue',
+                                                fields: [
+                                                  {
+                                                    kind: 'ObjectField',
+                                                    name: { kind: 'Name', value: 'value' },
+                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                                  },
+                                                  {
+                                                    kind: 'ObjectField',
+                                                    name: { kind: 'Name', value: 'inclusive' },
+                                                    value: { kind: 'BooleanValue', value: true }
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            {
+                                              kind: 'ObjectField',
+                                              name: { kind: 'Name', value: 'end' },
+                                              value: {
+                                                kind: 'ObjectValue',
+                                                fields: [
+                                                  {
+                                                    kind: 'ObjectField',
+                                                    name: { kind: 'Name', value: 'value' },
+                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                                  },
+                                                  {
+                                                    kind: 'ObjectField',
+                                                    name: { kind: 'Name', value: 'inclusive' },
+                                                    value: { kind: 'BooleanValue', value: true }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetOlympiadsQuery, GetOlympiadsQueryVariables>;

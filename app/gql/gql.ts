@@ -13,8 +13,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}": types.GetFlagsDocument,
-    "query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}": types.GetOlympiadsDocument,
+  'fragment CityOlympiad on Olympiad {\n  id\n  year\n  olympiadType\n}\n\nquery GetCity($slug: String!, $now: Datetime!) {\n  cityBySlug(slug: $slug) {\n    id\n    name\n    slug\n    country {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n    olympiads(orderBy: YEAR_ASC) {\n      nodes {\n        ...CityOlympiad\n      }\n    }\n  }\n}':
+    types.CityOlympiadFragmentDoc,
+  'query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}':
+    types.GetFlagsDocument,
+  'query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}':
+    types.GetOlympiadsDocument
 };
 
 /**
@@ -34,14 +38,29 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}"): (typeof documents)["query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}"];
+export function graphql(
+  source: 'fragment CityOlympiad on Olympiad {\n  id\n  year\n  olympiadType\n}\n\nquery GetCity($slug: String!, $now: Datetime!) {\n  cityBySlug(slug: $slug) {\n    id\n    name\n    slug\n    country {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n    olympiads(orderBy: YEAR_ASC) {\n      nodes {\n        ...CityOlympiad\n      }\n    }\n  }\n}'
+): typeof documents['fragment CityOlympiad on Olympiad {\n  id\n  year\n  olympiadType\n}\n\nquery GetCity($slug: String!, $now: Datetime!) {\n  cityBySlug(slug: $slug) {\n    id\n    name\n    slug\n    country {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n    olympiads(orderBy: YEAR_ASC) {\n      nodes {\n        ...CityOlympiad\n      }\n    }\n  }\n}'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}"): (typeof documents)["query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}"];
+export function graphql(
+  source: 'query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}'
+): typeof documents['query GetFlags($visitedCountries: [String!], $now: Datetime!) {\n  countries(filter: {name: {in: $visitedCountries}}) {\n    nodes {\n      name\n      flagByTimestamp(\n        dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n      ) {\n        png\n      }\n    }\n  }\n}'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}'
+): typeof documents['query GetOlympiads($now: Datetime!) {\n  olympiads(orderBy: YEAR_ASC) {\n    nodes {\n      id\n      year\n      olympiadType\n      city {\n        id\n        name\n        slug\n        country {\n          name\n          flagByTimestamp(\n            dateTimestamp: {start: {value: $now, inclusive: true}, end: {value: $now, inclusive: true}}\n          ) {\n            png\n          }\n        }\n      }\n    }\n  }\n}'];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<
+  infer TType,
+  any
+>
+  ? TType
+  : never;
