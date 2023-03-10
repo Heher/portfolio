@@ -1,0 +1,22 @@
+query GetOlympiads($now: Datetime!) {
+  olympiads(orderBy: YEAR_ASC) {
+    nodes {
+      id
+      year
+      olympiadType
+      city {
+        id
+        name
+        slug
+        country {
+          name
+          flagByTimestamp(
+            dateTimestamp: { start: { value: $now, inclusive: true }, end: { value: $now, inclusive: true } }
+          ) {
+            png
+          }
+        }
+      }
+    }
+  }
+}

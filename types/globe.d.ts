@@ -21,20 +21,15 @@ declare module '*.vert' {
 export type Coordinate = [number, number];
 
 export type Visit = {
+  year: string;
+  type: 'summer' | 'winter';
   stadium: {
     img: string;
-    link: string;
+    link?: string;
   };
   strava: {
     img: string;
     link: string;
-  };
-};
-
-export type VisitYear = {
-  [key: string]: {
-    summer?: Visit;
-    winter?: Visit;
   };
 };
 

@@ -11,7 +11,7 @@ import { motion } from 'framer-motion-3d';
 import { useEffect } from 'react';
 import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius } from './utils';
 import { Route } from './Route';
-import type { Coordinate, VisitYear } from 'types/globe';
+import type { Coordinate, Visit } from 'types/globe';
 import { NewCities } from './NewCities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
@@ -67,13 +67,13 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
 }
 
 type NewGlobeProps = {
-  visits: VisitYear[];
+  visits: Visit[];
   routeSelected: boolean;
   width: number;
 };
 
 type SimpleGlobeProps = {
-  visits: VisitYear[];
+  visits: Visit[];
   routeSelected: boolean;
   width: number;
 };

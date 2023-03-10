@@ -1,7 +1,4 @@
-import { Outlet, useLoaderData, useLocation } from '@remix-run/react';
-import { gql, GraphQLClient } from 'graphql-request';
-
-// import { getStravaActivities } from '~/utils/getStravaActivities';
+import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 
 import { SimpleGlobe } from '~/components/globe/SimpleGlobe';
 import { Suspense, useEffect, useState } from 'react';
@@ -10,7 +7,7 @@ import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
 
-import visitData from '~/data/visits.json';
+import visits from '~/data/new-visits';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
 import {
   citySelectedPositioning,
@@ -19,6 +16,25 @@ import {
   notMoveablePositioning,
   showDetailsPositioning
 } from '~/components/globe/globePositioning';
+import type { Visit } from 'types/globe';
+
+type ContextType = {
+  handleImageModal: (img: string | null) => void;
+  setStopScroll: (stop: boolean) => void;
+  width: number;
+  selectedCity: string | null;
+  setSelectedCity: (city: string | null) => void;
+  moveableGlobe: boolean;
+  setMoveableGlobe: (moveable: boolean) => void;
+  routeSelected: boolean;
+  setRouteSelected: (selected: boolean) => void;
+  showDetails: boolean;
+  setShowDetails: (show: boolean) => void;
+  visits: Visit[];
+  toggleBodyBackground: () => void;
+  selectedRouteLeg: number;
+  setSelectedRouteLeg: (leg: number) => void;
+};
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -28,80 +44,6 @@ export const meta: MetaFunction = () => ({
   'og:title': 'John Heher | Olympic Trip',
   'og:image': '/olympic-cities-og.jpg'
 });
-
-type OlympiadType = 'SUMMER' | 'WINTER';
-
-export type OlympiadsResponse = {
-  olympiads: {
-    nodes: {
-      id: string;
-      year: number;
-      olympiadType: OlympiadType;
-      city: {
-        id: string;
-        name: string;
-        slug: string;
-        country: {
-          name: string;
-          flagByTimestamp: {
-            png: string;
-          };
-        };
-      };
-    }[];
-  };
-};
-
-// export async function loader() {
-//   // const stravaResponse = await getStravaActivities();
-
-//   const now = new Date().toISOString();
-
-//   const query = gql`
-//     {
-//       olympiads(orderBy: YEAR_ASC) {
-//         nodes {
-//           id
-//           year
-//           olympiadType
-//           city {
-//             id
-//             name
-//             slug
-//             country {
-//               name
-//               flagByTimestamp(
-//                 dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-//               ) {
-//                 png
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   `;
-
-//   const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
-
-//   const response = await graphQLClient.request(query);
-
-//   //* filter out 1906 Athens and 1956 Stockholm
-//   response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
-//     if (olympiad.year === 1906) {
-//       return false;
-//     }
-
-//     if (olympiad.year === 1956) {
-//       if (olympiad.city.name === 'Stockholm') {
-//         return false;
-//       }
-//     }
-//     return true;
-//   });
-
-//   return { olympiads: response.olympiads.nodes };
-// }
 
 function toggleBodyBackground() {
   const body = document.body;
@@ -173,8 +115,6 @@ export default function TripPage() {
     }
   }, [location.pathname]);
 
-  // const { olympiads } = useLoaderData<typeof loader>();
-
   function handleImageModal(img: string | null) {
     const body = document.body;
 
@@ -231,7 +171,7 @@ export default function TripPage() {
           >
             <Suspense fallback={<GlobeFallback />}>
               <SimpleGlobe
-                visits={visitData.olympiads}
+                visits={visits}
                 selectedCity={selectedCity}
                 routeSelected={routeSelected}
                 showDetails={width >= 768 ? true : showDetails}
@@ -257,7 +197,7 @@ export default function TripPage() {
               setRouteSelected,
               showDetails,
               setShowDetails,
-              visits: visitData.olympiads,
+              visits,
               toggleBodyBackground,
               selectedRouteLeg,
               setSelectedRouteLeg
@@ -269,3 +209,7 @@ export default function TripPage() {
     </main>
   );
 }
+
+export const useTripContext = () => {
+  return useOutletContext<ContextType>();
+};

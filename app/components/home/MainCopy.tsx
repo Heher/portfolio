@@ -4,6 +4,7 @@ import TripStatus from '../TripStatus';
 type MainCopyProps = {
   showDetails: boolean;
   routeSelected: boolean;
+  visits: Visit[];
 };
 
 function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }) {

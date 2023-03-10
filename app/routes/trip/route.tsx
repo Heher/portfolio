@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
-import { useLoaderData, useOutletContext } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { gql, GraphQLClient } from 'graphql-request';
 import { useEffect } from 'react';
@@ -8,6 +8,7 @@ import { sharedStadiums } from '~/components/olympiad-city/settings';
 import SharedOlympiads from '~/components/olympiad-city/SharedOlympiads';
 import { cityStatus, statusColor } from '~/components/olympiad-city/utils';
 import { Selector } from '~/components/route/Selector';
+import { useTripContext } from '../trip';
 
 export const meta: MetaFunction = ({ data }) => {
   return {
@@ -79,7 +80,7 @@ const variants = {
 };
 
 function RoutePage() {
-  const { width, setRouteSelected, selectedRouteLeg, setSelectedRouteLeg } = useOutletContext();
+  const { width, setRouteSelected, selectedRouteLeg, setSelectedRouteLeg } = useTripContext();
   // const { city } = useLoaderData();
 
   // const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);

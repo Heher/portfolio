@@ -1,11 +1,13 @@
-import { useLoaderData, useOutletContext } from '@remix-run/react';
-import { gql, GraphQLClient } from 'graphql-request';
+import { useLoaderData } from '@remix-run/react';
+import request from 'graphql-request';
 import { groupBy } from 'lodash';
 
 import type { MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
-import { Selector } from '~/components/route/Selector';
+import { useTripContext } from '../trip';
+import { GetOlympiadsDocument } from '~/gql/graphql';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -16,65 +18,23 @@ export const meta: MetaFunction = () => ({
   'og:image': '/olympic-cities-og.jpg'
 });
 
-type OlympiadType = 'SUMMER' | 'WINTER';
-
-export type OlympiadsResponse = {
-  olympiads: {
-    nodes: {
-      id: string;
-      year: number;
-      olympiadType: OlympiadType;
-      city: {
-        id: string;
-        name: string;
-        slug: string;
-        country: {
-          name: string;
-          flagByTimestamp: {
-            png: string;
-          };
-        };
-      };
-    }[];
-  };
-};
-
 export async function loader() {
   // const stravaResponse = await getStravaActivities();
 
   const now = new Date().toISOString();
 
-  const query = gql`
-    {
-      olympiads(orderBy: YEAR_ASC) {
-        nodes {
-          id
-          year
-          olympiadType
-          city {
-            id
-            name
-            slug
-            country {
-              name
-              flagByTimestamp(
-                dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-              ) {
-                png
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+  const response = await request(process.env.API_ENDPOINT || '', GetOlympiadsDocument, { now });
 
-  const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
-
-  const response = await graphQLClient.request(query);
+  if (!response.olympiads) {
+    return json({ olympiads: [] });
+  }
 
   //* filter out 1906 Athens and 1956 Stockholm
   response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
+    if (!olympiad?.city) {
+      return false;
+    }
+
     if (olympiad.year === 1906) {
       return false;
     }
@@ -87,7 +47,7 @@ export async function loader() {
     return true;
   });
 
-  return { olympiads: response.olympiads.nodes };
+  return json({ olympiads: response.olympiads.nodes });
 }
 
 const animationVariants = {
@@ -95,7 +55,7 @@ const animationVariants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
 
-function getCitiesListVisibility(width, showDetails) {
+function getCitiesListVisibility(width: number, showDetails: boolean) {
   if (width >= 768) {
     return true;
   }
@@ -109,11 +69,11 @@ function getCitiesListVisibility(width, showDetails) {
 
 export default function TripIndex() {
   const { width, moveableGlobe, routeSelected, showDetails, setShowDetails, visits, toggleBodyBackground } =
-    useOutletContext();
+    useTripContext();
 
   const { olympiads } = useLoaderData<typeof loader>();
 
-  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad.city.id);
+  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad?.city?.id);
 
   return (
     <div>
@@ -147,7 +107,6 @@ export default function TripIndex() {
           Details
         </button>
       )}
-      {routeSelected && <Selector width={width} />}
     </div>
   );
 }
