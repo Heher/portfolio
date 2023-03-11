@@ -7,6 +7,7 @@ const config: CodegenConfig = {
     './app/gql/': {
       preset: 'client'
     }
-  }
+  },
+  hooks: { afterAllFileWrite: ['prettier --write'] }
 };
 export default config;

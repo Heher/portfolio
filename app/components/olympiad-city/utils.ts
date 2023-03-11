@@ -1,8 +1,16 @@
-export function cityStatus(olympiads, visits): { amountCompleted: number; totalOlympiads: number } {
+import type { Visit } from 'types/globe';
+import type { CityOlympiadFragment, OlympiadFieldsFragment } from '~/gql/graphql';
+
+export function cityStatus(
+  olympiads: readonly CityOlympiadFragment[],
+  visits: Visit[]
+): { amountCompleted: number; totalOlympiads: number } {
   let amountCompleted = 0;
 
   olympiads.forEach((olympiad) => {
-    const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
+    const visit = visits.find(
+      (visit) => visit.year === olympiad.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
+    );
 
     if (visit) amountCompleted++;
   });
@@ -33,7 +41,7 @@ export function cityStatus(olympiads, visits): { amountCompleted: number; totalO
 //   return `border-${color}`;
 // }
 
-export function statusColor(amountCompleted: number, totalOlympiads: number, card = false) {
+export function statusColor(amountCompleted: number, totalOlympiads: number) {
   if (amountCompleted === totalOlympiads) {
     return 'positive';
   }
@@ -43,4 +51,44 @@ export function statusColor(amountCompleted: number, totalOlympiads: number, car
   }
 
   return `negative`;
+}
+
+export function filterOutNonOlympiadsForCity(cityName: string, olympiads: readonly CityOlympiadFragment[]) {
+  //* filter out 1906 Athens and 1956 Stockholm
+  return olympiads.filter((olympiad) => {
+    if (!olympiad) {
+      return false;
+    }
+
+    if (olympiad.year === 1906) {
+      return false;
+    }
+
+    if (olympiad.year === 1956) {
+      if (cityName === 'Stockholm') {
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
+export function filterOutNonOlympiads(olympiads: readonly OlympiadFieldsFragment[]) {
+  //* filter out 1906 Athens and 1956 Stockholm
+  return olympiads.filter((olympiad) => {
+    if (!olympiad) {
+      return false;
+    }
+
+    if (olympiad.year === 1906) {
+      return false;
+    }
+
+    if (olympiad.year === 1956) {
+      if (olympiad.city?.name === 'Stockholm') {
+        return false;
+      }
+    }
+    return true;
+  });
 }

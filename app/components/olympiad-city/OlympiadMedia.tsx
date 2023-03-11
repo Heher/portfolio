@@ -1,4 +1,14 @@
-export function OlympiadMedia({ visit, olympiadType, handleImageModal }) {
+import type { Visit } from 'types/globe';
+import { useTripContext } from '~/routes/trip';
+
+type OlympiadMediaProps = {
+  visit: Visit;
+  olympiadType: string;
+};
+
+export function OlympiadMedia({ visit, olympiadType }: OlympiadMediaProps) {
+  const { handleImageModal } = useTripContext();
+
   return (
     <div className="grid w-full grid-cols-[1fr_1fr] justify-items-center gap-[20px] pb-[120px] md:max-w-[500px]">
       {visit.stadium?.img && (

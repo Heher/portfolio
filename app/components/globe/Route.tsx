@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { CylinderGeometry, MeshStandardMaterial } from 'three';
+import type { MarkerVisit } from 'types/globe';
+import type { City } from './coordinates';
 import { NewCities } from './NewCities';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
@@ -33,7 +35,13 @@ const markerRadius = 0.003;
 const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
 const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
 
-export function Route({ visible, citiesWithVisits, selectedRouteLeg }) {
+type RouteProps = {
+  visible: boolean;
+  citiesWithVisits: (City & MarkerVisit)[];
+  selectedRouteLeg: number;
+};
+
+export function Route({ visible, citiesWithVisits, selectedRouteLeg }: RouteProps) {
   const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
 
   const summerMarkerMaterial = useMemo(
@@ -113,7 +121,7 @@ export function Route({ visible, citiesWithVisits, selectedRouteLeg }) {
             offMaterial={offMaterial}
             offVisitedMaterial={offVisitedMaterial}
             city={city}
-            citySelected={false}
+            citySelected={null}
             selected={false}
             flagPosition={flagPosition}
           />

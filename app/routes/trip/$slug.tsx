@@ -1,12 +1,16 @@
-import type { MetaFunction } from '@remix-run/node';
-import { useLoaderData, useOutletContext } from '@remix-run/react';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 import { motion } from 'framer-motion';
-import { gql, GraphQLClient } from 'graphql-request';
+import request from 'graphql-request';
 import { useEffect } from 'react';
-import { CityOlympiad } from '~/components/olympiad-city/CityOlympiad';
-import { sharedStadiums } from '~/components/olympiad-city/settings';
-import SharedOlympiads from '~/components/olympiad-city/SharedOlympiads';
-import { cityStatus, statusColor } from '~/components/olympiad-city/utils';
+import CityInfo from '~/components/olympiad-city/CityInfo';
+import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from '~/components/olympiad-city/utils';
+import type { FragmentType } from '~/gql';
+import { useFragment } from '~/gql';
+import { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import { GetCityDocument } from '~/gql/graphql';
+import { useTripContext } from '../trip';
 
 export const meta: MetaFunction = ({ data }) => {
   return {
@@ -19,53 +23,20 @@ export const meta: MetaFunction = ({ data }) => {
   };
 };
 
-export async function loader({ params }) {
+export async function loader({ params }: LoaderArgs) {
+  if (!params.slug) {
+    return json({ city: null });
+  }
+
   const now = new Date().toISOString();
 
-  const query = gql`
-    {
-      cityBySlug(slug: "${params.slug}") {
-        id
-        name
-        slug
-        country {
-          name
-          flagByTimestamp(
-            dateTimestamp: { start: { value: "${now}", inclusive: true }, end: { value: "${now}", inclusive: true } }
-          ) {
-            png
-          }
-        }
-        olympiads(orderBy: YEAR_ASC) {
-          nodes {
-            id
-            year
-            olympiadType
-          }
-        }
-      }
-    }
-  `;
+  const response = await request(process.env.API_ENDPOINT || '', GetCityDocument, { now, slug: params.slug });
 
-  const graphQLClient = new GraphQLClient(process.env.API_ENDPOINT || '');
+  if (!response?.cityBySlug?.name) {
+    return json({ city: null });
+  }
 
-  const response = await graphQLClient.request(query);
-
-  //* filter out 1906 Athens and 1956 Stockholm
-  response.cityBySlug.olympiads.nodes = response.cityBySlug.olympiads.nodes.filter((olympiad) => {
-    if (olympiad.year === 1906) {
-      return false;
-    }
-
-    if (olympiad.year === 1956) {
-      if (response.cityBySlug.name === 'Stockholm') {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  return { city: response.cityBySlug };
+  return json({ city: response.cityBySlug });
 }
 
 const variants = {
@@ -78,16 +49,31 @@ const variants = {
 };
 
 function CityPage() {
-  const { handleImageModal, visits, setSelectedCity, moveableGlobe } = useOutletContext();
-  const { city } = useLoaderData();
+  const { visits, setSelectedCity, moveableGlobe } = useTripContext();
+  const { city } = useLoaderData<typeof loader>();
 
-  const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);
+  const olympiads = useFragment(
+    CityOlympiadFragmentDoc,
+    city?.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]
+  );
 
   useEffect(() => {
-    if (city) {
-      setSelectedCity(city);
+    if (city?.slug) {
+      setSelectedCity(city.slug);
     }
   }, [setSelectedCity, city]);
+
+  if (!city?.country?.name || !city?.name || !city.country.flagByTimestamp?.png) {
+    return null;
+  }
+
+  if (!city?.olympiads?.nodes?.length) {
+    return null;
+  }
+
+  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, olympiads);
+
+  const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
 
   return (
     <motion.div
@@ -126,32 +112,10 @@ function CityPage() {
             />
           </div>
         </motion.div>
-        <motion.ul className="mt-[40px] flex list-none flex-col p-0">
-          {sharedStadiums.includes(city.name) ? (
-            <SharedOlympiads
-              olympiads={city.olympiads.nodes}
-              visit={
-                visits[city.olympiads.nodes[0].year.toString()]?.[city.olympiads.nodes[0].olympiadType.toLowerCase()]
-              }
-              handleImageModal={handleImageModal}
-            />
-          ) : (
-            city.olympiads.nodes.map((olympiad) => {
-              const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
-
-              return (
-                <CityOlympiad
-                  key={olympiad.id}
-                  olympiad={olympiad}
-                  visit={visit}
-                  handleImageModal={handleImageModal}
-                  selected
-                  expanded
-                />
-              );
-            })
-          )}
-        </motion.ul>
+        <CityInfo
+          cityName={city.name}
+          olympiads={city.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]}
+        />
       </motion.div>
     </motion.div>
   );

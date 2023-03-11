@@ -1,31 +1,37 @@
-import { useRef } from 'react';
+import type { FragmentType } from '~/gql';
+import { useFragment } from '~/gql';
+import type { CityFieldsFragment } from '~/gql/graphql';
+import { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import { useTripContext } from '~/routes/trip';
 import CityInList from './CityInList';
-import { cityStatus } from './utils';
+import { cityStatus, filterOutNonOlympiadsForCity } from './utils';
 
 type OlympiadCityProps = {
-  cityInfo: {
-    name: string;
-    country: {
-      name: string;
-      flagByTimestamp: {
-        png: string;
-      };
-    };
-  };
+  city: CityFieldsFragment;
 };
 
-export function OlympiadCity({ cityInfo, olympiads, visits }) {
-  const cityRef = useRef(null);
-  const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
+export function OlympiadCity({ city }: OlympiadCityProps) {
+  const { visits } = useTripContext();
+
+  const olympiads = useFragment(
+    CityOlympiadFragmentDoc,
+    city.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]
+  );
+
+  if (!city.name) {
+    return null;
+  }
+
+  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, olympiads);
+
+  const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
 
   return (
     <CityInList
-      cityRef={cityRef}
-      cityInfo={cityInfo}
+      city={city}
       amountCompleted={amountCompleted}
       totalOlympiads={totalOlympiads}
-      olympiads={olympiads}
-      visits={visits}
+      olympiads={filteredOlympiads}
     />
   );
 }
