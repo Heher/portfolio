@@ -37,3 +37,16 @@ export type RouteInfo = {
   coords: Coordinate[];
   type: 'flight' | 'ferry' | 'ground';
 };
+
+export type MarkerVisit = {
+  visited: boolean;
+  markerInfo: {
+    position: number[];
+    rotation: number[];
+  };
+};
+
+export type AnimationVariants = {
+  hidden: { opacity: number; x: string; transition: { duration: number } };
+  visible: { opacity: number; x: string; transition: { duration: number } };
+};

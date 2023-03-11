@@ -3,7 +3,7 @@ import { useFragment } from '~/gql/fragment-masking';
 import { CityOlympiadFragmentDoc } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { OlympiadMedia } from './OlympiadMedia';
-import { filterOutNonOlympiads } from './utils';
+import { filterOutNonOlympiadsForCity } from './utils';
 
 type SharedOlympiadsProps = {
   olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
@@ -11,11 +11,10 @@ type SharedOlympiadsProps = {
 };
 
 function SharedOlympiads(props: SharedOlympiadsProps) {
-  // const olympiadData = useFragment(CityOlympiadFragmentDoc)
   const olympiads = useFragment(CityOlympiadFragmentDoc, props.olympiads);
-  const { handleImageModal, visits } = useTripContext();
+  const { visits } = useTripContext();
 
-  const filteredOlympiads = filterOutNonOlympiads(props.cityName, olympiads);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(props.cityName, olympiads);
 
   const olympiadVisits = filteredOlympiads.map((olympiad) => {
     if (!olympiad?.year) {
@@ -48,11 +47,9 @@ function SharedOlympiads(props: SharedOlympiadsProps) {
         </p>
       </div>
       <div className="media mt-[20px] items-end group-[.selected]:flex">
-        <OlympiadMedia
-          visit={olympiadVisits[0]}
-          olympiadType={firstOlympiad.olympiadType}
-          handleImageModal={handleImageModal}
-        />
+        {olympiadVisits[0] ? (
+          <OlympiadMedia visit={olympiadVisits[0]} olympiadType={firstOlympiad.olympiadType} />
+        ) : null}
       </div>
     </li>
   );

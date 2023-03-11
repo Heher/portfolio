@@ -13,7 +13,13 @@ const arc = d3
   .startAngle(0)
   .endAngle(({ endAngle }) => endAngle);
 
-const VisitsGraph = ({ title, visits, total }) => {
+type VisitsGraphProps = {
+  title: string;
+  visits: number;
+  total: number;
+};
+
+const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const arcPercent = visits / total;
 

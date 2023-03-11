@@ -255,7 +255,7 @@ function Globe({
               offMaterial={offMaterial}
               offVisitedMaterial={offVisitedMaterial}
               city={city}
-              citySelected={selectedCity || false}
+              citySelected={selectedCity}
               selected={isSelectedCity}
               flagPosition={flagPosition}
             />

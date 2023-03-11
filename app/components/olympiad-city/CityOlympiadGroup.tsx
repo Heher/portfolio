@@ -3,7 +3,7 @@ import { useFragment } from '~/gql';
 import { CityOlympiadFragmentDoc } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { CityOlympiad } from './CityOlympiad';
-import { filterOutNonOlympiads } from './utils';
+import { filterOutNonOlympiadsForCity } from './utils';
 
 type CityOlympiadGroupProps = {
   olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
@@ -14,7 +14,7 @@ const CityOlympiadGroup = (props: CityOlympiadGroupProps) => {
   const olympiads = useFragment(CityOlympiadFragmentDoc, props.olympiads);
   const { visits } = useTripContext();
 
-  const filteredOlympiads = filterOutNonOlympiads(props.cityName, olympiads);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(props.cityName, olympiads);
 
   return (
     <div>

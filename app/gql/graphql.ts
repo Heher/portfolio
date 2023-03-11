@@ -294,6 +294,7 @@ export type City = Node & {
   country?: Maybe<Country>;
   /** The foreign key from the country that hosted the olympiad. */
   countryId: Scalars['UUID'];
+  firstOlympiad?: Maybe<Scalars['Int']>;
   /** The primary key for the city. */
   id: Scalars['UUID'];
   /** The name of the city. */
@@ -335,6 +336,8 @@ export type CityFilter = {
   and?: InputMaybe<Array<CityFilter>>;
   /** Filter by the object’s `countryId` field. */
   countryId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `firstOlympiad` field. */
+  firstOlympiad?: InputMaybe<IntFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `name` field. */
@@ -5843,6 +5846,25 @@ export type CityOlympiadFragment = {
   olympiadType?: Olympiadtype | null;
 } & { ' $fragmentName'?: 'CityOlympiadFragment' };
 
+export type CityFieldsFragment = {
+  __typename?: 'City';
+  id: any;
+  name?: string | null;
+  slug?: string | null;
+  firstOlympiad?: number | null;
+  country?: {
+    __typename?: 'Country';
+    name?: string | null;
+    flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
+  } | null;
+  olympiads: {
+    __typename?: 'OlympiadsConnection';
+    nodes: Array<
+      ({ __typename?: 'Olympiad' } & { ' $fragmentRefs'?: { CityOlympiadFragment: CityOlympiadFragment } }) | null
+    >;
+  };
+} & { ' $fragmentName'?: 'CityFieldsFragment' };
+
 export type GetCityQueryVariables = Exact<{
   slug: Scalars['String'];
   now: Scalars['Datetime'];
@@ -5869,6 +5891,18 @@ export type GetCityQuery = {
   } | null;
 };
 
+export type GetCitiesQueryVariables = Exact<{
+  now: Scalars['Datetime'];
+}>;
+
+export type GetCitiesQuery = {
+  __typename?: 'Query';
+  cities?: {
+    __typename?: 'CitiesConnection';
+    nodes: Array<({ __typename?: 'City' } & { ' $fragmentRefs'?: { CityFieldsFragment: CityFieldsFragment } }) | null>;
+  } | null;
+};
+
 export type GetFlagsQueryVariables = Exact<{
   visitedCountries?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
   now: Scalars['Datetime'];
@@ -5886,6 +5920,28 @@ export type GetFlagsQuery = {
   } | null;
 };
 
+export type OlympiadFieldsCityFragment = {
+  __typename?: 'City';
+  id: any;
+  name?: string | null;
+  slug?: string | null;
+  country?: {
+    __typename?: 'Country';
+    name?: string | null;
+    flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
+  } | null;
+} & { ' $fragmentName'?: 'OlympiadFieldsCityFragment' };
+
+export type OlympiadFieldsFragment = {
+  __typename?: 'Olympiad';
+  id: any;
+  year: number;
+  olympiadType?: Olympiadtype | null;
+  city?:
+    | ({ __typename?: 'City' } & { ' $fragmentRefs'?: { OlympiadFieldsCityFragment: OlympiadFieldsCityFragment } })
+    | null;
+} & { ' $fragmentName'?: 'OlympiadFieldsFragment' };
+
 export type GetOlympiadsQueryVariables = Exact<{
   now: Scalars['Datetime'];
 }>;
@@ -5894,23 +5950,9 @@ export type GetOlympiadsQuery = {
   __typename?: 'Query';
   olympiads?: {
     __typename?: 'OlympiadsConnection';
-    nodes: Array<{
-      __typename?: 'Olympiad';
-      id: any;
-      year: number;
-      olympiadType?: Olympiadtype | null;
-      city?: {
-        __typename?: 'City';
-        id: any;
-        name?: string | null;
-        slug?: string | null;
-        country?: {
-          __typename?: 'Country';
-          name?: string | null;
-          flagByTimestamp?: { __typename?: 'Flag'; png?: string | null } | null;
-        } | null;
-      } | null;
-    } | null>;
+    nodes: Array<
+      ({ __typename?: 'Olympiad' } & { ' $fragmentRefs'?: { OlympiadFieldsFragment: OlympiadFieldsFragment } }) | null
+    >;
   } | null;
 };
 
@@ -5932,6 +5974,320 @@ export const CityOlympiadFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<CityOlympiadFragment, unknown>;
+export const CityFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'City' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstOlympiad' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'country' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'flagByTimestamp' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'dateTimestamp' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'start' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'end' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'olympiads' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'YEAR_ASC' }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CityOlympiad' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityOlympiad' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CityFieldsFragment, unknown>;
+export const OlympiadFieldsCityFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'OlympiadFieldsCity' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'City' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'country' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'flagByTimestamp' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'dateTimestamp' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'start' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'end' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<OlympiadFieldsCityFragment, unknown>;
+export const OlympiadFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'OlympiadFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'city' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OlympiadFieldsCity' } }]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'OlympiadFieldsCity' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'City' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'country' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'flagByTimestamp' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'dateTimestamp' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'start' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'end' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<OlympiadFieldsFragment, unknown>;
 export const GetCityDocument = {
   kind: 'Document',
   definitions: [
@@ -6082,6 +6438,163 @@ export const GetCityDocument = {
     }
   ]
 } as unknown as DocumentNode<GetCityQuery, GetCityQueryVariables>;
+export const GetCitiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCities' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'cities' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CityFields' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityOlympiad' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'City' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstOlympiad' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'country' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'flagByTimestamp' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'dateTimestamp' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'start' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'end' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'olympiads' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'YEAR_ASC' }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CityOlympiad' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetCitiesQuery, GetCitiesQueryVariables>;
 export const GetFlagsDocument = {
   kind: 'Document',
   definitions: [
@@ -6248,93 +6761,111 @@ export const GetOlympiadsDocument = {
                   name: { kind: 'Name', value: 'nodes' },
                   selectionSet: {
                     kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'year' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'city' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'flagByTimestamp' },
-                                    arguments: [
-                                      {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'dateTimestamp' },
-                                        value: {
-                                          kind: 'ObjectValue',
-                                          fields: [
-                                            {
-                                              kind: 'ObjectField',
-                                              name: { kind: 'Name', value: 'start' },
-                                              value: {
-                                                kind: 'ObjectValue',
-                                                fields: [
-                                                  {
-                                                    kind: 'ObjectField',
-                                                    name: { kind: 'Name', value: 'value' },
-                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
-                                                  },
-                                                  {
-                                                    kind: 'ObjectField',
-                                                    name: { kind: 'Name', value: 'inclusive' },
-                                                    value: { kind: 'BooleanValue', value: true }
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            {
-                                              kind: 'ObjectField',
-                                              name: { kind: 'Name', value: 'end' },
-                                              value: {
-                                                kind: 'ObjectValue',
-                                                fields: [
-                                                  {
-                                                    kind: 'ObjectField',
-                                                    name: { kind: 'Name', value: 'value' },
-                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
-                                                  },
-                                                  {
-                                                    kind: 'ObjectField',
-                                                    name: { kind: 'Name', value: 'inclusive' },
-                                                    value: { kind: 'BooleanValue', value: true }
-                                                  }
-                                                ]
-                                              }
-                                            }
-                                          ]
-                                        }
-                                      }
-                                    ],
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
-                                    }
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    ]
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OlympiadFields' } }]
                   }
                 }
               ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'OlympiadFieldsCity' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'City' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'country' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'flagByTimestamp' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'dateTimestamp' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'start' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'end' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'value' },
+                                  value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } }
+                                },
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'inclusive' },
+                                  value: { kind: 'BooleanValue', value: true }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'png' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'OlympiadFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Olympiad' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'olympiadType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'city' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OlympiadFieldsCity' } }]
             }
           }
         ]

@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import type { Coordinate, Visit } from 'types/globe';
+import type { Coordinate, MarkerVisit, Visit } from 'types/globe';
 import type { City } from './coordinates';
 
 export const globeRadius = 1;
 
-export function convertToRadians(coord) {
+export function convertToRadians(coord: Coordinate) {
   const latRad = coord[0] * (Math.PI / 180);
   const lonRad = coord[1] * (Math.PI / 180);
 
@@ -44,13 +44,13 @@ export function getPointPosition(coord: Coordinate, radius: number) {
   ];
 }
 
-function getCoordRotation(coord) {
+function getCoordRotation(coord: Coordinate) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return [0, -lonRad, latRad - Math.PI * 0.5];
 }
 
-export function placeObjectOnPlanet(coord: Coordinate, radius: number) {
+export function placeObjectOnPlanet(coord: Coordinate, radius: number): { position: number[]; rotation: number[] } {
   return {
     position: getPosition(coord, radius),
     // flagPosition: getPosition(coord, radius + 0.1),
@@ -86,7 +86,7 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   return '#3366ff';
 }
 
-export function formatCitiesWithVisits(cities: City[], visits: Visit[]) {
+export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (City & MarkerVisit)[] {
   const citiesWithVisits = cities.map((city) => {
     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;

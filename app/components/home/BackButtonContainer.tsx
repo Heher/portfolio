@@ -1,6 +1,20 @@
 import BackButton from './BackButton';
 
-const BackButtonContainer = ({ routeSelected, moveableGlobe, handleBackButton, width, isCityPage }) => {
+type BackButtonContainerProps = {
+  routeSelected: boolean;
+  moveableGlobe: boolean;
+  handleBackButton: () => void;
+  width: number;
+  isCityPage: boolean | null;
+};
+
+const BackButtonContainer = ({
+  routeSelected,
+  moveableGlobe,
+  handleBackButton,
+  width,
+  isCityPage
+}: BackButtonContainerProps) => {
   return (
     <>
       <div

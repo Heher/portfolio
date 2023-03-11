@@ -1,6 +1,5 @@
 import type { Visit } from 'types/globe';
 import type { CityOlympiadFragment } from '~/gql/graphql';
-import { useTripContext } from '~/routes/trip';
 import { OlympiadMedia } from './OlympiadMedia';
 
 type CityOlympiadProps = {
@@ -11,8 +10,6 @@ type CityOlympiadProps = {
 };
 
 export const CityOlympiad = ({ olympiad, visit, selected = false, expanded = false }: CityOlympiadProps) => {
-  const { handleImageModal } = useTripContext();
-
   if (!olympiad?.olympiadType) {
     return null;
   }
@@ -31,9 +28,7 @@ export const CityOlympiad = ({ olympiad, visit, selected = false, expanded = fal
         </p>
       </div>
       <div className="media mt-[20px] hidden items-end group-[.selected]:flex">
-        {expanded && visit && (
-          <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} handleImageModal={handleImageModal} />
-        )}
+        {expanded && visit && <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} />}
       </div>
     </li>
   );

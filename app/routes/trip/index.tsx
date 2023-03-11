@@ -1,13 +1,16 @@
 import { useLoaderData } from '@remix-run/react';
 import request from 'graphql-request';
-import { groupBy } from 'lodash';
 
 import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
 import { useTripContext } from '../trip';
+import type { CityFieldsFragmentDoc, OlympiadFieldsFragmentDoc } from '~/gql/graphql';
+import { GetCitiesDocument } from '~/gql/graphql';
 import { GetOlympiadsDocument } from '~/gql/graphql';
+import type { AnimationVariants } from 'types/globe';
+import type { FragmentType } from '~/gql';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -23,34 +26,17 @@ export async function loader() {
 
   const now = new Date().toISOString();
 
-  const response = await request(process.env.API_ENDPOINT || '', GetOlympiadsDocument, { now });
+  const olympiadsResponse = await request(process.env.API_ENDPOINT || '', GetOlympiadsDocument, { now });
+  const citiesResponse = await request(process.env.API_ENDPOINT || '', GetCitiesDocument, { now });
 
-  if (!response.olympiads) {
-    return json({ olympiads: [] });
+  if (!olympiadsResponse.olympiads || !citiesResponse.cities) {
+    return json({ olympiads: [], cities: [] });
   }
 
-  //* filter out 1906 Athens and 1956 Stockholm
-  response.olympiads.nodes = response.olympiads.nodes.filter((olympiad) => {
-    if (!olympiad?.city) {
-      return false;
-    }
-
-    if (olympiad.year === 1906) {
-      return false;
-    }
-
-    if (olympiad.year === 1956) {
-      if (olympiad.city.name === 'Stockholm') {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  return json({ olympiads: response.olympiads.nodes });
+  return json({ olympiads: olympiadsResponse.olympiads.nodes, cities: citiesResponse.cities.nodes });
 }
 
-const animationVariants = {
+const animationVariants: AnimationVariants = {
   hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
@@ -71,15 +57,15 @@ export default function TripIndex() {
   const { width, moveableGlobe, routeSelected, showDetails, setShowDetails, visits, toggleBodyBackground } =
     useTripContext();
 
-  const { olympiads } = useLoaderData<typeof loader>();
+  const { olympiads, cities } = useLoaderData<typeof loader>();
 
-  const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad?.city?.id);
+  // const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad?.city?.id);
 
   return (
     <div>
       <MainCopy
         showDetails={showDetails}
-        olympiads={olympiads}
+        olympiads={olympiads as FragmentType<typeof OlympiadFieldsFragmentDoc>[]}
         visits={visits}
         globeMoveable={moveableGlobe}
         routeSelected={routeSelected}
@@ -87,13 +73,7 @@ export default function TripIndex() {
       />
 
       {getCitiesListVisibility(width, showDetails) && (
-        <CitiesList
-          olympiadList={groupedOlympiads}
-          visits={visits}
-          variants={animationVariants}
-          globeMoveable={moveableGlobe}
-          routeSelected={routeSelected}
-        />
+        <CitiesList cities={cities as FragmentType<typeof CityFieldsFragmentDoc>[]} variants={animationVariants} />
       )}
       {!showDetails && width < 768 && (
         <button

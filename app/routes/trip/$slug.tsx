@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 import CityInfo from '~/components/olympiad-city/CityInfo';
 import { cityStatus, statusColor } from '~/components/olympiad-city/utils';
 import type { FragmentType } from '~/gql';
-import type { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import { useFragment } from '~/gql';
+import { CityOlympiadFragmentDoc } from '~/gql/graphql';
 import { GetCityDocument } from '~/gql/graphql';
 import { useTripContext } from '../trip';
 
@@ -51,6 +52,11 @@ function CityPage() {
   const { visits, setSelectedCity, moveableGlobe } = useTripContext();
   const { city } = useLoaderData<typeof loader>();
 
+  const olympiads = useFragment(
+    CityOlympiadFragmentDoc,
+    city?.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]
+  );
+
   useEffect(() => {
     if (city?.slug) {
       setSelectedCity(city.slug);
@@ -65,7 +71,7 @@ function CityPage() {
     return null;
   }
 
-  const { amountCompleted, totalOlympiads } = cityStatus(city.olympiads.nodes, visits);
+  const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
 
   return (
     <motion.div

@@ -4,6 +4,26 @@ fragment CityOlympiad on Olympiad {
   olympiadType
 }
 
+fragment CityFields on City {
+  id
+  name
+  slug
+  firstOlympiad
+  country {
+    name
+    flagByTimestamp(
+      dateTimestamp: { start: { value: $now, inclusive: true }, end: { value: $now, inclusive: true } }
+    ) {
+      png
+    }
+  }
+  olympiads(orderBy: YEAR_ASC) {
+    nodes {
+      ...CityOlympiad
+    }
+  }
+}
+
 query GetCity($slug: String!, $now: Datetime!) {
   cityBySlug(slug: $slug) {
     id
@@ -21,6 +41,14 @@ query GetCity($slug: String!, $now: Datetime!) {
       nodes {
         ...CityOlympiad
       }
+    }
+  }
+}
+
+query GetCities($now: Datetime!) {
+  cities {
+    nodes {
+      ...CityFields
     }
   }
 }
