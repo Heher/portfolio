@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import request from 'graphql-request';
 import { useEffect } from 'react';
 import CityInfo from '~/components/olympiad-city/CityInfo';
-import { cityStatus, statusColor } from '~/components/olympiad-city/utils';
+import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from '~/components/olympiad-city/utils';
 import type { FragmentType } from '~/gql';
 import { useFragment } from '~/gql';
 import { CityOlympiadFragmentDoc } from '~/gql/graphql';
@@ -71,7 +71,9 @@ function CityPage() {
     return null;
   }
 
-  const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, olympiads);
+
+  const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
 
   return (
     <motion.div
