@@ -1,18 +1,28 @@
 import { Link } from '@remix-run/react';
 import { motion } from 'framer-motion';
+import type { CityFieldsFragment, CityOlympiadFragment } from '~/gql/graphql';
+import { useTripContext } from '~/routes/trip';
 import { CityOlympiad } from './CityOlympiad';
 import { statusColor } from './utils';
 
 const MotionLink = motion(Link);
 
-const CityInList = ({ cityRef, cityInfo, amountCompleted, totalOlympiads, olympiads, visits }) => {
+type CityInListProps = {
+  city: CityFieldsFragment;
+  amountCompleted: number;
+  totalOlympiads: number;
+  olympiads: CityOlympiadFragment[];
+};
+
+const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityInListProps) => {
+  const { visits } = useTripContext();
+
   return (
     <MotionLink
-      ref={cityRef}
       layout
       initial={false}
       className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0]`}
-      to={`/trip/${cityInfo.slug}`}
+      to={`/trip/${city.slug}`}
     >
       <motion.span
         className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(
@@ -25,16 +35,23 @@ const CityInList = ({ cityRef, cityInfo, amountCompleted, totalOlympiads, olympi
           <motion.div className="header flex items-center">
             <div className="">
               <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">
-                {cityInfo.name === 'Squaw Valley' ? 'Palisades Tahoe' : cityInfo.name}
+                {city.name === 'Squaw Valley' ? 'Palisades Tahoe' : city.name}
               </motion.h3>
               <motion.h4 className="text-[1rem]">
-                {cityInfo.country.name === 'United States of America' ? 'USA' : cityInfo.country.name}
+                {city.country?.name === 'United States of America' ? 'USA' : city.country?.name}
               </motion.h4>
             </div>
           </motion.div>
           <ul className="mt-[20px] flex list-none items-center p-0">
             {olympiads.map((olympiad) => {
-              const visit = visits[olympiad.year.toString()]?.[olympiad.olympiadType.toLowerCase()];
+              if (!olympiad?.olympiadType) {
+                return null;
+              }
+
+              const visit = visits.find(
+                (visit) =>
+                  visit.year === olympiad.year.toString() && visit.type === olympiad?.olympiadType?.toLowerCase()
+              );
 
               return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} />;
             })}

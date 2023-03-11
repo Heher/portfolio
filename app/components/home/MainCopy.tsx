@@ -1,12 +1,19 @@
 import { motion } from 'framer-motion';
+import type { AnimationVariants, Visit } from 'types/globe';
+import type { FragmentType } from '~/gql';
+import type { OlympiadFieldsFragmentDoc } from '~/gql/graphql';
 import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
   showDetails: boolean;
+  olympiads: FragmentType<typeof OlympiadFieldsFragmentDoc>[];
+  visits: Visit[];
+  globeMoveable: boolean;
   routeSelected: boolean;
+  variants: AnimationVariants;
 };
 
-function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }) {
+function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }: MainCopyProps) {
   return (
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"

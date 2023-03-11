@@ -1,4 +1,4 @@
-function getGlobeHeight(width, moveableMobile = false) {
+function getGlobeHeight(width: number, moveableMobile = false) {
   if (width < 768) {
     if (moveableMobile) {
       return '100vh';
@@ -9,7 +9,7 @@ function getGlobeHeight(width, moveableMobile = false) {
   return '100vh';
 }
 
-function getGlobeContainerTop(width, showDetails = false, citySelected = false) {
+function getGlobeContainerTop(width: number, showDetails = false, citySelected = false) {
   if (width < 768) {
     if (!showDetails) {
       return 'auto';
@@ -29,7 +29,7 @@ function getGlobeContainerTop(width, showDetails = false, citySelected = false) 
   return '0vh';
 }
 
-export function getMoveableGlobeContainerRight(width, moveableMobile = false) {
+export function getMoveableGlobeContainerRight(width: number, moveableMobile = false) {
   if (moveableMobile) {
     return '0px';
   }
@@ -42,7 +42,7 @@ export function getMoveableGlobeContainerRight(width, moveableMobile = false) {
   return `0px`;
 }
 
-function getGlobeContainerBottom(width, showDetails = false) {
+function getGlobeContainerBottom(width: number, showDetails = false) {
   if (width < 768 && !showDetails) {
     return '-20vh';
   }
@@ -50,7 +50,7 @@ function getGlobeContainerBottom(width, showDetails = false) {
   return 'auto';
 }
 
-function getGlobeContainerRight(width, citySelected = false) {
+function getGlobeContainerRight(width: number, citySelected = false) {
   // Mobile
   if (width < 768) {
     return '0px';

@@ -1,0 +1,31 @@
+fragment OlympiadFieldsCity on City {
+  id
+  name
+  slug
+  country {
+    name
+    flagByTimestamp(
+      dateTimestamp: { start: { value: $now, inclusive: true }, end: { value: $now, inclusive: true } }
+    ) {
+      png
+    }
+  }
+}
+
+fragment OlympiadFields on Olympiad {
+  id
+  year
+  olympiadType
+  city {
+    ...OlympiadFieldsCity
+  }
+}
+
+
+query GetOlympiads($now: Datetime!) {
+  olympiads(orderBy: YEAR_ASC) {
+    nodes {
+      ...OlympiadFields
+    }
+  }
+}

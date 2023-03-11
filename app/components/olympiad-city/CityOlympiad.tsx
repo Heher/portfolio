@@ -1,18 +1,19 @@
+import type { Visit } from 'types/globe';
+import type { CityOlympiadFragment } from '~/gql/graphql';
 import { OlympiadMedia } from './OlympiadMedia';
 
 type CityOlympiadProps = {
+  olympiad: CityOlympiadFragment;
+  visit: Visit | undefined;
   selected?: boolean;
-  handleImageModal: (img: string) => void;
   expanded?: boolean;
 };
 
-export const CityOlympiad = ({
-  olympiad,
-  visit,
-  selected = false,
-  handleImageModal,
-  expanded = false
-}: CityOlympiadProps) => {
+export const CityOlympiad = ({ olympiad, visit, selected = false, expanded = false }: CityOlympiadProps) => {
+  if (!olympiad?.olympiadType) {
+    return null;
+  }
+
   return (
     <li className={`city-olympiad ${!selected && 'mr-[25px]'}`}>
       <div className="title grid grid-cols-[12px_1fr] items-center gap-[10px]">
@@ -27,9 +28,7 @@ export const CityOlympiad = ({
         </p>
       </div>
       <div className="media mt-[20px] hidden items-end group-[.selected]:flex">
-        {expanded && visit && (
-          <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} handleImageModal={handleImageModal} />
-        )}
+        {expanded && visit && <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} />}
       </div>
     </li>
   );
