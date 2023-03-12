@@ -1,5 +1,5 @@
 import type { Visit } from 'types/globe';
-import type { CityOlympiadFragment, OlympiadFieldsFragment } from '~/gql/graphql';
+import type { CityFieldsFragment, CityOlympiadFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 
 export function cityStatus(
   olympiads: readonly CityOlympiadFragment[],
@@ -85,7 +85,8 @@ export function filterOutNonOlympiads(olympiads: readonly OlympiadFieldsFragment
     }
 
     if (olympiad.year === 1956) {
-      if (olympiad.city?.name === 'Stockholm') {
+      const { name } = olympiad.city as CityFieldsFragment;
+      if (name === 'Stockholm') {
         return false;
       }
     }

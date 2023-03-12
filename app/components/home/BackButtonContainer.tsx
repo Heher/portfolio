@@ -5,7 +5,7 @@ type BackButtonContainerProps = {
   moveableGlobe: boolean;
   handleBackButton: () => void;
   width: number;
-  isCityPage: boolean | null;
+  isCityPage: RegExpMatchArray | null;
 };
 
 const BackButtonContainer = ({
