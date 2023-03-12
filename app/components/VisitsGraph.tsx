@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import type { DefaultArcObject } from 'd3';
 import { useEffect, useRef } from 'react';
+import { useTripContext } from '~/routes/trip';
 
 const size = 100;
 const outerRadius = size / 2 - 1;
@@ -21,6 +22,7 @@ type VisitsGraphProps = {
 };
 
 const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
+  const { loaded } = useTripContext();
   const svgRef = useRef<SVGSVGElement>(null);
   const arcPercent = visits / total;
 
@@ -30,21 +32,24 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   useEffect(() => {
     if (svgRef?.current) {
       const path = d3.select(`.main-arc-${title}`);
+      if (!loaded) {
+        path
+          .transition()
+          .duration(1000)
+          .attrTween('d', function () {
+            const interpolate = d3.interpolate(0, 2 * 0.8 * Math.PI * arcPercent);
 
-      path
-        .transition()
-        .duration(1000)
-        .attrTween('d', function () {
-          const interpolate = d3.interpolate(0, 2 * 0.8 * Math.PI * arcPercent);
-
-          return (t) => {
-            const endAngle = interpolate(t);
-            const arcInter = arc({ endAngle } as DefaultArcObject);
-            return arcInter || '';
-          };
-        });
+            return (t) => {
+              const endAngle = interpolate(t);
+              const arcInter = arc({ endAngle } as DefaultArcObject);
+              return arcInter || '';
+            };
+          });
+      } else {
+        path.attr('d', arc({ endAngle: 2 * 0.8 * Math.PI * arcPercent } as DefaultArcObject));
+      }
     }
-  }, [arcPercent, title]);
+  }, [arcPercent, title, loaded]);
 
   if (mainArc === null || bgArc === null) return null;
 
