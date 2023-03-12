@@ -34,6 +34,8 @@ type ContextType = {
   toggleBodyBackground: () => void;
   selectedRouteLeg: number;
   setSelectedRouteLeg: (leg: number) => void;
+  loaded: boolean;
+  setLoaded: (loaded: boolean) => void;
 };
 
 export const meta: MetaFunction = () => ({
@@ -102,6 +104,7 @@ export default function TripPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedRouteLeg, setSelectedRouteLeg] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -200,7 +203,9 @@ export default function TripPage() {
               visits,
               toggleBodyBackground,
               selectedRouteLeg,
-              setSelectedRouteLeg
+              setSelectedRouteLeg,
+              loaded,
+              setLoaded
             }}
           />
         </AnimatePresence>
