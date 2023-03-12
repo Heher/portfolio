@@ -1,11 +1,11 @@
-import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
+import { Outlet, useCatch, useLocation, useOutletContext } from '@remix-run/react';
 
 import { SimpleGlobe } from '~/components/globe/SimpleGlobe';
 import { Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
-import type { MetaFunction } from '@remix-run/node';
+import type { ErrorBoundaryComponent, MetaFunction } from '@remix-run/node';
 
 import visits from '~/data/new-visits';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
@@ -17,6 +17,7 @@ import {
   showDetailsPositioning
 } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
+import ErrorBoundarySimple from '~/components/ErrorBoundary';
 
 type ContextType = {
   handleImageModal: (img: string | null) => void;
@@ -47,6 +48,25 @@ export const meta: MetaFunction = () => ({
   'og:image': '/olympic-cities-og.jpg'
 });
 
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+  console.log('ERROR from boundary: ', error);
+  return <div className="h-[300px] w-[300px] bg-red-400">Error</div>;
+};
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <div>
+      <h1>Caught</h1>
+      <p>Status: {caught.status}</p>
+      <pre>
+        <code>{JSON.stringify(caught.data, null, 2)}</code>
+      </pre>
+    </div>
+  );
+}
+
 function toggleBodyBackground() {
   const body = document.body;
 
@@ -55,7 +75,7 @@ function toggleBodyBackground() {
 }
 
 function GlobeFallback() {
-  return <div>Loading...</div>;
+  return <div className="h-[300px] w-[300px] bg-red-500">Loading...</div>;
 }
 
 function getGlobeVariant(
@@ -172,18 +192,20 @@ export default function TripPage() {
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
-            <Suspense fallback={<GlobeFallback />}>
-              <SimpleGlobe
-                visits={visits}
-                selectedCity={selectedCity}
-                routeSelected={routeSelected}
-                showDetails={width >= 768 ? true : showDetails}
-                width={width}
-                moveable={moveableGlobe}
-                setMoveable={() => setMoveableGlobe(true)}
-                selectedRouteLeg={selectedRouteLeg}
-              />
-            </Suspense>
+            <ErrorBoundarySimple>
+              <Suspense fallback={<GlobeFallback />}>
+                <SimpleGlobe
+                  visits={visits}
+                  selectedCity={selectedCity}
+                  routeSelected={routeSelected}
+                  showDetails={width >= 768 ? true : showDetails}
+                  width={width}
+                  moveable={moveableGlobe}
+                  setMoveable={() => setMoveableGlobe(true)}
+                  selectedRouteLeg={selectedRouteLeg}
+                />
+              </Suspense>
+            </ErrorBoundarySimple>
           </motion.div>
         )}
         <AnimatePresence>

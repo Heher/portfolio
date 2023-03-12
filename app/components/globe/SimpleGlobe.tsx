@@ -16,6 +16,8 @@ import { Route } from './Route';
 import type { Coordinate, Visit } from 'types/globe';
 import { NewCities } from './NewCities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import type { ErrorBoundaryComponent } from '@remix-run/node';
+import { useCatch } from '@remix-run/react';
 
 type RotationResponse = {
   rotateX?: number;
@@ -275,6 +277,10 @@ export function SimpleGlobe({
   showDetails,
   selectedRouteLeg
 }: SimpleGlobeProps) {
+  // throw new Error('SimpleGlobe is deprecated. Use Globe instead.');
+
+  doesNotExist();
+
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />

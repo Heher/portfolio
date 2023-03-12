@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, useLocation } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 
 import globalStyles from '~/styles/global.css';
@@ -16,6 +16,41 @@ export function links() {
     { rel: 'stylesheet', href: globalStyles },
     { rel: 'stylesheet', href: stylesheet }
   ];
+}
+
+export function ErrorBoundary({ error }) {
+  console.log('ERROR from boundary: ', error);
+
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body className="m-4">
+        <h1 className="text-2xl">Something went wrong!</h1>
+        <p>{error.message}</p>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  console.log(caught);
+
+  return (
+    <div>
+      <h1>Caught</h1>
+      <p>Status: {caught.status}</p>
+      <pre>
+        <code>{JSON.stringify(caught.data, null, 2)}</code>
+      </pre>
+    </div>
+  );
 }
 
 function App() {
