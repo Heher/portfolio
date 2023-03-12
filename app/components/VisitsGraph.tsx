@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import type { DefaultArcObject } from 'd3';
 import { useEffect, useRef } from 'react';
 
 const size = 100;
@@ -23,8 +24,8 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const arcPercent = visits / total;
 
-  const bgArc = arc({ endAngle: 2 * Math.PI * 0.8 });
-  const mainArc = arc({ endAngle: 0 });
+  const bgArc = arc({ endAngle: 2 * Math.PI * 0.8 } as DefaultArcObject);
+  const mainArc = arc({ endAngle: 0 } as DefaultArcObject);
 
   useEffect(() => {
     if (svgRef?.current) {
@@ -38,11 +39,14 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
 
           return (t) => {
             const endAngle = interpolate(t);
-            return arc({ endAngle });
+            const arcInter = arc({ endAngle } as DefaultArcObject);
+            return arcInter || '';
           };
         });
     }
-  }, []);
+  }, [arcPercent, title]);
+
+  if (mainArc === null || bgArc === null) return null;
 
   return (
     <div>
