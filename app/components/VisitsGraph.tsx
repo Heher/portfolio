@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import type { DefaultArcObject } from 'd3';
 import { useEffect, useRef } from 'react';
 import { useTripContext } from '~/routes/trip';
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 
 const size = 100;
 const outerRadius = size / 2 - 1;
@@ -24,6 +25,10 @@ type VisitsGraphProps = {
 const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   const { loaded } = useTripContext();
   const svgRef = useRef<SVGSVGElement>(null);
+
+  const count = useMotionValue(loaded ? visits : 0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+
   const arcPercent = visits / total;
 
   const bgArc = arc({ endAngle: 2 * Math.PI * 0.8 } as DefaultArcObject);
@@ -32,6 +37,7 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   useEffect(() => {
     if (svgRef?.current) {
       const path = d3.select(`.main-arc-${title}`);
+
       if (!loaded) {
         path
           .transition()
@@ -48,8 +54,12 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
       } else {
         path.attr('d', arc({ endAngle: 2 * 0.8 * Math.PI * arcPercent } as DefaultArcObject));
       }
+
+      const controls = animate(count, visits, { delay: 0.3 });
+
+      return controls.stop;
     }
-  }, [arcPercent, title, loaded]);
+  }, [arcPercent, title, loaded, count, visits]);
 
   if (mainArc === null || bgArc === null) return null;
 
@@ -68,7 +78,7 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
         </g>
       </svg>
       <p className="mt-[-90px] text-center text-slate-100">
-        <span className="text-[2.3rem]">{visits}</span>
+        <motion.span className="text-[2.3rem]">{rounded}</motion.span>
         <span className="ml-[5px]">/ {total}</span>
       </p>
     </div>
