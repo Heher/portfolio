@@ -11,6 +11,7 @@ import { GetCitiesDocument } from '~/gql/graphql';
 import { GetOlympiadsDocument } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import type { FragmentType } from '~/gql';
+import { useEffect } from 'react';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -54,12 +55,27 @@ function getCitiesListVisibility(width: number, showDetails: boolean) {
 }
 
 export default function TripIndex() {
-  const { width, moveableGlobe, routeSelected, showDetails, setShowDetails, visits, toggleBodyBackground } =
-    useTripContext();
+  const {
+    width,
+    moveableGlobe,
+    routeSelected,
+    showDetails,
+    setShowDetails,
+    visits,
+    toggleBodyBackground,
+    loaded,
+    setLoaded
+  } = useTripContext();
 
   const { olympiads, cities } = useLoaderData<typeof loader>();
 
   // const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad?.city?.id);
+
+  useEffect(() => {
+    if (!loaded) {
+      setLoaded(true);
+    }
+  }, [loaded, setLoaded]);
 
   return (
     <div>
