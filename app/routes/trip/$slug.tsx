@@ -41,10 +41,10 @@ export async function loader({ params }: LoaderArgs) {
 
 const variants = {
   show: {
-    y: 0
+    // y: '100%'
   },
   hide: {
-    y: '100%'
+    // y: '100%'
   }
 };
 
@@ -63,7 +63,7 @@ function CityPage() {
     }
   }, [setSelectedCity, city]);
 
-  if (!city?.country?.name || !city?.name || !city.country.flagByTimestamp?.png) {
+  if (!city?.country?.name || !city?.name || !city.country.flagByTimestamp?.png || !city.slug) {
     return null;
   }
 
@@ -89,6 +89,7 @@ function CityPage() {
       variants={variants}
       animate={moveableGlobe ? 'hide' : 'show'}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
+      layoutId={city.slug}
     >
       <motion.span
         className={`city-status block w-full border-t-[15px] border-solid ${statusColor(

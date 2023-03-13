@@ -208,7 +208,7 @@ export default function TripPage() {
             </ErrorBoundarySimple>
           </motion.div>
         )}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <Outlet
             context={{
               handleImageModal,
