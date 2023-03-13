@@ -39,7 +39,7 @@
     "react-use-measure": "^2.1.1",
     "strava-v3": "^2.1.0",
     "styled-components": "^5.3.8",
-    "three": "~0.148.0",
+    "three": "~0.150.1",
     "three-stdlib": "^2.21.8"
   },
   "devDependencies": {
