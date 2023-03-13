@@ -17,6 +17,7 @@ import {
   showDetailsPositioning
 } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
+import ErrorBoundarySimple from '~/components/ErrorBoundary';
 
 type ContextType = {
   handleImageModal: (img: string | null) => void;
@@ -46,6 +47,25 @@ export const meta: MetaFunction = () => ({
   'og:title': 'John Heher | Olympic Trip',
   'og:image': '/olympic-cities-og.jpg'
 });
+
+// export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+//   console.log('ERROR from boundary: ', error);
+//   return <div className="h-[300px] w-[300px] bg-red-400">Error</div>;
+// };
+
+// export function CatchBoundary() {
+//   const caught = useCatch();
+
+//   return (
+//     <div>
+//       <h1>Caught</h1>
+//       <p>Status: {caught.status}</p>
+//       <pre>
+//         <code>{JSON.stringify(caught.data, null, 2)}</code>
+//       </pre>
+//     </div>
+//   );
+// }
 
 function toggleBodyBackground() {
   const body = document.body;
@@ -172,18 +192,20 @@ export default function TripPage() {
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
-            <Suspense fallback={<GlobeFallback />}>
-              <SimpleGlobe
-                visits={visits}
-                selectedCity={selectedCity}
-                routeSelected={routeSelected}
-                showDetails={width >= 768 ? true : showDetails}
-                width={width}
-                moveable={moveableGlobe}
-                setMoveable={() => setMoveableGlobe(true)}
-                selectedRouteLeg={selectedRouteLeg}
-              />
-            </Suspense>
+            <ErrorBoundarySimple>
+              <Suspense fallback={<GlobeFallback />}>
+                <SimpleGlobe
+                  visits={visits}
+                  selectedCity={selectedCity}
+                  routeSelected={routeSelected}
+                  showDetails={width >= 768 ? true : showDetails}
+                  width={width}
+                  moveable={moveableGlobe}
+                  setMoveable={() => setMoveableGlobe(true)}
+                  selectedRouteLeg={selectedRouteLeg}
+                />
+              </Suspense>
+            </ErrorBoundarySimple>
           </motion.div>
         )}
         <AnimatePresence>
