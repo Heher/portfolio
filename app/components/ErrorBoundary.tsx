@@ -1,6 +1,10 @@
 import React from 'react';
 
-class ErrorBoundarySimple extends React.Component {
+type ErrorBoundarySimpleProps = {
+  children: React.ReactNode;
+};
+
+class ErrorBoundarySimple extends React.Component<ErrorBoundarySimpleProps> {
   state = { hasError: false };
 
   componentDidCatch(error: unknown) {
@@ -16,7 +20,9 @@ class ErrorBoundarySimple extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="absolute top-[100px] right-[500px] flex h-[400px] w-[400px] items-center justify-center rounded-full bg-slate-400">
+        <div
+          className={`absolute bottom-[20%] left-[50%] flex h-[250px] w-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400 md:top-[100px] md:right-[400px] md:h-[500px] md:w-[500px]`}
+        >
           <p>Could not load globe. Please reload.</p>
         </div>
       );
