@@ -42,9 +42,11 @@ export async function loader({ params }: LoaderArgs) {
 const variants = {
   show: {
     // y: '100%'
+    opacity: 1
   },
   hide: {
     // y: '100%'
+    opacity: 0
   }
 };
 
@@ -77,8 +79,9 @@ function CityPage() {
 
   return (
     <motion.div
+      key={city.slug}
       layout
-      className={`olympiad-city selected group z-20 overflow-scroll bg-[#e0e0e0]`}
+      className={`z-20 overflow-scroll bg-[#e0e0e0]`}
       style={{
         position: 'fixed',
         top: '25vh',
@@ -88,8 +91,9 @@ function CityPage() {
       }}
       variants={variants}
       animate={moveableGlobe ? 'hide' : 'show'}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      // transition={{ duration: 0.3, ease: 'easeInOut' }}
       layoutId={city.slug}
+      exit={{ opacity: 0 }}
     >
       <motion.span
         className={`city-status block w-full border-t-[15px] border-solid ${statusColor(

@@ -27,9 +27,11 @@ export const CityOlympiad = ({ olympiad, visit, selected = false, expanded = fal
           {selected && `${olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()} Games`}
         </p>
       </div>
-      <div className="media mt-[20px] hidden items-end group-[.selected]:flex">
-        {expanded && visit && <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} />}
-      </div>
+      {expanded && visit ? (
+        <div className="media mt-[20px] flex items-end">
+          <OlympiadMedia visit={visit} olympiadType={olympiad.olympiadType} />
+        </div>
+      ) : null}
     </li>
   );
 };

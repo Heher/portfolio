@@ -46,11 +46,11 @@ function SharedOlympiads(props: SharedOlympiadsProps) {
           {` ${firstOlympiad.olympiadType.charAt(0) + firstOlympiad.olympiadType.slice(1).toLowerCase()} Games`}
         </p>
       </div>
-      <div className="media mt-[20px] items-end group-[.selected]:flex">
-        {olympiadVisits[0] ? (
+      {olympiadVisits[0] ? (
+        <div className="media mt-[20px] flex items-end">
           <OlympiadMedia visit={olympiadVisits[0]} olympiadType={firstOlympiad.olympiadType} />
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </li>
   );
 }
