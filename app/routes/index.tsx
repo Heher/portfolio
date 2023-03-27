@@ -79,7 +79,7 @@ export default function Index() {
           <p>
             Currently in{' '}
             <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-              Rotorua, NZ
+              Wellington, NZ
             </Link>
           </p>
         </div>
