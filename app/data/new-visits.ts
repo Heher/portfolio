@@ -308,6 +308,17 @@ const visits: Visit[] = [
       link: 'https://www.strava.com/activities/8800651590',
       img: ''
     }
+  },
+  {
+    year: '2000',
+    type: 'summer',
+    stadium: {
+      img: 'summer-2000.jpg'
+    },
+    strava: {
+      link: 'https://www.strava.com/activities/8834316360',
+      img: ''
+    }
   }
 ];
 
