@@ -38,7 +38,7 @@
     "react-router-dom": "^6.9.0",
     "react-use-measure": "^2.1.1",
     "strava-v3": "^2.1.0",
-    "styled-components": "^5.3.8",
+    "styled-components": "^5.3.10",
     "three": "~0.148.0",
     "three-stdlib": "^2.21.8"
   },
