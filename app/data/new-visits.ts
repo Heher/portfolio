@@ -179,17 +179,6 @@ const visits: Visit[] = [
   },
   {
     year: '1992',
-    type: 'summer',
-    stadium: {
-      img: 'summer-1992.jpg'
-    },
-    strava: {
-      link: '',
-      img: ''
-    }
-  },
-  {
-    year: '1992',
     type: 'winter',
     stadium: {
       img: 'winter-1992.jpg'
@@ -317,6 +306,17 @@ const visits: Visit[] = [
     },
     strava: {
       link: 'https://www.strava.com/activities/8834316360',
+      img: ''
+    }
+  },
+  {
+    year: '1924',
+    type: 'summer',
+    stadium: {
+      img: 'summer-1924.jpg'
+    },
+    strava: {
+      link: 'https://www.strava.com/activities/8970935554',
       img: ''
     }
   }
