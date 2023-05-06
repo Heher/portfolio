@@ -319,6 +319,17 @@ const visits: Visit[] = [
       link: 'https://www.strava.com/activities/8970935554',
       img: ''
     }
+  },
+  {
+    year: '1992',
+    type: 'summer',
+    stadium: {
+      img: 'summer-1992.jpg',
+    },
+    strava: {
+      link: 'https://www.strava.com/activities/9020339116',
+      img: ''
+    }
   }
 ];
 
