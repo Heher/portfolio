@@ -324,7 +324,7 @@ const visits: Visit[] = [
     year: '1992',
     type: 'summer',
     stadium: {
-      img: 'summer-1992.jpg',
+      img: 'summer-1992.jpg'
     },
     strava: {
       link: 'https://www.strava.com/activities/9020339116',
