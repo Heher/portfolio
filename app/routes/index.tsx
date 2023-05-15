@@ -75,7 +75,7 @@ export default function Index() {
 
   return (
     <main className="flex h-[100dvh] w-[100vw] items-center justify-center text-[18px]">
-      <div className="mr-[30px] flex h-[243px] w-[200px] flex-col items-end">
+      <div className="mr-[30px] flex h-[243px] w-[210px] flex-col items-end">
         <div>
           <h1 className="mb-3 text-2xl">John Heher</h1>
           <h2 className="mb-1 text-lg">
