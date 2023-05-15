@@ -8,9 +8,10 @@ import { GetFlagsDocument } from '~/gql/graphql';
 const visitedCountries = [
   'San Marino',
   'Italy',
+  'Monaco',
+  'France',
   'Spain',
   'Andorra',
-  'France',
   'Great Britain',
   'Singapore',
   'Indonesia',
