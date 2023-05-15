@@ -6,11 +6,12 @@ import { useEffect } from 'react';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
+  'San Marino',
   'Italy',
   'Monaco',
+  'France',
   'Spain',
   'Andorra',
-  'France',
   'Great Britain',
   'Singapore',
   'Indonesia',
@@ -85,7 +86,7 @@ export default function Index() {
           <p>
             Currently in{' '}
             <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-              Pisa, IT
+              San Marino, SM
             </Link>
           </p>
         </div>
