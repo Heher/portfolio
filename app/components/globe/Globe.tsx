@@ -1,21 +1,24 @@
-import { useMemo, useRef } from 'react';
-// import type { Group } from 'three';
-import { TextureLoader, CylinderGeometry, SphereGeometry, MeshStandardMaterial, MathUtils } from 'three';
-import type { GroupProps } from '@react-three/fiber';
-import { useLoader, useThree, Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { cities } from './coordinates';
-import type { City } from './coordinates';
-
-import earthImg from '~/data/map/new-earth.png';
-
-import { motion } from 'framer-motion-3d';
-import { useEffect } from 'react';
-import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius } from './utils';
-import { Route } from './Route';
+import { useEffect, useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
+import { useThree, type GroupProps, useFrame } from '@react-three/fiber';
+import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius, markerHeight } from './utils';
+import type { City } from './coordinates';
+import { cities } from './coordinates';
+import { MathUtils } from 'three';
+import { motion } from 'framer-motion-3d';
+import Sphere from './Sphere';
+import { Route } from './Route';
+import { OrbitControls } from '@react-three/drei';
 import { NewCities } from './NewCities';
-// import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { flagGeometry, markerGeometry } from './geometries';
+import {
+  flagMaterial,
+  offMaterial,
+  offVisitedMaterial,
+  summerMarkerMaterial,
+  visitedMaterial,
+  winterMarkerMaterial
+} from './materials';
 
 type RotationResponse = {
   rotateX?: number;
@@ -23,42 +26,22 @@ type RotationResponse = {
   rotateZ?: number;
 };
 
+type NewGlobeProps = {
+  visits: Visit[];
+  selectedCity: string | null;
+  routeSelected: boolean;
+  showDetails: boolean;
+  width: number;
+  moveable: boolean;
+  setMoveable: () => void;
+  selectedRouteLeg: number;
+};
+
 function getNewRotation(coord: Coordinate): RotationResponse {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
 }
-
-const markerRadius = 0.007;
-const markerHeight = 0.2;
-
-const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
-const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
-
-const globeGeometry = new SphereGeometry(globeRadius, 32, 32);
-
-type SphereProps = {
-  width: number;
-  showDetails: boolean;
-  setMoveable: () => void;
-};
-
-const Sphere = ({ width, showDetails, setMoveable }: SphereProps) => {
-  const earthMap = useLoader(TextureLoader, earthImg);
-
-  return (
-    <mesh
-      geometry={globeGeometry}
-      onClick={() => {
-        if (width >= 768 || (width < 768 && showDetails)) {
-          setMoveable();
-        }
-      }}
-    >
-      <meshStandardMaterial map={earthMap} />
-    </mesh>
-  );
-};
 
 function getRotation(foundCity: City | undefined, routeSelected: boolean): RotationResponse {
   if (routeSelected) {
@@ -80,29 +63,7 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   return width < 768 ? 1 : 1;
 }
 
-type NewGlobeProps = {
-  visits: Visit[];
-  selectedCity: string | null;
-  routeSelected: boolean;
-  showDetails: boolean;
-  width: number;
-  moveable: boolean;
-  setMoveable: () => void;
-  selectedRouteLeg: number;
-};
-
-type SimpleGlobeProps = {
-  visits: Visit[];
-  selectedCity: string | null;
-  routeSelected: boolean;
-  showDetails: boolean;
-  width: number;
-  moveable: boolean;
-  setMoveable: () => void;
-  selectedRouteLeg: number;
-};
-
-function Globe({
+export function Globe({
   visits,
   selectedCity,
   routeSelected,
@@ -119,61 +80,6 @@ function Globe({
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
   const foundCity = cities.find((city) => city.name === selectedCity);
-
-  const summerMarkerMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#fc8d6a'
-      }),
-    []
-  );
-  const winterMarkerMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#5bcaf5'
-      }),
-    []
-  );
-  const flagMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#ff5a5a',
-        emissive: '#ff5a5a',
-        emissiveIntensity: 10,
-        toneMapped: false
-      }),
-    []
-  );
-  const visitedMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#3dbd73',
-        emissive: '#3dbd73',
-        emissiveIntensity: 10,
-        toneMapped: false
-      }),
-    []
-  );
-  const offVisitedMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#3dbd73',
-        emissive: 'black',
-        emissiveIntensity: 0,
-        toneMapped: false
-      }),
-    []
-  );
-  const offMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#ff5a5a',
-        emissive: 'black',
-        emissiveIntensity: 0,
-        toneMapped: false
-      }),
-    []
-  );
 
   useEffect(() => {
     if (camera && !routeSelected && !moveable) {
@@ -262,37 +168,5 @@ function Globe({
           );
         })}
     </motion.group>
-  );
-}
-
-export function SimpleGlobe({
-  visits,
-  selectedCity,
-  routeSelected,
-  width,
-  moveable,
-  setMoveable,
-  showDetails,
-  selectedRouteLeg
-}: SimpleGlobeProps) {
-  return (
-    <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
-      <ambientLight intensity={0.1} />
-      <directionalLight position={[10, 10, 5]} color="white" />
-      <Globe
-        visits={visits}
-        selectedCity={selectedCity}
-        routeSelected={routeSelected}
-        width={width}
-        moveable={moveable}
-        setMoveable={setMoveable}
-        showDetails={showDetails}
-        selectedRouteLeg={selectedRouteLeg}
-      />
-      {/* <EffectComposer>
-        <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
-      </EffectComposer> */}
-      {/* <Stats className="stats" /> */}
-    </Canvas>
   );
 }
