@@ -15,7 +15,7 @@ import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius } fr
 import { Route } from './Route';
 import type { Coordinate, Visit } from 'types/globe';
 import { NewCities } from './NewCities';
-import { Bloom, EffectComposer } from '@react-three/postprocessing';
+// import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
 type RotationResponse = {
   rotateX?: number;
@@ -289,9 +289,9 @@ export function SimpleGlobe({
         showDetails={showDetails}
         selectedRouteLeg={selectedRouteLeg}
       />
-      <EffectComposer>
+      {/* <EffectComposer>
         <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
-      </EffectComposer>
+      </EffectComposer> */}
       {/* <Stats className="stats" /> */}
     </Canvas>
   );
