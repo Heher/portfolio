@@ -36,6 +36,7 @@ export type Visit = {
 export type RouteInfo = {
   coords: Coordinate[];
   type: 'flight' | 'ferry' | 'ground';
+  description: string;
 };
 
 export type MarkerVisit = {

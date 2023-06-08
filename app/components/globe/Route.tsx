@@ -26,7 +26,12 @@ const citiesVisited = [
   'sarajevo',
   'albertville',
   'lillehammer',
-  'torino'
+  'torino',
+  'melbourne',
+  'sydney',
+  'barcelona',
+  'rome',
+  'athens'
 ];
 
 const markerHeight = 0.05;
