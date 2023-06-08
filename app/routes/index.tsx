@@ -1,8 +1,11 @@
 import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
+import { AnimatePresence } from 'framer-motion';
 import { request } from 'graphql-request';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Flap from '~/components/home/Flap';
+import Word from '~/components/home/Word';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
@@ -67,12 +70,23 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
 });
 
+// const city = 'London';
+
 export default function Index() {
+  const [city, setCity] = useState('London');
   const { flags } = useLoaderData<typeof loader>();
 
+  // useEffect(() => {
+  //   fizzBuzz();
+  // }, []);
+
   useEffect(() => {
-    fizzBuzz();
+    setInterval(() => {
+      setCity('Donson');
+    }, 1000);
   }, []);
+
+  console.log(city);
 
   return (
     <main className="flex h-[100dvh] w-[100vw] items-center justify-center text-[18px]">
@@ -91,7 +105,7 @@ export default function Index() {
             </Link>
           </p>
         </div>
-        <div className="flags-container relative mt-[8px] h-[200px] w-[210px]">
+        {/* <div className="flags-container relative mt-[8px] h-[200px] w-[210px]">
           <div className="flags-overlay absolute top-[-4px] left-0 z-10 h-[28px]"></div>
           <div className="flags-overlay-full absolute bottom-0 left-0 z-10 h-[108px]"></div>
           <div className="absolute top-0 right-0 flex flex-row-reverse flex-wrap items-center">
@@ -114,8 +128,16 @@ export default function Index() {
                 })
               : null}
           </div>
-        </div>
+        </div> */}
       </div>
+      {/* <div className="grid grid-cols-[repeat(20,_minmax(0,_1fr))] gap-[1px]">
+        <AnimatePresence initial={false}>
+          {[...Array(20)].map((value: undefined, index: number) => (
+            <Flap key={index} letter={city[index] || ''} index={index} />
+          ))}
+        </AnimatePresence>
+      </div> */}
+      <Word word={city} />
     </main>
   );
 }
