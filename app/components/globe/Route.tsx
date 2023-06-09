@@ -1,11 +1,18 @@
-import { useMemo } from 'react';
-import { CylinderGeometry, MeshStandardMaterial } from 'three';
+import { CylinderGeometry } from 'three';
 import type { MarkerVisit } from 'types/globe';
 import type { City } from './coordinates';
 import { NewCities } from './NewCities';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
 import { getPosition, globeRadius } from './utils';
+import {
+  flagMaterial,
+  offMaterial,
+  offVisitedMaterial,
+  summerMarkerMaterial,
+  visitedMaterial,
+  winterMarkerMaterial
+} from './materials';
 
 const citiesVisited = [
   'paris',
@@ -48,61 +55,6 @@ type RouteProps = {
 
 export function Route({ visible, citiesWithVisits, selectedRouteLeg }: RouteProps) {
   const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
-
-  const summerMarkerMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#fc8d6a'
-      }),
-    []
-  );
-  const winterMarkerMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#5bcaf5'
-      }),
-    []
-  );
-  const flagMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#ff5a5a',
-        emissive: '#ff5a5a',
-        emissiveIntensity: 5,
-        toneMapped: false
-      }),
-    []
-  );
-  const visitedMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#3dbd73',
-        emissive: '#3dbd73',
-        emissiveIntensity: 5,
-        toneMapped: false
-      }),
-    []
-  );
-  const offVisitedMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#3dbd73',
-        emissive: 'black',
-        emissiveIntensity: 0,
-        toneMapped: false
-      }),
-    []
-  );
-  const offMaterial = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color: '#ff5a5a',
-        emissive: 'black',
-        emissiveIntensity: 0,
-        toneMapped: false
-      }),
-    []
-  );
 
   const selectedRoute = selectedRouteLeg === 0 ? myRoute : [myRoute[selectedRouteLeg - 1]];
 
