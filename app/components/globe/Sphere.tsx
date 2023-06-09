@@ -21,6 +21,7 @@ const Sphere = ({ width, showDetails, setMoveable }: SphereProps) => {
           setMoveable();
         }
       }}
+      receiveShadow
     >
       <meshStandardMaterial map={earthMap} />
     </mesh>

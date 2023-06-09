@@ -147,7 +147,7 @@ export function Globe({
         citiesWithVisits.map((city) => {
           const isSelectedCity = selectedCity === city.name;
 
-          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
+          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
 
           return (
             <NewCities

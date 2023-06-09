@@ -54,6 +54,7 @@ export function NewCities({
         rotation={city.markerInfo.rotation as Euler}
         geometry={markerGeometry}
         material={city.type === 'summer' ? summerMarkerMaterial : winterMarkerMaterial}
+        receiveShadow
       ></mesh>
       <mesh
         ref={ref}
@@ -62,6 +63,7 @@ export function NewCities({
         geometry={flagGeometry}
         material={findFlagMaterial()}
         material-emissiveIntensity={selected ? 40 : 10}
+        receiveShadow
       ></mesh>
     </group>
   );
