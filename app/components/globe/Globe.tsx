@@ -19,6 +19,7 @@ import {
   visitedMaterial,
   winterMarkerMaterial
 } from './materials';
+import CameraPositionLogger from './helpers/CameraPositionLogger';
 
 type RotationResponse = {
   rotateX?: number;
@@ -143,6 +144,8 @@ export function Globe({
         rotateSpeed={0.25}
         target={[0, 0, 0]}
       />
+
+      <CameraPositionLogger event="mousedown" />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
           const isSelectedCity = selectedCity === city.name;
