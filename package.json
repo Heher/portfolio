@@ -11,7 +11,7 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
-    "@netlify/functions": "^1.4.0",
+    "@netlify/functions": "^1.6.0",
     "@react-spring/three": "^9.7.2",
     "@react-three/drei": "^9.72.1",
     "@react-three/fiber": "^8.11.2",
