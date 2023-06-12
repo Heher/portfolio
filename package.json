@@ -13,7 +13,7 @@
   "dependencies": {
     "@netlify/functions": "^1.4.0",
     "@react-spring/three": "^9.7.2",
-    "@react-three/drei": "^9.72.1",
+    "@react-three/drei": "^9.74.8",
     "@react-three/fiber": "^8.11.2",
     "@react-three/postprocessing": "^2.7.0",
     "@remix-run/express": "^1.14.1",
