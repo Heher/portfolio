@@ -28,7 +28,7 @@
     "framer-motion-3d": "^10.12.16",
     "framer-motion": "^10.12.16",
     "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0",
+    "graphql-request": "^6.1.0",
     "isbot": "^3.6.10",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
