@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 
-import { SimpleGlobe } from '~/components/globe/SimpleGlobe';
+import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import { Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
@@ -194,7 +194,7 @@ export default function TripPage() {
           >
             <ErrorBoundarySimple>
               <Suspense fallback={<GlobeFallback />}>
-                <SimpleGlobe
+                <GlobeContainer
                   visits={visits}
                   selectedCity={selectedCity}
                   routeSelected={routeSelected}

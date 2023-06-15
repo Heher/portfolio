@@ -3,6 +3,9 @@ import type { Coordinate, MarkerVisit, Visit } from 'types/globe';
 import type { City } from './coordinates';
 
 export const globeRadius = 1;
+export const markerRadius = 0.007;
+export const markerHeight = 0.2;
+export const beamHeight = 0.3;
 
 export function convertToRadians(coord: Coordinate) {
   const latRad = coord[0] * (Math.PI / 180);
