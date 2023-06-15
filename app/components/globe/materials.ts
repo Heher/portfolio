@@ -1,5 +1,20 @@
-import { MeshLambertMaterial, MeshStandardMaterial } from 'three';
+import { MeshLambertMaterial, MeshStandardMaterial, ShaderMaterial, Color } from 'three';
 import { black, darkWinterColor, notVisitedColor, summerColor, visitedColor, winterColor } from './colors';
+
+import vertexShader from './shaders/vertex.glsl';
+import fragmentShader from './shaders/fragment.glsl';
+
+export const newFlagMaterial = new ShaderMaterial({
+  uniforms: {
+    u_offColor: { value: new Color(0xff5a5a) },
+    u_darkSummerColor: { value: new Color(0x00ff00) },
+    u_summerColor: { value: new Color(0xfc8d6a) },
+    u_visitedColor: { value: new Color(0xc4ebd5) },
+    u_time: { value: 0.0 }
+  },
+  vertexShader,
+  fragmentShader
+});
 
 export const summerMarkerMaterial = new MeshStandardMaterial({
   color: 0xfc8d6a
