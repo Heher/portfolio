@@ -10,15 +10,6 @@ import Sphere from './Sphere';
 import { Route } from './Route';
 import { OrbitControls } from '@react-three/drei';
 import { NewCities } from './NewCities';
-import { flagGeometry, markerGeometry } from './geometries';
-import {
-  flagMaterial,
-  offMaterial,
-  offVisitedMaterial,
-  summerMarkerMaterial,
-  visitedMaterial,
-  winterMarkerMaterial
-} from './materials';
 
 type RotationResponse = {
   rotateX?: number;
@@ -143,29 +134,12 @@ export function Globe({
         rotateSpeed={0.25}
         target={[0, 0, 0]}
       />
+
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          const isSelectedCity = selectedCity === city.name;
+          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
 
-          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
-
-          return (
-            <NewCities
-              key={city.coord[0]}
-              markerGeometry={markerGeometry}
-              summerMarkerMaterial={summerMarkerMaterial}
-              winterMarkerMaterial={winterMarkerMaterial}
-              flagGeometry={flagGeometry}
-              flagMaterial={flagMaterial}
-              visitedMaterial={visitedMaterial}
-              offMaterial={offMaterial}
-              offVisitedMaterial={offVisitedMaterial}
-              city={city}
-              citySelected={selectedCity}
-              selected={isSelectedCity}
-              flagPosition={flagPosition}
-            />
-          );
+          return <NewCities key={city.coord[0]} city={city} citySelected={selectedCity} flagPosition={flagPosition} />;
         })}
     </motion.group>
   );
