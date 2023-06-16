@@ -58,21 +58,8 @@ export function NewCities({ city, citySelected, flagPosition }: NewCitiesProps) 
         rotation={city.markerInfo.rotation as Euler}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
+        shown={(citySelected && citySelected === city.name) as boolean}
       />
     </group>
   );
 }
-
-/*
-<mesh
-        ref={flagRef}
-        position={flagPosition as Vector3}
-        rotation={city.markerInfo.rotation as Euler}
-        castShadow
-        receiveShadow
-      >
-        <cylinderGeometry args={[markerRadius, markerRadius, 0.01, 32]} />
-        <flagMaterial u_color={findFlagColor()} />
-        <meshStandardMaterial color={findFlagColor()} emissive={findFlagColor()} />
-      </mesh>
-      */

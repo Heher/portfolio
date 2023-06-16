@@ -9,9 +9,10 @@ type FlagProps = {
   rotation: Euler;
   alphaMap: Texture;
   flagColor: Color;
+  shown: boolean;
 };
 
-export function Flag({ position, rotation, alphaMap, flagColor }: FlagProps) {
+export function Flag({ position, rotation, alphaMap, flagColor, shown }: FlagProps) {
   const flagRef = useRef(null);
 
   useFrame((state) => {
@@ -25,7 +26,7 @@ export function Flag({ position, rotation, alphaMap, flagColor }: FlagProps) {
   });
 
   return (
-    <group position={position} rotation={rotation}>
+    <group position={position} rotation={rotation} visible={shown}>
       <mesh ref={flagRef} receiveShadow position-y={beamHeight / 2}>
         <cylinderGeometry args={[0.03, markerRadius, beamHeight, 32, 32, true]} />
         <meshStandardMaterial
