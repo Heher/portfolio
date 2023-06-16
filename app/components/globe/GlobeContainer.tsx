@@ -3,7 +3,6 @@ import { Canvas } from '@react-three/fiber';
 import type { Visit } from 'types/globe';
 import { Globe } from './Globe';
 import { white } from './colors';
-// import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
 type GlobeContainerProps = {
   visits: Visit[];
@@ -40,10 +39,6 @@ export function GlobeContainer({
         showDetails={showDetails}
         selectedRouteLeg={selectedRouteLeg}
       />
-      {/* <EffectComposer>
-        <Bloom luminanceThreshold={1} intensity={0.85} levels={9} />
-      </EffectComposer> */}
-      {/* <Stats className="stats" /> */}
     </Canvas>
   );
 }

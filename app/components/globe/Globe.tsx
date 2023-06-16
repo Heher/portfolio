@@ -10,11 +10,18 @@ import Sphere from './Sphere';
 import { Route } from './Route';
 import { OrbitControls } from '@react-three/drei';
 import { NewCities } from './NewCities';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { KernelSize, Resolution } from 'postprocessing';
 
 type RotationResponse = {
   rotateX?: number;
   rotateY?: number;
   rotateZ?: number;
+  position?: {
+    x: number;
+    y: number;
+    z: number;
+  };
 };
 
 type NewGlobeProps = {
@@ -28,6 +35,18 @@ type NewGlobeProps = {
   selectedRouteLeg: number;
 };
 
+function getCityPosition(foundCity: City | undefined) {
+  //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
+  return foundCity ? { x: 0, y: -foundCity.coord[0] / 50, z: 0 } : undefined;
+}
+
+function getCityRotation(coord: Coordinate): RotationResponse {
+  const { latRad, lonRad } = convertToRadians(coord);
+
+  // return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
+  return { rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
+}
+
 function getNewRotation(coord: Coordinate): RotationResponse {
   const { latRad, lonRad } = convertToRadians(coord);
 
@@ -39,7 +58,7 @@ function getRotation(foundCity: City | undefined, routeSelected: boolean): Rotat
     return { ...getNewRotation([52.37, -4.89]), rotateZ: 0 };
   }
 
-  return foundCity ? getNewRotation(foundCity.coord) : {};
+  return foundCity ? getCityRotation(foundCity.coord) : {};
 }
 
 function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
@@ -85,15 +104,44 @@ export function Globe({
     if (foundCity || routeSelected) {
       const newProps = {
         ...getRotation(foundCity, routeSelected),
+        position: getCityPosition(foundCity),
         scale: getScale(foundCity, routeSelected, width)
       };
 
-      if (newProps.rotateX) {
+      if (
+        newProps.hasOwnProperty('rotateX') &&
+        newProps.rotateX !== groupRef.current.rotation.x &&
+        newProps.rotateX !== undefined
+      ) {
         groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
       }
 
-      if (newProps.rotateY) {
+      if (
+        newProps.hasOwnProperty('rotateY') &&
+        newProps.rotateY !== groupRef.current.rotation.y &&
+        newProps.rotateY !== undefined
+      ) {
         groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      }
+
+      if (
+        newProps.hasOwnProperty('rotateZ') &&
+        newProps.rotateZ !== groupRef.current.rotation.z &&
+        newProps.rotateZ !== undefined
+      ) {
+        groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, newProps.rotateZ, delta * 5);
+      }
+
+      if (
+        newProps.hasOwnProperty('position') &&
+        newProps.position !== groupRef.current.position &&
+        newProps.position !== undefined
+      ) {
+        groupRef.current.position.set(
+          MathUtils.lerp(groupRef.current.position.x, newProps.position.x, delta * 5),
+          MathUtils.lerp(groupRef.current.position.y, newProps.position.y, delta * 5),
+          MathUtils.lerp(groupRef.current.position.z, newProps.position.z, delta * 5)
+        );
       }
 
       groupRef.current.scale.set(
@@ -105,6 +153,8 @@ export function Globe({
 
     if (!routeSelected && !foundCity && !moveable) {
       groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
+      groupRef.current.position.set(0, 0, 0);
+
       groupRef.current.scale.set(
         MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
         MathUtils.lerp(groupRef.current.scale.y, 1, delta * 5),
@@ -116,6 +166,8 @@ export function Globe({
       } else {
         groupRef.current.rotation.y += delta * 0.15;
       }
+
+      groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, 0.5, delta * 5);
     }
   });
 
@@ -134,13 +186,25 @@ export function Globe({
         rotateSpeed={0.25}
         target={[0, 0, 0]}
       />
-
       {!routeSelected &&
         citiesWithVisits.map((city) => {
           const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
 
           return <NewCities key={city.coord[0]} city={city} citySelected={selectedCity} flagPosition={flagPosition} />;
         })}
+
+      <EffectComposer>
+        <Bloom
+          intensity={1.0} // The bloom intensity.
+          blurPass={undefined} // A blur pass.
+          kernelSize={KernelSize.LARGE} // blur kernel size
+          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
+          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+          mipmapBlur={false} // Enables or disables mipmap blur.
+          resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
+          resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
+        />
+      </EffectComposer>
     </motion.group>
   );
 }
