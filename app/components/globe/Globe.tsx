@@ -10,6 +10,8 @@ import Sphere from './Sphere';
 import { Route } from './Route';
 import { OrbitControls } from '@react-three/drei';
 import { NewCities } from './NewCities';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { KernelSize, Resolution } from 'postprocessing';
 
 type RotationResponse = {
   rotateX?: number;
@@ -134,13 +136,25 @@ export function Globe({
         rotateSpeed={0.25}
         target={[0, 0, 0]}
       />
-
       {!routeSelected &&
         citiesWithVisits.map((city) => {
           const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
 
           return <NewCities key={city.coord[0]} city={city} citySelected={selectedCity} flagPosition={flagPosition} />;
         })}
+
+      <EffectComposer>
+        <Bloom
+          intensity={1.0} // The bloom intensity.
+          blurPass={undefined} // A blur pass.
+          kernelSize={KernelSize.LARGE} // blur kernel size
+          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
+          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+          mipmapBlur={false} // Enables or disables mipmap blur.
+          resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
+          resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
+        />
+      </EffectComposer>
     </motion.group>
   );
 }
