@@ -3,31 +3,44 @@ import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { request } from 'graphql-request';
 import { useEffect } from 'react';
+import { Arrow } from '~/components/icons/Arrow';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
   'Great Britain',
   'Greece',
   'Italy',
+  'Vatican City',
+  'Italy',
   'San Marino',
+  'Italy',
   'Monaco',
   'France',
   'Spain',
   'Andorra',
+  'France',
+  'Great Britain',
   'Singapore',
   'Indonesia',
   'Australia',
   'New Zealand',
+  'United States of America',
+  'Great Britain',
   'Bosnia-Herzegovina',
+  'Switzerland',
   'Liechtenstein',
   'Switzerland',
   'Austria',
   'Germany',
+  'United States of America',
   'Finland',
   'Estonia',
   'Latvia',
+  'Estonia',
   'Sweden',
   'Norway',
+  'France',
+  'United States of America',
   'Luxembourg',
   'Belgium',
   'Netherlands',
@@ -60,6 +73,46 @@ function fizzBuzz() {
   console.table(result);
 }
 
+function formatFlags(flags: any) {
+  if (!flags) return null;
+
+  const formattedFlags = [];
+
+  visitedCountries.forEach((countryName, index) => {
+    const flag = flags.find((flag) => flag?.name === countryName);
+
+    if (index > 0) {
+      formattedFlags.push(
+        <Arrow
+          key={`arrow-${index}`}
+          className={`mx-[10px] h-[20px] min-w-[30px] rotate-180 self-start`}
+          fill="#000000"
+        />
+      );
+    }
+
+    if (!flag?.flagByTimestamp?.png || !flag.name) {
+      formattedFlags.push(
+        <span
+          key={`${countryName}-${index}`}
+          className="mb-[14px] block h-[20px] min-w-[30px] bg-slate-300 shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
+        ></span>
+      );
+    } else {
+      formattedFlags.push(
+        <img
+          key={`${countryName}-${index}`}
+          className="mb-[14px] h-[20px] w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
+          src={flag.flagByTimestamp.png}
+          alt={flag.name}
+        />
+      );
+    }
+  });
+
+  return formattedFlags;
+}
+
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'John Heher | Web Developer',
@@ -74,9 +127,11 @@ export default function Index() {
     fizzBuzz();
   }, []);
 
+  const formattedFlags = formatFlags(flags);
+
   return (
     <main className="flex h-[100dvh] w-[100vw] items-center justify-center text-[18px]">
-      <div className="mr-[30px] flex h-[243px] w-[210px] flex-col items-end">
+      <div className="mr-[30px] flex flex-col items-end">
         <div>
           <h1 className="mb-3 text-2xl">John Heher</h1>
           <h2 className="mb-1 text-lg">
@@ -91,29 +146,9 @@ export default function Index() {
             </Link>
           </p>
         </div>
-        <div className="flags-container relative mt-[8px] h-[200px] w-[210px]">
+        <div className="flags-container relative mt-[8px] w-[170px]">
           <div className="flags-overlay absolute top-[-4px] left-0 z-10 h-[28px]"></div>
-          <div className="flags-overlay-full absolute bottom-0 left-0 z-10 h-[108px]"></div>
-          <div className="absolute top-0 right-0 flex flex-row-reverse flex-wrap items-center">
-            {flags
-              ? visitedCountries.map((countryName) => {
-                  const flag = flags.find((flag) => flag?.name === countryName);
-
-                  if (!flag?.flagByTimestamp?.png || !flag.name) {
-                    return null;
-                  }
-
-                  return (
-                    <img
-                      key={flag.name}
-                      className="mr-[4px] mb-[4px] h-[20px] w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
-                      src={flag.flagByTimestamp.png}
-                      alt={flag.name}
-                    />
-                  );
-                })
-              : null}
-          </div>
+          <div className="flags flex flex-row-reverse items-center overflow-y-scroll pl-[40px]">{formattedFlags}</div>
         </div>
       </div>
     </main>

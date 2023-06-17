@@ -78,14 +78,8 @@
   clip-path: circle(40%);
 }
 
-/* @media screen and (min-width: 1024px) {
-  .globe-container.clip-container {
-    right: 20%;
-  }
-} */
-
 .flags-overlay {
-  width: 100%;
+  width: 40%;
   background: linear-gradient(90deg, white 20%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
   transition: width .1s;
 }
@@ -94,10 +88,6 @@
   width: 100%;
   background: white;
   transition: width .1s;
-}
-
-.flags-container:hover .flags-overlay {
-  width: 0;
 }
 
 .flags-container:hover .flags-overlay-full {
