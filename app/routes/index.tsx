@@ -123,9 +123,9 @@ export const meta: MetaFunction = () => ({
 export default function Index() {
   const { flags } = useLoaderData<typeof loader>();
 
-  // useEffect(() => {
-  //   fizzBuzz();
-  // }, []);
+  useEffect(() => {
+    fizzBuzz();
+  }, []);
 
   const formattedFlags = formatFlags(flags);
 
