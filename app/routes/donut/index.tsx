@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { motion } from 'framer-motion';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import useMeasure from 'react-use-measure';
 import ErrorBoundarySimple from '~/components/ErrorBoundary';
 import { DonutContainer } from '~/components/donut/DonutContainer';
@@ -21,6 +21,12 @@ function DonutFallback() {
 export default function DonutIndex() {
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
+  const [color, setColor] = useState<number | null>(null);
+
+  function handleColorChange(newColor: number) {
+    setColor(newColor);
+  }
+
   return (
     <main ref={pageContainerRef} className={`relative h-[100dvh] w-full bg-[var(--nav-background)]`}>
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
@@ -31,7 +37,11 @@ export default function DonutIndex() {
             <ErrorBoundarySimple>
               <Suspense fallback={<DonutFallback />}>
                 <h1>Donut</h1>
-                <DonutContainer />
+                <input type="color" />
+                <button type="button" onClick={() => handleColorChange(0x0000ff)}>
+                  Change Color
+                </button>
+                <DonutContainer color={color} />
               </Suspense>
             </ErrorBoundarySimple>
           </motion.div>

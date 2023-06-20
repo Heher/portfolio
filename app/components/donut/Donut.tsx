@@ -10,16 +10,23 @@ interface DonutProps {
   position?: number[];
 }
 
-export default function Donut({ modelPath, scale = 10, position = [0, 0, 0] }: DonutProps) {
+export default function Donut({ modelPath, scale = 10, position = [0, 0, 0], color }: DonutProps) {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, donut);
-  const [hovered, hover] = useState(false);
+  console.log(gltf);
 
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => (ref.current.rotation.x += 0.003));
   return (
     <>
-      <primitive ref={ref} object={gltf.scene} position={position} scale={scale} />
+      <group ref={ref} scale={scale}>
+        <primitive object={gltf.nodes.Donut} position={gltf.nodes.Donut.position} />
+        <primitive
+          object={gltf.nodes.Icing}
+          position={gltf.nodes.Icing.position}
+          material-color={color || gltf.nodes.Icing.material.color}
+        />
+      </group>
     </>
   );
 }
