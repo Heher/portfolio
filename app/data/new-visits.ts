@@ -363,6 +363,17 @@ const visits: Visit[] = [
       link: 'https://www.strava.com/activities/9175044396',
       img: ''
     }
+  },
+  {
+    year: '1976',
+    type: 'summer',
+    stadium: {
+      img: 'summer-1976.jpg'
+    },
+    strava: {
+      link: 'https://www.strava.com/activities/9374113964',
+      img: ''
+    }
   }
 ];
 

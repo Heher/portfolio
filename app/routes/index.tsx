@@ -7,6 +7,9 @@ import { Arrow } from '~/components/icons/Arrow';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
+  'Canada',
+  'Iceland',
+  'Denmark',
   'Great Britain',
   'Greece',
   'Italy',
@@ -142,12 +145,12 @@ export default function Index() {
           <p>
             Currently in{' '}
             <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-              London, UK
+              Montreal, CA
             </Link>
           </p>
         </div>
         <div className="flags-container relative mt-[8px] w-[170px]">
-          <div className="flags-overlay absolute top-[-4px] left-0 z-10 h-[28px]"></div>
+          <div className="flags-overlay absolute left-0 top-[-4px] z-10 h-[28px]"></div>
           <div className="flags flex flex-row-reverse items-center overflow-y-scroll pl-[40px]">{formattedFlags}</div>
         </div>
       </div>
