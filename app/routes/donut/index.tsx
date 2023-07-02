@@ -5,6 +5,9 @@ import useMeasure from 'react-use-measure';
 import ErrorBoundarySimple from '~/components/ErrorBoundary';
 import { DonutContainer } from '~/components/donut/DonutContainer';
 
+import donutAR from '~/data/donut/donut.usdz';
+import donutImg from '~/data/donut/donut-pic.jpg';
+
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'Donut | John Heher',
@@ -30,6 +33,11 @@ export default function DonutIndex() {
   return (
     <main ref={pageContainerRef} className={`relative h-[100dvh] w-full bg-[var(--nav-background)]`}>
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
+        <div className="pt-[50px]">
+          <a rel="ar" href="/donut/donut.usdz">
+            <img src={donutImg} alt="AR Donut" className="mb-[200px] h-[80px] w-[80px]" />
+          </a>
+        </div>
         {width && (
           <motion.div
             className={`donut-container fixed z-30 h-[100vh] w-full md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)]`}
