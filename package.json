@@ -59,7 +59,7 @@
     "@typescript-eslint/parser": "^5.60.1",
     "autoprefixer": "^10.4.14",
     "cypress": "^12.14.0",
-    "dotenv": "^16.1.4",
+    "dotenv": "^16.3.1",
     "esbuild-plugin-glsl": "^1.2.1",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
