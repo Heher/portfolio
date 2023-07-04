@@ -16,7 +16,7 @@
     "@react-three/drei": "^9.74.15",
     "@react-three/fiber": "^8.13.3",
     "@react-three/postprocessing": "^2.14.10",
-    "@remix-run/express": "^1.14.1",
+    "@remix-run/express": "^1.18.1",
     "@remix-run/netlify": "^1.17.0",
     "@remix-run/node": "^1.18.1",
     "@remix-run/react": "^1.17.0",
