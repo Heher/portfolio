@@ -7,6 +7,7 @@ import { Arrow } from '~/components/icons/Arrow';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
+  'United States of America',
   'Canada',
   'Iceland',
   'Denmark',
@@ -145,7 +146,7 @@ export default function Index() {
           <p>
             Currently in{' '}
             <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-              Montreal, CA
+              Austin, TX
             </Link>
           </p>
         </div>
