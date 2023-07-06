@@ -98,12 +98,12 @@ export default function DonutIndex() {
                       handleColorChange={handleColorChange}
                     />
                   ))}
-                  <input
+                  {/* <input
                     id="color-input"
                     type="color"
                     value={colorInput}
                     onChange={(event) => handleColorChange(event.target.value, true)}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
