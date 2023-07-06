@@ -11,8 +11,11 @@ const ABORT_DELAY = 5000;
 
 Sentry.init({
   dsn: 'https://548f2fb81cf1456da9c7eb57e389f758:ee5a27cdedfa46f59045ffda21a11607@o918579.ingest.sentry.io/4504724271726592',
-  tracesSampleRate: 1,
-  environment: process.env.NODE_ENV
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0
 });
 
 export default function handleRequest(
