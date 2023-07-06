@@ -13,7 +13,7 @@
   "dependencies": {
     "@netlify/functions": "^1.6.0",
     "@react-spring/three": "^9.7.3",
-    "@react-three/drei": "^9.78.0",
+    "@react-three/drei": "^9.78.1",
     "@react-three/fiber": "^8.13.4",
     "@react-three/postprocessing": "^2.14.13",
     "@remix-run/express": "^1.18.1",
@@ -41,7 +41,7 @@
     "strava-v3": "^2.1.0",
     "styled-components": "^6.0.2",
     "three": "~0.154.0",
-    "three-stdlib": "^2.23.10"
+    "three-stdlib": "^2.23.11"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
