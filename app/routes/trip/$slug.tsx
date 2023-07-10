@@ -8,8 +8,7 @@ import CityInfo from '~/components/olympiad-city/CityInfo';
 import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from '~/components/olympiad-city/utils';
 import type { FragmentType } from '~/gql';
 import { useFragment } from '~/gql';
-import { CityOlympiadFragmentDoc } from '~/gql/graphql';
-import { GetCityDocument } from '~/gql/graphql';
+import { CityOlympiadFragmentDoc, GetCityDocument } from '~/gql/graphql';
 import { useTripContext } from '../trip';
 
 export const meta: MetaFunction = ({ data }) => {
@@ -101,7 +100,7 @@ function CityPage() {
         <motion.div className="header mt-[25vh] md:mt-[15vh]">
           <div className="flex items-center">
             <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
-              {city.name === 'Squaw Valley' ? 'Palisades Tahoe' : city.name}
+              {city.name}
             </motion.h3>
           </div>
           <div className="mt-[10px] flex items-center">
