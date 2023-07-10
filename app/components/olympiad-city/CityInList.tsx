@@ -36,13 +36,11 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityIn
           totalOlympiads
         )}`}
       />
-      <div className={`flex py-[30px] px-[25px]`}>
+      <div className={`flex px-[25px] py-[30px]`}>
         <div className="text-[var(--text)]">
           <motion.div className="header flex items-center">
             <div className="">
-              <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">
-                {city.name === 'Squaw Valley' ? 'Palisades Tahoe' : city.name}
-              </motion.h3>
+              <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">{city.name}</motion.h3>
               <motion.h4 className="text-[1rem]">
                 {city.country?.name === 'United States of America' ? 'USA' : city.country?.name}
               </motion.h4>
