@@ -43,7 +43,10 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   naples: [40.8518, -14.2681],
   bari: [41.1171, -16.8719],
   patras: [38.2466, -21.7346],
-  olympia: [37.6384, -21.6297]
+  olympia: [37.6384, -21.6297],
+  copenhagen: [55.6761, -12.5683],
+  tòrshavn: [62.0107, 6.7741],
+  reykjavik: [64.1470, 21.9408]
 };
 
 export const myRoute: RouteInfo[] = [
@@ -302,5 +305,30 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.athens, coordinates.london],
     type: 'flight',
     description: 'Flight to London'
+  },
+  {
+    coords: [coordinates.london, extraCoordinates.copenhagen],
+    type: 'flight',
+    description: 'Flight to Copenhagen'
+  },
+  {
+    coords: [extraCoordinates.copenhagen, extraCoordinates.tòrshavn],
+    type: 'flight',
+    description: 'Flight to the Faroe Islands'
+  },
+  {
+    coords: [extraCoordinates.tòrshavn, extraCoordinates.reykjavik],
+    type: 'flight',
+    description: 'Flight to Reykjavik'
+  },
+  {
+    coords: [extraCoordinates.reykjavik, coordinates.montreal],
+    type: 'flight',
+    description: 'Flight to Montreal'
+  },
+  {
+    coords: [coordinates.montreal, extraCoordinates.austin],
+    type: 'flight',
+    description: 'Flight to Austin'
   }
 ];
