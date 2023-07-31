@@ -41,7 +41,7 @@
     "strava-v3": "^2.1.0",
     "styled-components": "^6.0.4",
     "three": "~0.154.0",
-    "three-stdlib": "^2.23.13"
+    "three-stdlib": "^2.23.14"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
