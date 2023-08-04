@@ -4,6 +4,7 @@ import { Link, useLoaderData } from '@remix-run/react';
 import { request } from 'graphql-request';
 import { useEffect } from 'react';
 import { Arrow } from '~/components/icons/Arrow';
+import ResumeIcon from '~/components/icons/Resume';
 import { GetFlagsDocument } from '~/gql/graphql';
 
 const visitedCountries = [
@@ -137,7 +138,12 @@ export default function Index() {
     <main className="flex h-[100dvh] w-[100vw] items-center justify-center text-[18px]">
       <div className="mr-[30px] flex flex-col items-end">
         <div>
-          <h1 className="mb-3 text-2xl">John Heher</h1>
+          <div className="mb-4 flex items-center">
+            <h1 className="text-2xl leading-none">John Heher</h1>
+            <a href="/cv.pdf" className="ml-[10px] p-[5px] text-[var(--cta)] underline">
+              <ResumeIcon className={`h-[20px] fill-[var(--cta)]`} />
+            </a>
+          </div>
           <h2 className="mb-1 text-lg">
             <a href="https://github.com/Heher" className="text-[var(--cta)] underline">
               Web Developer
