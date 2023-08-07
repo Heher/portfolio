@@ -7,6 +7,8 @@ import { Arrow } from '~/components/icons/Arrow';
 import ResumeIcon from '~/components/icons/Resume';
 import { GetFlagsDocument } from '~/gql/graphql';
 
+import flags from '~/data/countryFlags.json';
+
 const visitedCountries = [
   'United States of America',
   'Canada',
@@ -53,11 +55,12 @@ const visitedCountries = [
 ];
 
 export async function loader() {
-  const now = new Date().toISOString();
+  // const now = new Date().toISOString();
 
-  const response = await request(process.env.API_ENDPOINT || '', GetFlagsDocument, { now, visitedCountries });
+  // const response = await request(process.env.API_ENDPOINT || '', GetFlagsDocument, { now, visitedCountries });
 
-  return json({ flags: response?.countries?.nodes });
+  // return json({ flags: response?.countries?.nodes });
+  return json({ flags: flags.data.countries.nodes });
 }
 
 function fizzBuzz() {

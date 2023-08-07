@@ -1,0 +1,188 @@
+{
+  "data": {
+    "countries": {
+      "nodes": [
+        {
+          "name": "Belgium",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/belgium/1980.svg.png"
+          }
+        },
+        {
+          "name": "Estonia",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/estonia/1920.svg.png"
+          }
+        },
+        {
+          "name": "Andorra",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/andorra/1980.svg.png"
+          }
+        },
+        {
+          "name": "Finland",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/finland/1920.svg.png"
+          }
+        },
+        {
+          "name": "Denmark",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/denmark/1984.svg.png"
+          }
+        },
+        {
+          "name": "France",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/france/1980.svg.png"
+          }
+        },
+        {
+          "name": "Australia",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/australia/1980.svg.png"
+          }
+        },
+        {
+          "name": "Austria",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/austria/1924.svg.png"
+          }
+        },
+        {
+          "name": "Germany",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/germany/1952.svg.png"
+          }
+        },
+        {
+          "name": "Liechtenstein",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/liechtenstein/1948.svg.png"
+          }
+        },
+        {
+          "name": "Spain",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/spain/1984.svg.png"
+          }
+        },
+        {
+          "name": "Indonesia",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/indonesia/1952.svg.png"
+          }
+        },
+        {
+          "name": "United States of America",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/united-states/1964.svg.png"
+          }
+        },
+        {
+          "name": "Netherlands",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/netherlands/1980.svg.png"
+          }
+        },
+        {
+          "name": "Luxembourg",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/luxembourg/1984.svg.png"
+          }
+        },
+        {
+          "name": "Vatican City",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1687018473/flags/vatican-city/1896.svg.png"
+          }
+        },
+        {
+          "name": "Greece",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/greece/1976.svg.png"
+          }
+        },
+        {
+          "name": "Latvia",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/latvia/1924.svg.png"
+          }
+        },
+        {
+          "name": "New Zealand",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/new-zealand/1980.svg.png"
+          }
+        },
+        {
+          "name": "Italy",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/italy/2008.svg.png"
+          }
+        },
+        {
+          "name": "San Marino",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/san-marino/2012.svg.png"
+          }
+        },
+        {
+          "name": "Monaco",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/monaco/1920.svg.png"
+          }
+        },
+        {
+          "name": "Norway",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/norway/1900.svg.png"
+          }
+        },
+        {
+          "name": "Canada",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/canada/1968.svg.png"
+          }
+        },
+        {
+          "name": "Singapore",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/singapore/1968.svg.png"
+          }
+        },
+        {
+          "name": "Great Britain",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/great-britain/1980.svg.png"
+          }
+        },
+        {
+          "name": "Iceland",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/iceland/1948.svg.png"
+          }
+        },
+        {
+          "name": "Sweden",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/sweden/1906.svg.png"
+          }
+        },
+        {
+          "name": "Switzerland",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/switzerland/1980.svg.png"
+          }
+        },
+        {
+          "name": "Bosnia-Herzegovina",
+          "flagByTimestamp": {
+            "png": "https://res.cloudinary.com/globe-draft/image/upload/v1609362704/flags/bosnia-and-herzegovina/1998.svg.png"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,4 @@
-export default function ResumeIcon({ className }) {
+export default function ResumeIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="2 0 14 18" className={className}>
       <path
