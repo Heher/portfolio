@@ -25,7 +25,7 @@ export default function DonutIndex() {
     <main ref={pageContainerRef} className={`relative h-[100dvh] w-full bg-[var(--nav-background)]`}>
       <div className="body-container mx-auto h-[100dvh] max-w-[600px]">
         {width && (
-          <motion.div className={`aggro-container z-30 h-[600px] w-full px-[20px] pt-[50px]`}>
+          <motion.div className={`aggro-container z-30 h-[600px] w-full rounded-lg px-[20px] pt-[50px]`}>
             <div className="relative flex h-full flex-col rounded-lg">
               <div className="h-[70%] w-full rounded-t-lg bg-slate-400">
                 <ErrorBoundarySimple>
