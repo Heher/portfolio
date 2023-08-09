@@ -47,6 +47,11 @@
        url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+@font-face {
+  font-family: 'Anarchaos';
+  src: url("/fonts/anarchaos.otf") format("opentype");
+}
+
 .globe-background {
   background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
 }
