@@ -24,11 +24,11 @@ function RockMaterial() {
     // color: 0xff0000,
     // emissive: 0xff0000,
     // emissiveIntensity: 10,
-    roughness: 0.3,
+    // roughness: 0.3,
     transmission: 0.8,
-    thickness: 1,
+    thickness: 0.5,
     roughnessMap: roughTexture,
-    displacementMap: displacementTexture,
+    // displacementMap: displacementTexture,
     normalMap: normalTexture
   });
 }
@@ -44,15 +44,25 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
 
   const rockMaterial = RockMaterial();
 
+  const [roughTexture, displacementTexture, normalTexture] = useTexture([rMap, dMap, nMap]);
+
   useFrame((state, delta) => {
     ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() / 2) / 2;
   });
 
   return (
     <group ref={ref} scale={scale}>
-      <primitive object={baseGltf.nodes.Base} position={baseGltf.nodes.Base.position} material={baseMaterial} />
-      {/* <mesh material={rockMaterial} position={rockGltf.nodes.Rock.position} scale={100}>
+      {/* <primitive object={baseGltf.nodes.Base} position={baseGltf.nodes.Base.position} material={baseMaterial} /> */}
+      {/* <mesh position={rockGltf.nodes.Rock.position} scale={100}>
         <icosahedronGeometry args={[1, 0]} />
+        <meshPhysicalMaterial
+          color={0xbbd3b0}
+          // roughness={0.3}
+          roughnessMap={roughTexture}
+          normalMap={normalTexture}
+          transmission={0.8}
+          thickness={0.5}
+        />
       </mesh> */}
       <primitive object={rockGltf.nodes.Rock} position={rockGltf.nodes.Rock.position} material={rockMaterial} />
     </group>
