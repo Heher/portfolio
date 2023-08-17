@@ -33,7 +33,7 @@
     "isbot": "^3.6.13",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
-    "postprocessing": "^6.32.2",
+    "postprocessing": "^6.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-merge-refs": "^2.0.2",
