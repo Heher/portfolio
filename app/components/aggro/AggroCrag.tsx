@@ -3,13 +3,14 @@ import { useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three-stdlib';
 
 import base from '~/data/aggro/base.gltf';
-import rock from '~/data/aggro/rock2.gltf';
+import rock from '~/data/aggro/rock3.gltf';
 import { MeshPhysicalMaterial, MeshStandardMaterial } from 'three';
-import { useTexture } from '@react-three/drei';
+import { useGLTF, useTexture } from '@react-three/drei';
 
 import rMap from '~/data/aggro/maps/rough.jpg';
 import dMap from '~/data/aggro/maps/displacement.png';
 import nMap from '~/data/aggro/maps/normal.jpg';
+import { RockModel } from './Rock3';
 
 interface DonutProps {
   scale?: number;
@@ -18,15 +19,15 @@ interface DonutProps {
 function RockMaterial() {
   const [roughTexture, displacementTexture, normalTexture] = useTexture([rMap, dMap, nMap]);
 
-  return new MeshPhysicalMaterial({
+  return new MeshStandardMaterial({
     // transparent: true,
     color: 0xbbd3b0,
     // color: 0xff0000,
-    // emissive: 0xff0000,
-    // emissiveIntensity: 10,
+    emissive: 0xff0000,
+    emissiveIntensity: 10,
     // roughness: 0.3,
-    transmission: 0.8,
-    thickness: 0.5,
+    // transmission: 1,
+    // thickness: 0.5,
     roughnessMap: roughTexture,
     // displacementMap: displacementTexture,
     normalMap: normalTexture
@@ -40,7 +41,9 @@ const baseMaterial = new MeshStandardMaterial({
 export default function AggroCrag({ scale = 0.008 }: DonutProps) {
   const ref = useRef();
   const baseGltf = useLoader(GLTFLoader, base);
-  const rockGltf = useLoader(GLTFLoader, rock);
+  // const rockGltf = useLoader(GLTFLoader, rock);
+
+  const rockGltf = useGLTF(rock);
 
   const rockMaterial = RockMaterial();
 
@@ -49,6 +52,9 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
   useFrame((state, delta) => {
     ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() / 2) / 2;
   });
+
+  // return <RockModel ref={ref} scale={scale} />;
+  console.log(rockGltf.nodes.Rock.material);
 
   return (
     <group ref={ref} scale={scale}>
@@ -60,11 +66,15 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
           // roughness={0.3}
           roughnessMap={roughTexture}
           normalMap={normalTexture}
-          transmission={0.8}
-          thickness={0.5}
+          transmission={1}
+          thickness={0.3}
         />
       </mesh> */}
-      <primitive object={rockGltf.nodes.Rock} position={rockGltf.nodes.Rock.position} material={rockMaterial} />
+      <mesh
+        geometry={rockGltf.nodes.Rock.geometry}
+        position={rockGltf.nodes.Rock.position}
+        material={rockGltf.nodes.Rock.material}
+      />
     </group>
   );
 }

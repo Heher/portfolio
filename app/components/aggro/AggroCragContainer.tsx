@@ -15,7 +15,7 @@ export function AggroCragContainer() {
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       {/* <Environment preset="forest" background blur={0.5} /> */}
       <ambientLight intensity={0.1} />
-      <directionalLight position={[2, 2, 8]} color={0xfff0dd} castShadow shadow-mapSize={[3072, 3072]} />
+      <directionalLight position={[0, 0, 18]} color={0xfff0dd} castShadow shadow-mapSize={[3072, 3072]} />
       <motion.group ref={groupRef} scale={1} rotation={[0, 1.5, 0.15, 'ZXY']} position={[0, -0.7, 0]}>
         <AggroCrag />
       </motion.group>
