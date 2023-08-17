@@ -45,7 +45,7 @@
     "three-stdlib": "^2.24.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^4.0.1",
+    "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
     "@remix-run/dev": "^1.18.1",
