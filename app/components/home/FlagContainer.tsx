@@ -8,6 +8,27 @@ type CountryFlag = {
   };
 };
 
+const visits = [
+  {
+    country: 'Iceland',
+    name: 'Reykjavik, IS',
+    date: '2023-06-28',
+    temperature: 60
+  },
+  {
+    country: 'Canada',
+    name: 'Montreal, CN',
+    date: '2023-07-01',
+    temperature: 80
+  },
+  {
+    country: 'United States of America',
+    name: 'Austin, TX',
+    date: '2023-07-03',
+    temperature: 90
+  }
+];
+
 const visitedCountries = [
   'United States of America',
   'Canada',

@@ -13,8 +13,10 @@ export const meta: MetaFunction = () => ({
 
 export function links() {
   return [
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
     { rel: 'stylesheet', href: globalStyles },
-    { rel: 'stylesheet', href: stylesheet }
+    { rel: 'stylesheet', href: stylesheet },
+    { href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap', rel: 'stylesheet' }
   ];
 }
 

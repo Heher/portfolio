@@ -9,23 +9,23 @@
   --navy: #001939;
   --positive: #3dbd73;
   --negative: #ff5a5a;
-  --incomplete: #FFA566;
+  --incomplete: #ffa566;
   --link-hover: #eaf3ff;
-  --nav-background: #4D6F85;
-  --nav-text: #F2F5F8;
-  --nav-link: #CBD8E1;
-  --nav-border: #7D9FB5;
+  --nav-background: #4d6f85;
+  --nav-text: #f2f5f8;
+  --nav-link: #cbd8e1;
+  --nav-border: #7d9fb5;
   --max-width: 1100px;
-  --page-background: #D8E2E9;
-  --nav-link-hover: #97B2C3;
+  --page-background: #d8e2e9;
+  --nav-link-hover: #97b2c3;
   --cta: #74add4;
   /* --globe-background: #3F2827; */
-  --globe-background: #0F161A;
-  --summer-background: #E7BEB1;
-  --winter-background: #CEE8F2;
-  --road: #E8E288;
-  --ferry: #009FB7;
-  --flight: #E6781E;
+  --globe-background: #0f161a;
+  --summer-background: #e7beb1;
+  --winter-background: #cee8f2;
+  --road: #e8e288;
+  --ferry: #009fb7;
+  --flight: #e6781e;
   --text: #13171a;
 }
 
@@ -34,8 +34,10 @@
   font-family: 'Sofia Sans Semi Condensed';
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src:
+    url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */ url('/fonts/sofia-sans-semi-condensed-v2-latin-regular.woff')
+      format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 /* sofia-sans-semi-condensed-800 - latin */
 @font-face {
@@ -43,13 +45,14 @@
   font-family: 'Sofia Sans Semi Condensed';
   font-style: normal;
   font-weight: 800;
-  src: url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src:
+    url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */ url('/fonts/sofia-sans-semi-condensed-v2-latin-800.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 @font-face {
   font-family: 'Anarchaos';
-  src: url("/fonts/anarchaos.otf") format("opentype");
+  src: url('/fonts/anarchaos.otf') format('opentype');
 }
 
 .globe-background {
@@ -57,13 +60,18 @@
 }
 
 .globe-background.mobile {
-  background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, rgba(77, 111, 133, 1) 75%, transparent 100%);
+  background: linear-gradient(
+    180deg,
+    var(--globe-background) 0%,
+    var(--globe-background) 50%,
+    rgba(77, 111, 133, 1) 75%,
+    transparent 100%
+  );
 }
 
 .globe-background.route-selected {
   background: linear-gradient(180deg, var(--globe-background) 0%, transparent 100%);
 }
-
 
 .stats {
   left: auto !important;
@@ -72,7 +80,7 @@
 
 .globe-container {
   clip-path: circle(100%);
-  transition: clip-path .6s;
+  transition: clip-path 0.6s;
 }
 
 .globe-container.clip-container {
@@ -86,13 +94,13 @@
 .flags-overlay {
   width: 40%;
   background: linear-gradient(90deg, white 20%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
-  transition: width .1s;
+  transition: width 0.1s;
 }
 
 .flags-overlay-full {
   width: 100%;
   background: white;
-  transition: width .1s;
+  transition: width 0.1s;
 }
 
 .flags-container:hover .flags-overlay-full {
@@ -100,17 +108,17 @@
 }
 
 .city-status.positive {
-  border-color: var(--positive)
+  border-color: var(--positive);
 }
 .city-status.negative {
-  border-color: var(--negative)
+  border-color: var(--negative);
 }
 .city-status.incomplete {
-  border-color: var(--incomplete)
+  border-color: var(--incomplete);
 }
 
 .route-selector-container {
-  background:rgba(15, 22, 26, 0.7)
+  background: rgba(15, 22, 26, 0.7);
 }
 
 #color-input {
