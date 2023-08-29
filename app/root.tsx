@@ -53,6 +53,18 @@ export function links() {
 //   );
 // }
 
+function getBodyBackground(location: string) {
+  if (location.includes('trip')) {
+    return 'bg-[var(--nav-background)]';
+  }
+
+  if (location === '/') {
+    return 'bg-[var(--index-background)]';
+  }
+
+  return 'bg-white';
+}
+
 function App() {
   const appLocation = useLocation();
 
@@ -62,7 +74,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className={appLocation.pathname.includes('trip') ? 'bg-[var(--nav-background)]' : 'bg-white'}>
+      <body className={getBodyBackground(appLocation.pathname)}>
         <Outlet />
         <ScrollRestoration
           getKey={(location, matches) => {
