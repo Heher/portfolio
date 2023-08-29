@@ -1,5 +1,6 @@
 import flags from '~/data/countryFlags.json';
 import { Arrow } from '../icons/Arrow';
+import { useEffect, useRef } from 'react';
 
 type CountryFlag = {
   name: string;
@@ -9,6 +10,18 @@ type CountryFlag = {
 };
 
 const visits = [
+  {
+    country: 'Great Britain',
+    name: 'London, GB',
+    date: '2014-06-01',
+    temperature: 70
+  },
+  {
+    country: 'Denmark',
+    name: 'Copenhagen, DK',
+    date: '2015-06-01',
+    temperature: 70
+  },
   {
     country: 'Iceland',
     name: 'Reykjavik, IS',
@@ -114,13 +127,37 @@ function formatFlags(flags: CountryFlag[]) {
   return formattedFlags;
 }
 
-export default function FlagContainer() {
-  const formattedFlags = formatFlags(flags.countries);
+function TripVisit({ visit }: { visit: (typeof visits)[0] }) {
+  const flag = flags.countries.find((flag) => flag?.name === visit.country);
 
   return (
-    <div className="flags-container relative mt-[8px] w-[170px]">
-      <div className="flags-overlay absolute left-0 top-[-4px] z-10 h-[28px]"></div>
-      <div className="flags flex flex-row-reverse items-center overflow-y-scroll pl-[40px]">{formattedFlags}</div>
+    <div className="grid grid-cols-[1fr_40px] items-center p-3">
+      <p className="text-sm">{visit.name}</p>
+      {flag?.flagByTimestamp && (
+        <img
+          className="h-3 w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
+          src={flag.flagByTimestamp.png}
+          alt={flag.name}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function FlagContainer() {
+  const endOfList = useRef(null);
+  // const formattedFlags = formatFlags(flags.countries);
+
+  useEffect(() => {
+    endOfList.current.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  return (
+    <div className="h-40 overflow-scroll rounded-md bg-white">
+      {visits.map((visit) => {
+        return <TripVisit key={visit.date} visit={visit} />;
+      })}
+      <div ref={endOfList}></div>
     </div>
   );
 }

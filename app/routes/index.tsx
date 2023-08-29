@@ -1,6 +1,7 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import FlagContainer from '~/components/home/FlagContainer';
+import { Arrow } from '~/components/icons/Arrow';
 import EmailIcon from '~/components/icons/Email';
 import GitHubIcon from '~/components/icons/Github';
 import ResumeIcon from '~/components/icons/Resume';
@@ -14,7 +15,7 @@ export const meta: MetaFunction = () => ({
 
 export default function Index() {
   return (
-    <main className="h-[100dvh] w-[100vw] bg-[#DDDFDF] p-10 font-['Figtree'] text-[18px]">
+    <main className="min-h-screen w-[100vw] bg-[#DDDFDF] p-10 font-['Figtree'] text-[18px]">
       <img
         src="/images/me.jpeg"
         alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
@@ -46,14 +47,12 @@ export default function Index() {
         </a>
       </div>
       <div className="mt-20">
-        <h2 className="mt-2 text-base font-semibold uppercase text-[#282B27]">Travels</h2>
-        <p>
-          Currently in{' '}
-          <Link to="/trip" className="text-[var(--cta)] underline" prefetch="intent">
-            Austin, TX
-          </Link>
-        </p>
-
+        <div className="mb-5 flex items-center">
+          <h2 className="text-base font-semibold uppercase text-[#282B27]">Travels</h2>
+          <a href="/trip" className="ml-3">
+            <Arrow fill="#648767" className="h-4 rotate-180" />
+          </a>
+        </div>
         <FlagContainer />
       </div>
     </main>
