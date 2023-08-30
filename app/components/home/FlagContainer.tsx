@@ -7,6 +7,7 @@ import TrainIcon from '../icons/Train';
 import BusIcon from '../icons/Bus';
 import FerryIcon from '../icons/Ferry';
 import WalkIcon from '../icons/Walk';
+import { motion } from 'framer-motion';
 
 const visits = [
   {
@@ -586,13 +587,15 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
 
   return (
     <div
-      className={`relative border-l-4 ${!lastVisit ? 'border-[#282B27] pb-32' : 'border-transparent'} text-[#282B27]`}
+      className={`relative border-l-4 ${
+        !lastVisit ? 'border-[#282B27] pb-32' : 'border-transparent pb-7'
+      } text-[#282B27]`}
     >
       {visit.transport && <TransportIconContainer transport={visit.transport} />}
       {visit.link ? (
         <a
           href={visit.link}
-          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[#648767] text-center text-xs leading-10 text-white`}
+          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[#648767] text-center text-xs leading-10 text-[#e0e0e0]`}
         >
           {format(date, 'M/d')}
         </a>
@@ -600,7 +603,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
         <span
           className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full ${
             visit.link ? 'bg-[#648767]' : 'bg-[#282B27]'
-          } text-center text-xs leading-10 text-white`}
+          } text-center text-xs leading-10 text-[#e0e0e0]`}
         >
           {format(date, 'M/d')}
         </span>
@@ -628,18 +631,27 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
   );
 }
 
-export default function FlagContainer() {
+export default function FlagContainer({ expand }: { expand?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (ref.current && containerRef.current) {
-      ref.current.scrollTop = containerRef.current.offsetHeight;
+      if (!expand) {
+        ref.current.scrollTop = containerRef.current.offsetHeight;
+      }
     }
-  }, []);
+  }, [expand]);
 
   return (
-    <div className="relative h-80 max-w-lg overflow-scroll rounded-md pl-5 pt-6" ref={ref}>
+    <motion.div
+      className={`relative max-w-lg ${
+        expand ? 'overflow-scroll' : 'overflow-hidden'
+      } rounded-b-md border-2 border-[#282B27] pl-10 pt-6`}
+      ref={ref}
+      initial={{ height: 320 }}
+      animate={{ height: expand ? 800 : 320 }}
+    >
       <div ref={containerRef}>
         {visits.map((visit, index) => {
           const date = new Date(visit.date);
@@ -667,6 +679,6 @@ export default function FlagContainer() {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }

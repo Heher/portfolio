@@ -1,8 +1,11 @@
 import type { MetaFunction } from '@remix-run/node';
+import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 // import { Link } from '@remix-run/react';
 import FlagContainer from '~/components/home/FlagContainer';
 import { Arrow } from '~/components/icons/Arrow';
 import EmailIcon from '~/components/icons/Email';
+// import ExpandIcon from '~/components/icons/Expand';
 import GitHubIcon from '~/components/icons/Github';
 import ResumeIcon from '~/components/icons/Resume';
 
@@ -13,10 +16,77 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
 });
 
-export default function Index() {
+// const bounceTransition = {
+//   y: {
+//     duration: 0.4,
+//     repeat: Infinity,
+//     repeatType: 'reverse',
+//     ease: 'easeOut',
+//     staggerChildren: 2
+//   }
+// };
+
+const variants = {
+  initial: {
+    y: '50%'
+  },
+  animate: {
+    y: '-50%',
+    transition: {
+      duration: 0.5,
+      repeat: Infinity,
+      ease: 'easeOut',
+      repeatType: 'reverse'
+    }
+  }
+};
+
+function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
-    <main className="min-h-screen w-[100vw] bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]">
-      <div className="m-0 mx-auto max-w-2xl">
+    <motion.svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 50"
+      className={className}
+      initial={{ y: '20%' }}
+      animate={{ y: '-20%' }}
+      transition={{
+        duration: 1.2,
+        repeat: Infinity,
+        ease: 'easeOut',
+        repeatType: 'reverse',
+        delay
+      }}
+    >
+      <g>
+        <polygon points="91.247,57.092 91.283,57.072 91.283,29.941 49.815,0 8.717,29.602 8.717,56.738 49.791,27.157" />
+      </g>
+      {/* <g>
+        <polygon points="91.247,100 91.283,99.979 91.283,72.85 49.815,42.907 8.717,72.51 8.717,99.646 49.791,70.064    " />
+      </g> */}
+    </motion.svg>
+  );
+}
+
+// const MotionExpandIcon = motion(ExpandIcon);
+
+export default function Index() {
+  const [expand, setExpand] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current && containerRef.current) {
+      console.log(containerRef.current.getBoundingClientRect());
+      ref.current.scrollTop = containerRef.current.offsetHeight;
+    }
+  }, [expand]);
+
+  return (
+    <main
+      className="min-h-screen w-[100vw] bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]"
+      ref={ref}
+    >
+      <div className="m-0 mx-auto max-w-2xl" ref={containerRef}>
         <img
           src="/images/me.jpeg"
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
@@ -54,7 +124,17 @@ export default function Index() {
               <Arrow fill="#648767" className="h-4 rotate-180" />
             </a>
           </div>
-          <FlagContainer />
+          <button
+            className="flex h-10 w-full max-w-lg items-center justify-center border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0]"
+            onClick={() => setExpand(!expand)}
+          >
+            <motion.div>
+              {[0, 1].map((_, i) => (
+                <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              ))}
+            </motion.div>
+          </button>
+          <FlagContainer expand={expand} />
         </div>
       </div>
     </main>
