@@ -2,6 +2,7 @@ import flags from '~/data/countryFlags.json';
 // import { Arrow } from '../icons/Arrow';
 // import { useEffect, useRef } from 'react';
 import { format, isSameYear } from 'date-fns';
+import { Fragment, useEffect, useRef } from 'react';
 
 // type CountryFlag = {
 //   name: string;
@@ -473,7 +474,7 @@ const visits = [
   }
 ];
 
-const reversedVisits = visits.reverse();
+// const reversedVisits = visits.reverse();
 
 // const visitedCountries = [
 //   'United States of America',
@@ -560,29 +561,44 @@ const reversedVisits = visits.reverse();
 //   return formattedFlags;
 // }
 
-function TripVisit({ visit, index, date }: { visit: (typeof visits)[0]; index: number; date: Date }) {
+function TripVisit({ visit, date }: { visit: (typeof visits)[0]; date: Date }) {
   const flag = flags.countries.find((flag) => flag?.name === visit.country);
 
   return (
-    <div className="relative border-l-4 pb-10 text-[#282B27]">
-      <span className="absolute left-[-16px] top-0 h-7 w-7 rounded-full bg-slate-300"></span>
+    <div className="relative border-l-4 border-[#282B27] pb-10 text-[#282B27]">
+      {visit.link ? (
+        <a
+          href={visit.link}
+          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[#648767] text-center text-xs leading-10 text-white`}
+        >
+          {format(date, 'M/d')}
+        </a>
+      ) : (
+        <span
+          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full ${
+            visit.link ? 'bg-[#648767]' : 'bg-[#282B27]'
+          } text-center text-xs leading-10 text-white`}
+        >
+          {format(date, 'M/d')}
+        </span>
+      )}
       <div className="pl-10">
         {visit.link ? (
-          <a href={visit.link} className="text-base font-semibold text-[#648767]">
+          <a href={visit.link} className="text-base font-semibold leading-10 text-[#648767]">
             {visit.name}
           </a>
         ) : (
-          <p className="text-base font-semibold">{visit.name}</p>
+          <p className="text-base font-semibold leading-10">{visit.name}</p>
         )}
         <div className="mt-2 flex items-center">
-          <span className="text-xs">{format(date, 'MMM d')}</span>
           {flag?.flagByTimestamp && (
             <img
-              className="ml-5 h-3 w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
+              className="mr-3 h-3 w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
               src={flag.flagByTimestamp.png}
               alt={flag.name}
             />
           )}
+          <span className="text-xs">{visit.country}</span>
         </div>
       </div>
     </div>
@@ -590,7 +606,8 @@ function TripVisit({ visit, index, date }: { visit: (typeof visits)[0]; index: n
 }
 
 export default function FlagContainer() {
-  // const endOfList = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   // const formattedFlags = formatFlags(flags.countries);
 
   // useEffect(() => {
@@ -598,28 +615,40 @@ export default function FlagContainer() {
   //     endOfList.current.scrollIntoView({ behavior: 'smooth' });
   //   }
   // }, []);
+  useEffect(() => {
+    if (ref.current && containerRef.current && ref.current.getBoundingClientRect().height > 0) {
+      // const offsetBottom = ref.current.offsetTop + ref.current.offsetHeight;
+      // console.log(offsetBottom);
+      // window.scrollTo({ top: offsetBottom });
+      // ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollTop = containerRef.current.offsetHeight;
+      console.log(ref.current.scrollTop, containerRef.current.offsetHeight);
+    }
+  }, []);
 
   return (
-    <div className="relative h-80 max-w-lg overflow-scroll rounded-md bg-white pl-8 pt-6">
-      {reversedVisits.map((visit, index) => {
-        const date = new Date(visit.date);
+    <div className="relative h-80 max-w-lg overflow-scroll rounded-md pl-5 pt-6" ref={ref}>
+      <div ref={containerRef}>
+        {visits.map((visit, index) => {
+          const date = new Date(visit.date);
 
-        if (index > 0) {
-          const prevDate = new Date(reversedVisits[index - 1]?.date);
+          if (index > 0) {
+            const prevDate = new Date(visits[index - 1]?.date);
 
-          if (!isSameYear(date, prevDate)) {
-            return (
-              <>
-                <span className="block py-8 pr-8 text-center text-xs font-semibold">{date.getFullYear()}</span>
-                <TripVisit key={visit.date} visit={visit} index={index} date={date} />
-              </>
-            );
+            if (!isSameYear(date, prevDate)) {
+              return (
+                <Fragment key={`${visit.date}-${visit.name}`}>
+                  <span className="block py-8 pr-8 text-center text-xs font-semibold">{date.getFullYear()}</span>
+                  <TripVisit key={visit.date} visit={visit} date={date} />
+                </Fragment>
+              );
+            }
           }
-        }
 
-        return <TripVisit key={visit.date} visit={visit} index={index} date={date} />;
-      })}
-      {/* <div ref={endOfList}></div> */}
+          return <TripVisit key={`${visit.date}-${visit.name}`} visit={visit} date={date} />;
+        })}
+      </div>
+      {/* <div ref={bottomRef}></div> */}
     </div>
   );
 }

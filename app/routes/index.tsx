@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => ({
 
 export default function Index() {
   return (
-    <main className="min-h-screen w-[100vw] bg-[var(--index-background)] p-10 font-['Figtree'] text-[18px]">
+    <main className="min-h-screen w-[100vw] bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]">
       <div className="m-0 mx-auto max-w-2xl">
         <img
           src="/images/me.jpeg"
