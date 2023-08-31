@@ -1,4 +1,4 @@
-import { CloseIcon } from '../icons/CloseIcon';
+import CloseIcon from '../icons/CloseIcon';
 
 type ImageModalProps = {
   img: string;
@@ -7,10 +7,10 @@ type ImageModalProps = {
 
 export const ImageModal: React.FC<ImageModalProps> = ({ img, closeModal }) => {
   return (
-    <div className="fixed top-0 left-0 z-50 h-[100vh] w-[100vw] bg-slate-200">
+    <div className="fixed left-0 top-0 z-50 h-[100vh] w-[100vw] bg-slate-200">
       <div className="relative mx-auto w-full max-w-[var(--max-width)]">
-        <button type="button" onClick={closeModal} className="absolute top-[20px] left-[20px]">
-          <CloseIcon />
+        <button type="button" onClick={closeModal} className="absolute left-[20px] top-[20px]">
+          <CloseIcon className="fill-[var(--globe-background)]" />
         </button>
         <div className="flex h-[100vh] items-center justify-center px-[30px]">
           <img
