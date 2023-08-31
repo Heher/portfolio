@@ -29,7 +29,7 @@ export function OlympiadMedia({ visit, olympiadType }: OlympiadMediaProps) {
         <div>
           <p className="mb-[10px] text-center text-[0.8rem] uppercase">{olympiadType === 'SUMMER' ? 'Run' : 'Ski'}</p>
           <a
-            className="strava-link block w-[100px] rounded-[8px] bg-[#fc4c02] py-[10px] px-[20px] font-semibold uppercase text-white no-underline"
+            className="strava-link block w-[100px] rounded-[8px] bg-[#fc4c02] px-[20px] py-[10px] text-center font-semibold uppercase text-white no-underline"
             href={visit.strava.link}
             target="_blank"
             rel="noreferrer"
