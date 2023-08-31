@@ -25,10 +25,10 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 50"
       className={className}
-      initial={{ y: '20%' }}
-      animate={{ y: '-20%' }}
+      initial={{ y: '30%' }}
+      animate={{ y: '-30%' }}
       transition={{
-        duration: 1.2,
+        duration: 1,
         repeat: Infinity,
         ease: 'easeOut',
         repeatType: 'reverse',
@@ -42,15 +42,8 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
   );
 }
 
-// const MotionExpandIcon = motion(ExpandIcon);
-
-function getClosePosition(windowHeight: number, containerHeight?: number) {
-  if (!containerHeight) return 0;
-  if (windowHeight < 800) {
-    return (containerHeight + 50) * -1;
-  }
-
-  return (containerHeight + 40) * -1;
+function getClosePosition(windowHeight: number) {
+  return (windowHeight + 20) * -1;
 }
 
 function getCloseRight(windowWidth: number) {
@@ -65,6 +58,8 @@ function IndexContent({ size }) {
   const [expand, setExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [contentRef, contentSize] = useMeasure({ debounce: 300 });
+
   useEffect(() => {
     if (expand) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,15 +69,16 @@ function IndexContent({ size }) {
   if (!size?.width) return null;
 
   return (
-    <div className="m-0 mx-auto max-w-2xl" ref={containerRef}>
+    <div className={`m-0 mx-auto max-w-2xl ${!expand && 'min-h-[880px]'}`} ref={containerRef}>
       <motion.div
-        className="main-content"
+        className="main-content pb-5"
         initial={{ x: 0, opacity: 1 }}
         animate={{ x: expand ? -150 : 0, opacity: expand ? 0 : 1 }}
         transition={{
           duration: 0.3,
           ease: 'easeOut'
         }}
+        ref={contentRef}
       >
         <img
           src="/images/me.jpeg"
@@ -122,7 +118,7 @@ function IndexContent({ size }) {
           </a>
         </div>
         <div className="mt-20">
-          <div className="mb-5 flex items-center">
+          <div className="flex items-center">
             <h2 className="text-lg font-semibold uppercase text-[#282B27]">Travels</h2>
             <a href="/trip" className="ml-3">
               <Arrow fill="#648767" className="h-4 rotate-180" />
@@ -131,32 +127,39 @@ function IndexContent({ size }) {
         </div>
       </motion.div>
       {/* <div className="relative w-full max-w-lg" style={{ height: expand ? 0 : 320 }}> */}
-      <div className="relative w-full max-w-lg">
-        <motion.button
-          className="absolute z-10 flex h-10 w-full max-w-lg items-center justify-center border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0]"
-          onClick={() => setExpand(!expand)}
-          initial={{ width: '100%', top: 0, right: 0 }}
-          animate={{
-            width: expand ? 40 : '100%',
-            top: expand ? getClosePosition(size.height, containerRef.current?.offsetHeight) : 0,
-            right: expand ? getCloseRight(size.width) : 0,
-            borderRadius: expand ? '50%' : 0
-          }}
-        >
-          <motion.div>
-            {expand ? (
-              <CloseIcon className="fill-[#e0e0e0]" />
-            ) : (
-              [0, 1].map((_, i) => <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />)
-            )}
-          </motion.div>
-        </motion.button>
-        <FlagContainer
-          expand={expand}
-          containerHeight={containerRef.current?.offsetHeight ? containerRef.current.offsetHeight - 320 : 0}
-          contentSize={size}
-        />
-      </div>
+      {/* <div className="relative w-full max-w-lg" style={{ height: expand ? 0 : 320 }}> */}
+      {contentSize?.height > 0 && (
+        <div className="relative w-full max-w-lg">
+          <motion.button
+            className="absolute z-10 flex h-10 w-full max-w-lg items-center justify-center border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0] transition-colors hover:bg-[#403a3b]"
+            onClick={() => setExpand(!expand)}
+            initial={{ width: '100%', top: 0, right: 0 }}
+            animate={{
+              width: expand ? 40 : '100%',
+              top: expand ? getClosePosition(contentSize.height) : 0,
+              right: expand ? getCloseRight(size.width) : 0,
+              borderRadius: expand ? '50%' : 0
+            }}
+          >
+            <motion.div>
+              {expand ? (
+                <CloseIcon className="fill-[#e0e0e0]" />
+              ) : (
+                [0, 1].map((_, i) => <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />)
+              )}
+            </motion.div>
+          </motion.button>
+          <motion.div
+            className="absolute top-10 z-10 h-16 w-full bg-gradient-to-b from-[rgba(176,178,178,0.7)] to-transparent"
+            initial={{ height: 64, top: 40 }}
+            animate={{
+              height: expand ? 0 : 64,
+              top: expand ? getClosePosition(size.height, containerRef.current?.offsetHeight) : 40
+            }}
+          ></motion.div>
+          <FlagContainer expand={expand} contentSize={size} mainContentSize={contentSize} />
+        </div>
+      )}
     </div>
   );
 }
@@ -170,7 +173,7 @@ export default function Index() {
 
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
 
-  console.log(size);
+  // console.log(size);
 
   return (
     <main

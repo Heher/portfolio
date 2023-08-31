@@ -645,40 +645,29 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
   );
 }
 
-function getExpandHeight(windowHeight: number, containerHeight: number) {
-  if (!containerHeight) return 0;
-
-  console.log(windowHeight, containerHeight);
-
-  if (windowHeight < 800) {
-    return (containerHeight + 360) * -1;
-  }
-
-  return (containerHeight + 340) * -1;
+function getExpandHeight(windowHeight: number) {
+  return windowHeight * -1;
 }
 
 function getListHeight(windowHeight: number) {
-  if (windowHeight < 800) {
-    return windowHeight - 40;
+  if (windowHeight > 800) {
+    return 800;
   }
 
-  return 800;
+  return windowHeight - 80;
 }
 
 export default function FlagContainer({
   expand,
-  containerHeight,
-  contentSize
+  contentSize,
+  mainContentSize
 }: {
   expand?: boolean;
-  containerHeight?: number;
   contentSize?: { height: number };
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
-
-  // console.log(contentSize);
 
   useEffect(() => {
     if (ref.current && containerRef.current) {
@@ -686,25 +675,26 @@ export default function FlagContainer({
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (ref.current && containerRef.current && endOfListRef.current) {
-  //     if (!expand) {
-  //       endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
-  //       // ref.current.scrollTop = containerRef.current.offsetHeight;
-  //     }
-  //   }
-  // }, [expand]);
+  useEffect(() => {
+    if (ref.current && containerRef.current && endOfListRef.current) {
+      if (!expand) {
+        // console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
+        ref.current.scrollTop = 20000;
+        // ref.current.scrollTop = containerRef.current.offsetHeight;
+      }
+    }
+  }, [expand]);
 
   return (
     <motion.div
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } w-full max-w-2xl rounded-b-md border-2 border-[#282B27] pl-16 pt-6`}
+      } w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{
         height: expand ? getListHeight(contentSize.height) : 320,
-        top: expand ? getExpandHeight(contentSize.height, containerHeight) : 0,
+        top: expand ? getExpandHeight(mainContentSize.height) : 0,
         borderTopLeftRadius: expand ? '0.375rem' : '0',
         borderTopRightRadius: expand ? '0.375rem' : '0'
       }}
