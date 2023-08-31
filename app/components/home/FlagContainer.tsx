@@ -645,28 +645,40 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
   );
 }
 
-function getExpandHeight(windowHeight, containerHeight) {
+function getExpandHeight(windowHeight: number, containerHeight: number) {
+  if (!containerHeight) return 0;
+
+  console.log(windowHeight, containerHeight);
+
   if (windowHeight < 800) {
-    return (containerHeight + 20) * -1;
+    return (containerHeight + 360) * -1;
   }
 
-  return containerHeight * -1;
+  return (containerHeight + 340) * -1;
 }
 
-function getListHeight(windowHeight) {
+function getListHeight(windowHeight: number) {
   if (windowHeight < 800) {
-    return windowHeight - 80;
+    return windowHeight - 40;
   }
 
   return 800;
 }
 
-export default function FlagContainer({ expand, expandHeight, contentWidth }: { expand?: boolean }) {
+export default function FlagContainer({
+  expand,
+  containerHeight,
+  contentSize
+}: {
+  expand?: boolean;
+  containerHeight?: number;
+  contentSize?: { height: number };
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
 
-  console.log(contentWidth);
+  // console.log(contentSize);
 
   useEffect(() => {
     if (ref.current && containerRef.current) {
@@ -691,8 +703,8 @@ export default function FlagContainer({ expand, expandHeight, contentWidth }: { 
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{
-        height: expand ? getListHeight(contentWidth.height) : 320,
-        top: expand ? getExpandHeight(contentWidth.height, expandHeight) : 0,
+        height: expand ? getListHeight(contentSize.height) : 320,
+        top: expand ? getExpandHeight(contentSize.height, containerHeight) : 0,
         borderTopLeftRadius: expand ? '0.375rem' : '0',
         borderTopRightRadius: expand ? '0.375rem' : '0'
       }}
