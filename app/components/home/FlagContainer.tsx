@@ -9,127 +9,132 @@ import FerryIcon from '../icons/Ferry';
 import WalkIcon from '../icons/Walk';
 import { motion } from 'framer-motion';
 
+type TransportType = {
+  type: string;
+  amount?: number;
+};
+
 const visits = [
   {
     country: 'Netherlands',
-    name: 'Amsterdam, NL',
+    name: 'Amsterdam',
     date: '2022-11-02',
     temperature: 70,
     link: '/trip/amsterdam',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'Belgium',
-    name: 'Antwerp, BE',
+    name: 'Antwerp',
     date: '2022-11-11',
     temperature: 70,
     link: '/trip/antwerp',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Belgium',
-    name: 'Ghent, BE',
+    name: 'Ghent',
     date: '2022-11-14',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Belgium',
-    name: 'Ipres, BE',
+    name: 'Ipres',
     date: '2022-11-17',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Luxembourg',
-    name: 'Luxembourg, LU',
+    name: 'Luxembourg',
     date: '2022-11-19',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train', amount: 2 }]
   },
   {
     country: 'France',
-    name: 'Paris, FR',
+    name: 'Paris',
     date: '2022-11-21',
     temperature: 70,
     link: '/trip/paris',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'United States of America',
     name: 'Austin, TX',
     date: '2022-11-22',
     temperature: 90,
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'France',
-    name: 'Paris, FR',
+    name: 'Paris',
     date: '2022-11-28',
     temperature: 70,
     link: '/trip/paris',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'Norway',
-    name: 'Oslo, NO',
+    name: 'Oslo',
     date: '2022-12-02',
     temperature: 70,
     link: '/trip/oslo',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Norway',
-    name: 'Lillehammer, NO',
+    name: 'Lillehammer',
     date: '2022-12-05',
     temperature: 70,
     link: '/trip/lillehammer',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Norway',
-    name: 'Oslo, NO',
+    name: 'Oslo',
     date: '2022-12-07',
     temperature: 70,
     link: '/trip/oslo',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Sweden',
-    name: 'Stockholm, SE',
+    name: 'Stockholm',
     date: '2022-12-08',
     temperature: 70,
     link: '/trip/stockholm',
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
   },
   {
     country: 'Estonia',
-    name: 'Tallinn, EE',
+    name: 'Tallinn',
     date: '2022-12-13',
     temperature: 70,
-    transport: ['ferry']
+    transport: [{ type: 'ferry' }]
   },
   {
     country: 'Latvia',
-    name: 'Riga, LV',
+    name: 'Riga',
     date: '2022-12-13',
     temperature: 70,
-    transport: ['bus']
+    transport: [{ type: 'bus' }]
   },
   {
     country: 'Estonia',
-    name: 'Tallinn, EE',
+    name: 'Tallinn',
     date: '2022-12-15',
     temperature: 70,
-    transport: ['bus']
+    transport: [{ type: 'bus' }]
   },
   {
     country: 'Finland',
-    name: 'Helsinki, FI',
+    name: 'Helsinki',
     date: '2022-12-19',
     temperature: 70,
     link: '/trip/helsinki',
-    transport: ['ferry']
+    transport: [{ type: 'ferry' }]
   },
   {
     country: 'United States of America',
@@ -137,429 +142,436 @@ const visits = [
     date: '2022-12-23',
     temperature: 90,
     link: '/trip/los-angeles',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Germany',
-    name: 'Berlin, DE',
+    name: 'Berlin',
     date: '2022-12-28',
     temperature: 70,
     link: '/trip/berlin',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'Germany',
-    name: 'Leipzig, DE',
+    name: 'Leipzig',
     date: '2023-01-02',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Germany',
-    name: 'Dresden, DE',
+    name: 'Dresden',
     date: '2023-01-03',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Germany',
-    name: 'Nuremberg, DE',
+    name: 'Nuremberg',
     date: '2023-01-04',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Germany',
-    name: 'Munich, DE',
+    name: 'Munich',
     date: '2023-01-06',
     temperature: 70,
     link: '/trip/munich',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Germany',
-    name: 'Garmisch-Partenkirchen, DE',
+    name: 'Garmisch-Partenkirchen',
     date: '2023-01-09',
     temperature: 70,
     link: '/trip/garmisch-partenkirchen',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Austria',
-    name: 'Innsbruck, AT',
+    name: 'Innsbruck',
     date: '2023-01-09',
     temperature: 70,
     link: '/trip/innsbruck',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Italy',
-    name: "Cortina d'Ampezzo, IT",
+    name: "Cortina d'Ampezzo",
     date: '2023-01-11',
     temperature: 70,
     link: '/trip/cortina-dampezzo',
-    transport: ['train', 'bus']
+    transport: [{ type: 'train' }, { type: 'bus' }]
   },
   {
     country: 'Italy',
-    name: 'Torino, IT',
+    name: 'Torino',
     date: '2023-01-13',
     temperature: 70,
     link: '/trip/torino',
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
   },
   {
     country: 'Italy',
-    name: 'Sestriere, IT',
+    name: 'Sestriere',
     date: '2023-01-14',
     temperature: 70,
     link: '/trip/torino',
-    transport: ['train', 'bus']
+    transport: [{ type: 'train' }, { type: 'bus' }]
   },
   {
     country: 'France',
-    name: 'Grenoble, FR',
+    name: 'Grenoble',
     date: '2023-01-15',
     temperature: 70,
     link: '/trip/grenoble',
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
   },
   {
     country: 'France',
-    name: 'Albertville, FR',
+    name: 'Albertville',
     date: '2023-01-17',
     temperature: 70,
     link: '/trip/albertville',
-    transport: ['train']
+    transport: [{ type: 'train', amount: 2 }]
   },
   {
     country: 'France',
-    name: 'Chamonix, FR',
+    name: 'Chamonix',
     date: '2023-01-19',
     temperature: 70,
     link: '/trip/chamonix',
-    transport: ['bus']
+    transport: [{ type: 'bus', amount: 2 }]
   },
   {
     country: 'Switzerland',
-    name: 'St. Moritz, CH',
+    name: 'St. Moritz',
     date: '2023-01-21',
     temperature: 70,
     link: '/trip/st-moritz',
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus' }, { type: 'train', amount: 3 }]
   },
   {
     country: 'Liechtenstein',
-    name: 'Vaduz, LI',
+    name: 'Vaduz',
     date: '2023-01-23',
     temperature: 70,
-    transport: ['train', 'bus']
+    transport: [{ type: 'train' }, { type: 'bus' }]
   },
   {
     country: 'Switzerland',
-    name: 'Zurich, CH',
+    name: 'Zurich',
     date: '2023-01-24',
     temperature: 70,
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus' }, { type: 'train' }]
   },
   {
     country: 'Bosnia-Herzegovina',
-    name: 'Sarajevo, BA',
+    name: 'Sarajevo',
     date: '2023-01-25',
     temperature: 70,
     link: '/trip/sarajevo',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'Great Britain',
-    name: 'London, GB',
+    name: 'London',
     date: '2023-01-29',
     temperature: 70,
     link: '/trip/london',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'United States of America',
     name: 'Austin, TX',
     date: '2023-03-08',
     temperature: 90,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'New Zealand',
-    name: 'Auckland, NZ',
+    name: 'Auckland',
     date: '2023-03-17',
     temperature: 70,
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'New Zealand',
-    name: 'Rotorua, NZ',
+    name: 'Rotorua',
     date: '2023-03-20',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'New Zealand',
-    name: 'Taupo, NZ',
+    name: 'Taupo',
     date: '2023-03-22',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'New Zealand',
-    name: 'Tauranga, NZ',
+    name: 'Tauranga',
     date: '2023-03-24',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'New Zealand',
-    name: 'Napier, NZ',
+    name: 'Napier',
     date: '2023-03-26',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'New Zealand',
-    name: 'Wellington, NZ',
+    name: 'Wellington',
     date: '2023-03-27',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'Australia',
-    name: 'Melbourne, AU',
+    name: 'Melbourne',
     date: '2023-03-29',
     temperature: 70,
     link: '/trip/melbourne',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Australia',
-    name: 'Sydney, AU',
+    name: 'Sydney',
     date: '2023-04-03',
     temperature: 70,
     link: '/trip/sydney',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Indonesia',
-    name: 'Bali, ID',
+    name: 'Bali',
     date: '2023-04-09',
     temperature: 70,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Singapore',
-    name: 'Singapore, SG',
+    name: 'Singapore',
     date: '2023-04-14',
     temperature: 70,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Great Britain',
-    name: 'London, GB',
+    name: 'London',
     date: '2023-04-18',
     temperature: 70,
     link: '/trip/london',
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'France',
-    name: 'Paris, FR',
+    name: 'Paris',
     date: '2023-04-27',
     temperature: 70,
     link: '/trip/paris',
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'France',
-    name: 'Toulouse, FR',
+    name: 'Toulouse',
     date: '2023-05-01',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Andorra',
-    name: 'Andorra la Vella, AD',
+    name: 'Andorra la Vella',
     date: '2023-05-03',
     temperature: 70,
-    transport: ['bus']
+    transport: [{ type: 'bus' }]
   },
   {
     country: 'Spain',
-    name: 'Barcelona, ES',
+    name: 'Barcelona',
     date: '2023-05-05',
     temperature: 70,
     link: '/trip/barcelona',
-    transport: ['bus']
+    transport: [{ type: 'bus' }]
   },
   {
     country: 'France',
-    name: 'Marseille, FR',
+    name: 'Marseille',
     date: '2023-06-01',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Monaco',
-    name: 'Monaco, MC',
+    name: 'Monaco',
     date: '2023-05-10',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train', amount: 2 }]
   },
   {
     country: 'Italy',
-    name: 'Pisa, IT',
+    name: 'Pisa',
     date: '2023-05-12',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'San Marino',
-    name: 'San Marino, SM',
+    name: 'San Marino',
     date: '2023-05-14',
     temperature: 70,
-    transport: ['train', 'bus']
+    transport: [{ type: 'train', amount: 2 }, { type: 'bus' }]
   },
   {
     country: 'Italy',
-    name: 'Florence, IT',
+    name: 'Florence',
     date: '2023-05-16',
     temperature: 70,
-    transport: ['bus', 'train']
+    transport: [{ type: 'bus', amount: 2 }, { type: 'train' }]
   },
   {
     country: 'Italy',
-    name: "Castiglione d'Orcia, IT",
+    name: "Castiglione d'Orcia",
     date: '2023-05-19',
     temperature: 70,
-    transport: ['train', 'car']
+    transport: [{ type: 'train', amount: 2 }, { type: 'car' }]
   },
   {
     country: 'Italy',
-    name: 'Rome, IT',
+    name: 'Rome',
     date: '2023-05-22',
     temperature: 70,
     link: '/trip/rome',
-    transport: ['car', 'train']
+    transport: [{ type: 'car' }, { type: 'train', amount: 2 }]
   },
   {
     country: 'Vatican City',
-    name: 'Vatican City, VA',
+    name: 'Vatican City',
     date: '2023-05-23',
     temperature: 70,
-    transport: ['walk']
+    transport: [{ type: 'walk' }]
   },
   {
     country: 'Italy',
-    name: 'Rome, IT',
+    name: 'Rome',
     date: '2023-05-23',
     temperature: 70,
     link: '/trip/rome',
-    transport: ['walk']
+    transport: [{ type: 'walk' }]
   },
   {
     country: 'Italy',
-    name: 'Naples, IT',
+    name: 'Naples',
     date: '2023-05-26',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train' }]
   },
   {
     country: 'Italy',
-    name: 'Bari, IT',
+    name: 'Bari',
     date: '2023-05-27',
     temperature: 70,
-    transport: ['train']
+    transport: [{ type: 'train', amount: 2 }]
   },
   {
     country: 'Greece',
-    name: 'Athens, GR',
+    name: 'Athens',
     date: '2023-05-29',
     temperature: 70,
     link: '/trip/athens',
-    transport: ['ferry', 'bus']
+    transport: [{ type: 'ferry' }, { type: 'bus' }]
   },
   {
     country: 'Greece',
-    name: 'Olympia, GR',
+    name: 'Olympia',
     date: '2023-06-03',
     temperature: 70,
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'Greece',
-    name: 'Athens, GR',
+    name: 'Athens',
     date: '2023-06-05',
     temperature: 70,
     link: '/trip/athens',
-    transport: ['car']
+    transport: [{ type: 'car' }]
   },
   {
     country: 'Great Britain',
-    name: 'London, GB',
+    name: 'London',
     date: '2023-06-06',
     temperature: 70,
     link: '/trip/london',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Denmark',
-    name: 'Copenhagen, DK',
+    name: 'Copenhagen',
     date: '2023-06-20',
     temperature: 70,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Faroe Islands',
-    name: 'Torshavn, FO',
+    name: 'Tórshavn',
     date: '2023-06-22',
     temperature: 70,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Iceland',
-    name: 'Reykjavik, IS',
+    name: 'Reykjavik',
     date: '2023-06-26',
     temperature: 60,
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'Canada',
-    name: 'Montreal, CN',
+    name: 'Montreal',
     date: '2023-07-01',
     temperature: 80,
     link: '/trip/montreal',
-    transport: ['plane']
+    transport: [{ type: 'plane' }]
   },
   {
     country: 'United States of America',
     name: 'Austin, TX',
     date: '2023-07-03',
     temperature: 90,
-    transport: ['plane']
+    transport: [{ type: 'plane', amount: 2 }]
   }
 ];
 
-function TransportIconContainer({ transport }: { transport: string[] }) {
-  const top = 76 + transport.length * 20;
+function TransportIconContainer({ transports }: { transports: TransportType[] }) {
+  const top = 76 + transports.length * 20;
 
   return (
     <div
       className="absolute left-0 grid -translate-x-1/2 items-center justify-items-center bg-[var(--index-background)]"
-      style={{ top: top * -1, gridTemplateRows: `repeat(${transport.length}, 40px)` }}
+      style={{ top: top * -1, gridTemplateRows: `repeat(${transports.length}, 40px)` }}
     >
-      {transport.map((t) => (
-        <TransportIcon key={t} transport={t} />
+      {transports.map((transport) => (
+        <div key={transport.type} className="relative">
+          {transport.amount && (
+            <span className="absolute -right-3 -top-4 h-5 w-5 rounded-full bg-[#282B27] text-center text-xs leading-5 text-[#e0e0e0]">
+              {`x${transport.amount}`}
+            </span>
+          )}
+          <TransportIcon transport={transport} />
+        </div>
       ))}
     </div>
   );
 }
 
-function TransportIcon({ transport }: { transport: string }) {
-  switch (transport) {
+function TransportIcon({ transport }: { transport: TransportType }) {
+  switch (transport.type) {
     case 'plane':
       return <PlaneIcon className={`h-4 fill-[#282B27] `} />;
 
@@ -578,7 +590,9 @@ function TransportIcon({ transport }: { transport: string }) {
     case 'walk':
       return <WalkIcon className={`h-6 fill-[#282B27] `} />;
     default:
-      return <span className="absolute left-[-22px] top-[-66px] py-2 text-center text-xs uppercase">{transport}</span>;
+      return (
+        <span className="absolute left-[-22px] top-[-66px] py-2 text-center text-xs uppercase">{transport.type}</span>
+      );
   }
 }
 
@@ -591,7 +605,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
         !lastVisit ? 'border-[#282B27] pb-32' : 'border-transparent pb-7'
       } text-[#282B27]`}
     >
-      {visit.transport && <TransportIconContainer transport={visit.transport} />}
+      {visit.transport && <TransportIconContainer transports={visit.transport} />}
       {visit.link ? (
         <a
           href={visit.link}
@@ -624,33 +638,64 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
               alt={flag.name}
             />
           )}
-          <span className="text-sm">{visit.country}</span>
+          <span className="text-sm font-semibold">{visit.country}</span>
         </div>
       </div>
     </div>
   );
 }
 
-export default function FlagContainer({ expand }: { expand?: boolean }) {
+function getExpandHeight(windowHeight, containerHeight) {
+  if (windowHeight < 800) {
+    return (containerHeight + 20) * -1;
+  }
+
+  return containerHeight * -1;
+}
+
+function getListHeight(windowHeight) {
+  if (windowHeight < 800) {
+    return windowHeight - 80;
+  }
+
+  return 800;
+}
+
+export default function FlagContainer({ expand, expandHeight, contentWidth }: { expand?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const endOfListRef = useRef<HTMLDivElement>(null);
+
+  console.log(contentWidth);
 
   useEffect(() => {
     if (ref.current && containerRef.current) {
-      if (!expand) {
-        ref.current.scrollTop = containerRef.current.offsetHeight;
-      }
+      ref.current.scrollTop = containerRef.current.offsetHeight;
     }
-  }, [expand]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (ref.current && containerRef.current && endOfListRef.current) {
+  //     if (!expand) {
+  //       endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
+  //       // ref.current.scrollTop = containerRef.current.offsetHeight;
+  //     }
+  //   }
+  // }, [expand]);
 
   return (
     <motion.div
-      className={`relative max-w-lg ${
+      className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } rounded-b-md border-2 border-[#282B27] pl-10 pt-6`}
+      } w-full max-w-2xl rounded-b-md border-2 border-[#282B27] pl-16 pt-6`}
       ref={ref}
-      initial={{ height: 320 }}
-      animate={{ height: expand ? 800 : 320 }}
+      initial={{ height: 320, top: 0 }}
+      animate={{
+        height: expand ? getListHeight(contentWidth.height) : 320,
+        top: expand ? getExpandHeight(contentWidth.height, expandHeight) : 0,
+        borderTopLeftRadius: expand ? '0.375rem' : '0',
+        borderTopRightRadius: expand ? '0.375rem' : '0'
+      }}
     >
       <div ref={containerRef}>
         {visits.map((visit, index) => {
@@ -679,6 +724,7 @@ export default function FlagContainer({ expand }: { expand?: boolean }) {
           );
         })}
       </div>
+      <div ref={endOfListRef} />
     </motion.div>
   );
 }
