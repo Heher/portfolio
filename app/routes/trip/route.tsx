@@ -18,6 +18,11 @@ function RoutePage() {
   const { width, setRouteSelected, selectedRouteLeg, setSelectedRouteLeg } = useTripContext();
 
   useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--body-background', 'var(--globe-background)');
+  }, []);
+
+  useEffect(() => {
     if (setRouteSelected) {
       setRouteSelected(true);
     }

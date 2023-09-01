@@ -130,6 +130,11 @@ export default function TripPage() {
 
   const isCityPage = location?.pathname.match(cityRegex);
 
+  // useEffect(() => {
+  //   const root = document.documentElement;
+  //   root.style.setProperty('--body-background', 'var(--nav-background)');
+  // }, []);
+
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
       setSelectedCity(null);

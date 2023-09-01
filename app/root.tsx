@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 
 import globalStyles from '~/styles/global.css';
@@ -53,20 +53,20 @@ export function links() {
 //   );
 // }
 
-function getBodyBackground(location: string) {
-  if (location.includes('trip')) {
-    return 'bg-[var(--nav-background)]';
-  }
+// function getBodyBackground(location: string) {
+//   if (location.includes('trip')) {
+//     return 'bg-[var(--nav-background)]';
+//   }
 
-  if (location === '/') {
-    return 'bg-[var(--index-background)]';
-  }
+//   if (location === '/') {
+//     return 'bg-[var(--index-background)]';
+//   }
 
-  return 'bg-white';
-}
+//   return 'bg-white';
+// }
 
 function App() {
-  const appLocation = useLocation();
+  // const appLocation = useLocation();
 
   return (
     <html lang="en">
@@ -74,7 +74,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className={getBodyBackground(appLocation.pathname)}>
+      <body className="bg-[var(--body-background)]">
         <Outlet />
         <ScrollRestoration
           getKey={(location, matches) => {

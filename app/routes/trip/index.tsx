@@ -69,6 +69,16 @@ export default function TripIndex() {
   const { olympiads, cities } = useLoaderData<typeof loader>();
 
   useEffect(() => {
+    const root = document.documentElement;
+
+    if (width < 768 && showDetails) {
+      root.style.setProperty('--body-background', 'var(--globe-background)');
+    } else {
+      root.style.setProperty('--body-background', 'var(--nav-background)');
+    }
+  }, [showDetails, width]);
+
+  useEffect(() => {
     if (!loaded) {
       setLoaded(true);
     }
@@ -90,7 +100,7 @@ export default function TripIndex() {
       )}
       {!showDetails && width < 768 && (
         <button
-          className={`absolute bottom-[50px] left-1/2 z-30 translate-x-[-50%] rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}
+          className={`absolute bottom-[50px] left-1/2 z-30 -translate-x-2/4 rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}
           type="button"
           onClick={() => {
             toggleBodyBackground();
