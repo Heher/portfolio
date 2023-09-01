@@ -1,6 +1,6 @@
 import flags from '~/data/countryFlags.json';
 import { format, isSameYear } from 'date-fns';
-import { Fragment, useEffect, useLayoutEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import PlaneIcon from '../icons/Plane';
 import CarIcon from '../icons/Car';
 import TrainIcon from '../icons/Train';
@@ -669,21 +669,16 @@ export default function FlagContainer({
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
 
-  // Start observing the element when the component is mounted
   useEffect(() => {
     if (ref.current) {
       const observer = new ResizeObserver(() => {
-        // 👉 Do something when the element is resized
         if (ref.current && containerRef.current && endOfListRef.current) {
           ref.current.scrollTop = containerRef.current.offsetHeight;
         }
-        // for (const entry of entries) {
-        // }
       });
 
       observer.observe(ref.current);
       return () => {
-        // Cleanup the observer by unobserving all elements
         observer.disconnect();
       };
     }
@@ -709,7 +704,7 @@ export default function FlagContainer({
     <motion.div
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
+      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{
