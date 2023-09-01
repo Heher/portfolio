@@ -150,13 +150,15 @@ function IndexContent({ size }) {
             </motion.div>
           </motion.button>
           <motion.div
-            className="absolute top-10 z-10 h-16 w-full bg-gradient-to-b from-[rgba(176,178,178,0.7)] to-transparent"
+            className="absolute top-10 z-10 h-16 w-full px-[2px]"
             initial={{ height: 64, top: 40 }}
             animate={{
               height: expand ? 0 : 64,
               top: expand ? getClosePosition(size.height, containerRef.current?.offsetHeight) : 40
             }}
-          ></motion.div>
+          >
+            <div className="h-16 w-full bg-gradient-to-b from-[rgba(176,178,178,0.7)] to-transparent"></div>
+          </motion.div>
           <FlagContainer expand={expand} contentSize={size} mainContentSize={contentSize} />
         </div>
       )}

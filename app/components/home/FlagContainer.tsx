@@ -670,26 +670,41 @@ export default function FlagContainer({
   const endOfListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current && containerRef.current) {
-      ref.current.scrollTop = containerRef.current.offsetHeight;
+    if (ref.current) {
+      const observer = new ResizeObserver(() => {
+        if (ref.current && containerRef.current && endOfListRef.current) {
+          ref.current.scrollTop = containerRef.current.offsetHeight;
+        }
+      });
+
+      observer.observe(ref.current);
+      return () => {
+        observer.disconnect();
+      };
     }
   }, []);
 
-  useEffect(() => {
-    if (ref.current && containerRef.current && endOfListRef.current) {
-      if (!expand) {
-        // console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
-        ref.current.scrollTop = 20000;
-        // ref.current.scrollTop = containerRef.current.offsetHeight;
-      }
-    }
-  }, [expand]);
+  // useEffect(() => {
+  //   if (ref.current && containerRef.current) {
+  //     ref.current.scrollTop = containerRef.current.offsetHeight;
+  //   }
+  // }, []);
+
+  // useLayoutEffect(() => {
+  //   if (ref.current && containerRef.current && endOfListRef.current) {
+  //     if (!expand) {
+  //       console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
+  //       ref.current.scrollTop = containerRef.current.offsetHeight;
+  //       // ref.current.scrollTop = containerRef.current.offsetHeight;
+  //     }
+  //   }
+  // }, [expand]);
 
   return (
     <motion.div
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
+      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{
