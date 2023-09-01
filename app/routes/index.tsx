@@ -1,14 +1,13 @@
 import type { MetaFunction } from '@remix-run/node';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import type { RectReadOnly } from 'react-use-measure';
 import useMeasure from 'react-use-measure';
-// import { Link } from '@remix-run/react';
 import FlagContainer from '~/components/home/FlagContainer';
-import { Arrow } from '~/components/icons/Arrow';
 import CloseIcon from '~/components/icons/CloseIcon';
 import EmailIcon from '~/components/icons/Email';
-// import ExpandIcon from '~/components/icons/Expand';
 import GitHubIcon from '~/components/icons/Github';
+import IndexArrow from '~/components/icons/IndexArrow';
 import LinkedInIcon from '~/components/icons/LinkedIn';
 import ResumeIcon from '~/components/icons/Resume';
 
@@ -54,7 +53,7 @@ function getCloseRight(windowWidth: number) {
   return -20;
 }
 
-function IndexContent({ size }) {
+function IndexContent({ size }: { size: RectReadOnly }) {
   const [expand, setExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -90,44 +89,40 @@ function IndexContent({ size }) {
         <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
           <a
             href="https://github.com/Heher"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[#648767]"
+            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
           >
-            <GitHubIcon className={`h-6 fill-[#648767]`} />
+            <GitHubIcon className={`h-6 fill-[var(--index-link)]`} />
             <span className="text-xs">GitHub</span>
           </a>
           <a
             href="https://www.linkedin.com/in/johnheher/"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[#648767]"
+            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
           >
-            <LinkedInIcon className={`h-6 fill-[#648767]`} />
+            <LinkedInIcon className={`h-6 fill-[var(--index-link)]`} />
             <span className="text-xs">LinkedIn</span>
           </a>
           <a
             href="/cv.pdf"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[#648767]"
+            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
           >
-            <ResumeIcon className={`h-6 fill-[#648767]`} />
+            <ResumeIcon className={`h-6 fill-[var(--index-link)]`} />
             <span className="text-xs">Resume</span>
           </a>
           <a
             href="mailto:johnheher@gmail.com"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[#648767]"
+            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
           >
-            <EmailIcon className={`w-5 fill-[#648767]`} />
+            <EmailIcon className={`w-5 fill-[var(--index-link)]`} />
             <span className="text-xs">Email</span>
           </a>
         </div>
-        <div className="mt-20">
-          <div className="flex items-center">
+        <div className="mt-20 grid justify-items-start">
+          <a href="/trip" className="grid grid-cols-[1fr_40px] items-center">
             <h2 className="text-lg font-semibold uppercase text-[#282B27]">Travels</h2>
-            <a href="/trip" className="ml-3">
-              <Arrow fill="#648767" className="h-4 rotate-180" />
-            </a>
-          </div>
+            <IndexArrow className="ml-3 h-3 fill-[var(--index-link)]" />
+          </a>
         </div>
       </motion.div>
-      {/* <div className="relative w-full max-w-lg" style={{ height: expand ? 0 : 320 }}> */}
-      {/* <div className="relative w-full max-w-lg" style={{ height: expand ? 0 : 320 }}> */}
       {contentSize?.height > 0 && (
         <div className="relative w-full max-w-lg">
           <motion.button
@@ -154,7 +149,7 @@ function IndexContent({ size }) {
             initial={{ height: 64, top: 40 }}
             animate={{
               height: expand ? 0 : 64,
-              top: expand ? getClosePosition(size.height, containerRef.current?.offsetHeight) : 40
+              top: expand ? getClosePosition(size.height) : 40
             }}
           >
             <div className="h-16 w-full bg-gradient-to-b from-[rgba(176,178,178,0.7)] to-transparent"></div>
