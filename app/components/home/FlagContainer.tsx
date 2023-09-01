@@ -1,6 +1,6 @@
 import flags from '~/data/countryFlags.json';
 import { format, isSameYear } from 'date-fns';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef } from 'react';
 import PlaneIcon from '../icons/Plane';
 import CarIcon from '../icons/Car';
 import TrainIcon from '../icons/Train';
@@ -669,21 +669,41 @@ export default function FlagContainer({
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
 
+  // Start observing the element when the component is mounted
   useEffect(() => {
-    if (ref.current && containerRef.current) {
-      ref.current.scrollTop = containerRef.current.offsetHeight;
+    if (ref.current) {
+      const observer = new ResizeObserver(() => {
+        // 👉 Do something when the element is resized
+        if (ref.current && containerRef.current && endOfListRef.current) {
+          ref.current.scrollTop = containerRef.current.offsetHeight;
+        }
+        // for (const entry of entries) {
+        // }
+      });
+
+      observer.observe(ref.current);
+      return () => {
+        // Cleanup the observer by unobserving all elements
+        observer.disconnect();
+      };
     }
   }, []);
 
-  useEffect(() => {
-    if (ref.current && containerRef.current && endOfListRef.current) {
-      if (!expand) {
-        // console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
-        ref.current.scrollTop = 20000;
-        // ref.current.scrollTop = containerRef.current.offsetHeight;
-      }
-    }
-  }, [expand]);
+  // useEffect(() => {
+  //   if (ref.current && containerRef.current) {
+  //     ref.current.scrollTop = containerRef.current.offsetHeight;
+  //   }
+  // }, []);
+
+  // useLayoutEffect(() => {
+  //   if (ref.current && containerRef.current && endOfListRef.current) {
+  //     if (!expand) {
+  //       console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
+  //       ref.current.scrollTop = containerRef.current.offsetHeight;
+  //       // ref.current.scrollTop = containerRef.current.offsetHeight;
+  //     }
+  //   }
+  // }, [expand]);
 
   return (
     <motion.div
