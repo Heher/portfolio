@@ -28,6 +28,8 @@
   --flight: #e6781e;
   --text: #13171a;
   --index-background: #dddfdf;
+  /* --index-link: #648767; */
+  --index-link: #5a795c;
 }
 
 @font-face {
