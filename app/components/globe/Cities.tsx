@@ -1,4 +1,4 @@
-import { type Euler, type Vector3, extend, useLoader } from '@react-three/fiber';
+import { extend, useLoader } from '@react-three/fiber';
 
 import type { MarkerVisit } from 'types/globe';
 import type { City } from './coordinates';
@@ -12,17 +12,14 @@ import alphaMapImg from '~/data/beam/alphamap10.png';
 import { Flag } from './markers/Flag';
 import { Marker } from './markers/Marker';
 
-type NewCitiesProps = {
+type CitiesProps = {
   city: City & MarkerVisit;
   citySelected: string | null;
-  flagPosition: number[];
 };
 
 extend({ MarkerMaterial, FlagMaterial });
 
-export function NewCities({ city, citySelected, flagPosition }: NewCitiesProps) {
-  // const flagRef = useRef(null);
-
+export function Cities({ city, citySelected }: CitiesProps) {
   const alphaMap = useLoader(TextureLoader, alphaMapImg);
 
   // useFrame((state) => {
@@ -49,13 +46,13 @@ export function NewCities({ city, citySelected, flagPosition }: NewCitiesProps) 
   return (
     <group>
       <Marker
-        position={city.markerInfo.position as Vector3}
-        rotation={city.markerInfo.rotation as Euler}
+        position={city.markerInfo.position}
+        rotation={city.markerInfo.rotation}
         color={city.type === 'summer' ? summerColor : winterColor}
       />
       <Flag
-        position={city.markerInfo.position as Vector3}
-        rotation={city.markerInfo.rotation as Euler}
+        position={city.markerInfo.position}
+        rotation={city.markerInfo.rotation}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
         shown={(citySelected && citySelected === city.name) as boolean}

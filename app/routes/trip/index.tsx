@@ -7,8 +7,7 @@ import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
 import { useTripContext } from '../trip';
 import type { CityFieldsFragmentDoc, OlympiadFieldsFragmentDoc } from '~/gql/graphql';
-import { GetCitiesDocument } from '~/gql/graphql';
-import { GetOlympiadsDocument } from '~/gql/graphql';
+import { GetCitiesDocument, GetOlympiadsDocument } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import type { FragmentType } from '~/gql';
 import { useEffect } from 'react';
@@ -68,8 +67,6 @@ export default function TripIndex() {
   } = useTripContext();
 
   const { olympiads, cities } = useLoaderData<typeof loader>();
-
-  // const groupedOlympiads = groupBy(olympiads, (olympiad) => olympiad?.city?.id);
 
   useEffect(() => {
     if (!loaded) {

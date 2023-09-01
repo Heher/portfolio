@@ -1,6 +1,7 @@
-import type { Color, Euler, Texture, Vector3 } from 'three';
+import type { BufferGeometry, Color, Material, Mesh, NormalBufferAttributes, Texture } from 'three';
 import { DoubleSide } from 'three';
 import { beamHeight, markerRadius } from '../utils';
+import type { Euler, Vector3 } from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 
@@ -13,9 +14,9 @@ type FlagProps = {
 };
 
 export function Flag({ position, rotation, alphaMap, flagColor, shown }: FlagProps) {
-  const flagRef = useRef(null);
+  const flagRef = useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[]>>(null);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!flagRef?.current) {
       return;
     }

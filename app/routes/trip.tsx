@@ -181,7 +181,7 @@ export default function TripPage() {
             isCityPage={isCityPage}
           />
         )}
-        {width && (
+        {width > 0 && (
           <motion.div
             className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
               selectedCity && !moveableGlobe && 'clip-container'

@@ -1,6 +1,6 @@
-import type { Color, Euler, Vector3 } from 'three';
+import type { Color } from 'three';
 import { markerRadius } from '../utils';
-import { useRef } from 'react';
+import type { Euler, Vector3 } from '@react-three/fiber';
 
 type MarkerProps = {
   position: Vector3;
@@ -9,12 +9,9 @@ type MarkerProps = {
 };
 
 export function Marker({ position, rotation, color }: MarkerProps) {
-  const markerRef = useRef(null);
-
   return (
-    <mesh ref={markerRef} position={position} rotation={rotation} castShadow receiveShadow>
+    <mesh position={position} rotation={rotation} castShadow receiveShadow>
       <cylinderGeometry args={[markerRadius, markerRadius, 0.01, 32]} />
-      {/* <markerMaterial u_color={city.type === 'summer' ? summerColor : winterColor} /> */}
       <meshStandardMaterial color={color} />
     </mesh>
   );

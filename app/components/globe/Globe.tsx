@@ -1,27 +1,23 @@
 import { useEffect, useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
-import { useThree, type GroupProps, useFrame } from '@react-three/fiber';
-import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius, markerHeight } from './utils';
+import { useThree, useFrame } from '@react-three/fiber';
+import { convertToRadians, formatCitiesWithVisits } from './utils';
 import type { City } from './coordinates';
-import { cities } from './coordinates';
-import { MathUtils } from 'three';
-import { motion } from 'framer-motion-3d';
+import { cities, coordinates } from './coordinates';
+import type { Group } from 'three';
+import { Euler, MathUtils, Vector3 } from 'three';
 import Sphere from './Sphere';
 import { Route } from './Route';
 import { OrbitControls } from '@react-three/drei';
-import { NewCities } from './NewCities';
+import { Cities } from './Cities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
+import { dampE, damp3 } from 'maath/easing';
 
-type RotationResponse = {
-  rotateX?: number;
-  rotateY?: number;
-  rotateZ?: number;
-  position?: {
-    x: number;
-    y: number;
-    z: number;
-  };
+type RotationProps = {
+  rotation?: Euler;
+  position?: Vector3;
+  scale?: number;
 };
 
 type NewGlobeProps = {
@@ -35,30 +31,35 @@ type NewGlobeProps = {
   selectedRouteLeg: number;
 };
 
-function getCityPosition(foundCity: City | undefined) {
-  //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
-  return foundCity ? { x: 0, y: -foundCity.coord[0] / 50, z: 0 } : undefined;
-}
-
-function getCityRotation(coord: Coordinate): RotationResponse {
-  const { latRad, lonRad } = convertToRadians(coord);
-
-  // return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
-  return { rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
-}
-
-function getNewRotation(coord: Coordinate): RotationResponse {
-  const { latRad, lonRad } = convertToRadians(coord);
-
-  return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
-}
-
-function getRotation(foundCity: City | undefined, routeSelected: boolean): RotationResponse {
+function getCityPosition(foundCity: City | undefined, routeSelected: boolean): Vector3 {
   if (routeSelected) {
-    return { ...getNewRotation([52.37, -4.89]), rotateZ: 0 };
+    const amsterdam = coordinates['amsterdam'];
+
+    if (!amsterdam) return new Vector3(0, 0, 0);
+
+    return new Vector3(0, -amsterdam[0] / 50, 0);
   }
 
-  return foundCity ? getCityRotation(foundCity.coord) : {};
+  if (!foundCity) return new Vector3(0, 0, 0);
+
+  //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
+  return new Vector3(0, -foundCity.coord[0] / 50, 0);
+}
+
+function getCityRotation(coord: Coordinate): Euler {
+  const { lonRad } = convertToRadians(coord);
+
+  return new Euler(0, lonRad - Math.PI / 2, 0, 'ZXY');
+}
+
+function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {
+  if (routeSelected) {
+    return getCityRotation(cities.find((city) => city.name === 'Amsterdam')?.coord || [0, 0]);
+  }
+
+  if (!foundCity) return new Euler(0, 0, 0, 'ZXY');
+
+  return getCityRotation(foundCity.coord);
 }
 
 function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
@@ -73,6 +74,16 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   return width < 768 ? 1 : 1;
 }
 
+function checkProps(
+  newProps: RotationProps,
+  currentValue: Euler | Vector3,
+  checkValue: 'rotation' | 'position' | 'scale'
+) {
+  return (
+    newProps.hasOwnProperty(checkValue) && newProps[checkValue] !== currentValue && newProps[checkValue] !== undefined
+  );
+}
+
 export function Globe({
   visits,
   selectedCity,
@@ -83,7 +94,7 @@ export function Globe({
   showDetails,
   selectedRouteLeg
 }: NewGlobeProps) {
-  const groupRef = useRef<GroupProps>(null!);
+  const groupRef = useRef<Group>(null!);
   const controlsRef = useRef(null);
   const { camera } = useThree();
 
@@ -99,80 +110,48 @@ export function Globe({
   }, [camera, routeSelected, moveable]);
 
   useFrame((state, delta) => {
-    if (!groupRef?.current?.rotation || !groupRef.current.scale) return;
+    const currentRotation = groupRef?.current?.rotation || new Euler();
+    const currentScale = groupRef?.current?.scale || new Vector3();
+    const currentPosition = groupRef?.current?.position || new Vector3();
 
     if (foundCity || routeSelected) {
       const newProps = {
-        ...getRotation(foundCity, routeSelected),
-        position: getCityPosition(foundCity),
+        rotation: getRotation(foundCity, routeSelected),
+        position: getCityPosition(foundCity, routeSelected),
         scale: getScale(foundCity, routeSelected, width)
       };
 
-      if (
-        newProps.hasOwnProperty('rotateX') &&
-        newProps.rotateX !== groupRef.current.rotation.x &&
-        newProps.rotateX !== undefined
-      ) {
-        groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
+      if (checkProps(newProps, currentRotation, 'rotation')) {
+        dampE(currentRotation, newProps.rotation, 0.3, delta);
       }
 
-      if (
-        newProps.hasOwnProperty('rotateY') &&
-        newProps.rotateY !== groupRef.current.rotation.y &&
-        newProps.rotateY !== undefined
-      ) {
-        groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
+      if (checkProps(newProps, currentPosition, 'position')) {
+        damp3(currentPosition, newProps.position, 0.25, delta);
       }
 
-      if (
-        newProps.hasOwnProperty('rotateZ') &&
-        newProps.rotateZ !== groupRef.current.rotation.z &&
-        newProps.rotateZ !== undefined
-      ) {
-        groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, newProps.rotateZ, delta * 5);
+      if (checkProps(newProps, currentScale, 'scale')) {
+        damp3(currentScale, newProps.scale, 0.25, delta);
       }
-
-      if (
-        newProps.hasOwnProperty('position') &&
-        newProps.position !== groupRef.current.position &&
-        newProps.position !== undefined
-      ) {
-        groupRef.current.position.set(
-          MathUtils.lerp(groupRef.current.position.x, newProps.position.x, delta * 5),
-          MathUtils.lerp(groupRef.current.position.y, newProps.position.y, delta * 5),
-          MathUtils.lerp(groupRef.current.position.z, newProps.position.z, delta * 5)
-        );
-      }
-
-      groupRef.current.scale.set(
-        MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.z, newProps.scale, delta * 5)
-      );
     }
 
     if (!routeSelected && !foundCity && !moveable) {
-      groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
-      groupRef.current.position.set(0, 0, 0);
+      currentRotation.x = MathUtils.lerp(currentRotation.x, 0, delta * 5);
+      currentPosition.set(0, 0, 0);
 
-      groupRef.current.scale.set(
-        MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.y, 1, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.z, 1, delta * 5)
-      );
+      damp3(currentScale, 1, 0.25, delta);
 
-      if (groupRef.current.rotation.y > 2 * Math.PI) {
-        groupRef.current.rotation.y = 0;
+      if (currentRotation.y > 2 * Math.PI) {
+        currentRotation.y = 0;
       } else {
-        groupRef.current.rotation.y += delta * 0.15;
+        currentRotation.y += delta * 0.15;
       }
 
-      groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, 0.5, delta * 5);
+      currentRotation.z = MathUtils.lerp(currentRotation.z, 0.5, delta * 5);
     }
   });
 
   return (
-    <motion.group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
+    <group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
       <OrbitControls
@@ -188,9 +167,9 @@ export function Globe({
       />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
+          // const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
 
-          return <NewCities key={city.coord[0]} city={city} citySelected={selectedCity} flagPosition={flagPosition} />;
+          return <Cities key={city.coord[0]} city={city} citySelected={selectedCity} />;
         })}
 
       <EffectComposer>
@@ -205,6 +184,6 @@ export function Globe({
           resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
         />
       </EffectComposer>
-    </motion.group>
+    </group>
   );
 }
