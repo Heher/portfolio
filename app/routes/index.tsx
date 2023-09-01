@@ -61,6 +61,11 @@ function IndexContent({ size }) {
   const [contentRef, contentSize] = useMeasure({ debounce: 300 });
 
   useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--body-background', 'var(--index-background)');
+  }, []);
+
+  useEffect(() => {
     if (expand) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

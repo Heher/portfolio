@@ -109,7 +109,7 @@ export function Globe({
     }
   }, [camera, routeSelected, moveable]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     const currentRotation = groupRef?.current?.rotation || new Euler();
     const currentScale = groupRef?.current?.scale || new Vector3();
     const currentPosition = groupRef?.current?.position || new Vector3();
@@ -167,8 +167,6 @@ export function Globe({
       />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          // const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
-
           return <Cities key={city.coord[0]} city={city} citySelected={selectedCity} />;
         })}
 

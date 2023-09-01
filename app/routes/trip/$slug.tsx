@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import request from 'graphql-request';
 import { useEffect } from 'react';
 import CityInfo from '~/components/olympiad-city/CityInfo';
-import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from '~/components/olympiad-city/utils';
+import { cityStatus, filterOutNonOlympiadsForCity, statusColorSlug } from '~/components/olympiad-city/utils';
 import type { FragmentType } from '~/gql';
 import { useFragment } from '~/gql';
 import { CityOlympiadFragmentDoc, GetCityDocument } from '~/gql/graphql';
@@ -48,7 +48,7 @@ const variants = {
 };
 
 function CityPage() {
-  const { visits, setSelectedCity, moveableGlobe } = useTripContext();
+  const { visits, setSelectedCity, moveableGlobe, setShowDetails } = useTripContext();
   const { city } = useLoaderData<typeof loader>();
 
   const olympiads = useFragment(
@@ -59,8 +59,12 @@ function CityPage() {
   useEffect(() => {
     if (city?.slug) {
       setSelectedCity(city.slug);
+      setShowDetails(true);
+
+      const root = document.documentElement;
+      root.style.setProperty('--body-background', 'var(--globe-background)');
     }
-  }, [setSelectedCity, city]);
+  }, [setShowDetails, setSelectedCity, city]);
 
   if (!city?.country?.name || !city?.name || !city.country.flagByTimestamp?.png || !city.slug) {
     return null;
@@ -80,9 +84,9 @@ function CityPage() {
       className={`olympiad-city selected group z-20 overflow-scroll bg-[#e0e0e0]`}
       style={{
         position: 'fixed',
-        top: '25vh',
+        top: '50px',
         left: '0px',
-        height: '75vh',
+        height: '100vh',
         width: '100vw'
       }}
       variants={variants}
@@ -91,13 +95,13 @@ function CityPage() {
       layoutId={city.slug}
     >
       <motion.span
-        className={`city-status block w-full border-t-[15px] border-solid ${statusColor(
+        className={`city-status absolute left-0 top-0 block h-32 w-full bg-gradient-to-t ${statusColorSlug(
           amountCompleted,
           totalOlympiads
-        )}`}
+        )} to-[var(--globe-background)]`}
       />
-      <motion.div className="mx-auto px-[5vw] md:max-w-[800px]">
-        <motion.div className="header mt-[25vh] md:mt-[15vh]">
+      <motion.div className="mx-auto mt-96 px-[5vw] md:max-w-[800px]">
+        <motion.div className="header md:mt-[15vh]">
           <div className="flex items-center">
             <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
               {city.name}

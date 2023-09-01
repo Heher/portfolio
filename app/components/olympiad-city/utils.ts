@@ -53,6 +53,18 @@ export function statusColor(amountCompleted: number, totalOlympiads: number) {
   return `negative`;
 }
 
+export function statusColorSlug(amountCompleted: number, totalOlympiads: number) {
+  if (amountCompleted === totalOlympiads) {
+    return 'from-[var(--positive)] to-50%';
+  }
+
+  if (amountCompleted < totalOlympiads && amountCompleted > 0) {
+    return 'from-[var(--incomplete)] to-50%';
+  }
+
+  return `from-[var(--negative)] to-50%`;
+}
+
 export function filterOutNonOlympiadsForCity(cityName: string, olympiads: readonly CityOlympiadFragment[]) {
   //* filter out 1906 Athens and 1956 Stockholm
   return olympiads.filter((olympiad) => {
