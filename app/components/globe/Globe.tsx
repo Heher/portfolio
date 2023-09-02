@@ -13,6 +13,7 @@ import { Cities } from './Cities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { dampE, damp3 } from 'maath/easing';
+import { motion } from 'framer-motion-3d';
 
 type RotationProps = {
   rotation?: Euler;
@@ -84,6 +85,20 @@ function checkProps(
   );
 }
 
+const variants = {
+  route: {
+    y: 0
+  },
+  show: {
+    rotateY: -Math.PI * 2,
+    transition: {
+      repeat: Infinity,
+      duration: 20,
+      ease: 'linear'
+    }
+  }
+};
+
 export function Globe({
   visits,
   selectedCity,
@@ -96,62 +111,68 @@ export function Globe({
 }: NewGlobeProps) {
   const groupRef = useRef<Group>(null!);
   const controlsRef = useRef(null);
-  const { camera } = useThree();
+  // const { camera } = useThree();
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
-  const foundCity = cities.find((city) => city.name === selectedCity);
+  // const foundCity = cities.find((city) => city.name === selectedCity);
 
-  useEffect(() => {
-    if (camera && !routeSelected && !moveable) {
-      camera.position.set(0, 0, 18);
-      camera.rotation.set(0, 0, 0, 'ZXY');
-    }
-  }, [camera, routeSelected, moveable]);
+  // useEffect(() => {
+  //   if (camera && !routeSelected && !moveable) {
+  //     camera.position.set(0, 0, 18);
+  //     camera.rotation.set(0, 0, 0, 'ZXY');
+  //   }
+  // }, [camera, routeSelected, moveable]);
 
-  useFrame((_, delta) => {
-    const currentRotation = groupRef?.current?.rotation || new Euler();
-    const currentScale = groupRef?.current?.scale || new Vector3();
-    const currentPosition = groupRef?.current?.position || new Vector3();
+  // useFrame((_, delta) => {
+  //   const currentRotation = groupRef?.current?.rotation || new Euler();
+  //   const currentScale = groupRef?.current?.scale || new Vector3();
+  //   const currentPosition = groupRef?.current?.position || new Vector3();
 
-    if (foundCity || routeSelected) {
-      const newProps = {
-        rotation: getRotation(foundCity, routeSelected),
-        position: getCityPosition(foundCity, routeSelected),
-        scale: getScale(foundCity, routeSelected, width)
-      };
+  //   if (foundCity || routeSelected) {
+  //     const newProps = {
+  //       rotation: getRotation(foundCity, routeSelected),
+  //       position: getCityPosition(foundCity, routeSelected),
+  //       scale: getScale(foundCity, routeSelected, width)
+  //     };
 
-      if (checkProps(newProps, currentRotation, 'rotation')) {
-        dampE(currentRotation, newProps.rotation, 0.3, delta);
-      }
+  //     if (checkProps(newProps, currentRotation, 'rotation')) {
+  //       dampE(currentRotation, newProps.rotation, 0.3, delta);
+  //     }
 
-      if (checkProps(newProps, currentPosition, 'position')) {
-        damp3(currentPosition, newProps.position, 0.25, delta);
-      }
+  //     if (checkProps(newProps, currentPosition, 'position')) {
+  //       damp3(currentPosition, newProps.position, 0.25, delta);
+  //     }
 
-      if (checkProps(newProps, currentScale, 'scale')) {
-        damp3(currentScale, newProps.scale, 0.25, delta);
-      }
-    }
+  //     if (checkProps(newProps, currentScale, 'scale')) {
+  //       damp3(currentScale, newProps.scale, 0.25, delta);
+  //     }
+  //   }
 
-    if (!routeSelected && !foundCity && !moveable) {
-      currentRotation.x = MathUtils.lerp(currentRotation.x, 0, delta * 5);
-      currentPosition.set(0, 0, 0);
+  //   if (!routeSelected && !foundCity && !moveable) {
+  //     currentRotation.x = MathUtils.lerp(currentRotation.x, 0, delta * 5);
+  //     currentPosition.set(0, 0, 0);
 
-      damp3(currentScale, 1, 0.25, delta);
+  //     damp3(currentScale, 1, 0.25, delta);
 
-      if (currentRotation.y > 2 * Math.PI) {
-        currentRotation.y = 0;
-      } else {
-        currentRotation.y += delta * 0.15;
-      }
+  //     if (currentRotation.y > 2 * Math.PI) {
+  //       currentRotation.y = 0;
+  //     } else {
+  //       currentRotation.y += delta * 0.15;
+  //     }
 
-      currentRotation.z = MathUtils.lerp(currentRotation.z, 0.5, delta * 5);
-    }
-  });
+  //     currentRotation.z = MathUtils.lerp(currentRotation.z, 0.5, delta * 5);
+  //   }
+  // });
 
   return (
-    <group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
+    <motion.group
+      ref={groupRef}
+      scale={1}
+      rotation={[0, 0, 0.5, 'ZXY']}
+      variants={variants}
+      animate={routeSelected ? 'route' : 'show'}
+    >
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
       <OrbitControls
@@ -182,6 +203,6 @@ export function Globe({
           resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
         />
       </EffectComposer>
-    </group>
+    </motion.group>
   );
 }

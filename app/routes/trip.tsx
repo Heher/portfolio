@@ -187,13 +187,18 @@ export default function TripPage() {
           />
         )}
         {width > 0 && (
+          // <motion.div
+          //   className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
+          //     selectedCity && !moveableGlobe && 'clip-container'
+          //   } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
+          //   custom={width}
+          //   variants={variants}
+          //   animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity, width)}
+          //   transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
+          //   initial={false}
+          // >
           <motion.div
-            className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
-              selectedCity && !moveableGlobe && 'clip-container'
-            } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
-            custom={width}
-            variants={variants}
-            animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity, width)}
+            className={`globe-container fixed -z-0 h-full w-full`}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >

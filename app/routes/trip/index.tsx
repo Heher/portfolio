@@ -85,7 +85,7 @@ export default function TripIndex() {
   }, [loaded, setLoaded]);
 
   return (
-    <div>
+    <div className="relative z-10">
       <MainCopy
         showDetails={showDetails}
         olympiads={olympiads as FragmentType<typeof OlympiadFieldsFragmentDoc>[]}

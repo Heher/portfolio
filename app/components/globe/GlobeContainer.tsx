@@ -26,6 +26,7 @@ export function GlobeContainer({
   selectedRouteLeg
 }: GlobeContainerProps) {
   return (
+    // <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       <ambientLight intensity={0.1} />
       <directionalLight position={[5, 5, 5]} intensity={2} color={white} castShadow shadow-mapSize={[3072, 3072]} />
