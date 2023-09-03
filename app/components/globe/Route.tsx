@@ -5,6 +5,8 @@ import type { City } from './coordinates';
 import { Cities } from './Cities';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
+import { TripPageContext, useTripContext } from '~/routes/trip';
+import { useContext } from 'react';
 // import { getPosition, globeRadius } from './utils';
 
 const citiesVisited = [
@@ -34,75 +36,15 @@ const citiesVisited = [
   'athens'
 ];
 
-// const markerHeight = 0.05;
-// const markerRadius = 0.003;
-
-// const markerGeometry = new CylinderGeometry(markerRadius, markerRadius, markerHeight, 32);
-// const flagGeometry = new CylinderGeometry(markerRadius, markerRadius, 0.01, 32);
-
 type RouteProps = {
   visible: boolean;
   citiesWithVisits: (City & MarkerVisit)[];
-  selectedRouteLeg: number;
 };
 
-export function Route({ visible, citiesWithVisits, selectedRouteLeg }: RouteProps) {
+export function Route({ visible, citiesWithVisits }: RouteProps) {
   const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
 
-  // const summerMarkerMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#fc8d6a'
-  //     }),
-  //   []
-  // );
-  // const winterMarkerMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#5bcaf5'
-  //     }),
-  //   []
-  // );
-  // const flagMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#ff5a5a',
-  //       emissive: '#ff5a5a',
-  //       emissiveIntensity: 5,
-  //       toneMapped: false
-  //     }),
-  //   []
-  // );
-  // const visitedMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#3dbd73',
-  //       emissive: '#3dbd73',
-  //       emissiveIntensity: 5,
-  //       toneMapped: false
-  //     }),
-  //   []
-  // );
-  // const offVisitedMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#3dbd73',
-  //       emissive: 'black',
-  //       emissiveIntensity: 0,
-  //       toneMapped: false
-  //     }),
-  //   []
-  // );
-  // const offMaterial = useMemo(
-  //   () =>
-  //     new MeshStandardMaterial({
-  //       color: '#ff5a5a',
-  //       emissive: 'black',
-  //       emissiveIntensity: 0,
-  //       toneMapped: false
-  //     }),
-  //   []
-  // );
+  const { selectedRouteLeg } = useContext(TripPageContext);
 
   const selectedRoute = selectedRouteLeg === 0 ? myRoute : [myRoute[selectedRouteLeg - 1]];
 
@@ -114,7 +56,7 @@ export function Route({ visible, citiesWithVisits, selectedRouteLeg }: RouteProp
       {onlyVisited.map((city) => {
         // const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
 
-        return <Cities key={city.coord[0]} city={city} citySelected={null} />;
+        return <Cities key={city.coord[0]} city={city} />;
       })}
     </group>
   );

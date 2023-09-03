@@ -54,17 +54,9 @@ function getCitiesListVisibility(width: number, showDetails: boolean) {
 }
 
 export default function TripIndex() {
-  const {
-    width,
-    moveableGlobe,
-    routeSelected,
-    showDetails,
-    setShowDetails,
-    visits,
-    toggleBodyBackground,
-    loaded,
-    setLoaded
-  } = useTripContext();
+  const { width, toggleBodyBackground, appState, dispatch } = useTripContext();
+
+  const { showDetails, loaded } = appState;
 
   const { olympiads, cities } = useLoaderData<typeof loader>();
 
@@ -80,18 +72,14 @@ export default function TripIndex() {
 
   useEffect(() => {
     if (!loaded) {
-      setLoaded(true);
+      dispatch({ type: 'LOADED', loaded: true });
     }
-  }, [loaded, setLoaded]);
+  }, [loaded, dispatch]);
 
   return (
     <div className="relative z-10">
       <MainCopy
-        showDetails={showDetails}
         olympiads={olympiads as FragmentType<typeof OlympiadFieldsFragmentDoc>[]}
-        visits={visits}
-        globeMoveable={moveableGlobe}
-        routeSelected={routeSelected}
         variants={animationVariants}
       />
 
@@ -104,7 +92,7 @@ export default function TripIndex() {
           type="button"
           onClick={() => {
             toggleBodyBackground();
-            setShowDetails(true);
+            dispatch({ type: 'SHOW_DETAILS', showDetails: true });
           }}
         >
           Details

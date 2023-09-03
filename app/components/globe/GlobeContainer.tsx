@@ -8,27 +8,7 @@ import { OrbitControls } from '@react-three/drei';
 import { useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 
-type GlobeContainerProps = {
-  visits: Visit[];
-  selectedCity: string | null;
-  routeSelected: boolean;
-  showDetails: boolean;
-  width: number;
-  moveable: boolean;
-  setMoveable: () => void;
-  selectedRouteLeg: number;
-};
-
-export function GlobeContainer({
-  visits,
-  selectedCity,
-  routeSelected,
-  width,
-  moveable,
-  setMoveable,
-  showDetails,
-  selectedRouteLeg
-}: GlobeContainerProps) {
+export function GlobeContainer() {
   // const controlsRef = useRef<typeof OrbitControls>(null);
   // const [cameraPosition, setCameraPosition] = useState([0, 0, 5]);
 
@@ -46,16 +26,7 @@ export function GlobeContainer({
       {/* <LayoutCamera position={[0, 0, 5]} fov={8} /> */}
       <ambientLight intensity={0.1} />
       <directionalLight position={[5, 5, 5]} intensity={2} color={white} castShadow shadow-mapSize={[3072, 3072]} />
-      <Globe
-        visits={visits}
-        selectedCity={selectedCity}
-        routeSelected={routeSelected}
-        width={width}
-        moveable={moveable}
-        setMoveable={setMoveable}
-        showDetails={showDetails}
-        selectedRouteLeg={selectedRouteLeg}
-      />
+      <Globe />
       {/* <OrbitControls
         ref={controlsRef}
         enabled={routeSelected || moveable}

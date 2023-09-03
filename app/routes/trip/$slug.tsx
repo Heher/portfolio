@@ -48,7 +48,7 @@ const variants = {
 };
 
 function CityPage() {
-  const { visits, setSelectedCity, moveableGlobe, setShowDetails } = useTripContext();
+  const { visits, dispatch, appState } = useTripContext();
   const { city } = useLoaderData<typeof loader>();
 
   const olympiads = useFragment(
@@ -58,13 +58,13 @@ function CityPage() {
 
   useEffect(() => {
     if (city?.slug) {
-      setSelectedCity(city.slug);
-      setShowDetails(true);
+      dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
+      dispatch({ type: 'SHOW_DETAILS', showDetails: true });
 
       const root = document.documentElement;
       root.style.setProperty('--body-background', 'var(--globe-background)');
     }
-  }, [setShowDetails, setSelectedCity, city]);
+  }, [dispatch, city]);
 
   if (!city?.country?.name || !city?.name || !city.country.flagByTimestamp?.png || !city.slug) {
     return null;
@@ -93,7 +93,7 @@ function CityPage() {
         layout
         className={`olympiad-city selected group fixed top-1/3 z-20 h-[67dvh] w-full overflow-scroll bg-[#e0e0e0]`}
         variants={variants}
-        animate={moveableGlobe ? 'hide' : 'show'}
+        animate={appState.moveableGlobe ? 'hide' : 'show'}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         layoutId={city.slug}
       >

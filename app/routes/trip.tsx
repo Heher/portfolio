@@ -1,7 +1,8 @@
 import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 
 import { GlobeContainer } from '~/components/globe/GlobeContainer';
-import { Suspense, useEffect, useState } from 'react';
+import type { Dispatch } from 'react';
+import { Suspense, useEffect, useReducer, createContext, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
@@ -19,24 +20,21 @@ import {
 import type { Visit } from 'types/globe';
 import ErrorBoundarySimple from '~/components/ErrorBoundary';
 
+// type DispatchContextType = {
+//   handleImageModal: (img: string | null) => void;
+// };
+
 type ContextType = {
-  handleImageModal: (img: string | null) => void;
-  setStopScroll: (stop: boolean) => void;
-  width: number;
-  selectedCity: string | null;
-  setSelectedCity: (city: string | null) => void;
+  selectedImage: string | null;
+  stopScroll: boolean;
   moveableGlobe: boolean;
-  setMoveableGlobe: (moveable: boolean) => void;
   routeSelected: boolean;
-  setRouteSelected: (selected: boolean) => void;
   showDetails: boolean;
-  setShowDetails: (show: boolean) => void;
-  visits: Visit[];
-  toggleBodyBackground: () => void;
+  selectedCity: string | null;
   selectedRouteLeg: number;
-  setSelectedRouteLeg: (leg: number) => void;
   loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
+  width: number;
+  visits: Visit[];
 };
 
 export const meta: MetaFunction = () => ({
@@ -112,19 +110,49 @@ const variants = {
   citySelected: (width: number) => citySelectedPositioning(width)
 };
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'IMAGE':
+      return { ...state, selectedImg: action.selectedImg };
+    case 'MOVEABLE_GLOBE':
+      return { ...state, moveableGlobe: action.moveableGlobe };
+    case 'ROUTE_SELECTED':
+      return { ...state, routeSelected: action.routeSelected };
+    case 'SHOW_DETAILS':
+      return { ...state, showDetails: action.showDetails };
+    case 'SELECTED_CITY':
+      return { ...state, selectedCity: action.selectedCity };
+    case 'SELECTED_ROUTE_LEG':
+      return { ...state, selectedRouteLeg: action.selectedRouteLeg };
+    case 'LOADED':
+      return { ...state, loaded: action.loaded };
+    default:
+      return state;
+  }
+};
+
 const cityRegex = /\/trip\/(\w|-)+/g;
+
+export const TripPageContext = createContext<ContextType | null>(null);
+export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null);
 
 export default function TripPage() {
   const location = useLocation();
 
-  const [selectedImg, setSelectedImg] = useState<string | null>(null);
-  const [stopScroll, setStopScroll] = useState(false);
-  const [moveableGlobe, setMoveableGlobe] = useState(false);
-  const [routeSelected, setRouteSelected] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [selectedRouteLeg, setSelectedRouteLeg] = useState(0);
-  const [loaded, setLoaded] = useState(false);
+  // const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [stopScroll, setStopScroll] = useState<boolean>(false);
+
+  const [state, dispatch] = useReducer(reducer, {
+    selectedImage: null,
+    moveableGlobe: false,
+    routeSelected: false,
+    showDetails: false,
+    selectedCity: null,
+    selectedRouteLeg: 0,
+    loaded: false
+  });
+
+  const { selectedImg, moveableGlobe, routeSelected, showDetails, selectedCity } = state;
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -137,9 +165,9 @@ export default function TripPage() {
 
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
-      setSelectedCity(null);
-      setRouteSelected(false);
-      setSelectedRouteLeg(0);
+      dispatch({ type: 'SELECTED_CITY', selectedCity: null });
+      dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
+      dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: 0 });
     }
   }, [location.pathname]);
 
@@ -147,23 +175,23 @@ export default function TripPage() {
     const body = document.body;
 
     body.classList.toggle('bg-slate-200');
-    setSelectedImg(img);
+    dispatch({ type: 'IMAGE', selectedImg: img });
   }
 
   function handleBackButton() {
     if (moveableGlobe) {
-      setMoveableGlobe(false);
+      dispatch({ type: 'MOVEABLE_GLOBE', moveableGlobe: false });
     } else {
       if (routeSelected) {
-        setRouteSelected(false);
+        dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
       }
 
       if (selectedCity) {
-        setSelectedCity(null);
+        dispatch({ type: 'SELECTED_CITY', selectedCity: null });
       }
 
       if (!selectedCity && !routeSelected && showDetails) {
-        setShowDetails(false);
+        dispatch({ type: 'SHOW_DETAILS', showDetails: false });
         toggleBodyBackground();
       }
     }
@@ -180,13 +208,11 @@ export default function TripPage() {
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
-          <BackButtonContainer
-            routeSelected={routeSelected}
-            moveableGlobe={moveableGlobe}
-            width={width}
-            handleBackButton={handleBackButton}
-            isCityPage={isCityPage}
-          />
+          <TripPageContext.Provider value={{ ...state, width, visits }}>
+            <TripPageDispatchContext.Provider value={dispatch}>
+              <BackButtonContainer handleBackButton={handleBackButton} isCityPage={isCityPage} />
+            </TripPageDispatchContext.Provider>
+          </TripPageContext.Provider>
         )}
         {width > 0 && (
           // <motion.div
@@ -206,16 +232,11 @@ export default function TripPage() {
           >
             <ErrorBoundarySimple>
               <Suspense fallback={<GlobeFallback />}>
-                <GlobeContainer
-                  visits={visits}
-                  selectedCity={routeSelected ? 'amsterdam' : selectedCity}
-                  routeSelected={routeSelected}
-                  showDetails={width >= 768 ? true : showDetails}
-                  width={width}
-                  moveable={moveableGlobe}
-                  setMoveable={() => setMoveableGlobe(true)}
-                  selectedRouteLeg={selectedRouteLeg}
-                />
+                <TripPageContext.Provider value={{ ...state, width, visits }}>
+                  <TripPageDispatchContext.Provider value={dispatch}>
+                    <GlobeContainer />
+                  </TripPageDispatchContext.Provider>
+                </TripPageContext.Provider>
               </Suspense>
             </ErrorBoundarySimple>
           </motion.div>
@@ -224,22 +245,11 @@ export default function TripPage() {
           <Outlet
             context={{
               handleImageModal,
-              setStopScroll,
               width,
-              selectedCity,
-              setSelectedCity,
-              moveableGlobe,
-              setMoveableGlobe,
-              routeSelected,
-              setRouteSelected,
-              showDetails,
-              setShowDetails,
               visits,
               toggleBodyBackground,
-              selectedRouteLeg,
-              setSelectedRouteLeg,
-              loaded,
-              setLoaded
+              appState: state,
+              dispatch
             }}
           />
         </AnimatePresence>

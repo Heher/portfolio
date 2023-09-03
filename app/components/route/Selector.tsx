@@ -1,17 +1,14 @@
 /* eslint-disable tailwindcss/classnames-order */
 // import { useState } from 'react';
+import { useTripContext } from '~/routes/trip';
 import { getMoveableGlobeContainerRight } from '../globe/globePositioning';
 import { myRoute } from '../globe/routeCoordinates';
 
-export function Selector({
-  width,
-  selectedRouteLeg,
-  setSelectedRouteLeg
-}: {
-  width: number;
-  selectedRouteLeg: number;
-  setSelectedRouteLeg: (leg: number) => void;
-}) {
+export function Selector({ width }: { width: number }) {
+  const { appState, dispatch } = useTripContext();
+
+  const { selectedRouteLeg } = appState;
+
   const positionRight = getMoveableGlobeContainerRight(width);
 
   const totalLegs = myRoute.length;
@@ -21,7 +18,7 @@ export function Selector({
       return;
     }
 
-    setSelectedRouteLeg(newLegNum);
+    dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: newLegNum });
   }
 
   return (

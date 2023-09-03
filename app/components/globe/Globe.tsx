@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
 import { useThree, useFrame } from '@react-three/fiber';
 import { convertToRadians, formatCitiesWithVisits } from './utils';
@@ -16,23 +16,13 @@ import { dampE, damp3 } from 'maath/easing';
 import { motion } from 'framer-motion-3d';
 import { useAnimate, useAnimation, useAnimationControls, useAnimationFrame, useMotionValue } from 'framer-motion';
 import { filterOutNonOlympiadsForCity } from '../olympiad-city/utils';
+import { TripPageContext, useTripContext } from '~/routes/trip';
 
-type RotationProps = {
-  rotation?: Euler;
-  position?: Vector3;
-  scale?: number;
-};
-
-type NewGlobeProps = {
-  visits: Visit[];
-  selectedCity: string | null;
-  routeSelected: boolean;
-  showDetails: boolean;
-  width: number;
-  moveable: boolean;
-  setMoveable: () => void;
-  selectedRouteLeg: number;
-};
+// type RotationProps = {
+//   rotation?: Euler;
+//   position?: Vector3;
+//   scale?: number;
+// };
 
 function getCityPosition(foundCity: City | undefined, routeSelected: boolean): Vector3 {
   if (routeSelected) {
@@ -105,13 +95,15 @@ const variants = {
     }
   }),
   show: ({ rotateY }: { rotateX: number; rotateY: number; rotateZ: number }) => ({
-    // rotateX: 0,
-    rotateY: [rotateY, rotateY + Math.PI * 2],
-    // rotateZ: 0.5,
+    rotateX: 0,
+    // rotateY: [rotateY, rotateY + Math.PI * 2],
+    rotateZ: 0.5,
     transition: {
       repeat: Infinity,
       duration: 20,
-      ease: 'linear'
+      ease: 'linear',
+      rotateX: 1,
+      rotateZ: 1
     }
   })
 };
@@ -128,27 +120,25 @@ function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
   return 'show';
 }
 
-export function Globe({
-  visits,
-  selectedCity,
-  routeSelected,
-  width,
-  moveable,
-  setMoveable,
-  showDetails,
-  selectedRouteLeg
-}: NewGlobeProps) {
+export function Globe() {
   const groupRef = useRef<Group>(null!);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
   const rotateZ = useMotionValue(0);
 
+  const { routeSelected, selectedCity, visits } = useContext(TripPageContext);
+
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
-  useFrame(() => {
-    rotateX.set(groupRef.current.rotation.x);
-    rotateY.set(groupRef.current.rotation.y);
-    rotateZ.set(groupRef.current.rotation.z);
+  useFrame((_, delta) => {
+    // if (groupRef.current.rotation.y > 2 * Math.PI) {
+    //   groupRef.current.rotation.y = 0;
+    // } else {
+    //   groupRef.current.rotation.y += delta * 0.15;
+    // }
+    // rotateX.set(groupRef.current.rotation.x);
+    // rotateY.set(groupRef.current.rotation.y);
+    // rotateZ.set(groupRef.current.rotation.z);
   });
 
   const foundCity = cities.find((city) => city.name === selectedCity);
@@ -216,11 +206,11 @@ export function Globe({
       animate={getGlobeVariant(routeSelected, selectedCity)}
       custom={{ rotateX: rotateX.get(), rotateY: rotateY.get(), rotateZ: rotateX.get(), cityMovement }}
     >
-      <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
-      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
+      <Sphere />
+      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          return <Cities key={city.coord[0]} city={city} citySelected={selectedCity} />;
+          return <Cities key={city.coord[0]} city={city} />;
         })}
 
       <EffectComposer>

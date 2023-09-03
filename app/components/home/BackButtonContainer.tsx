@@ -1,20 +1,15 @@
+import { TripPageContext } from '~/routes/trip';
 import BackButton from './BackButton';
+import { useContext } from 'react';
 
 type BackButtonContainerProps = {
-  routeSelected: boolean;
-  moveableGlobe: boolean;
   handleBackButton: () => void;
-  width: number;
   isCityPage: RegExpMatchArray | null;
 };
 
-const BackButtonContainer = ({
-  routeSelected,
-  moveableGlobe,
-  handleBackButton,
-  width,
-  isCityPage
-}: BackButtonContainerProps) => {
+const BackButtonContainer = ({ handleBackButton, isCityPage }: BackButtonContainerProps) => {
+  const { routeSelected, moveableGlobe, width } = useContext(TripPageContext);
+
   return (
     <>
       <div
@@ -23,14 +18,9 @@ const BackButtonContainer = ({
         }`}
       ></div>
       {isCityPage && !moveableGlobe ? (
-        <BackButton
-          routeSelected={routeSelected}
-          globeMoveable={moveableGlobe}
-          handleBackButton={handleBackButton}
-          isLink
-        />
+        <BackButton handleBackButton={handleBackButton} isLink />
       ) : (
-        <BackButton routeSelected={routeSelected} globeMoveable={moveableGlobe} handleBackButton={handleBackButton} />
+        <BackButton handleBackButton={handleBackButton} />
       )}
     </>
   );

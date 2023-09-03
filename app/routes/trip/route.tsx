@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => {
 };
 
 function RoutePage() {
-  const { width, setRouteSelected, selectedRouteLeg, setSelectedRouteLeg } = useTripContext();
+  const { width, dispatch } = useTripContext();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -23,12 +23,10 @@ function RoutePage() {
   }, []);
 
   useEffect(() => {
-    if (setRouteSelected) {
-      setRouteSelected(true);
-    }
-  }, [setRouteSelected]);
+    dispatch({ type: 'ROUTE_SELECTED', routeSelected: true });
+  }, [dispatch]);
 
-  return <Selector width={width} selectedRouteLeg={selectedRouteLeg} setSelectedRouteLeg={setSelectedRouteLeg} />;
+  return <Selector width={width} />;
 }
 
 export default RoutePage;

@@ -29,7 +29,9 @@ function ListOfCities({ cities }: { cities: readonly CityFieldsFragment[] }) {
 export function CitiesList(props: CitiesListProps) {
   const cities = useFragment(CityFieldsFragmentDoc, props.cities);
 
-  const { routeSelected, moveableGlobe } = useTripContext();
+  const { appState } = useTripContext();
+
+  const { moveableGlobe, routeSelected } = appState;
 
   return (
     <motion.div

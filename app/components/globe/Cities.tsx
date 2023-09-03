@@ -13,16 +13,19 @@ import { Flag } from './markers/Flag';
 import { Marker } from './markers/Marker';
 import { motion } from 'framer-motion-3d';
 import { AnimatePresence } from 'framer-motion';
+import { TripPageContext, useTripContext } from '~/routes/trip';
+import { useContext } from 'react';
 
 type CitiesProps = {
   city: City & MarkerVisit;
-  citySelected: string | null;
 };
 
 extend({ MarkerMaterial, FlagMaterial });
 
-export function Cities({ city, citySelected }: CitiesProps) {
+export function Cities({ city }: CitiesProps) {
   const alphaMap = useLoader(TextureLoader, alphaMapImg);
+
+  const { selectedCity } = useContext(TripPageContext);
 
   // useFrame((state) => {
   //   if (!flagRef?.current?.material?.uniforms?.u_time) {
@@ -57,7 +60,7 @@ export function Cities({ city, citySelected }: CitiesProps) {
         rotation={city.markerInfo.rotation}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
-        shown={((citySelected && citySelected === city.name) || !citySelected) as boolean}
+        shown={((selectedCity && selectedCity === city.name) || !selectedCity) as boolean}
       />
     </group>
   );

@@ -23,7 +23,8 @@ type VisitsGraphProps = {
 };
 
 const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
-  const { loaded } = useTripContext();
+  const { appState } = useTripContext();
+  const { loaded } = appState;
   const svgRef = useRef<SVGSVGElement>(null);
 
   const count = useMotionValue(loaded ? visits : 0);
