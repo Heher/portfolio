@@ -79,49 +79,47 @@ function CityPage() {
   const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
 
   return (
-    <motion.div
-      layout
-      className={`olympiad-city selected group z-20 overflow-scroll bg-[#e0e0e0]`}
-      style={{
-        position: 'fixed',
-        top: '50px',
-        left: '0px',
-        height: '100vh',
-        width: '100vw'
-      }}
-      variants={variants}
-      animate={moveableGlobe ? 'hide' : 'show'}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      layoutId={city.slug}
-    >
+    <>
       <motion.span
-        className={`city-status absolute left-0 top-0 block h-32 w-full bg-gradient-to-t ${statusColorSlug(
+        className={`city-status absolute left-0 top-0 -z-10 block w-full bg-gradient-to-t ${statusColorSlug(
           amountCompleted,
           totalOlympiads
         )} to-[var(--globe-background)]`}
+        initial={{ height: 0, top: '50%' }}
+        animate={{ height: '34dvh', top: '0%' }}
+        transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.8 }}
       />
-      <motion.div className="mx-auto mt-96 px-[5vw] md:max-w-[800px]">
-        <motion.div className="header md:mt-[15vh]">
-          <div className="flex items-center">
-            <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
-              {city.name}
-            </motion.h3>
-          </div>
-          <div className="mt-[10px] flex items-center">
-            <motion.h4 className="text-[1.1rem] uppercase leading-none">{city.country.name}</motion.h4>
-            <img
-              className="ml-[10px] mt-[-1px] h-[15px] w-auto"
-              src={city.country.flagByTimestamp.png}
-              alt={city.country.name}
-            />
-          </div>
+      <motion.div
+        layout
+        className={`olympiad-city selected group fixed top-1/3 z-20 h-[67dvh] w-full overflow-scroll bg-[#e0e0e0]`}
+        variants={variants}
+        animate={moveableGlobe ? 'hide' : 'show'}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        layoutId={city.slug}
+      >
+        <motion.div className="mx-auto px-[5vw] md:max-w-[800px]">
+          <motion.div className="header md:mt-16">
+            <div className="flex items-center">
+              <motion.h3 className="block text-[2rem] font-semibold uppercase leading-none tracking-wide">
+                {city.name}
+              </motion.h3>
+            </div>
+            <div className="mt-[10px] flex items-center">
+              <motion.h4 className="text-[1.1rem] uppercase leading-none">{city.country.name}</motion.h4>
+              <img
+                className="ml-[10px] mt-[-1px] h-[15px] w-auto"
+                src={city.country.flagByTimestamp.png}
+                alt={city.country.name}
+              />
+            </div>
+          </motion.div>
+          <CityInfo
+            cityName={city.name}
+            olympiads={city.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]}
+          />
         </motion.div>
-        <CityInfo
-          cityName={city.name}
-          olympiads={city.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]}
-        />
       </motion.div>
-    </motion.div>
+    </>
   );
 }
 

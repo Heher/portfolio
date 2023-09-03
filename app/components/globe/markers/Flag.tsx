@@ -4,6 +4,8 @@ import { beamHeight, markerRadius } from '../utils';
 import type { Euler, Vector3 } from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
+import { motion } from 'framer-motion-3d';
+import { AnimatePresence } from 'framer-motion';
 
 type FlagProps = {
   position: Vector3;
@@ -27,7 +29,13 @@ export function Flag({ position, rotation, alphaMap, flagColor, shown }: FlagPro
   });
 
   return (
-    <group position={position} rotation={rotation} visible={shown}>
+    <motion.group
+      position={position}
+      rotation={rotation}
+      initial={{ scale: 0 }}
+      animate={{ scale: shown ? 1 : 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <mesh ref={flagRef} receiveShadow position-y={beamHeight / 2}>
         <cylinderGeometry args={[0.03, markerRadius, beamHeight, 32, 32, true]} />
         <meshStandardMaterial
@@ -39,6 +47,6 @@ export function Flag({ position, rotation, alphaMap, flagColor, shown }: FlagPro
           side={DoubleSide}
         />
       </mesh>
-    </group>
+    </motion.group>
   );
 }

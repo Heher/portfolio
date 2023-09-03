@@ -88,7 +88,8 @@
 }
 
 .globe-container.clip-container {
-  clip-path: circle(20%);
+  /* clip-path: circle(20%); */
+  clip-path: inset(0 0 70% 0);
 }
 
 .globe-container.clip-container.mobile {

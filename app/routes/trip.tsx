@@ -174,7 +174,9 @@ export default function TripPage() {
   return (
     <main
       ref={pageContainerRef}
-      className={`relative h-[100dvh] w-full bg-[var(--nav-background)] ${stopScroll ? 'overflow-hidden' : ''}`}
+      className={`relative h-[100dvh] w-full ${!selectedCity && 'bg-[var(--nav-background)]'} ${
+        stopScroll ? 'overflow-hidden' : ''
+      }`}
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
@@ -206,7 +208,7 @@ export default function TripPage() {
               <Suspense fallback={<GlobeFallback />}>
                 <GlobeContainer
                   visits={visits}
-                  selectedCity={selectedCity}
+                  selectedCity={routeSelected ? 'amsterdam' : selectedCity}
                   routeSelected={routeSelected}
                   showDetails={width >= 768 ? true : showDetails}
                   width={width}

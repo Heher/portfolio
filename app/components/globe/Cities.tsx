@@ -11,6 +11,8 @@ import { TextureLoader } from 'three';
 import alphaMapImg from '~/data/beam/alphamap10.png';
 import { Flag } from './markers/Flag';
 import { Marker } from './markers/Marker';
+import { motion } from 'framer-motion-3d';
+import { AnimatePresence } from 'framer-motion';
 
 type CitiesProps = {
   city: City & MarkerVisit;
@@ -36,9 +38,9 @@ export function Cities({ city, citySelected }: CitiesProps) {
   }
 
   function findFlagColor(): Color {
-    if (citySelected && citySelected !== city.name) {
-      return notSelectedColor;
-    }
+    // if (citySelected && citySelected !== city.name) {
+    //   return notSelectedColor;
+    // }
 
     return city.visited ? visitedColor : notVisitedColor;
   }
@@ -55,7 +57,7 @@ export function Cities({ city, citySelected }: CitiesProps) {
         rotation={city.markerInfo.rotation}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
-        shown={(citySelected && citySelected === city.name) as boolean}
+        shown={((citySelected && citySelected === city.name) || !citySelected) as boolean}
       />
     </group>
   );

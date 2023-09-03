@@ -18,8 +18,8 @@ const BackButtonContainer = ({
   return (
     <>
       <div
-        className={`globe-background fixed top-0 left-0 w-full ${width < 768 && 'mobile'} ${
-          routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : 'z-10 h-[50vh]'
+        className={`globe-background fixed left-0 top-0 w-full ${width < 768 && 'mobile'} ${
+          routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : '-z-10 h-[50vh]'
         }`}
       ></div>
       {isCityPage && !moveableGlobe ? (

@@ -14,6 +14,8 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { dampE, damp3 } from 'maath/easing';
 import { motion } from 'framer-motion-3d';
+import { useAnimate, useAnimation, useAnimationControls, useAnimationFrame, useMotionValue } from 'framer-motion';
+import { filterOutNonOlympiadsForCity } from '../olympiad-city/utils';
 
 type RotationProps = {
   rotation?: Euler;
@@ -53,6 +55,12 @@ function getCityRotation(coord: Coordinate): Euler {
   return new Euler(0, lonRad - Math.PI / 2, 0, 'ZXY');
 }
 
+function newGetCityRotation(coord: Coordinate) {
+  const { lonRad } = convertToRadians(coord);
+
+  return [0, lonRad - Math.PI / 2, 0];
+}
+
 function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {
   if (routeSelected) {
     return getCityRotation(cities.find((city) => city.name === 'Amsterdam')?.coord || [0, 0]);
@@ -75,29 +83,50 @@ function getScale(foundCity: City | undefined, routeSelected: boolean, width: nu
   return width < 768 ? 1 : 1;
 }
 
-function checkProps(
-  newProps: RotationProps,
-  currentValue: Euler | Vector3,
-  checkValue: 'rotation' | 'position' | 'scale'
-) {
-  return (
-    newProps.hasOwnProperty(checkValue) && newProps[checkValue] !== currentValue && newProps[checkValue] !== undefined
-  );
-}
-
 const variants = {
-  route: {
-    y: 0
-  },
-  show: {
-    rotateY: -Math.PI * 2,
+  selectedCity: ({ cityMovement }) => ({
+    rotateX: cityMovement[0],
+    rotateY: cityMovement[1],
+    rotateZ: cityMovement[2],
+    y: -0.1,
+    z: 4,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  route: ({ cityMovement }) => ({
+    rotateX: cityMovement[0],
+    rotateY: cityMovement[1],
+    rotateZ: cityMovement[2],
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  show: ({ rotateY }: { rotateX: number; rotateY: number; rotateZ: number }) => ({
+    // rotateX: 0,
+    rotateY: [rotateY, rotateY + Math.PI * 2],
+    // rotateZ: 0.5,
     transition: {
       repeat: Infinity,
       duration: 20,
       ease: 'linear'
     }
-  }
+  })
 };
+
+function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
+  if (routeSelected) {
+    return 'route';
+  }
+
+  if (selectedCity) {
+    return 'selectedCity';
+  }
+
+  return 'show';
+}
 
 export function Globe({
   visits,
@@ -110,12 +139,25 @@ export function Globe({
   selectedRouteLeg
 }: NewGlobeProps) {
   const groupRef = useRef<Group>(null!);
-  const controlsRef = useRef(null);
-  // const { camera } = useThree();
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const rotateZ = useMotionValue(0);
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
-  // const foundCity = cities.find((city) => city.name === selectedCity);
+  useFrame(() => {
+    rotateX.set(groupRef.current.rotation.x);
+    rotateY.set(groupRef.current.rotation.y);
+    rotateZ.set(groupRef.current.rotation.z);
+  });
+
+  const foundCity = cities.find((city) => city.name === selectedCity);
+
+  if (!foundCity && selectedCity) {
+    return null;
+  }
+
+  const cityMovement = newGetCityRotation(foundCity?.coord || [0, 0]);
 
   // useEffect(() => {
   //   if (camera && !routeSelected && !moveable) {
@@ -171,21 +213,11 @@ export function Globe({
       scale={1}
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
-      animate={routeSelected ? 'route' : 'show'}
+      animate={getGlobeVariant(routeSelected, selectedCity)}
+      custom={{ rotateX: rotateX.get(), rotateY: rotateY.get(), rotateZ: rotateX.get(), cityMovement }}
     >
       <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
-      <OrbitControls
-        ref={controlsRef}
-        enabled={routeSelected || moveable}
-        minPolarAngle={Math.PI / 4 - 0.2}
-        maxPolarAngle={Math.PI - 0.7}
-        maxDistance={45}
-        minDistance={5}
-        enablePan={false}
-        rotateSpeed={0.25}
-        target={[0, 0, 0]}
-      />
       {!routeSelected &&
         citiesWithVisits.map((city) => {
           return <Cities key={city.coord[0]} city={city} citySelected={selectedCity} />;
