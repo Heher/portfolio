@@ -1,17 +1,15 @@
-import type { Visit } from 'types/globe';
-import type { FragmentType } from '~/gql';
-import { useFragment } from '~/gql';
-import { OlympiadFieldsFragmentDoc } from '~/gql/graphql';
+import type { OlympiadFieldsFragment } from '~/gql/graphql';
 import { filterOutNonOlympiads } from './olympiad-city/utils';
 import VisitsGraph from './VisitsGraph';
+import { useTripContext } from '~/routes/trip';
 
 type TripStatusProps = {
-  olympiads: FragmentType<typeof OlympiadFieldsFragmentDoc>[];
-  visits: Visit[];
+  olympiads: OlympiadFieldsFragment[];
 };
 
-const TripStatus = (props: TripStatusProps) => {
-  const olympiads = useFragment(OlympiadFieldsFragmentDoc, props.olympiads);
+const TripStatus = ({ olympiads }: TripStatusProps) => {
+  const { visits } = useTripContext();
+
   const filteredOlympiads = filterOutNonOlympiads(olympiads);
   const totalWinter = filteredOlympiads.filter((olympiad) => olympiad.olympiadType === 'WINTER').length;
   const totalSummer = filteredOlympiads.filter((olympiad) => olympiad.olympiadType === 'SUMMER').length;
@@ -19,7 +17,7 @@ const TripStatus = (props: TripStatusProps) => {
   let winterVisits = 0;
   let summerVisits = 0;
 
-  props.visits.forEach((yearVisits) => {
+  visits.forEach((yearVisits) => {
     if (yearVisits.type === 'winter') winterVisits++;
     if (yearVisits.type === 'summer') summerVisits++;
   });

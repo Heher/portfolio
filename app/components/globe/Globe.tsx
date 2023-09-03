@@ -97,14 +97,14 @@ const variants = {
   show: ({ rotateY }: { rotateX: number; rotateY: number; rotateZ: number }) => ({
     rotateX: 0,
     // rotateY: [rotateY, rotateY + Math.PI * 2],
-    rotateZ: 0.5,
-    transition: {
-      repeat: Infinity,
-      duration: 20,
-      ease: 'linear',
-      rotateX: 1,
-      rotateZ: 1
-    }
+    rotateZ: 0.5
+    // transition: {
+    //   repeat: Infinity,
+    //   duration: 20,
+    //   ease: 'linear',
+    //   rotateX: 1,
+    //   rotateZ: 1
+    // }
   })
 };
 
@@ -122,9 +122,9 @@ function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
 
 export function Globe() {
   const groupRef = useRef<Group>(null!);
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-  const rotateZ = useMotionValue(0);
+  // const rotateX = useMotionValue(0);
+  // const rotateY = useMotionValue(0);
+  // const rotateZ = useMotionValue(0);
 
   const { routeSelected, selectedCity, visits } = useContext(TripPageContext);
 
@@ -204,7 +204,7 @@ export function Globe() {
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
       animate={getGlobeVariant(routeSelected, selectedCity)}
-      custom={{ rotateX: rotateX.get(), rotateY: rotateY.get(), rotateZ: rotateX.get(), cityMovement }}
+      custom={{ cityMovement }}
     >
       <Sphere />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />

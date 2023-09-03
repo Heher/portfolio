@@ -6,11 +6,12 @@ import { json } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
 import { useTripContext } from '../trip';
-import type { CityFieldsFragmentDoc, OlympiadFieldsFragmentDoc } from '~/gql/graphql';
+import type { CityFieldsFragmentDoc, OlympiadFieldsFragment, OlympiadFieldsFragmentDoc } from '~/gql/graphql';
 import { GetCitiesDocument, GetOlympiadsDocument } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import type { FragmentType } from '~/gql';
 import { useEffect } from 'react';
+import { getGQLClient } from '~/utils/graphql';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -24,16 +25,16 @@ export const meta: MetaFunction = () => ({
 export async function loader() {
   // const stravaResponse = await getStravaActivities();
 
-  const now = new Date().toISOString();
+  const sdk = getGQLClient();
+  const response = await sdk.GetOlympicData({
+    now: new Date().toISOString()
+  });
 
-  const olympiadsResponse = await request(process.env.API_ENDPOINT || '', GetOlympiadsDocument, { now });
-  const citiesResponse = await request(process.env.API_ENDPOINT || '', GetCitiesDocument, { now });
-
-  if (!olympiadsResponse.olympiads || !citiesResponse.cities) {
+  if (!response?.data?.olympiads || !response?.data?.cities) {
     return json({ olympiads: [], cities: [] });
   }
 
-  return json({ olympiads: olympiadsResponse.olympiads.nodes, cities: citiesResponse.cities.nodes });
+  return json({ olympiads: response.data.olympiads.nodes, cities: response.data.cities.nodes });
 }
 
 const animationVariants: AnimationVariants = {
@@ -42,11 +43,7 @@ const animationVariants: AnimationVariants = {
 };
 
 function getCitiesListVisibility(width: number, showDetails: boolean) {
-  if (width >= 768) {
-    return true;
-  }
-
-  if (showDetails) {
+  if (width >= 768 || showDetails) {
     return true;
   }
 
@@ -78,10 +75,7 @@ export default function TripIndex() {
 
   return (
     <div className="relative z-10">
-      <MainCopy
-        olympiads={olympiads as FragmentType<typeof OlympiadFieldsFragmentDoc>[]}
-        variants={animationVariants}
-      />
+      <MainCopy olympiads={olympiads as OlympiadFieldsFragment[]} variants={animationVariants} />
 
       {getCitiesListVisibility(width, showDetails) && (
         <CitiesList cities={cities as FragmentType<typeof CityFieldsFragmentDoc>[]} variants={animationVariants} />

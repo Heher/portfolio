@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 import CityInfo from '~/components/olympiad-city/CityInfo';
 import { cityStatus, filterOutNonOlympiadsForCity, statusColorSlug } from '~/components/olympiad-city/utils';
 import type { FragmentType } from '~/gql';
-import { useFragment } from '~/gql';
-import { CityOlympiadFragmentDoc, GetCityDocument } from '~/gql/graphql';
+import type { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import { GetCityDocument } from '~/gql/graphql';
 import { useTripContext } from '../trip';
 
 export const meta: MetaFunction = ({ data }) => {
@@ -51,11 +51,6 @@ function CityPage() {
   const { visits, dispatch, appState } = useTripContext();
   const { city } = useLoaderData<typeof loader>();
 
-  const olympiads = useFragment(
-    CityOlympiadFragmentDoc,
-    city?.olympiads.nodes as FragmentType<typeof CityOlympiadFragmentDoc>[]
-  );
-
   useEffect(() => {
     if (city?.slug) {
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
@@ -74,9 +69,11 @@ function CityPage() {
     return null;
   }
 
-  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, olympiads);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, city.olympiads.nodes);
 
   const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
+
+  console.log(appState);
 
   return (
     <>

@@ -10,13 +10,13 @@ import type { MetaFunction } from '@remix-run/node';
 
 import visits from '~/data/new-visits';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
-import {
-  citySelectedPositioning,
-  moveableMobilePositioning,
-  moveablePositioning,
-  notMoveablePositioning,
-  showDetailsPositioning
-} from '~/components/globe/globePositioning';
+// import {
+//   citySelectedPositioning,
+//   moveableMobilePositioning,
+//   moveablePositioning,
+//   notMoveablePositioning,
+//   showDetailsPositioning
+// } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
 import ErrorBoundarySimple from '~/components/ErrorBoundary';
 
@@ -76,44 +76,44 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-function getGlobeVariant(
-  routeSelected: boolean,
-  moveableGlobe: boolean,
-  showDetails: boolean,
-  citySelected: string | null,
-  width: number
-) {
-  if (citySelected && !moveableGlobe) {
-    return 'citySelected';
-  }
+// function getGlobeVariant(
+//   routeSelected: boolean,
+//   moveableGlobe: boolean,
+//   showDetails: boolean,
+//   citySelected: string | null,
+//   width: number
+// ) {
+//   if (citySelected && !moveableGlobe) {
+//     return 'citySelected';
+//   }
 
-  if (routeSelected || moveableGlobe) {
-    if (width < 768) {
-      // Mobile
-      return 'moveableMobile';
-    }
-    return 'moveable';
-  }
+//   if (routeSelected || moveableGlobe) {
+//     if (width < 768) {
+//       // Mobile
+//       return 'moveableMobile';
+//     }
+//     return 'moveable';
+//   }
 
-  if (showDetails) {
-    return 'showDetails';
-  }
+//   if (showDetails) {
+//     return 'showDetails';
+//   }
 
-  return 'notMoveable';
-}
+//   return 'notMoveable';
+// }
 
-const variants = {
-  moveable: (width: number) => moveablePositioning(width),
-  notMoveable: (width: number) => notMoveablePositioning(width),
-  showDetails: (width: number) => showDetailsPositioning(width),
-  moveableMobile: (width: number) => moveableMobilePositioning(width),
-  citySelected: (width: number) => citySelectedPositioning(width)
-};
+// const variants = {
+//   moveable: (width: number) => moveablePositioning(width),
+//   notMoveable: (width: number) => notMoveablePositioning(width),
+//   showDetails: (width: number) => showDetailsPositioning(width),
+//   moveableMobile: (width: number) => moveableMobilePositioning(width),
+//   citySelected: (width: number) => citySelectedPositioning(width)
+// };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'IMAGE':
-      return { ...state, selectedImg: action.selectedImg };
+      return { ...state, selectedImage: action.selectedImage };
     case 'MOVEABLE_GLOBE':
       return { ...state, moveableGlobe: action.moveableGlobe };
     case 'ROUTE_SELECTED':
@@ -139,7 +139,6 @@ export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null)
 export default function TripPage() {
   const location = useLocation();
 
-  // const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [stopScroll, setStopScroll] = useState<boolean>(false);
 
   const [state, dispatch] = useReducer(reducer, {
@@ -152,7 +151,7 @@ export default function TripPage() {
     loaded: false
   });
 
-  const { selectedImg, moveableGlobe, routeSelected, showDetails, selectedCity } = state;
+  const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity } = state;
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -175,7 +174,7 @@ export default function TripPage() {
     const body = document.body;
 
     body.classList.toggle('bg-slate-200');
-    dispatch({ type: 'IMAGE', selectedImg: img });
+    dispatch({ type: 'IMAGE', selectedImage: img });
   }
 
   function handleBackButton() {
@@ -207,11 +206,9 @@ export default function TripPage() {
       }`}
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
-        {(routeSelected || selectedCity || showDetails || moveableGlobe) && (
+        {(routeSelected || selectedCity || (showDetails && width < 768) || moveableGlobe) && (
           <TripPageContext.Provider value={{ ...state, width, visits }}>
-            <TripPageDispatchContext.Provider value={dispatch}>
-              <BackButtonContainer handleBackButton={handleBackButton} isCityPage={isCityPage} />
-            </TripPageDispatchContext.Provider>
+            <BackButtonContainer handleBackButton={handleBackButton} isCityPage={isCityPage} />
           </TripPageContext.Provider>
         )}
         {width > 0 && (
@@ -253,7 +250,7 @@ export default function TripPage() {
             }}
           />
         </AnimatePresence>
-        {selectedImg && <ImageModal img={selectedImg} closeModal={() => handleImageModal(null)} />}
+        {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
       </div>
     </main>
   );

@@ -11,7 +11,7 @@ type CityInListProps = {
   city: CityFieldsFragment;
   amountCompleted: number;
   totalOlympiads: number;
-  olympiads: CityOlympiadFragment[];
+  olympiads: (CityOlympiadFragment | null)[];
 };
 
 const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityInListProps) => {

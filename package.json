@@ -8,8 +8,8 @@
     "typecheck": "tsc",
     "postinstall": "remix-esbuild-override",
     "test": "cypress run",
-    "codegen": "graphql-codegen",
-    "caddy": "caddy run"
+    "caddy": "caddy run",
+    "gen": "graphql-codegen"
   },
   "dependencies": {
     "@netlify/functions": "^1.6.0",
