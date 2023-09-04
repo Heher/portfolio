@@ -1,22 +1,18 @@
-import { useContext, useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
-import { useThree, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { convertToRadians, formatCitiesWithVisits } from './utils';
-import type { City } from './coordinates';
-import { cities, coordinates } from './coordinates';
-import type { Group } from 'three';
-import { Euler, MathUtils, Vector3 } from 'three';
+// import type { City } from './coordinates';
+import { cities } from './coordinates';
+// import { Euler } from 'three';
 import Sphere from './Sphere';
 import { Route } from './Route';
-import { OrbitControls } from '@react-three/drei';
+// import { OrbitControls } from '@react-three/drei';
 import { Cities } from './Cities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
-import { dampE, damp3 } from 'maath/easing';
 import { motion } from 'framer-motion-3d';
-import { useAnimate, useAnimation, useAnimationControls, useAnimationFrame, useMotionValue } from 'framer-motion';
-import { filterOutNonOlympiadsForCity } from '../olympiad-city/utils';
-import { TripPageContext, useTripContext } from '~/routes/trip';
+// import { TripPageContext } from '~/routes/trip';
 
 // type RotationProps = {
 //   rotation?: Euler;
@@ -24,26 +20,26 @@ import { TripPageContext, useTripContext } from '~/routes/trip';
 //   scale?: number;
 // };
 
-function getCityPosition(foundCity: City | undefined, routeSelected: boolean): Vector3 {
-  if (routeSelected) {
-    const amsterdam = coordinates['amsterdam'];
+// function getCityPosition(foundCity: City | undefined, routeSelected: boolean): Vector3 {
+//   if (routeSelected) {
+//     const amsterdam = coordinates['amsterdam'];
 
-    if (!amsterdam) return new Vector3(0, 0, 0);
+//     if (!amsterdam) return new Vector3(0, 0, 0);
 
-    return new Vector3(0, -amsterdam[0] / 50, 0);
-  }
+//     return new Vector3(0, -amsterdam[0] / 50, 0);
+//   }
 
-  if (!foundCity) return new Vector3(0, 0, 0);
+//   if (!foundCity) return new Vector3(0, 0, 0);
 
-  //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
-  return new Vector3(0, -foundCity.coord[0] / 50, 0);
-}
+//   //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
+//   return new Vector3(0, -foundCity.coord[0] / 50, 0);
+// }
 
-function getCityRotation(coord: Coordinate): Euler {
-  const { lonRad } = convertToRadians(coord);
+// function getCityRotation(coord: Coordinate): Euler {
+//   const { lonRad } = convertToRadians(coord);
 
-  return new Euler(0, lonRad - Math.PI / 2, 0, 'ZXY');
-}
+//   return new Euler(0, lonRad - Math.PI / 2, 0, 'ZXY');
+// }
 
 function newGetCityRotation(coord: Coordinate) {
   const { lonRad } = convertToRadians(coord);
@@ -51,30 +47,30 @@ function newGetCityRotation(coord: Coordinate) {
   return [0, lonRad - Math.PI / 2, 0];
 }
 
-function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {
-  if (routeSelected) {
-    return getCityRotation(cities.find((city) => city.name === 'Amsterdam')?.coord || [0, 0]);
-  }
+// function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {
+//   if (routeSelected) {
+//     return getCityRotation(cities.find((city) => city.name === 'Amsterdam')?.coord || [0, 0]);
+//   }
 
-  if (!foundCity) return new Euler(0, 0, 0, 'ZXY');
+//   if (!foundCity) return new Euler(0, 0, 0, 'ZXY');
 
-  return getCityRotation(foundCity.coord);
-}
+//   return getCityRotation(foundCity.coord);
+// }
 
-function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
-  if (routeSelected) {
-    return 2.4;
-  }
+// function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
+//   if (routeSelected) {
+//     return 2.4;
+//   }
 
-  if (foundCity) {
-    return foundCity.scale;
-  }
+//   if (foundCity) {
+//     return foundCity.scale;
+//   }
 
-  return width < 768 ? 1 : 1;
-}
+//   return width < 768 ? 1 : 1;
+// }
 
 const variants = {
-  selectedCity: ({ cityMovement }) => ({
+  selectedCity: ({ cityMovement }: { cityMovement: number[] }) => ({
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
@@ -85,7 +81,7 @@ const variants = {
       ease: 'easeInOut'
     }
   }),
-  route: ({ cityMovement }) => ({
+  route: ({ cityMovement }: { cityMovement: number[] }) => ({
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
@@ -94,10 +90,17 @@ const variants = {
       ease: 'easeInOut'
     }
   }),
-  show: ({ rotateY }: { rotateX: number; rotateY: number; rotateZ: number }) => ({
+  show: {
     rotateX: 0,
     // rotateY: [rotateY, rotateY + Math.PI * 2],
-    rotateZ: 0.5
+    rotateY: 0,
+    rotateZ: 0.5,
+    y: 0,
+    z: 0,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
     // transition: {
     //   repeat: Infinity,
     //   duration: 20,
@@ -105,7 +108,7 @@ const variants = {
     //   rotateX: 1,
     //   rotateZ: 1
     // }
-  })
+  }
 };
 
 function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
@@ -120,13 +123,19 @@ function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
   return 'show';
 }
 
-export function Globe() {
-  const groupRef = useRef<Group>(null!);
+export function Globe({
+  visits,
+  selectedCity,
+  routeSelected
+}: {
+  visits: Visit[];
+  selectedCity: string | null;
+  routeSelected: boolean;
+}) {
+  const groupRef = useRef(null!);
   // const rotateX = useMotionValue(0);
   // const rotateY = useMotionValue(0);
   // const rotateZ = useMotionValue(0);
-
-  const { routeSelected, selectedCity, visits } = useContext(TripPageContext);
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
@@ -143,59 +152,13 @@ export function Globe() {
 
   const foundCity = cities.find((city) => city.name === selectedCity);
 
+  // console.log(foundCity, selectedCity);
+
   if (!foundCity && selectedCity) {
     return null;
   }
 
   const cityMovement = newGetCityRotation(foundCity?.coord || [0, 0]);
-
-  // useEffect(() => {
-  //   if (camera && !routeSelected && !moveable) {
-  //     camera.position.set(0, 0, 18);
-  //     camera.rotation.set(0, 0, 0, 'ZXY');
-  //   }
-  // }, [camera, routeSelected, moveable]);
-
-  // useFrame((_, delta) => {
-  //   const currentRotation = groupRef?.current?.rotation || new Euler();
-  //   const currentScale = groupRef?.current?.scale || new Vector3();
-  //   const currentPosition = groupRef?.current?.position || new Vector3();
-
-  //   if (foundCity || routeSelected) {
-  //     const newProps = {
-  //       rotation: getRotation(foundCity, routeSelected),
-  //       position: getCityPosition(foundCity, routeSelected),
-  //       scale: getScale(foundCity, routeSelected, width)
-  //     };
-
-  //     if (checkProps(newProps, currentRotation, 'rotation')) {
-  //       dampE(currentRotation, newProps.rotation, 0.3, delta);
-  //     }
-
-  //     if (checkProps(newProps, currentPosition, 'position')) {
-  //       damp3(currentPosition, newProps.position, 0.25, delta);
-  //     }
-
-  //     if (checkProps(newProps, currentScale, 'scale')) {
-  //       damp3(currentScale, newProps.scale, 0.25, delta);
-  //     }
-  //   }
-
-  //   if (!routeSelected && !foundCity && !moveable) {
-  //     currentRotation.x = MathUtils.lerp(currentRotation.x, 0, delta * 5);
-  //     currentPosition.set(0, 0, 0);
-
-  //     damp3(currentScale, 1, 0.25, delta);
-
-  //     if (currentRotation.y > 2 * Math.PI) {
-  //       currentRotation.y = 0;
-  //     } else {
-  //       currentRotation.y += delta * 0.15;
-  //     }
-
-  //     currentRotation.z = MathUtils.lerp(currentRotation.z, 0.5, delta * 5);
-  //   }
-  // });
 
   return (
     <motion.group

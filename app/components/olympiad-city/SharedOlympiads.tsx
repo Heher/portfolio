@@ -1,11 +1,10 @@
-import type { FragmentType } from '~/gql/fragment-masking';
-import type { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import type { CityOlympiadFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { OlympiadMedia } from './OlympiadMedia';
 import { filterOutNonOlympiadsForCity } from './utils';
 
 type SharedOlympiadsProps = {
-  olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
+  olympiads: CityOlympiadFragment[];
   cityName: string;
 };
 

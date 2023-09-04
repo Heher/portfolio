@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
+import { Outlet, useLocation, useOutlet, useOutletContext } from '@remix-run/react';
 
 import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import type { Dispatch } from 'react';
@@ -6,7 +6,7 @@ import { Suspense, useEffect, useReducer, createContext, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import visits from '~/data/new-visits';
 import BackButtonContainer from '~/components/home/BackButtonContainer';
@@ -18,33 +18,52 @@ import BackButtonContainer from '~/components/home/BackButtonContainer';
 //   showDetailsPositioning
 // } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
-import ErrorBoundarySimple from '~/components/ErrorBoundary';
 
 // type DispatchContextType = {
 //   handleImageModal: (img: string | null) => void;
 // };
 
-type ContextType = {
+type TripPageState = {
   selectedImage: string | null;
-  stopScroll: boolean;
   moveableGlobe: boolean;
   routeSelected: boolean;
   showDetails: boolean;
   selectedCity: string | null;
   selectedRouteLeg: number;
   loaded: boolean;
+};
+
+export type ContextType = TripPageState & {
   width: number;
   visits: Visit[];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'John Heher | Olympic Trip',
-  description: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games.",
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
-  'og:title': 'John Heher | Olympic Trip',
-  'og:image': '/olympic-cities-og.jpg'
-});
+export type OutletContextType = {
+  handleImageModal: (img: string | null) => void;
+  width: number;
+  visits: Visit[];
+  toggleBodyBackground: () => void;
+  appState: TripPageState;
+  dispatch: Dispatch<any>;
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'John Heher | Olympic Trip' },
+    {
+      name: 'description',
+      content: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games."
+    },
+    {
+      name: 'og:title',
+      content: 'John Heher | Olympic Trip'
+    },
+    {
+      name: 'og:image',
+      content: '/olympic-cities-og.jpg'
+    }
+  ];
+};
 
 // export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 //   console.log('ERROR from boundary: ', error);
@@ -110,7 +129,16 @@ function GlobeFallback() {
 //   citySelected: (width: number) => citySelectedPositioning(width)
 // };
 
-const reducer = (state, action) => {
+type Action =
+  | { type: 'IMAGE'; selectedImage: string | null }
+  | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
+  | { type: 'ROUTE_SELECTED'; routeSelected: boolean }
+  | { type: 'SHOW_DETAILS'; showDetails: boolean }
+  | { type: 'SELECTED_CITY'; selectedCity: string | null }
+  | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number }
+  | { type: 'LOADED'; loaded: boolean };
+
+const reducer = (state: TripPageState, action: Action) => {
   switch (action.type) {
     case 'IMAGE':
       return { ...state, selectedImage: action.selectedImage };
@@ -136,20 +164,22 @@ const cityRegex = /\/trip\/(\w|-)+/g;
 export const TripPageContext = createContext<ContextType | null>(null);
 export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null);
 
+const initialState: TripPageState = {
+  selectedImage: null,
+  moveableGlobe: false,
+  routeSelected: false,
+  showDetails: false,
+  selectedCity: null,
+  selectedRouteLeg: 0,
+  loaded: false
+};
+
 export default function TripPage() {
   const location = useLocation();
 
   const [stopScroll, setStopScroll] = useState<boolean>(false);
 
-  const [state, dispatch] = useReducer(reducer, {
-    selectedImage: null,
-    moveableGlobe: false,
-    routeSelected: false,
-    showDetails: false,
-    selectedCity: null,
-    selectedRouteLeg: 0,
-    loaded: false
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity } = state;
 
@@ -176,6 +206,15 @@ export default function TripPage() {
     body.classList.toggle('bg-slate-200');
     dispatch({ type: 'IMAGE', selectedImage: img });
   }
+
+  const outlet = useOutlet({
+    handleImageModal,
+    width,
+    visits,
+    toggleBodyBackground,
+    appState: state,
+    dispatch
+  });
 
   function handleBackButton() {
     if (moveableGlobe) {
@@ -212,34 +251,25 @@ export default function TripPage() {
           </TripPageContext.Provider>
         )}
         {width > 0 && (
-          // <motion.div
-          //   className={`globe-container fixed z-30 md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] ${
-          //     selectedCity && !moveableGlobe && 'clip-container'
-          //   } ${selectedCity && !moveableGlobe && width < 768 && 'mobile'}`}
-          //   custom={width}
-          //   variants={variants}
-          //   animate={getGlobeVariant(routeSelected, moveableGlobe, showDetails, selectedCity, width)}
-          //   transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
-          //   initial={false}
-          // >
           <motion.div
             className={`globe-container fixed -z-0 h-full w-full`}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
-            <ErrorBoundarySimple>
-              <Suspense fallback={<GlobeFallback />}>
-                <TripPageContext.Provider value={{ ...state, width, visits }}>
-                  <TripPageDispatchContext.Provider value={dispatch}>
-                    <GlobeContainer />
-                  </TripPageDispatchContext.Provider>
-                </TripPageContext.Provider>
-              </Suspense>
-            </ErrorBoundarySimple>
+            <Suspense fallback={<GlobeFallback />}>
+              <TripPageContext.Provider value={{ ...state, width, visits }}>
+                <TripPageDispatchContext.Provider value={dispatch}>
+                  <GlobeContainer />
+                </TripPageDispatchContext.Provider>
+              </TripPageContext.Provider>
+            </Suspense>
           </motion.div>
         )}
+        {/* <a href="/trip/athens" className="absolute left-0 top-0 z-50">
+          Athens
+        </a> */}
         <AnimatePresence mode="wait">
-          <Outlet
+          {/* <Outlet
             context={{
               handleImageModal,
               width,
@@ -248,7 +278,8 @@ export default function TripPage() {
               appState: state,
               dispatch
             }}
-          />
+          /> */}
+          <motion.div key={useLocation().pathname}>{outlet}</motion.div>
         </AnimatePresence>
         {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
       </div>
@@ -257,5 +288,5 @@ export default function TripPage() {
 }
 
 export const useTripContext = () => {
-  return useOutletContext<ContextType>();
+  return useOutletContext<OutletContextType>();
 };

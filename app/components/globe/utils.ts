@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import type { Coordinate, MarkerVisit, Visit } from 'types/globe';
 import type { City } from './coordinates';
+import type { Euler, Vector3 } from '@react-three/fiber';
+// import type { Euler, Vector3 } from '@react-three/fiber';
 
 export const globeRadius = 1;
 export const markerRadius = 0.007;
@@ -27,14 +29,14 @@ export function getPositionVector(coord: Coordinate, radius: number) {
   );
 }
 
-export function getPosition(coord: Coordinate, radius: number) {
+export function getPosition(coord: Coordinate, radius: number): Vector3 {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return [
+  return new THREE.Vector3(
     Math.cos(latRad) * Math.cos(lonRad) * radius,
     Math.sin(latRad) * radius,
     Math.cos(latRad) * Math.sin(lonRad) * radius
-  ];
+  );
 }
 
 export function getPointPosition(coord: Coordinate, radius: number) {
@@ -47,13 +49,13 @@ export function getPointPosition(coord: Coordinate, radius: number) {
   ];
 }
 
-function getCoordRotation(coord: Coordinate) {
+function getCoordRotation(coord: Coordinate): Euler {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return [0, -lonRad, latRad - Math.PI * 0.5];
+  return new THREE.Euler(0, -lonRad, latRad - Math.PI * 0.5);
 }
 
-export function placeObjectOnPlanet(coord: Coordinate, radius: number): { position: number[]; rotation: number[] } {
+export function placeObjectOnPlanet(coord: Coordinate, radius: number): { position: Vector3; rotation: Euler } {
   return {
     position: getPosition(coord, radius),
     // flagPosition: getPosition(coord, radius + 0.1),

@@ -1,4 +1,4 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import type { RectReadOnly } from 'react-use-measure';
@@ -11,12 +11,15 @@ import IndexArrow from '~/components/icons/IndexArrow';
 import LinkedInIcon from '~/components/icons/LinkedIn';
 import ResumeIcon from '~/components/icons/Resume';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'John Heher | Web Developer',
-  description: 'John Heher is a web developer from the United States, currently looking for fully remote work.',
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
-});
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'John Heher | Web Developer' },
+    {
+      name: 'description',
+      content: 'John Heher is a web developer from the United States, currently looking for fully remote work.'
+    }
+  ];
+};
 
 function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (

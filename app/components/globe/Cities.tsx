@@ -3,7 +3,7 @@ import { extend, useLoader } from '@react-three/fiber';
 import type { MarkerVisit } from 'types/globe';
 import type { City } from './coordinates';
 import { MarkerMaterial } from './materials/MarkerMaterial';
-import { notSelectedColor, notVisitedColor, summerColor, visitedColor, winterColor } from './colors';
+import { notVisitedColor, summerColor, visitedColor, winterColor } from './colors';
 import { FlagMaterial } from './materials/FlagMaterial';
 import type { Color } from 'three';
 import { TextureLoader } from 'three';
@@ -11,9 +11,9 @@ import { TextureLoader } from 'three';
 import alphaMapImg from '~/data/beam/alphamap10.png';
 import { Flag } from './markers/Flag';
 import { Marker } from './markers/Marker';
-import { motion } from 'framer-motion-3d';
-import { AnimatePresence } from 'framer-motion';
-import { TripPageContext, useTripContext } from '~/routes/trip';
+// import { motion } from 'framer-motion-3d';
+// import { AnimatePresence } from 'framer-motion';
+import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
 
 type CitiesProps = {
@@ -25,7 +25,13 @@ extend({ MarkerMaterial, FlagMaterial });
 export function Cities({ city }: CitiesProps) {
   const alphaMap = useLoader(TextureLoader, alphaMapImg);
 
-  const { selectedCity } = useContext(TripPageContext);
+  const tripContext = useContext(TripPageContext);
+
+  if (!tripContext) {
+    return null;
+  }
+
+  const { selectedCity } = tripContext;
 
   // useFrame((state) => {
   //   if (!flagRef?.current?.material?.uniforms?.u_time) {
@@ -50,14 +56,9 @@ export function Cities({ city }: CitiesProps) {
 
   return (
     <group>
-      <Marker
-        position={city.markerInfo.position}
-        rotation={city.markerInfo.rotation}
-        color={city.type === 'summer' ? summerColor : winterColor}
-      />
+      <Marker markerInfo={city.markerInfo} color={city.type === 'summer' ? summerColor : winterColor} />
       <Flag
-        position={city.markerInfo.position}
-        rotation={city.markerInfo.rotation}
+        markerInfo={city.markerInfo}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
         shown={((selectedCity && selectedCity === city.name) || !selectedCity) as boolean}

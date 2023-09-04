@@ -1,17 +1,24 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 import { useEffect } from 'react';
 import { Selector } from '~/components/route/Selector';
-import { useTripContext } from '../trip';
+import { useTripContext } from './trip';
 
-export const meta: MetaFunction = () => {
-  return {
-    charset: 'utf-8',
-    title: `My Route | Olympic Trip`,
-    description: `John Heher's Olympic trip route.`,
-    viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
-    'og:title': `My Route | Olympic Trip`,
-    'og:image': '/olympic-cities-og.jpg'
-  };
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'My Route | Olympic Trip' },
+    {
+      name: 'description',
+      content: "John Heher's Olympic trip route."
+    },
+    {
+      name: 'og:title',
+      content: 'My Route | Olympic Trip'
+    },
+    {
+      name: 'og:image',
+      content: '/olympic-cities-og.jpg'
+    }
+  ];
 };
 
 function RoutePage() {

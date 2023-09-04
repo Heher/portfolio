@@ -23,12 +23,13 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityIn
 
   return (
     <MotionLink
-      layout
-      initial={false}
       className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
       to={`/trip/${city.slug}`}
-      layoutId={city.slug}
-      exit={{ opacity: 0 }}
+      // layoutId={city.slug}
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.9, ease: 'easeInOut' }}
     >
       <motion.span
         className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(

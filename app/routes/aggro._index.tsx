@@ -1,18 +1,26 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 import { motion } from 'framer-motion';
 import { Suspense } from 'react';
 import useMeasure from 'react-use-measure';
-import ErrorBoundarySimple from '~/components/ErrorBoundary';
 import { AggroCragContainer } from '~/components/aggro/AggroCragContainer';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'Aggro Crag Trophy | John Heher',
-  description: "John Heher's Aggro Crag Trophy: A piece of our radical rock",
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
-  'og:title': 'Aggro Crag Trophy | John Heher',
-  'og:image': '/aggro-og.jpg'
-});
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'Aggro Crag Trophy | John Heher' },
+    {
+      name: 'description',
+      content: "John Heher's Aggro Crag Trophy: A piece of our radical rock."
+    },
+    {
+      name: 'og:title',
+      content: 'Aggro Crag Trophy | John Heher'
+    },
+    {
+      name: 'og:image',
+      content: '/aggro-og.jpg'
+    }
+  ];
+};
 
 function AggroFallback() {
   return <div>Loading...</div>;
@@ -28,11 +36,9 @@ export default function DonutIndex() {
           <motion.div className={`aggro-container z-30 h-[600px] w-full px-[20px] pt-[50px]`}>
             <div className="relative flex h-full flex-col rounded-lg">
               <div className="h-[70%] w-full rounded-t-lg bg-slate-400">
-                <ErrorBoundarySimple>
-                  <Suspense fallback={<AggroFallback />}>
-                    <AggroCragContainer />
-                  </Suspense>
-                </ErrorBoundarySimple>
+                <Suspense fallback={<AggroFallback />}>
+                  <AggroCragContainer />
+                </Suspense>
               </div>
               <div className="rounded-b-lg bg-slate-100 py-[40px] pl-[40px] text-gray-900 md:pl-[50px]">
                 <h1 className="text-4xl md:text-6xl">Aggro Crag</h1>

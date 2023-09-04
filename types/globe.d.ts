@@ -1,3 +1,5 @@
+// import type { Euler, Vector3 } from '@react-three/fiber';
+
 import type { Euler, Vector3 } from '@react-three/fiber';
 
 declare module '*.wgsl' {
@@ -41,12 +43,14 @@ export type RouteInfo = {
   description: string;
 };
 
+export type MarkerInfo = {
+  position: Vector3;
+  rotation: Euler;
+};
+
 export type MarkerVisit = {
   visited: boolean;
-  markerInfo: {
-    position: Vector3;
-    rotation: Euler;
-  };
+  markerInfo: MarkerInfo;
 };
 
 export type AnimationVariants = {
