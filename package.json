@@ -15,7 +15,7 @@
     "@netlify/functions": "^2.0.2",
     "@react-spring/three": "^9.7.3",
     "@react-three/drei": "^9.82.0",
-    "@react-three/fiber": "^8.13.7",
+    "@react-three/fiber": "^8.14.1",
     "@react-three/postprocessing": "^2.15.1",
     "@remix-run/express": "^1.18.1",
     "@remix-run/netlify": "^1.19.3",
