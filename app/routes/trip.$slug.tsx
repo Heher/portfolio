@@ -29,7 +29,7 @@ import type { CityOlympiadFragment } from '~/gql/graphql';
 // };
 
 export async function loader({ params }: LoaderArgs) {
-  console.log('params', params);
+  // console.log('params', params);
   if (!params.slug) {
     return json({ city: null });
   }
@@ -90,10 +90,44 @@ function CityPageInner({ city, dispatch, visits }) {
   );
 }
 
+function CityTest({ city, dispatch, visits }) {
+  console.log(city);
+
+  useEffect(() => {
+    if (city?.slug) {
+      dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
+      dispatch({ type: 'SHOW_DETAILS', showDetails: true });
+
+      const root = document.documentElement;
+      root.style.setProperty('--body-background', 'var(--globe-background)');
+    }
+  }, [dispatch, city]);
+
+  if (!city?.name) {
+    return null;
+  }
+
+  return null;
+
+  // return (
+  //   <motion.div
+  //     initial={{ y: '100%' }}
+  //     animate={{ y: 0 }}
+  //     // exit={{ y: '100%' }}
+  //     transition={{ duration: 0.3, ease: 'easeInOut' }}
+  //     className="fixed top-1/3 z-20 h-[67dvh] w-full bg-[#e0e0e0]"
+  //     // layout
+  //     // layoutId="athens"
+  //   >
+  //     {/* <CityPageInner city={loaderData?.city} dispatch={dispatch} visits={visits} /> */}
+  //   </motion.div>
+  // );
+}
+
 function CityPage() {
   const tripContext = useTripContext();
   // const { visits, dispatch, appState } = tripContext;
-  const loaderData = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>() || {};
 
   // const { city } = loaderData;
 
@@ -115,20 +149,7 @@ function CityPage() {
 
   const { dispatch, visits } = tripContext;
 
-  return (
-    <motion.div
-      initial={{ y: '100%' }}
-      animate={{ y: 0 }}
-      exit={{ y: '100%' }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed top-1/3 z-20 h-[67dvh] w-full bg-[#e0e0e0]"
-      key="city-page"
-      // layout
-      // layoutId="athens"
-    >
-      <CityPageInner city={loaderData?.city} dispatch={dispatch} visits={visits} />
-    </motion.div>
-  );
+  return <CityTest city={loaderData?.city} dispatch={dispatch} visits={visits} />;
 
   // return (
   //   <motion.div

@@ -38,25 +38,24 @@ export function CitiesList({ cities, variants }: CitiesListProps) {
         My route
       </Link>
       {/* <div> */}
-      <MotionLink
+      {/* <MotionLink
         className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
         to={`/trip/athens`}
         // layoutId={city.slug}
-        // initial={{ opacity: 0, x: 100 }}
-        // animate={{ opacity: 1, x: 0 }}
-        // exit={{ opacity: 0, y: 100 }}
-        // transition={{ duration: 0.9, ease: 'easeInOut' }}
-        transition={{ duration: 0.3 }}
+        // initial={{ opacity: 0, y: -1000 }}
+        // animate={{ opacity: 1, y: 0 }}
+        // exit={{ opacity: 0, y: -1000 }}
+        transition={{ duration: 0.9, ease: 'easeInOut' }}
+        // transition={{ duration: 0.3 }}
         key="athens"
         layout
         layoutId="athens"
       >
         <span>Athens</span>
-      </MotionLink>
-      {/* {orderedCities.map((city) => {
-          return <OlympiadCity key={city.id} city={city} />;
-        })} */}
-      {/* </div> */}
+      </MotionLink> */}
+      {orderedCities.map((city) => {
+        return <OlympiadCity key={city.id} city={city} />;
+      })}
     </div>
   );
 }

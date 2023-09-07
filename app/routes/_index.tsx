@@ -1,4 +1,5 @@
 import type { V2_MetaFunction } from '@remix-run/node';
+import { useLocation } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import type { RectReadOnly } from 'react-use-measure';
@@ -60,6 +61,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   const [expand, setExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const location = useLocation();
+
   const [contentRef, contentSize] = useMeasure({ debounce: 300 });
 
   useEffect(() => {
@@ -76,7 +79,14 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   if (!size?.width) return null;
 
   return (
-    <div className={`m-0 mx-auto max-w-2xl ${!expand && 'min-h-[880px]'}`} ref={containerRef}>
+    <motion.div
+      className={`m-0 mx-auto max-w-2xl ${!expand && 'min-h-[880px]'}`}
+      ref={containerRef}
+      key={location.key}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <motion.div
         className="main-content pb-5"
         initial={{ x: 0, opacity: 1 }}
@@ -165,7 +175,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           <FlagContainer expand={expand} contentSize={size} mainContentSize={contentSize} />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 

@@ -15,7 +15,7 @@ type CityInListProps = {
 };
 
 const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityInListProps) => {
-  const { visits } = useTripContext();
+  const { visits, appState } = useTripContext();
 
   if (!city.slug) {
     return null;
@@ -26,10 +26,10 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityIn
       className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
       to={`/trip/${city.slug}`}
       // layoutId={city.slug}
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
-      transition={{ duration: 0.9, ease: 'easeInOut' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, x: appState.selectedCity ? (appState.selectedCity === city.slug ? 0 : -100) : 0 }}
+      // exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <motion.span
         className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(

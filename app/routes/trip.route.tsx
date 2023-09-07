@@ -2,6 +2,8 @@ import type { V2_MetaFunction } from '@remix-run/node';
 import { useEffect } from 'react';
 import { Selector } from '~/components/route/Selector';
 import { useTripContext } from './trip';
+import { motion } from 'framer-motion';
+import { useLocation } from '@remix-run/react';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -23,6 +25,7 @@ export const meta: V2_MetaFunction = () => {
 
 function RoutePage() {
   const { width, dispatch } = useTripContext();
+  const location = useLocation();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -33,7 +36,11 @@ function RoutePage() {
     dispatch({ type: 'ROUTE_SELECTED', routeSelected: true });
   }, [dispatch]);
 
-  return <Selector width={width} />;
+  return (
+    <motion.div key={location.key} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Selector width={width} />
+    </motion.div>
+  );
 }
 
 export default RoutePage;

@@ -1,5 +1,6 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation, useOutlet } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import globalStyles from '~/styles/global.css';
 
@@ -61,6 +62,7 @@ export function links() {
 
 function App() {
   // const appLocation = useLocation();
+  // const outlet = useOutlet();
 
   return (
     <html lang="en">
@@ -71,6 +73,7 @@ function App() {
         <Links />
       </head>
       <body className="bg-[var(--body-background)]">
+        {/* <AnimatePresence mode="wait">{outlet}</AnimatePresence> */}
         <Outlet />
         <ScrollRestoration
           getKey={(location, matches) => {

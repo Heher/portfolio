@@ -207,14 +207,14 @@ export default function TripPage() {
     dispatch({ type: 'IMAGE', selectedImage: img });
   }
 
-  const outlet = useOutlet({
-    handleImageModal,
-    width,
-    visits,
-    toggleBodyBackground,
-    appState: state,
-    dispatch
-  });
+  // const outlet = useOutlet({
+  //   handleImageModal,
+  //   width,
+  //   visits,
+  //   toggleBodyBackground,
+  //   appState: state,
+  //   dispatch
+  // });
 
   function handleBackButton() {
     if (moveableGlobe) {
@@ -240,19 +240,25 @@ export default function TripPage() {
   return (
     <main
       ref={pageContainerRef}
-      className={`relative h-[100dvh] w-full ${!selectedCity && 'bg-[var(--nav-background)]'} ${
-        stopScroll ? 'overflow-hidden' : ''
-      }`}
+      // className={`relative h-[100dvh] w-full ${!selectedCity && 'bg-[var(--nav-background)]'} ${
+      //   stopScroll ? 'overflow-hidden' : ''
+      // }`}
+      className={`relative mx-auto min-h-[100dvh] w-full max-w-[var(--max-width)]`}
+      // key={location.key}
+      // initial={{ x: -150, opacity: 0 }}
+      // animate={{ x: 0, opacity: 1 }}
+      // exit={{ x: -150, opacity: 0 }}
+      // transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
-        {(routeSelected || selectedCity || (showDetails && width < 768) || moveableGlobe) && (
+        {/* {(routeSelected || selectedCity || (showDetails && width < 768) || moveableGlobe) && (
           <TripPageContext.Provider value={{ ...state, width, visits }}>
             <BackButtonContainer handleBackButton={handleBackButton} isCityPage={isCityPage} />
           </TripPageContext.Provider>
-        )}
+        )} */}
         {width > 0 && (
           <motion.div
-            className={`globe-container fixed -z-0 h-full w-full`}
+            className={`globe-container fixed left-0 top-0 -z-0 h-full w-full `}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
@@ -269,7 +275,7 @@ export default function TripPage() {
           Athens
         </a> */}
         <AnimatePresence mode="wait">
-          {/* <Outlet
+          <Outlet
             context={{
               handleImageModal,
               width,
@@ -278,8 +284,23 @@ export default function TripPage() {
               appState: state,
               dispatch
             }}
-          /> */}
-          <motion.div key={useLocation().pathname}>{outlet}</motion.div>
+          />
+          {/* <motion.div key={useLocation().pathname}>{outlet}</motion.div> */}
+        </AnimatePresence>
+        <AnimatePresence>
+          {selectedCity && (
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="fixed top-1/3 z-20 h-[67dvh] w-full max-w-[var(--max-width)] bg-[#e0e0e0]"
+              // layout
+              // layoutId="athens"
+            >
+              {/* <CityPageInner city={loaderData?.city} dispatch={dispatch} visits={visits} /> */}
+            </motion.div>
+          )}
         </AnimatePresence>
         {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
       </div>

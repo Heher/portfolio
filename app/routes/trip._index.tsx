@@ -9,7 +9,7 @@ import type { CityFieldsFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import { Fragment, useEffect } from 'react';
 import { getGQLClient } from '~/utils/graphql';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -89,7 +89,7 @@ function TripIndexInner({ olympiads, cities, toggleBodyBackground, showDetails, 
 }
 
 export default function TripIndex() {
-  const loaderData = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>() || {};
 
   const tripContext = useTripContext();
 
@@ -118,7 +118,7 @@ export default function TripIndex() {
   }, [loaded, dispatch]);
 
   return (
-    <motion.div className="relative z-10" key="trip-index-outer">
+    <div className="relative z-10">
       <TripIndexInner
         olympiads={loaderData?.olympiads}
         cities={loaderData?.cities}
@@ -127,6 +127,6 @@ export default function TripIndex() {
         width={width}
         dispatch={dispatch}
       />
-    </motion.div>
+    </div>
   );
 }

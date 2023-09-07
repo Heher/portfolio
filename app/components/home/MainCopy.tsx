@@ -17,7 +17,9 @@ function MainCopy({ olympiads, variants }: MainCopyProps) {
     <motion.div
       className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
       variants={variants}
-      animate={(showDetails && width < 768) || moveableGlobe || routeSelected ? 'hidden' : 'visible'}
+      // animate={(showDetails && width < 768) || moveableGlobe || routeSelected ? 'hidden' : 'visible'}
+      animate="visible"
+      exit="hidden"
     >
       <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
         Olympic trip

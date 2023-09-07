@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { convertToRadians, formatCitiesWithVisits } from './utils';
 // import type { City } from './coordinates';
 import { cities } from './coordinates';
@@ -74,6 +74,7 @@ const variants = {
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
+    x: 0,
     y: -0.1,
     z: 4,
     transition: {
@@ -85,16 +86,21 @@ const variants = {
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
+    x: 0,
+    y: -0.1,
+    z: 4,
     transition: {
       duration: 0.7,
       ease: 'easeInOut'
     }
   }),
-  show: {
+  show: ({ viewport }) => ({
     rotateX: 0,
+    opacity: 1,
     // rotateY: [rotateY, rotateY + Math.PI * 2],
     rotateY: 0,
     rotateZ: 0.5,
+    x: viewport.width * 0.1,
     y: 0,
     z: 0,
     transition: {
@@ -108,7 +114,7 @@ const variants = {
     //   rotateX: 1,
     //   rotateZ: 1
     // }
-  }
+  })
 };
 
 function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
@@ -139,6 +145,8 @@ export function Globe({
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
+  const { viewport } = useThree();
+
   useFrame((_, delta) => {
     // if (groupRef.current.rotation.y > 2 * Math.PI) {
     //   groupRef.current.rotation.y = 0;
@@ -163,11 +171,12 @@ export function Globe({
   return (
     <motion.group
       ref={groupRef}
-      scale={1}
+      scale={viewport.width / 5}
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
+      initial={{ opacity: 0 }}
       animate={getGlobeVariant(routeSelected, selectedCity)}
-      custom={{ cityMovement }}
+      custom={{ cityMovement, viewport }}
     >
       <Sphere />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
