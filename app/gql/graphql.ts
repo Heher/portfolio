@@ -10106,6 +10106,7 @@ export type GetCityQuery = {
     id: any;
     name?: string | null;
     slug?: string | null;
+    firstOlympiad?: number | null;
     country?: {
       __typename?: 'Country';
       name?: string | null;
@@ -10288,7 +10289,7 @@ export const CityFieldsFragmentDoc = gql`
         png
       }
     }
-    olympiads(orderBy: YEAR_ASC) {
+    olympiads(orderBy: YEAR_ASC, condition: { realOlympiad: true }) {
       nodes {
         ...CityOlympiad
       }
@@ -10325,25 +10326,10 @@ export const OlympiadFieldsFragmentDoc = gql`
 export const GetCityDocument = gql`
   query GetCity($slug: String!, $now: Datetime!) {
     cityBySlug(slug: $slug) {
-      id
-      name
-      slug
-      country {
-        name
-        flagByTimestamp(
-          dateTimestamp: { start: { value: $now, inclusive: true }, end: { value: $now, inclusive: true } }
-        ) {
-          png
-        }
-      }
-      olympiads(orderBy: YEAR_ASC) {
-        nodes {
-          ...CityOlympiad
-        }
-      }
+      ...CityFields
     }
   }
-  ${CityOlympiadFragmentDoc}
+  ${CityFieldsFragmentDoc}
 `;
 export const GetCitiesDocument = gql`
   query GetCities($now: Datetime!) {

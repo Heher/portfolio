@@ -18,6 +18,9 @@ import BackButtonContainer from '~/components/home/BackButtonContainer';
 //   showDetailsPositioning
 // } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
+import type { CityFieldsFragment } from '~/gql/graphql';
+import { OlympiadMedia } from '~/components/olympiad-city/OlympiadMedia';
+import NewSlider from '~/components/olympiad-city/NewSlider';
 
 // type DispatchContextType = {
 //   handleImageModal: (img: string | null) => void;
@@ -29,6 +32,7 @@ type TripPageState = {
   routeSelected: boolean;
   showDetails: boolean;
   selectedCity: string | null;
+  selectedCityData: CityFieldsFragment | null;
   selectedRouteLeg: number;
   loaded: boolean;
 };
@@ -135,6 +139,7 @@ type Action =
   | { type: 'ROUTE_SELECTED'; routeSelected: boolean }
   | { type: 'SHOW_DETAILS'; showDetails: boolean }
   | { type: 'SELECTED_CITY'; selectedCity: string | null }
+  | { type: 'SELECTED_CITY_DATA'; selectedCityData: CityFieldsFragment | null }
   | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number }
   | { type: 'LOADED'; loaded: boolean };
 
@@ -150,6 +155,8 @@ const reducer = (state: TripPageState, action: Action) => {
       return { ...state, showDetails: action.showDetails };
     case 'SELECTED_CITY':
       return { ...state, selectedCity: action.selectedCity };
+    case 'SELECTED_CITY_DATA':
+      return { ...state, selectedCityData: action.selectedCityData };
     case 'SELECTED_ROUTE_LEG':
       return { ...state, selectedRouteLeg: action.selectedRouteLeg };
     case 'LOADED':
@@ -170,6 +177,7 @@ const initialState: TripPageState = {
   routeSelected: false,
   showDetails: false,
   selectedCity: null,
+  selectedCityData: null,
   selectedRouteLeg: 0,
   loaded: false
 };
@@ -177,11 +185,13 @@ const initialState: TripPageState = {
 export default function TripPage() {
   const location = useLocation();
 
-  const [stopScroll, setStopScroll] = useState<boolean>(false);
+  // const [stopScroll, setStopScroll] = useState<boolean>(false);
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity } = state;
+  const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity, selectedCityData } = state;
+
+  console.log('selectedCityData: ', selectedCityData);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -216,26 +226,26 @@ export default function TripPage() {
   //   dispatch
   // });
 
-  function handleBackButton() {
-    if (moveableGlobe) {
-      dispatch({ type: 'MOVEABLE_GLOBE', moveableGlobe: false });
-    } else {
-      if (routeSelected) {
-        dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
-      }
+  // function handleBackButton() {
+  //   if (moveableGlobe) {
+  //     dispatch({ type: 'MOVEABLE_GLOBE', moveableGlobe: false });
+  //   } else {
+  //     if (routeSelected) {
+  //       dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
+  //     }
 
-      if (selectedCity) {
-        dispatch({ type: 'SELECTED_CITY', selectedCity: null });
-      }
+  //     if (selectedCity) {
+  //       dispatch({ type: 'SELECTED_CITY', selectedCity: null });
+  //     }
 
-      if (!selectedCity && !routeSelected && showDetails) {
-        dispatch({ type: 'SHOW_DETAILS', showDetails: false });
-        toggleBodyBackground();
-      }
-    }
+  //     if (!selectedCity && !routeSelected && showDetails) {
+  //       dispatch({ type: 'SHOW_DETAILS', showDetails: false });
+  //       toggleBodyBackground();
+  //     }
+  //   }
 
-    setStopScroll(false);
-  }
+  //   setStopScroll(false);
+  // }
 
   return (
     <main
@@ -288,19 +298,7 @@ export default function TripPage() {
           {/* <motion.div key={useLocation().pathname}>{outlet}</motion.div> */}
         </AnimatePresence>
         <AnimatePresence>
-          {selectedCity && (
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="fixed top-1/3 z-20 h-[67dvh] w-full max-w-[var(--max-width)] bg-[#e0e0e0]"
-              // layout
-              // layoutId="athens"
-            >
-              {/* <CityPageInner city={loaderData?.city} dispatch={dispatch} visits={visits} /> */}
-            </motion.div>
-          )}
+          {selectedCity && <NewSlider data={selectedCityData} visits={visits} handleImageModal={handleImageModal} />}
         </AnimatePresence>
         {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
       </div>

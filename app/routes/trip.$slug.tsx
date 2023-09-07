@@ -40,7 +40,7 @@ export async function loader({ params }: LoaderArgs) {
 
   const response = await sdk.GetCity({ now, slug: params.slug });
 
-  console.log(response);
+  // console.log(response);
 
   if (!response?.data?.cityBySlug?.name) {
     return json({ city: null });
@@ -91,12 +91,14 @@ function CityPageInner({ city, dispatch, visits }) {
 }
 
 function CityTest({ city, dispatch, visits }) {
-  console.log(city);
+  // console.log(city);
 
   useEffect(() => {
     if (city?.slug) {
+      console.log('city', city);
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
       dispatch({ type: 'SHOW_DETAILS', showDetails: true });
+      dispatch({ type: 'SELECTED_CITY_DATA', selectedCityData: city });
 
       const root = document.documentElement;
       root.style.setProperty('--body-background', 'var(--globe-background)');
@@ -108,6 +110,21 @@ function CityTest({ city, dispatch, visits }) {
   }
 
   return null;
+
+  // return (
+  //   <motion.div
+  //     initial={{ y: '100%' }}
+  //     animate={{ y: 0 }}
+  //     exit={{ y: '100%' }}
+  //     transition={{ duration: 0.3, ease: 'easeInOut' }}
+  //     className="fixed top-1/3 z-20 h-[67dvh] w-full max-w-[var(--max-width)] bg-[#e0e0e0]"
+  //     // layout
+  //     // layoutId="athens"
+  //   >
+  //     {/* <CityPageInner city={loaderData?.city} dispatch={dispatch} visits={visits} /> */}
+  //     <h1>{city.name}</h1>
+  //   </motion.div>
+  // );
 
   // return (
   //   <motion.div
