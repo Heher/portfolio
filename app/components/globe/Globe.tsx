@@ -42,9 +42,9 @@ import { motion } from 'framer-motion-3d';
 // }
 
 function newGetCityRotation(coord: Coordinate) {
-  const { lonRad } = convertToRadians(coord);
+  const { latRad, lonRad } = convertToRadians(coord);
 
-  return [0, lonRad - Math.PI / 2, 0];
+  return [latRad - Math.PI / 2, lonRad - Math.PI / 2, 0];
 }
 
 // function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {

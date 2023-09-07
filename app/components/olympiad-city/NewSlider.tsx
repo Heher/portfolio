@@ -49,23 +49,23 @@ export default function NewSlider({
 
   return (
     <motion.div
-      initial={{ y: '100%' }}
+      initial={{ x: '-50%', y: '100%' }}
       animate={{ y: 0 }}
       exit={{ y: '100%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`city-status fixed top-1/3 z-20 h-[67dvh] w-full max-w-[var(--max-width)] overflow-scroll border-t-[20px] bg-[#e0e0e0] px-6 py-12 md:p-10 ${statusColor(
+      className={`city-status fixed left-1/2 top-1/3 z-20 h-[67dvh] w-full max-w-[800px] overflow-scroll border-t-[20px] bg-[#e0e0e0] px-6 py-12 md:p-10 ${statusColor(
         amountCompleted,
         totalOlympiads
       )}`}
     >
       <h1 className="text-4xl font-semibold md:text-6xl">{data?.name}</h1>
-      <div className="mt-2 flex items-center md:mt-8">
+      <div className="mt-2 flex items-center md:mt-4">
         {data?.country?.flagByTimestamp?.png && (
           <img src={data.country.flagByTimestamp.png} alt={data.country.name || ''} className="mr-3 h-5 md:h-8" />
         )}
         <h2 className="text-xl md:text-3xl">{data?.country?.name}</h2>
       </div>
-      <div className="mt-16">
+      <div className="mt-16 md:mt-24">
         {sharedStadiums.includes(data?.name) ? (
           <SharedOlympiads olympiads={filteredOlympiads} visits={visits} handleImageModal={handleImageModal} />
         ) : (
@@ -85,15 +85,15 @@ export default function NewSlider({
               >
                 <div className="flex items-center">
                   <span
-                    className={`city-status absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-[var(--negative)] ${
+                    className={`city-status absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-[var(--negative)] md:left-[-11px] md:h-5 md:w-5 ${
                       visit && 'bg-[var(--positive)]'
                     }`}
                   />
-                  <h3 className="absolute left-5 top-[-5px] text-xl md:text-xl">{`${olympiad.year} ${
-                    olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()
-                  } Games`}</h3>
+                  <h3 className="absolute left-5 top-[-5px] text-xl md:left-7 md:top-[-6px] md:text-2xl">{`${
+                    olympiad.year
+                  } ${olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()} Games`}</h3>
                 </div>
-                <div className="media ml-5 mt-12 items-end">
+                <div className="media ml-5 mt-12 items-end md:ml-7">
                   {visit && (
                     <OlympiadMedia
                       visit={visit}
