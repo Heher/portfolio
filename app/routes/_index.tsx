@@ -80,7 +80,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 
   return (
     <motion.div
-      className={`m-0 mx-auto max-w-2xl ${!expand && 'min-h-[880px]'}`}
+      className={`m-0 mx-auto max-w-lg ${!expand && 'min-h-[880px]'}`}
       ref={containerRef}
       key={location.key}
       initial={{ opacity: 0 }}

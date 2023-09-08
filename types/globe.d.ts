@@ -41,6 +41,9 @@ export type RouteInfo = {
   coords: Coordinate[];
   type: 'flight' | 'ferry' | 'ground';
   description: string;
+  zoom?: number;
+  midpoint?: Coordinate;
+  cities?: string[];
 };
 
 export type MarkerInfo = {

@@ -178,7 +178,7 @@ const initialState: TripPageState = {
   showDetails: false,
   selectedCity: null,
   selectedCityData: null,
-  selectedRouteLeg: 0,
+  selectedRouteLeg: 1,
   loaded: false
 };
 
@@ -191,7 +191,7 @@ export default function TripPage() {
 
   const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity, selectedCityData } = state;
 
-  console.log('selectedCityData: ', selectedCityData);
+  // console.log('selectedCityData: ', selectedCityData);
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 

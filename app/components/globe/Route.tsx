@@ -5,7 +5,7 @@ import type { City } from './coordinates';
 import { Cities } from './Cities';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
-import { TripPageContext, useTripContext } from '~/routes/trip';
+import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
 // import { getPosition, globeRadius } from './utils';
 
@@ -33,7 +33,8 @@ const citiesVisited = [
   'sydney',
   'barcelona',
   'rome',
-  'athens'
+  'athens',
+  'montreal'
 ];
 
 type RouteProps = {
@@ -42,17 +43,19 @@ type RouteProps = {
 };
 
 export function Route({ visible, citiesWithVisits }: RouteProps) {
-  const onlyVisited = citiesWithVisits.filter((city) => citiesVisited.includes(city.name));
+  // console.log('onlyVisited: ', onlyVisited);
 
   const { selectedRouteLeg } = useContext(TripPageContext);
+  const selectedRoute = myRoute[selectedRouteLeg - 1];
 
-  const selectedRoute = selectedRouteLeg === 0 ? myRoute : [myRoute[selectedRouteLeg - 1]];
+  const onlyVisited =
+    selectedRoute.cities && selectedRoute.cities.length > 0
+      ? citiesWithVisits.filter((city) => selectedRoute.cities.includes(city.name))
+      : [];
 
   return (
     <group visible={visible}>
-      {selectedRoute.map((coordData, index) => {
-        return <RouteTrip key={index} {...coordData} />;
-      })}
+      <RouteTrip {...selectedRoute} />;
       {onlyVisited.map((city) => {
         // const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
 

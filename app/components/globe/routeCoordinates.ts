@@ -46,14 +46,16 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   olympia: [37.6384, -21.6297],
   copenhagen: [55.6761, -12.5683],
   tòrshavn: [62.0107, 6.7741],
-  reykjavik: [64.1470, 21.9408]
+  reykjavik: [64.147, 21.9408]
 };
 
 export const myRoute: RouteInfo[] = [
   {
     coords: [extraCoordinates.austin, coordinates.amsterdam],
     type: 'flight',
-    description: 'Flight to Amsterdam'
+    description: 'Flight to Amsterdam',
+    zoom: 7,
+    midpoint: [51.431, 47.3434]
   },
   {
     coords: [
@@ -66,22 +68,28 @@ export const myRoute: RouteInfo[] = [
       coordinates.paris
     ],
     type: 'ground',
-    description: 'Amsterdam to Paris by train'
+    description: 'Amsterdam to Paris by train',
+    zoom: 16,
+    midpoint: [46.4102, -2.58],
+    cities: ['amsterdam', 'antwerp', 'paris']
   },
   {
     coords: [coordinates.paris, extraCoordinates.austin],
     type: 'flight',
-    description: 'Thanksgiving'
+    description: 'Thanksgiving',
+    zoom: 7
   },
   {
     coords: [extraCoordinates.austin, coordinates.paris],
     type: 'flight',
-    description: 'Flight back to Paris'
+    description: 'Flight back to Paris',
+    zoom: 7
   },
   {
     coords: [coordinates.paris, coordinates.oslo],
     type: 'flight',
-    description: 'Flight to Oslo'
+    description: 'Flight to Oslo',
+    zoom: 10
   },
   {
     coords: [
@@ -92,32 +100,38 @@ export const myRoute: RouteInfo[] = [
       coordinates.stockholm
     ],
     type: 'ground',
-    description: 'Oslo to Lillehammer to Stockholm'
+    description: 'Oslo to Lillehammer to Stockholm',
+    zoom: 16
   },
   {
     coords: [coordinates.stockholm, extraCoordinates.tallin],
     type: 'ferry',
-    description: 'Ferry to Tallin'
+    description: 'Ferry to Tallin',
+    zoom: 16
   },
   {
     coords: [extraCoordinates.tallin, extraCoordinates.riga, extraCoordinates.tallin],
     type: 'ground',
-    description: 'Tallin to Riga, back to Tallin'
+    description: 'Tallin to Riga, back to Tallin',
+    zoom: 16
   },
   {
     coords: [extraCoordinates.tallin, coordinates.helsinki],
     type: 'ferry',
-    description: 'Ferry to Helsinki'
+    description: 'Ferry to Helsinki',
+    zoom: 16
   },
   {
     coords: [coordinates.helsinki, coordinates.losAngeles],
     type: 'flight',
-    description: 'Christmas'
+    description: 'Christmas',
+    zoom: 7
   },
   {
     coords: [coordinates.losAngeles, coordinates.london, coordinates.berlin],
     type: 'flight',
-    description: 'Flight to Berlin'
+    description: 'Flight to Berlin',
+    zoom: 7
   },
   {
     coords: [
@@ -128,7 +142,8 @@ export const myRoute: RouteInfo[] = [
       coordinates.munich
     ],
     type: 'ground',
-    description: 'Berlin to Munich'
+    description: 'Berlin to Munich',
+    zoom: 16
   },
   {
     coords: [
@@ -149,7 +164,8 @@ export const myRoute: RouteInfo[] = [
       coordinates.stMoritz
     ],
     type: 'ground',
-    description: 'Skiing around the Alps'
+    description: 'Skiing around the Alps',
+    zoom: 16
   },
   {
     coords: [
@@ -161,27 +177,32 @@ export const myRoute: RouteInfo[] = [
       extraCoordinates.zurich
     ],
     type: 'ground',
-    description: 'St. Moritz to Zurich by way of Liechtenstein'
+    description: 'St. Moritz to Zurich by way of Liechtenstein',
+    zoom: 16
   },
   {
     coords: [extraCoordinates.zurich, extraCoordinates.vienna, coordinates.sarajevo],
     type: 'flight',
-    description: 'Flight to Sarajevo'
+    description: 'Flight to Sarajevo',
+    zoom: 10
   },
   {
     coords: [coordinates.sarajevo, coordinates.london],
     type: 'flight',
-    description: 'Flight to London'
+    description: 'Flight to London',
+    zoom: 10
   },
   {
     coords: [coordinates.london, extraCoordinates.austin],
     type: 'flight',
-    description: 'Flight to Austin to resupply'
+    description: 'Flight to Austin to resupply',
+    zoom: 7
   },
   {
     coords: [extraCoordinates.austin, extraCoordinates.auckland],
     type: 'flight',
-    description: 'Flight to Auckland'
+    description: 'Flight to Auckland',
+    zoom: 7
   },
   {
     coords: [
