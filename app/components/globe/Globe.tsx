@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react';
 import type { Coordinate, Visit } from 'types/globe';
+import type { GroupProps } from '@react-three/fiber';
 import { useFrame, useThree } from '@react-three/fiber';
 import { convertToRadians, formatCitiesWithVisits } from './utils';
 // import type { City } from './coordinates';
@@ -12,6 +13,7 @@ import { Cities } from './Cities';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
+import { useMotionValue } from 'framer-motion';
 // import { TripPageContext } from '~/routes/trip';
 
 // type RotationProps = {
@@ -44,7 +46,9 @@ import { motion } from 'framer-motion-3d';
 function newGetCityRotation(coord: Coordinate) {
   const { latRad, lonRad } = convertToRadians(coord);
 
-  return [latRad - Math.PI / 2, lonRad - Math.PI / 2, 0];
+  console.log(latRad, latRad - Math.PI / 2);
+
+  return [latRad - Math.PI * 0.35, lonRad - Math.PI / 2, 0];
 }
 
 // function getRotation(foundCity: City | undefined, routeSelected: boolean): Euler {
@@ -70,13 +74,13 @@ function newGetCityRotation(coord: Coordinate) {
 // }
 
 const variants = {
-  selectedCity: ({ cityMovement }: { cityMovement: number[] }) => ({
+  selectedCity: ({ height, cityMovement }: { height: number; cityMovement: number[] }) => ({
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
     x: 0,
-    y: -0.1,
-    z: 4,
+    y: (height / -4) * (3 / 12),
+    z: 10,
     transition: {
       duration: 0.7,
       ease: 'easeInOut'
@@ -94,26 +98,23 @@ const variants = {
       ease: 'easeInOut'
     }
   }),
-  show: ({ viewport }) => ({
+  show: ({ width, rotateY }: { width: number; rotateY: number }) => ({
     rotateX: 0,
     opacity: 1,
-    // rotateY: [rotateY, rotateY + Math.PI * 2],
-    rotateY: 0,
+    rotateY: [rotateY, rotateY + Math.PI * 2],
     rotateZ: 0.5,
-    x: viewport.width * 0.1,
+    x: width * 0.1,
     y: 0,
     z: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeInOut'
+      ease: 'easeInOut',
+      rotateY: {
+        repeat: Infinity,
+        duration: 20,
+        ease: 'linear'
+      }
     }
-    // transition: {
-    //   repeat: Infinity,
-    //   duration: 20,
-    //   ease: 'linear',
-    //   rotateX: 1,
-    //   rotateZ: 1
-    // }
   })
 };
 
@@ -138,9 +139,9 @@ export function Globe({
   selectedCity: string | null;
   routeSelected: boolean;
 }) {
-  const groupRef = useRef(null!);
+  const groupRef = useRef<GroupProps>(null!);
   // const rotateX = useMotionValue(0);
-  // const rotateY = useMotionValue(0);
+  const rotateY = useMotionValue(0);
   // const rotateZ = useMotionValue(0);
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
@@ -153,9 +154,11 @@ export function Globe({
     // } else {
     //   groupRef.current.rotation.y += delta * 0.15;
     // }
-    // rotateX.set(groupRef.current.rotation.x);
-    // rotateY.set(groupRef.current.rotation.y);
-    // rotateZ.set(groupRef.current.rotation.z);
+    if (groupRef.current.rotation) {
+      // rotateX.set(groupRef.current.rotation.x);
+      rotateY.set(groupRef.current.rotation.y);
+      // rotateZ.set(groupRef.current.rotation.z);
+    }
   });
 
   const foundCity = cities.find((city) => city.name === selectedCity);
@@ -176,7 +179,7 @@ export function Globe({
       variants={variants}
       initial={{ opacity: 0 }}
       animate={getGlobeVariant(routeSelected, selectedCity)}
-      custom={{ cityMovement, viewport }}
+      custom={{ cityMovement, width: viewport.width, height: viewport.height, rotateY: rotateY.get() }}
     >
       <Sphere />
       <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
