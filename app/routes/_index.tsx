@@ -22,6 +22,8 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
+const MotionArrow = motion(IndexArrow);
+
 function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
     <motion.svg
@@ -57,8 +59,21 @@ function getCloseRight(windowWidth: number) {
   return -20;
 }
 
+function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
+  return (
+    <a
+      className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)] transition-colors hover:text-[var(--index-link-hover)]"
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+}
+
 function IndexContent({ size }: { size: RectReadOnly }) {
   const [expand, setExpand] = useState(false);
+  const [travelLinkHovered, setTravelLinkHovered] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
@@ -105,39 +120,38 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
         <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
         <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
-          <a
-            href="https://github.com/Heher"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <GitHubIcon className={`h-6 fill-[var(--index-link)]`} />
+          <SocialLink href="https://github.com/Heher">
+            <GitHubIcon className={`h-6 fill-current`} />
             <span className="text-xs">GitHub</span>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/johnheher/"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <LinkedInIcon className={`h-6 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="https://www.linkedin.com/in/johnheher/">
+            <LinkedInIcon className={`h-6 fill-current`} />
             <span className="text-xs">LinkedIn</span>
-          </a>
-          <a
-            href="/cv.pdf"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <ResumeIcon className={`h-6 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="/cv.pdf">
+            <ResumeIcon className={`h-6 fill-current`} />
             <span className="text-xs">Resume</span>
-          </a>
-          <a
-            href="mailto:johnheher@gmail.com"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <EmailIcon className={`w-5 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="mailto:johnheher@gmail.com">
+            <EmailIcon className={`w-5 fill-current`} />
             <span className="text-xs">Email</span>
-          </a>
+          </SocialLink>
         </div>
         <div className="mt-20 grid justify-items-start">
-          <a href="/trip" className="grid grid-cols-[1fr_40px] items-center">
-            <h2 className="text-lg font-semibold uppercase text-[#282B27]">Travels</h2>
-            <IndexArrow className="ml-3 h-3 fill-[var(--index-link)]" />
+          <a
+            href="/trip"
+            className="grid grid-cols-[1fr_40px] items-center"
+            onMouseOver={() => setTravelLinkHovered(true)}
+            onMouseOut={() => setTravelLinkHovered(false)}
+          >
+            <h2
+              className={`text-lg font-semibold uppercase ${
+                travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
+              } transition-colors`}
+            >
+              Travels
+            </h2>
+            <MotionArrow className="ml-3 h-3 fill-[var(--index-link)]" animate={{ x: travelLinkHovered ? 8 : 0 }} />
           </a>
         </div>
       </motion.div>
