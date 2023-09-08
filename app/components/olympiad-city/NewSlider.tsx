@@ -53,17 +53,17 @@ export default function NewSlider({
       animate={{ y: 0 }}
       exit={{ y: '100%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`city-status fixed left-1/2 top-1/3 z-20 h-[67dvh] w-full max-w-[800px] overflow-scroll border-t-[20px] bg-[#e0e0e0] px-6 py-12 md:p-10 ${statusColor(
+      className={`city-status fixed left-1/2 top-1/3 z-20 h-[67dvh] w-full max-w-[800px] overflow-scroll border-t-[20px] bg-[#e0e0e0] px-6 py-12 pb-0 md:p-10 ${statusColor(
         amountCompleted,
         totalOlympiads
       )}`}
     >
-      <h1 className="text-4xl font-semibold md:text-6xl">{data?.name}</h1>
+      <h1 className="text-4xl font-semibold md:text-5xl">{data?.name}</h1>
       <div className="mt-2 flex items-center md:mt-4">
         {data?.country?.flagByTimestamp?.png && (
-          <img src={data.country.flagByTimestamp.png} alt={data.country.name || ''} className="mr-3 h-5 md:h-8" />
+          <img src={data.country.flagByTimestamp.png} alt={data.country.name || ''} className="mr-3 h-5 md:h-7" />
         )}
-        <h2 className="text-xl md:text-3xl">{data?.country?.name}</h2>
+        <h2 className="text-xl md:text-2xl">{data?.country?.name}</h2>
       </div>
       <div className="mt-16 md:mt-24">
         {sharedStadiums.includes(data?.name) ? (
@@ -89,7 +89,7 @@ export default function NewSlider({
                       visit && 'bg-[var(--positive)]'
                     }`}
                   />
-                  <h3 className="absolute left-5 top-[-5px] text-xl md:left-7 md:top-[-6px] md:text-2xl">{`${
+                  <h3 className="absolute left-5 top-[-5px] text-xl md:left-7 md:top-[-2px] md:text-[22px] md:leading-6">{`${
                     olympiad.year
                   } ${olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()} Games`}</h3>
                 </div>
@@ -99,6 +99,7 @@ export default function NewSlider({
                       visit={visit}
                       olympiadType={olympiad.olympiadType}
                       handleImageModal={handleImageModal}
+                      last={last}
                     />
                   )}
                 </div>

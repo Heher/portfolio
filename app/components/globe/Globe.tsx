@@ -3,47 +3,26 @@ import type { Coordinate, RouteInfo, Visit } from 'types/globe';
 import type { GroupProps } from '@react-three/fiber';
 import { useFrame, useThree } from '@react-three/fiber';
 import { convertToRadians, formatCitiesWithVisits } from './utils';
-// import type { City } from './coordinates';
 import { cities } from './coordinates';
 // import { Euler } from 'three';
 import Sphere from './Sphere';
 import { Route } from './Route';
 // import { OrbitControls } from '@react-three/drei';
-import { Cities } from './Cities';
+import { City } from './City';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { TripPageContext } from '~/routes/trip';
 import { myRoute } from './routeCoordinates';
-// import { TripPageContext } from '~/routes/trip';
 
-// type RotationProps = {
-//   rotation?: Euler;
-//   position?: Vector3;
-//   scale?: number;
-// };
+function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
+  if (selectedRouteLeg !== null) {
+    return myRoute[selectedRouteLeg - 1].zoom || 7;
+  }
 
-// function getCityPosition(foundCity: City | undefined, routeSelected: boolean): Vector3 {
-//   if (routeSelected) {
-//     const amsterdam = coordinates['amsterdam'];
-
-//     if (!amsterdam) return new Vector3(0, 0, 0);
-
-//     return new Vector3(0, -amsterdam[0] / 50, 0);
-//   }
-
-//   if (!foundCity) return new Vector3(0, 0, 0);
-
-//   //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
-//   return new Vector3(0, -foundCity.coord[0] / 50, 0);
-// }
-
-// function getCityRotation(coord: Coordinate): Euler {
-//   const { lonRad } = convertToRadians(coord);
-
-//   return new Euler(0, lonRad - Math.PI / 2, 0, 'ZXY');
-// }
+  return 7;
+}
 
 function findCoordDistance(coord1: Coordinate, coord2: Coordinate): number {
   const lat1 = coord1[0];
@@ -72,7 +51,7 @@ function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
 }
 
 function getRouteRotation(leg: RouteInfo): Coordinate {
-  const midpoint = findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
+  const midpoint = leg.midpoint || findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
 
   // const distance = findCoordDistance(coords[0], coords[coords.length - 1]);
 
@@ -80,6 +59,7 @@ function getRouteRotation(leg: RouteInfo): Coordinate {
 
   const { latRad, lonRad } = convertToRadians(midpoint);
 
+  return [latRad, lonRad - Math.PI / 2];
   return [latRad - Math.PI * 0.1, lonRad - Math.PI / 2];
 }
 
@@ -201,26 +181,26 @@ function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
 export function Globe({
   visits,
   selectedCity,
-  routeSelected
+  selectedRouteLeg
 }: {
   visits: Visit[];
   selectedCity: string | null;
-  routeSelected: boolean;
+  selectedRouteLeg: number | null;
 }) {
   const groupRef = useRef<GroupProps>(null!);
   // const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
+
+  const routeSelected = selectedRouteLeg !== null;
   // const rotateZ = useMotionValue(0);
 
-  const { selectedRouteLeg } = useContext(TripPageContext);
+  // const { selectedRouteLeg } = useContext(TripPageContext);
 
-  console.log(selectedRouteLeg);
-
-  const leg = myRoute[selectedRouteLeg - 1];
+  // console.log(selectedRouteLeg);
 
   // const legDistance = findCoordDistance(leg.coords[0], leg.coords[leg.coords.length - 1]);
 
-  console.log(leg);
+  // console.log(leg);
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
@@ -232,7 +212,7 @@ export function Globe({
     // } else {
     //   groupRef.current.rotation.y += delta * 0.15;
     // }
-    if (groupRef.current.rotation) {
+    if (groupRef.current?.rotation) {
       // rotateX.set(groupRef.current.rotation.x);
       rotateY.set(groupRef.current.rotation.y);
       // rotateZ.set(groupRef.current.rotation.z);
@@ -242,6 +222,7 @@ export function Globe({
   let cityMovement: number[];
 
   if (routeSelected) {
+    const leg = myRoute[selectedRouteLeg - 1];
     cityMovement = getRouteRotation(leg) || [0, 0, 0];
   } else {
     cityMovement = newGetCityRotation(selectedCity) || [0, 0, 0];
@@ -250,6 +231,8 @@ export function Globe({
   // const cityMovement = routeSelected ? newGetCityRotation('amsterdam') : newGetCityRotation(selectedCity);
 
   // console.log(cityMovement);
+
+  console.log(citiesWithVisits);
 
   return (
     <motion.group
@@ -264,14 +247,15 @@ export function Globe({
         width: viewport.width,
         height: viewport.height,
         rotateY: rotateY.get(),
-        zoom: leg?.zoom || 7
+        // zoom: routeSelected ? myRoute[selectedRouteLeg - 1] : 7
+        zoom: getZoom(selectedRouteLeg, selectedCity)
       }}
     >
       <Sphere />
-      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} />
+      {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          return <Cities key={city.coord[0]} city={city} />;
+          return <City key={city.coord[0]} city={city} />;
         })}
 
       <EffectComposer>

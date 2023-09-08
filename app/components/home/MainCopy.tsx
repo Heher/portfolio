@@ -10,8 +10,8 @@ type MainCopyProps = {
 };
 
 function MainCopy({ olympiads, variants }: MainCopyProps) {
-  const { appState, width } = useTripContext();
-  const { routeSelected, showDetails, moveableGlobe } = appState;
+  // const { appState, width } = useTripContext();
+  // const { routeSelected, showDetails, moveableGlobe } = appState;
 
   return (
     <motion.div

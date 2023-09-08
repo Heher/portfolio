@@ -24,7 +24,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 function RoutePage() {
-  const { width, dispatch } = useTripContext();
+  const { width, dispatch, appState } = useTripContext();
+  const { selectedRouteLeg } = appState;
   const location = useLocation();
 
   useEffect(() => {
@@ -33,12 +34,12 @@ function RoutePage() {
   }, []);
 
   useEffect(() => {
-    dispatch({ type: 'ROUTE_SELECTED', routeSelected: true });
+    dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: 1 });
   }, [dispatch]);
 
   return (
     <motion.div key={location.key} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <Selector width={width} />
+      {selectedRouteLeg !== null && <Selector width={width} />}
     </motion.div>
   );
 }

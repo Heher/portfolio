@@ -1,7 +1,7 @@
 import { extend, useLoader } from '@react-three/fiber';
 
 import type { MarkerVisit } from 'types/globe';
-import type { City } from './coordinates';
+import type { CityType } from './coordinates';
 import { MarkerMaterial } from './materials/MarkerMaterial';
 import { notVisitedColor, summerColor, visitedColor, winterColor } from './colors';
 import { FlagMaterial } from './materials/FlagMaterial';
@@ -15,14 +15,15 @@ import { Marker } from './markers/Marker';
 // import { AnimatePresence } from 'framer-motion';
 import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
+import { beamHeight, markerRadius } from './utils';
 
 type CitiesProps = {
-  city: City & MarkerVisit;
+  city: CityType & MarkerVisit;
 };
 
 extend({ MarkerMaterial, FlagMaterial });
 
-export function Cities({ city }: CitiesProps) {
+export function City({ city, zoom, height, newFlag }: CitiesProps) {
   const alphaMap = useLoader(TextureLoader, alphaMapImg);
 
   const tripContext = useContext(TripPageContext);
@@ -54,14 +55,21 @@ export function Cities({ city }: CitiesProps) {
     return city.visited ? visitedColor : notVisitedColor;
   }
 
+  const radius = zoom ? markerRadius * (7 / zoom) : markerRadius;
+
+  // console.log('radius', radius);
+
   return (
     <group>
-      <Marker markerInfo={city.markerInfo} color={city.type === 'summer' ? summerColor : winterColor} />
+      <Marker markerInfo={city.markerInfo} color={city.type === 'summer' ? summerColor : winterColor} radius={radius} />
       <Flag
         markerInfo={city.markerInfo}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
         shown={((selectedCity && selectedCity === city.name) || !selectedCity) as boolean}
+        radius={radius}
+        height={height}
+        newFlag={newFlag}
       />
     </group>
   );

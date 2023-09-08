@@ -29,11 +29,10 @@ import NewSlider from '~/components/olympiad-city/NewSlider';
 type TripPageState = {
   selectedImage: string | null;
   moveableGlobe: boolean;
-  routeSelected: boolean;
   showDetails: boolean;
   selectedCity: string | null;
   selectedCityData: CityFieldsFragment | null;
-  selectedRouteLeg: number;
+  selectedRouteLeg: number | null;
   loaded: boolean;
 };
 
@@ -125,22 +124,13 @@ function GlobeFallback() {
 //   return 'notMoveable';
 // }
 
-// const variants = {
-//   moveable: (width: number) => moveablePositioning(width),
-//   notMoveable: (width: number) => notMoveablePositioning(width),
-//   showDetails: (width: number) => showDetailsPositioning(width),
-//   moveableMobile: (width: number) => moveableMobilePositioning(width),
-//   citySelected: (width: number) => citySelectedPositioning(width)
-// };
-
 type Action =
   | { type: 'IMAGE'; selectedImage: string | null }
   | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
-  | { type: 'ROUTE_SELECTED'; routeSelected: boolean }
   | { type: 'SHOW_DETAILS'; showDetails: boolean }
   | { type: 'SELECTED_CITY'; selectedCity: string | null }
   | { type: 'SELECTED_CITY_DATA'; selectedCityData: CityFieldsFragment | null }
-  | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number }
+  | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number | null }
   | { type: 'LOADED'; loaded: boolean };
 
 const reducer = (state: TripPageState, action: Action) => {
@@ -149,8 +139,6 @@ const reducer = (state: TripPageState, action: Action) => {
       return { ...state, selectedImage: action.selectedImage };
     case 'MOVEABLE_GLOBE':
       return { ...state, moveableGlobe: action.moveableGlobe };
-    case 'ROUTE_SELECTED':
-      return { ...state, routeSelected: action.routeSelected };
     case 'SHOW_DETAILS':
       return { ...state, showDetails: action.showDetails };
     case 'SELECTED_CITY':
@@ -174,11 +162,10 @@ export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null)
 const initialState: TripPageState = {
   selectedImage: null,
   moveableGlobe: false,
-  routeSelected: false,
   showDetails: false,
   selectedCity: null,
   selectedCityData: null,
-  selectedRouteLeg: 1,
+  selectedRouteLeg: null,
   loaded: false
 };
 
@@ -189,7 +176,7 @@ export default function TripPage() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { selectedImage, moveableGlobe, routeSelected, showDetails, selectedCity, selectedCityData } = state;
+  const { selectedImage, moveableGlobe, showDetails, selectedCity, selectedCityData } = state;
 
   // console.log('selectedCityData: ', selectedCityData);
 
@@ -205,8 +192,7 @@ export default function TripPage() {
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
       dispatch({ type: 'SELECTED_CITY', selectedCity: null });
-      dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
-      dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: 0 });
+      dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
     }
   }, [location.pathname]);
 

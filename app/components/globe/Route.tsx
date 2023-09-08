@@ -1,12 +1,13 @@
 // import { useMemo } from 'react';
 // import { CylinderGeometry, MeshStandardMaterial } from 'three';
 import type { MarkerVisit } from 'types/globe';
-import type { City } from './coordinates';
-import { Cities } from './Cities';
+import type { CityType } from './coordinates';
+import { City } from './City';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
 import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
+import { beamHeight } from './utils';
 // import { getPosition, globeRadius } from './utils';
 
 const citiesVisited = [
@@ -38,28 +39,37 @@ const citiesVisited = [
 ];
 
 type RouteProps = {
-  visible: boolean;
-  citiesWithVisits: (City & MarkerVisit)[];
+  citiesWithVisits: (CityType & MarkerVisit)[];
 };
 
-export function Route({ visible, citiesWithVisits }: RouteProps) {
-  // console.log('onlyVisited: ', onlyVisited);
-
+export function Route({ citiesWithVisits }: RouteProps) {
   const { selectedRouteLeg } = useContext(TripPageContext);
+
   const selectedRoute = myRoute[selectedRouteLeg - 1];
 
+  console.log('selectedRoute', selectedRoute);
+
   const onlyVisited =
-    selectedRoute.cities && selectedRoute.cities.length > 0
-      ? citiesWithVisits.filter((city) => selectedRoute.cities.includes(city.name))
+    selectedRoute?.cities && selectedRoute.cities.length > 0
+      ? citiesWithVisits.filter((city) => selectedRoute?.cities.includes(city.name))
       : [];
 
-  return (
-    <group visible={visible}>
-      <RouteTrip {...selectedRoute} />;
-      {onlyVisited.map((city) => {
-        // const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2);
+  console.log('only', onlyVisited);
+  // console.log('new', newVisited);
 
-        return <Cities key={city.coord[0]} city={city} />;
+  // const visited = [...onlyVisited, ...newVisited];
+  // return null;
+
+  return (
+    <group>
+      <RouteTrip {...selectedRoute} />;
+      {selectedRoute.cities.map((city) => {
+        const cityInfo = citiesWithVisits.find((c) => c.name === city.name);
+        if (!cityInfo) return null;
+
+        return (
+          <City key={city.name} city={cityInfo} zoom={selectedRoute.zoom || 7} height={beamHeight} newFlag={city.new} />
+        );
       })}
     </group>
   );

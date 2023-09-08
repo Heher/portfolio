@@ -3,6 +3,7 @@ import { coordinates } from './coordinates';
 
 const extraCoordinates: { [key: string]: Coordinate } = {
   austin: [30.2672, 97.7431],
+  atlanta: [33.7488, 84.3877],
   ghent: [51.05, -3.73],
   ieper: [50.8492, -2.8779],
   brussels: [50.8476, -4.3572],
@@ -23,6 +24,7 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   sargans: [47.1944, -9.3789],
   vaduz: [47.1411, -9.5215],
   vienna: [48.2082, -16.3738],
+  dallas: [32.7767, 96.797],
   auckland: [-36.8485, -174.7633],
   coromandel: [-36.7615, -175.4968],
   rotorua: [-38.1368, -176.2497],
@@ -51,11 +53,14 @@ const extraCoordinates: { [key: string]: Coordinate } = {
 
 export const myRoute: RouteInfo[] = [
   {
-    coords: [extraCoordinates.austin, coordinates.amsterdam],
+    coords: [extraCoordinates.austin, extraCoordinates.atlanta, coordinates.amsterdam],
     type: 'flight',
     description: 'Flight to Amsterdam',
+    cities: [{ name: 'amsterdam', new: true }],
     zoom: 7,
-    midpoint: [51.431, 47.3434]
+    // midpoint: [51.431, 47.3434]
+    midpoint: [32.942, 54.226]
+    // midpoint: coordinates.amsterdam
   },
   {
     coords: [
@@ -70,68 +75,94 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Amsterdam to Paris by train',
     zoom: 16,
-    midpoint: [46.4102, -2.58],
-    cities: ['amsterdam', 'antwerp', 'paris']
+    // midpoint: [50.1893, -4.4971],
+    midpoint: [49.155, -9.4583],
+    cities: [
+      { name: 'amsterdam', new: false },
+      { name: 'antwerp', new: true }
+    ]
   },
   {
-    coords: [coordinates.paris, extraCoordinates.austin],
+    coords: [coordinates.paris, coordinates.london, extraCoordinates.austin],
     type: 'flight',
     description: 'Thanksgiving',
-    zoom: 7
+    zoom: 7,
+    cities: [
+      { name: 'amsterdam', new: false },
+      { name: 'antwerp', new: false }
+    ]
   },
   {
-    coords: [extraCoordinates.austin, coordinates.paris],
+    coords: [extraCoordinates.austin, coordinates.london, coordinates.paris],
     type: 'flight',
     description: 'Flight back to Paris',
-    zoom: 7
+    zoom: 7,
+    cities: [
+      { name: 'amsterdam', new: false },
+      { name: 'antwerp', new: false },
+      { name: 'paris', new: true }
+    ]
   },
   {
     coords: [coordinates.paris, coordinates.oslo],
     type: 'flight',
     description: 'Flight to Oslo',
-    zoom: 10
+    zoom: 10,
+    cities: [
+      { name: 'amsterdam', new: false },
+      { name: 'antwerp', new: false },
+      { name: 'paris', new: false },
+      { name: 'oslo', new: true }
+    ]
   },
   {
-    coords: [
-      coordinates.oslo,
-      coordinates.lillehammer,
-      coordinates.oslo,
-      extraCoordinates.gothenburg,
-      coordinates.stockholm
-    ],
+    coords: [coordinates.oslo, coordinates.lillehammer, coordinates.oslo],
     type: 'ground',
-    description: 'Oslo to Lillehammer to Stockholm',
-    zoom: 16
+    description: 'Oslo to Lillehammer by train and back',
+    zoom: 16,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer']
+  },
+  {
+    coords: [coordinates.oslo, extraCoordinates.gothenburg, coordinates.stockholm],
+    type: 'ground',
+    description: 'Oslo to Stockholm by train',
+    zoom: 16,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm']
   },
   {
     coords: [coordinates.stockholm, extraCoordinates.tallin],
     type: 'ferry',
     description: 'Ferry to Tallin',
-    zoom: 16
+    zoom: 16,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm']
   },
   {
     coords: [extraCoordinates.tallin, extraCoordinates.riga, extraCoordinates.tallin],
     type: 'ground',
     description: 'Tallin to Riga, back to Tallin',
-    zoom: 16
+    zoom: 16,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm']
   },
   {
     coords: [extraCoordinates.tallin, coordinates.helsinki],
     type: 'ferry',
     description: 'Ferry to Helsinki',
-    zoom: 16
+    zoom: 16,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm', 'helsinki']
   },
   {
     coords: [coordinates.helsinki, coordinates.losAngeles],
     type: 'flight',
     description: 'Christmas',
-    zoom: 7
+    zoom: 7,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm', 'helsinki', 'los-angeles']
   },
   {
     coords: [coordinates.losAngeles, coordinates.london, coordinates.berlin],
     type: 'flight',
     description: 'Flight to Berlin',
-    zoom: 7
+    zoom: 7,
+    cities: ['amsterdam', 'antwerp', 'paris', 'oslo', 'lillehammer', 'stockholm', 'helsinki', 'los-angeles', 'berlin']
   },
   {
     coords: [
@@ -143,20 +174,179 @@ export const myRoute: RouteInfo[] = [
     ],
     type: 'ground',
     description: 'Berlin to Munich',
-    zoom: 16
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich'
+    ]
+  },
+  {
+    coords: [coordinates.munich, coordinates.garmisch, coordinates.innsbruck],
+    type: 'ground',
+    description: 'Train to Innsbruck through Garmisch-Partenkirchen',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck'
+    ]
+  },
+  {
+    coords: [coordinates.innsbruck, coordinates.cortina],
+    type: 'ground',
+    description: "Train and bus to Cortina d'Ampezzo",
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo'
+    ]
+  },
+  {
+    coords: [coordinates.cortina, extraCoordinates.venice, extraCoordinates.bologna, coordinates.torino],
+    type: 'ground',
+    description: 'Bus and trains to Torino',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino'
+    ]
+  },
+  {
+    coords: [coordinates.torino, extraCoordinates.sestriere],
+    type: 'ground',
+    description: 'Train and bus to Sestriere',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino'
+    ]
+  },
+  {
+    coords: [extraCoordinates.sestriere, coordinates.grenoble],
+    type: 'ground',
+    description: 'Bus and trains to Grenoble',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble'
+    ]
+  },
+  {
+    coords: [coordinates.grenoble, coordinates.albertville],
+    type: 'ground',
+    description: 'Trains to Albertville',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville'
+    ]
+  },
+  {
+    coords: [coordinates.albertville, extraCoordinates.annecy, coordinates.chamonix],
+    type: 'ground',
+    description: 'Busses to Chamonix',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix'
+    ]
   },
   {
     coords: [
-      coordinates.garmisch,
-      coordinates.innsbruck,
-      coordinates.cortina,
-      extraCoordinates.venice,
-      extraCoordinates.bologna,
-      coordinates.torino,
-      extraCoordinates.sestriere,
-      coordinates.grenoble,
-      coordinates.albertville,
-      extraCoordinates.annecy,
       coordinates.chamonix,
       extraCoordinates.geneva,
       extraCoordinates.zurich,
@@ -164,8 +354,28 @@ export const myRoute: RouteInfo[] = [
       coordinates.stMoritz
     ],
     type: 'ground',
-    description: 'Skiing around the Alps',
-    zoom: 16
+    description: 'Busses and trains to St. Moritz',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz'
+    ]
   },
   {
     coords: [
@@ -178,69 +388,455 @@ export const myRoute: RouteInfo[] = [
     ],
     type: 'ground',
     description: 'St. Moritz to Zurich by way of Liechtenstein',
-    zoom: 16
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz'
+    ]
   },
   {
     coords: [extraCoordinates.zurich, extraCoordinates.vienna, coordinates.sarajevo],
     type: 'flight',
     description: 'Flight to Sarajevo',
-    zoom: 10
+    zoom: 14,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo'
+    ]
   },
   {
-    coords: [coordinates.sarajevo, coordinates.london],
+    coords: [coordinates.sarajevo, extraCoordinates.vienna, coordinates.london],
     type: 'flight',
     description: 'Flight to London',
-    zoom: 10
+    zoom: 14,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
   },
   {
     coords: [coordinates.london, extraCoordinates.austin],
     type: 'flight',
     description: 'Flight to Austin to resupply',
-    zoom: 7
+    zoom: 7,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
   },
   {
-    coords: [extraCoordinates.austin, extraCoordinates.auckland],
+    coords: [extraCoordinates.austin, extraCoordinates.dallas, extraCoordinates.auckland],
     type: 'flight',
     description: 'Flight to Auckland',
-    zoom: 7
+    zoom: 7,
+    midpoint: [-8.554007668365598, 150.7136274555137],
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
   },
   {
-    coords: [
-      extraCoordinates.auckland,
-      extraCoordinates.coromandel,
-      extraCoordinates.rotorua,
-      extraCoordinates.taupo,
-      extraCoordinates.tauranga,
-      extraCoordinates.napier,
-      extraCoordinates.wellington
-    ],
+    coords: [extraCoordinates.auckland, extraCoordinates.coromandel],
     type: 'ground',
-    description: 'Traveling around the North Island'
+    description: 'Driving to Coromandel Peninsula',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
+  },
+  {
+    coords: [extraCoordinates.coromandel, extraCoordinates.rotorua],
+    type: 'ground',
+    description: 'Driving to Rotorua',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
+  },
+  {
+    coords: [extraCoordinates.rotorua, extraCoordinates.taupo],
+    type: 'ground',
+    description: 'Driving to Taupo',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
+  },
+  {
+    coords: [extraCoordinates.taupo, extraCoordinates.tauranga],
+    type: 'ground',
+    description: 'Driving to Tauranga',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
+  },
+  {
+    coords: [extraCoordinates.tauranga, extraCoordinates.napier],
+    type: 'ground',
+    description: 'Driving to Napier',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
+  },
+  {
+    coords: [extraCoordinates.napier, extraCoordinates.wellington],
+    type: 'ground',
+    description: 'Driving to Wellington',
+    zoom: 16,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london'
+    ]
   },
   {
     coords: [extraCoordinates.wellington, coordinates.melbourne],
     type: 'flight',
-    description: 'Flight to Melbourne'
+    description: 'Flight to Melbourne',
+    zoom: 10,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london',
+      'melbourne'
+    ]
   },
   {
     coords: [coordinates.melbourne, coordinates.sydney],
     type: 'flight',
-    description: 'Flight to Sydney'
+    description: 'Flight to Sydney',
+    zoom: 10,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london',
+      'melbourne',
+      'sydney'
+    ]
   },
   {
     coords: [coordinates.sydney, extraCoordinates.bali],
     type: 'flight',
-    description: 'Flight to Bali'
+    description: 'Flight to Bali',
+    zoom: 10,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london',
+      'melbourne',
+      'sydney'
+    ]
   },
   {
     coords: [extraCoordinates.bali, extraCoordinates.singapore],
     type: 'flight',
-    description: 'Flight to Singapore'
+    description: 'Flight to Singapore',
+    zoom: 10,
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london',
+      'melbourne',
+      'sydney'
+    ]
   },
   {
     coords: [extraCoordinates.singapore, coordinates.paris, coordinates.london],
     type: 'flight',
-    description: 'Flight to London'
+    description: 'Flight to London',
+    cities: [
+      'amsterdam',
+      'antwerp',
+      'paris',
+      'oslo',
+      'lillehammer',
+      'stockholm',
+      'helsinki',
+      'los-angeles',
+      'berlin',
+      'munich',
+      'garmisch-partenkirchen',
+      'innsbruck',
+      'cortina-dampezzo',
+      'torino',
+      'grenoble',
+      'albertville',
+      'chamonix',
+      'st-moritz',
+      'sarajevo',
+      'london',
+      'melbourne',
+      'sydney'
+    ]
   },
   {
     coords: [coordinates.london, coordinates.paris],

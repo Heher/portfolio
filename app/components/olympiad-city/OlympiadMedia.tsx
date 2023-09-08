@@ -4,9 +4,10 @@ type OlympiadMediaProps = {
   visit: Visit;
   olympiadType: string;
   handleImageModal: (img: string) => void;
+  last: boolean;
 };
 
-export function OlympiadMedia({ visit, olympiadType, handleImageModal }: OlympiadMediaProps) {
+export function OlympiadMedia({ visit, olympiadType, handleImageModal, last }: OlympiadMediaProps) {
   // console.log('MEDIA visit', visit);
   // const tripContext = useTripContext();
 
@@ -15,7 +16,7 @@ export function OlympiadMedia({ visit, olympiadType, handleImageModal }: Olympia
   // const { handleImageModal } = tripContext;
 
   return (
-    <div className="mt-7 grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] md:max-w-[500px]">
+    <div className={`mt-7 grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] md:max-w-[500px]`}>
       {visit.stadium?.img && (
         <div>
           <p className="mb-3 text-center text-xs uppercase md:text-sm">Stadium</p>

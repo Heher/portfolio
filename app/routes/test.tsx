@@ -12,10 +12,9 @@ import TestPage2 from '~/components/test/TestPage2';
 type TripPageState = {
   selectedImage: string | null;
   moveableGlobe: boolean;
-  routeSelected: boolean;
   showDetails: boolean;
   selectedCity: string | null;
-  selectedRouteLeg: number;
+  selectedRouteLeg: number | null;
   loaded: boolean;
 };
 

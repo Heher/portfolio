@@ -9,12 +9,12 @@ type BackButtonProps = {
 };
 
 function BackButton({ handleBackButton, isLink = false }: BackButtonProps) {
-  const { routeSelected, moveableGlobe } = useContext(TripPageContext);
+  const { selectedRouteLeg, moveableGlobe } = useContext(TripPageContext);
 
   return (
     <div
       className={`fixed ${
-        routeSelected || moveableGlobe ? 'z-50' : 'z-40'
+        selectedRouteLeg !== null || moveableGlobe ? 'z-50' : 'z-40'
       } left-[50%] top-0 mx-auto h-[40px] w-full max-w-[var(--max-width)] translate-x-[-50%]`}
     >
       {isLink ? (

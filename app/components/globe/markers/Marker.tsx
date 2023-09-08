@@ -6,12 +6,13 @@ import type { MarkerInfo } from 'types/globe';
 type MarkerProps = {
   markerInfo: MarkerInfo;
   color: Color;
+  radius: number;
 };
 
-export function Marker({ markerInfo, color }: MarkerProps) {
+export function Marker({ markerInfo, color, radius }: MarkerProps) {
   return (
     <mesh position={markerInfo.position} rotation={markerInfo.rotation} castShadow receiveShadow>
-      <cylinderGeometry args={[markerRadius, markerRadius, 0.01, 32]} />
+      <cylinderGeometry args={[radius, radius, 0.01, 32]} />
       <meshStandardMaterial color={color} />
     </mesh>
   );

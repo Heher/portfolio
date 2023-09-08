@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { Coordinate, MarkerVisit, Visit } from 'types/globe';
-import type { City } from './coordinates';
+import type { CityType } from './coordinates';
 import type { Euler, Vector3 } from '@react-three/fiber';
 // import type { Euler, Vector3 } from '@react-three/fiber';
 
@@ -91,7 +91,7 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   return '#3366ff';
 }
 
-export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (City & MarkerVisit)[] {
+export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (CityType & MarkerVisit)[] {
   const citiesWithVisits = cities.map((city) => {
     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;

@@ -43,7 +43,8 @@ export type RouteInfo = {
   description: string;
   zoom?: number;
   midpoint?: Coordinate;
-  cities?: string[];
+  cities: { name: string; new: boolean }[];
+  newCities?: string[];
 };
 
 export type MarkerInfo = {
