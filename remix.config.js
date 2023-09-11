@@ -21,7 +21,13 @@ module.exports = {
   serverMinify: false, // default value, can be removed
   serverModuleFormat: 'cjs', // default value, can be removed
   serverPlatform: 'node', // default value, can be removed
-  serverDependenciesToBundle: ['framer-motion-3d', 'react-merge-refs', 'd3', /^d3-*/],
+  serverDependenciesToBundle: [
+    'framer-motion-3d',
+    'react-merge-refs',
+    'd3',
+    /^d3-*/,
+    'three/examples/jsm/utils/BufferGeometryUtils.js'
+  ],
   tailwind: true,
   future: {
     v2_errorBoundary: true,

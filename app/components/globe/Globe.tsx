@@ -15,6 +15,7 @@ import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { TripPageContext } from '~/routes/trip';
 import { myRoute } from './routeCoordinates';
+import PointSphere from './PointSphere';
 
 function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
   if (selectedRouteLeg !== null) {
@@ -251,7 +252,8 @@ export function Globe({
         zoom: getZoom(selectedRouteLeg, selectedCity)
       }}
     >
-      <Sphere />
+      {/* <Sphere /> */}
+      <PointSphere />
       {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
       {!routeSelected &&
         citiesWithVisits.map((city) => {
