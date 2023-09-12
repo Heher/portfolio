@@ -27,7 +27,10 @@ module.exports = {
     'react-merge-refs',
     'd3',
     /^d3-*/,
-    'three/examples/jsm/utils/BufferGeometryUtils.js'
+    'three/examples/jsm/utils/BufferGeometryUtils.js',
+    'delaunator',
+    'internmap',
+    'robust-predicates'
   ],
   tailwind: true,
   future: {
