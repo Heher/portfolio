@@ -1,30 +1,17 @@
-import { Outlet, useLocation, useOutlet, useOutletContext } from '@remix-run/react';
+import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 
 import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import type { Dispatch } from 'react';
-import { Suspense, useEffect, useReducer, createContext, useState } from 'react';
+import { Suspense, useEffect, useReducer, createContext } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { V2_MetaFunction } from '@remix-run/node';
 
 import visits from '~/data/new-visits';
-import BackButtonContainer from '~/components/home/BackButtonContainer';
-// import {
-//   citySelectedPositioning,
-//   moveableMobilePositioning,
-//   moveablePositioning,
-//   notMoveablePositioning,
-//   showDetailsPositioning
-// } from '~/components/globe/globePositioning';
 import type { Visit } from 'types/globe';
 import type { CityFieldsFragment } from '~/gql/graphql';
-import { OlympiadMedia } from '~/components/olympiad-city/OlympiadMedia';
-import NewSlider from '~/components/olympiad-city/NewSlider';
-
-// type DispatchContextType = {
-//   handleImageModal: (img: string | null) => void;
-// };
+import CitySlider from '~/components/olympiad-city/CitySlider';
 
 type TripPageState = {
   selectedImage: string | null;
@@ -98,32 +85,6 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-// function getGlobeVariant(
-//   routeSelected: boolean,
-//   moveableGlobe: boolean,
-//   showDetails: boolean,
-//   citySelected: string | null,
-//   width: number
-// ) {
-//   if (citySelected && !moveableGlobe) {
-//     return 'citySelected';
-//   }
-
-//   if (routeSelected || moveableGlobe) {
-//     if (width < 768) {
-//       // Mobile
-//       return 'moveableMobile';
-//     }
-//     return 'moveable';
-//   }
-
-//   if (showDetails) {
-//     return 'showDetails';
-//   }
-
-//   return 'notMoveable';
-// }
-
 type Action =
   | { type: 'IMAGE'; selectedImage: string | null }
   | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
@@ -154,8 +115,6 @@ const reducer = (state: TripPageState, action: Action) => {
   }
 };
 
-const cityRegex = /\/trip\/(\w|-)+/g;
-
 export const TripPageContext = createContext<ContextType | null>(null);
 export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null);
 
@@ -172,22 +131,11 @@ const initialState: TripPageState = {
 export default function TripPage() {
   const location = useLocation();
 
-  // const [stopScroll, setStopScroll] = useState<boolean>(false);
-
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { selectedImage, moveableGlobe, showDetails, selectedCity, selectedCityData } = state;
-
-  // console.log('selectedCityData: ', selectedCityData);
+  const { selectedImage, selectedCity, selectedCityData } = state;
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
-
-  const isCityPage = location?.pathname.match(cityRegex);
-
-  // useEffect(() => {
-  //   const root = document.documentElement;
-  //   root.style.setProperty('--body-background', 'var(--nav-background)');
-  // }, []);
 
   useEffect(() => {
     if (location?.pathname === '/' || location?.pathname === '/trip') {
@@ -203,55 +151,9 @@ export default function TripPage() {
     dispatch({ type: 'IMAGE', selectedImage: img });
   }
 
-  // const outlet = useOutlet({
-  //   handleImageModal,
-  //   width,
-  //   visits,
-  //   toggleBodyBackground,
-  //   appState: state,
-  //   dispatch
-  // });
-
-  // function handleBackButton() {
-  //   if (moveableGlobe) {
-  //     dispatch({ type: 'MOVEABLE_GLOBE', moveableGlobe: false });
-  //   } else {
-  //     if (routeSelected) {
-  //       dispatch({ type: 'ROUTE_SELECTED', routeSelected: false });
-  //     }
-
-  //     if (selectedCity) {
-  //       dispatch({ type: 'SELECTED_CITY', selectedCity: null });
-  //     }
-
-  //     if (!selectedCity && !routeSelected && showDetails) {
-  //       dispatch({ type: 'SHOW_DETAILS', showDetails: false });
-  //       toggleBodyBackground();
-  //     }
-  //   }
-
-  //   setStopScroll(false);
-  // }
-
   return (
-    <main
-      ref={pageContainerRef}
-      // className={`relative h-[100dvh] w-full ${!selectedCity && 'bg-[var(--nav-background)]'} ${
-      //   stopScroll ? 'overflow-hidden' : ''
-      // }`}
-      className={`relative mx-auto min-h-[100dvh] w-full max-w-[var(--max-width)]`}
-      // key={location.key}
-      // initial={{ x: -150, opacity: 0 }}
-      // animate={{ x: 0, opacity: 1 }}
-      // exit={{ x: -150, opacity: 0 }}
-      // transition={{ duration: 0.5, ease: 'easeInOut' }}
-    >
+    <main ref={pageContainerRef} className={`relative mx-auto min-h-[100dvh] w-full max-w-[var(--max-width)]`}>
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
-        {/* {(routeSelected || selectedCity || (showDetails && width < 768) || moveableGlobe) && (
-          <TripPageContext.Provider value={{ ...state, width, visits }}>
-            <BackButtonContainer handleBackButton={handleBackButton} isCityPage={isCityPage} />
-          </TripPageContext.Provider>
-        )} */}
         {width > 0 && (
           <motion.div
             className={`globe-container fixed left-0 top-0 -z-0 h-full w-full `}
@@ -267,9 +169,6 @@ export default function TripPage() {
             </Suspense>
           </motion.div>
         )}
-        {/* <a href="/trip/athens" className="absolute left-0 top-0 z-50">
-          Athens
-        </a> */}
         <AnimatePresence mode="wait">
           <Outlet
             context={{
@@ -281,10 +180,9 @@ export default function TripPage() {
               dispatch
             }}
           />
-          {/* <motion.div key={useLocation().pathname}>{outlet}</motion.div> */}
         </AnimatePresence>
         <AnimatePresence>
-          {selectedCity && <NewSlider data={selectedCityData} visits={visits} handleImageModal={handleImageModal} />}
+          {selectedCity && <CitySlider data={selectedCityData} visits={visits} handleImageModal={handleImageModal} />}
         </AnimatePresence>
         {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
       </div>

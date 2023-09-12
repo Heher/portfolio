@@ -9,7 +9,6 @@ import type { CityFieldsFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import { Fragment, useEffect } from 'react';
 import { getGQLClient } from '~/utils/graphql';
-import { AnimatePresence, motion } from 'framer-motion';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -49,15 +48,7 @@ const animationVariants: AnimationVariants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
 
-// function getCitiesListVisibility(width: number, showDetails: boolean) {
-//   if (width >= 768 || showDetails) {
-//     return true;
-//   }
-
-//   return false;
-// }
-
-function TripIndexInner({ olympiads, cities, toggleBodyBackground, showDetails, width, dispatch }) {
+function TripIndexInner({ olympiads, cities }: { olympiads: OlympiadFieldsFragment[]; cities: CityFieldsFragment[] }) {
   if (!olympiads || !cities) {
     return null;
   }
@@ -65,25 +56,7 @@ function TripIndexInner({ olympiads, cities, toggleBodyBackground, showDetails, 
   return (
     <Fragment key="trip-index-inner">
       <MainCopy olympiads={olympiads as OlympiadFieldsFragment[]} variants={animationVariants} />
-
-      {/* {getCitiesListVisibility(width, showDetails) && (
-        <CitiesList cities={cities as CityFieldsFragment[]} variants={animationVariants} />
-      )} */}
-
       <CitiesList cities={cities as CityFieldsFragment[]} variants={animationVariants} />
-
-      {!showDetails && width < 768 && (
-        <button
-          className={`absolute bottom-[50px] left-1/2 z-30 -translate-x-2/4 rounded-[4px] border border-solid border-slate-400 bg-[var(--globe-background)] px-[30px] py-[15px] font-semibold uppercase text-slate-200`}
-          type="button"
-          onClick={() => {
-            toggleBodyBackground();
-            dispatch({ type: 'SHOW_DETAILS', showDetails: true });
-          }}
-        >
-          Details
-        </button>
-      )}
     </Fragment>
   );
 }
@@ -93,22 +66,14 @@ export default function TripIndex() {
 
   const tripContext = useTripContext();
 
-  // if (!tripContext) {
-  //   return null;
-  // }
-
-  const { width, toggleBodyBackground, appState, dispatch } = tripContext;
+  const { width, appState, dispatch } = tripContext;
 
   const { showDetails, loaded } = appState;
 
   useEffect(() => {
     const root = document.documentElement;
 
-    if (width < 768 && showDetails) {
-      root.style.setProperty('--body-background', 'var(--globe-background)');
-    } else {
-      root.style.setProperty('--body-background', 'var(--nav-background)');
-    }
+    root.style.setProperty('--body-background', 'var(--trip-background)');
   }, [showDetails, width]);
 
   useEffect(() => {
@@ -117,15 +82,15 @@ export default function TripIndex() {
     }
   }, [loaded, dispatch]);
 
+  if (!loaderData?.olympiads || !loaderData?.cities) {
+    return null;
+  }
+
   return (
     <div className="relative z-10">
       <TripIndexInner
-        olympiads={loaderData?.olympiads}
-        cities={loaderData?.cities}
-        toggleBodyBackground={toggleBodyBackground}
-        showDetails={showDetails}
-        width={width}
-        dispatch={dispatch}
+        olympiads={loaderData.olympiads as OlympiadFieldsFragment[]}
+        cities={loaderData.cities as CityFieldsFragment[]}
       />
     </div>
   );

@@ -1,17 +1,26 @@
 import { motion } from 'framer-motion';
 import { OlympiadMedia } from './OlympiadMedia';
-import type { CityFieldsFragment } from '~/gql/graphql';
+import type { CityFieldsFragment, CityOlympiadFragment } from '~/gql/graphql';
 import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from './utils';
 import { sharedStadiums } from './settings';
+import type { Visit } from 'types/globe';
 
-function SharedOlympiads({ olympiads, visits, handleImageModal }) {
+type SharedOlympiadsProps = {
+  olympiads: (CityOlympiadFragment | null)[];
+  visits: Visit[];
+  handleImageModal: (img: string | null) => void;
+};
+
+function SharedOlympiads({ olympiads, visits, handleImageModal }: SharedOlympiadsProps) {
   const firstOlympiad = olympiads[0];
+
+  if (!firstOlympiad?.olympiadType) return null;
 
   const visit = visits.find(
     (visit) => visit.year === firstOlympiad.year.toString() && visit.type === firstOlympiad.olympiadType?.toLowerCase()
   );
 
-  const headerText = olympiads.map((olympiad) => olympiad.year).join(' and ');
+  const headerText = olympiads.map((olympiad) => olympiad?.year).join(' and ');
 
   return (
     <div className="mt-7">
@@ -32,14 +41,14 @@ function SharedOlympiads({ olympiads, visits, handleImageModal }) {
   );
 }
 
-export default function NewSlider({
+export default function CitySlider({
   data,
   visits,
   handleImageModal
 }: {
   data: CityFieldsFragment | null;
-  visits: any;
-  handleImageModal: any;
+  visits: Visit[];
+  handleImageModal: (img: string | null) => void;
 }) {
   if (!data?.name) return null;
 
@@ -99,7 +108,6 @@ export default function NewSlider({
                       visit={visit}
                       olympiadType={olympiad.olympiadType}
                       handleImageModal={handleImageModal}
-                      last={last}
                     />
                   )}
                 </div>

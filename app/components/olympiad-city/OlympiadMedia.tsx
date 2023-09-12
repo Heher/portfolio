@@ -4,10 +4,9 @@ type OlympiadMediaProps = {
   visit: Visit;
   olympiadType: string;
   handleImageModal: (img: string) => void;
-  last: boolean;
 };
 
-export function OlympiadMedia({ visit, olympiadType, handleImageModal, last }: OlympiadMediaProps) {
+export function OlympiadMedia({ visit, olympiadType, handleImageModal }: OlympiadMediaProps) {
   // console.log('MEDIA visit', visit);
   // const tripContext = useTripContext();
 

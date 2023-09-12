@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { orderBy } from 'lodash';
 import type { AnimationVariants } from 'types/globe';
 import type { CityFieldsFragment } from '~/gql/graphql';
@@ -11,8 +10,6 @@ type CitiesListProps = {
   variants: AnimationVariants;
 };
 
-const MotionLink = motion(Link);
-
 export function CitiesList({ cities, variants }: CitiesListProps) {
   const { appState } = useTripContext();
 
@@ -23,7 +20,7 @@ export function CitiesList({ cities, variants }: CitiesListProps) {
   return (
     <div
       key="cities-list"
-      className={`cities-container relative z-0 flex flex-col bg-[var(--nav-background)] px-[5vw] pb-[20px] ${
+      className={`cities-container relative z-0 mt-40 flex flex-col px-[5vw] pb-[20px] md:mt-0 ${
         !moveableGlobe && !selectedRouteLeg && 'md:z-40'
       } md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]`}
     >
@@ -35,22 +32,6 @@ export function CitiesList({ cities, variants }: CitiesListProps) {
       >
         My route
       </Link>
-      {/* <div> */}
-      {/* <MotionLink
-        className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
-        to={`/trip/athens`}
-        // layoutId={city.slug}
-        // initial={{ opacity: 0, y: -1000 }}
-        // animate={{ opacity: 1, y: 0 }}
-        // exit={{ opacity: 0, y: -1000 }}
-        transition={{ duration: 0.9, ease: 'easeInOut' }}
-        // transition={{ duration: 0.3 }}
-        key="athens"
-        layout
-        layoutId="athens"
-      >
-        <span>Athens</span>
-      </MotionLink> */}
       {orderedCities.map((city) => {
         return <OlympiadCity key={city.id} city={city} />;
       })}

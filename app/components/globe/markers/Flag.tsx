@@ -13,6 +13,8 @@ type FlagProps = {
   shown: boolean;
   radius: number;
   height: number;
+  newFlag: boolean;
+  dim?: boolean;
 };
 
 const variants = {
@@ -36,7 +38,7 @@ const variants = {
   }
 };
 
-export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, newFlag }: FlagProps) {
+export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, newFlag, dim = false }: FlagProps) {
   const flagRef = useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[]>>(null);
 
   useFrame(() => {
@@ -49,7 +51,7 @@ export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, n
 
   // console.log('beam top', radius * 4);
 
-  console.log(height);
+  // console.log(height);
 
   return (
     <motion.group
@@ -65,7 +67,7 @@ export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, n
           transparent
           alphaMap={alphaMap}
           emissive={flagColor}
-          emissiveIntensity={1.5}
+          emissiveIntensity={dim ? 0.3 : 1.5}
           toneMapped={false}
           side={DoubleSide}
         />

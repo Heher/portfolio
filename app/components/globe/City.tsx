@@ -15,10 +15,13 @@ import { Marker } from './markers/Marker';
 // import { AnimatePresence } from 'framer-motion';
 import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
-import { beamHeight, markerRadius } from './utils';
+import { markerRadius } from './utils';
 
 type CitiesProps = {
   city: CityType & MarkerVisit;
+  zoom: number;
+  height: number;
+  newFlag: boolean;
 };
 
 extend({ MarkerMaterial, FlagMaterial });
@@ -32,7 +35,7 @@ export function City({ city, zoom, height, newFlag }: CitiesProps) {
     return null;
   }
 
-  const { selectedCity } = tripContext;
+  const { selectedCity, selectedRouteLeg } = tripContext;
 
   // useFrame((state) => {
   //   if (!flagRef?.current?.material?.uniforms?.u_time) {
@@ -70,6 +73,7 @@ export function City({ city, zoom, height, newFlag }: CitiesProps) {
         radius={radius}
         height={height}
         newFlag={newFlag}
+        dim={!selectedCity && selectedRouteLeg === null}
       />
     </group>
   );
