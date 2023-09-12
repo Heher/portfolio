@@ -15,12 +15,13 @@ withEsbuildOverride((option, { isServer, isDev }) => {
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: '/build/', // default value, can be removed
+  ignoredRouteFiles: ['**/.*'],
+  server: process.env.NETLIFY || process.env.NETLIFY_LOCAL ? './server.ts' : undefined,
   serverBuildPath: '.netlify/functions-internal/server.js',
-  serverMainFields: ['main', 'module'], // default value, can be removed
-  serverMinify: false, // default value, can be removed
-  serverModuleFormat: 'cjs', // default value, can be removed
-  serverPlatform: 'node', // default value, can be removed
+  // appDirectory: "app",
+  // assetsBuildDirectory: "public/build",
+  // publicPath: "/build/",
+  serverModuleFormat: 'cjs',
   serverDependenciesToBundle: [
     'framer-motion-3d',
     'react-merge-refs',
@@ -30,11 +31,11 @@ module.exports = {
   ],
   tailwind: true,
   future: {
-    v2_errorBoundary: true,
-    v2_normalizeFormMethod: true,
-    v2_meta: true,
-    v2_headers: true,
     v2_dev: true,
+    v2_errorBoundary: true,
+    v2_headers: true,
+    v2_meta: true,
+    v2_normalizeFormMethod: true,
     v2_routeConvention: true
   }
 };
