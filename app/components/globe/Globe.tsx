@@ -1,196 +1,203 @@
-import { useEffect, useMemo, useRef } from 'react';
-import type { Coordinate, Visit } from 'types/globe';
-import { useThree, type GroupProps, useFrame } from '@react-three/fiber';
-import { convertToRadians, formatCitiesWithVisits, getPosition, globeRadius, markerHeight } from './utils';
-import type { City } from './coordinates';
+import { useMemo, useRef } from 'react';
+import type { Coordinate, RouteInfo, Visit } from 'types/globe';
+import type { GroupProps } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
+import { beamHeight, convertToRadians, formatCitiesWithVisits } from './utils';
 import { cities } from './coordinates';
-import { MathUtils } from 'three';
-import { motion } from 'framer-motion-3d';
-import Sphere from './Sphere';
 import { Route } from './Route';
-import { OrbitControls } from '@react-three/drei';
-import { NewCities } from './NewCities';
+import { City } from './City';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
+import { motion } from 'framer-motion-3d';
+import { useMotionValue } from 'framer-motion';
+import { myRoute } from './routeCoordinates';
+import PointSphere from './PointSphere';
 
-type RotationResponse = {
-  rotateX?: number;
-  rotateY?: number;
-  rotateZ?: number;
-  position?: {
-    x: number;
-    y: number;
-    z: number;
-  };
-};
+function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
+  if (selectedRouteLeg !== null) {
+    return myRoute[selectedRouteLeg - 1].zoom || 7;
+  }
 
-type NewGlobeProps = {
-  visits: Visit[];
-  selectedCity: string | null;
-  routeSelected: boolean;
-  showDetails: boolean;
-  width: number;
-  moveable: boolean;
-  setMoveable: () => void;
-  selectedRouteLeg: number;
-};
-
-function getCityPosition(foundCity: City | undefined) {
-  //* This is a hack to get the city to appear in the right place (50 means nothing, just a magic number that works)
-  return foundCity ? { x: 0, y: -foundCity.coord[0] / 50, z: 0 } : undefined;
+  return 7;
 }
 
-function getCityRotation(coord: Coordinate): RotationResponse {
+function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
+  const lat1 = coord1[0];
+  const lon1 = coord1[1];
+  const lat2 = coord2[0];
+  const lon2 = coord2[1];
+
+  return [(lat1 + lat2) / 2, (lon1 + lon2) / 2];
+}
+
+function getRouteRotation(leg: RouteInfo): Coordinate {
+  const midpoint = leg.midpoint || findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
+
+  const { latRad, lonRad } = convertToRadians(midpoint);
+
+  return [latRad, lonRad - Math.PI / 2];
+}
+
+function newGetCityRotation(selectedCity: string | null) {
+  const foundCity = cities.find((city) => city.name === selectedCity);
+
+  if (!foundCity && selectedCity) {
+    return null;
+  }
+
+  const coord = foundCity?.coord || [0, 0];
+
   const { latRad, lonRad } = convertToRadians(coord);
 
-  // return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
-  return { rotateY: lonRad - Math.PI / 2, rotateZ: 0 };
+  return [latRad - Math.PI * 0.35, lonRad - Math.PI / 2, 0];
 }
 
-function getNewRotation(coord: Coordinate): RotationResponse {
-  const { latRad, lonRad } = convertToRadians(coord);
+function getGlobeX(width, screenWidth) {
+  if (screenWidth < 768) {
+    return 0;
+  }
 
-  return { rotateX: latRad, rotateY: lonRad - Math.PI / 2 };
+  if (screenWidth < 1024) {
+    return width / 1.5;
+  }
+
+  return width / 4;
 }
 
-function getRotation(foundCity: City | undefined, routeSelected: boolean): RotationResponse {
+function getGlobeZoom(screenWidth, zoom) {
+  if (screenWidth < 768) {
+    return zoom - 6;
+  }
+
+  return zoom - 2;
+}
+
+const variants = {
+  selectedCity: ({ height, cityMovement }: { height: number; cityMovement: number[] }) => ({
+    rotateX: cityMovement[0],
+    rotateY: cityMovement[1],
+    rotateZ: cityMovement[2],
+    x: 0,
+    y: height / -4,
+    z: 10,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  route: ({ cityMovement, zoom, screenWidth }: { cityMovement: number[]; zoom: number; screenWidth: number }) => ({
+    rotateX: cityMovement[0],
+    rotateY: cityMovement[1],
+    rotateZ: cityMovement[2],
+    x: 0,
+    y: 0,
+    z: getGlobeZoom(screenWidth, zoom),
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  show: ({
+    width,
+    rotateY,
+    screenWidth,
+    screenHeight
+  }: {
+    width: number;
+    rotateY: number;
+    screenWidth: number;
+    screenHeight: number;
+  }) => ({
+    rotateX: 0,
+    opacity: 1,
+    rotateY: [rotateY, rotateY + Math.PI * 2],
+    rotateZ: 0.5,
+    x: getGlobeX(width, screenWidth, screenHeight),
+    y: 0,
+    z: screenWidth < 768 ? 0 : -10 / width,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut',
+      rotateY: {
+        repeat: Infinity,
+        duration: 20,
+        ease: 'linear'
+      }
+    }
+  })
+};
+
+function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
   if (routeSelected) {
-    return { ...getNewRotation([52.37, -4.89]), rotateZ: 0 };
+    return 'route';
   }
 
-  return foundCity ? getCityRotation(foundCity.coord) : {};
-}
-
-function getScale(foundCity: City | undefined, routeSelected: boolean, width: number) {
-  if (routeSelected) {
-    return 2.4;
+  if (selectedCity) {
+    return 'selectedCity';
   }
 
-  if (foundCity) {
-    return foundCity.scale;
-  }
-
-  return width < 768 ? 1 : 1;
+  return 'show';
 }
 
 export function Globe({
   visits,
   selectedCity,
-  routeSelected,
-  width,
-  moveable,
-  setMoveable,
-  showDetails,
   selectedRouteLeg
-}: NewGlobeProps) {
-  const groupRef = useRef<GroupProps>(null!);
-  const controlsRef = useRef(null);
-  const { camera } = useThree();
+}: {
+  visits: Visit[];
+  selectedCity: string | null;
+  selectedRouteLeg: number | null;
+}) {
+  const groupRef = useRef<GroupProps>(null);
+  const rotateY = useMotionValue(0);
+
+  const routeSelected = selectedRouteLeg !== null;
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
 
-  const foundCity = cities.find((city) => city.name === selectedCity);
+  const { viewport } = useThree();
 
-  useEffect(() => {
-    if (camera && !routeSelected && !moveable) {
-      camera.position.set(0, 0, 18);
-      camera.rotation.set(0, 0, 0, 'ZXY');
-    }
-  }, [camera, routeSelected, moveable]);
-
-  useFrame((state, delta) => {
-    if (!groupRef?.current?.rotation || !groupRef.current.scale) return;
-
-    if (foundCity || routeSelected) {
-      const newProps = {
-        ...getRotation(foundCity, routeSelected),
-        position: getCityPosition(foundCity),
-        scale: getScale(foundCity, routeSelected, width)
-      };
-
-      if (
-        newProps.hasOwnProperty('rotateX') &&
-        newProps.rotateX !== groupRef.current.rotation.x &&
-        newProps.rotateX !== undefined
-      ) {
-        groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, newProps.rotateX, delta * 5);
-      }
-
-      if (
-        newProps.hasOwnProperty('rotateY') &&
-        newProps.rotateY !== groupRef.current.rotation.y &&
-        newProps.rotateY !== undefined
-      ) {
-        groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, newProps.rotateY, delta * 5);
-      }
-
-      if (
-        newProps.hasOwnProperty('rotateZ') &&
-        newProps.rotateZ !== groupRef.current.rotation.z &&
-        newProps.rotateZ !== undefined
-      ) {
-        groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, newProps.rotateZ, delta * 5);
-      }
-
-      if (
-        newProps.hasOwnProperty('position') &&
-        newProps.position !== groupRef.current.position &&
-        newProps.position !== undefined
-      ) {
-        groupRef.current.position.set(
-          MathUtils.lerp(groupRef.current.position.x, newProps.position.x, delta * 5),
-          MathUtils.lerp(groupRef.current.position.y, newProps.position.y, delta * 5),
-          MathUtils.lerp(groupRef.current.position.z, newProps.position.z, delta * 5)
-        );
-      }
-
-      groupRef.current.scale.set(
-        MathUtils.lerp(groupRef.current.scale.x, newProps.scale, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.y, newProps.scale, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.z, newProps.scale, delta * 5)
-      );
-    }
-
-    if (!routeSelected && !foundCity && !moveable) {
-      groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, 0, delta * 5);
-      groupRef.current.position.set(0, 0, 0);
-
-      groupRef.current.scale.set(
-        MathUtils.lerp(groupRef.current.scale.x, 1, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.y, 1, delta * 5),
-        MathUtils.lerp(groupRef.current.scale.z, 1, delta * 5)
-      );
-
+  useFrame(() => {
+    if (groupRef.current?.rotation) {
       if (groupRef.current.rotation.y > 2 * Math.PI) {
-        groupRef.current.rotation.y = 0;
+        rotateY.set(0);
       } else {
-        groupRef.current.rotation.y += delta * 0.15;
+        rotateY.set(groupRef.current.rotation.y);
       }
-
-      groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, 0.5, delta * 5);
     }
   });
 
+  let cityMovement: number[];
+
+  if (routeSelected) {
+    const leg = myRoute[selectedRouteLeg - 1];
+    cityMovement = getRouteRotation(leg) || [0, 0, 0];
+  } else {
+    cityMovement = newGetCityRotation(selectedCity) || [0, 0, 0];
+  }
+
   return (
-    <motion.group ref={groupRef} scale={1} rotation={[0, 0, 0.5, 'ZXY']}>
-      <Sphere width={width} showDetails={showDetails} setMoveable={setMoveable} />
-      <Route visible={routeSelected} citiesWithVisits={citiesWithVisits} selectedRouteLeg={selectedRouteLeg} />
-      <OrbitControls
-        ref={controlsRef}
-        enabled={routeSelected || moveable}
-        minPolarAngle={Math.PI / 4 - 0.2}
-        maxPolarAngle={Math.PI - 0.7}
-        maxDistance={45}
-        minDistance={5}
-        enablePan={false}
-        rotateSpeed={0.25}
-        target={[0, 0, 0]}
-      />
+    <motion.group
+      ref={groupRef}
+      rotation={[0, 0, 0.5, 'ZXY']}
+      variants={variants}
+      initial={{ opacity: 0 }}
+      animate={getGlobeVariant(routeSelected, selectedCity)}
+      custom={{
+        cityMovement,
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        width: viewport.width,
+        height: viewport.height,
+        rotateY: rotateY.get(),
+        zoom: getZoom(selectedRouteLeg, selectedCity)
+      }}
+    >
+      <PointSphere />
+      {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          const flagPosition = getPosition(city.coord, globeRadius + markerHeight / 2 + 0.003);
-
-          return <NewCities key={city.coord[0]} city={city} citySelected={selectedCity} flagPosition={flagPosition} />;
+          return <City key={city.name} city={city} height={beamHeight} />;
         })}
 
       <EffectComposer>

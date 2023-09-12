@@ -1,20 +1,17 @@
-import type { FragmentType } from '~/gql';
-import { useFragment } from '~/gql';
-import { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import type { CityOlympiadFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { CityOlympiad } from './CityOlympiad';
 import { filterOutNonOlympiadsForCity } from './utils';
 
 type CityOlympiadGroupProps = {
-  olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
+  olympiads: CityOlympiadFragment[];
   cityName: string;
 };
 
-const CityOlympiadGroup = (props: CityOlympiadGroupProps) => {
-  const olympiads = useFragment(CityOlympiadFragmentDoc, props.olympiads);
+const CityOlympiadGroup = ({ olympiads, cityName }: CityOlympiadGroupProps) => {
   const { visits } = useTripContext();
 
-  const filteredOlympiads = filterOutNonOlympiadsForCity(props.cityName, olympiads);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(cityName, olympiads);
 
   return (
     <div>

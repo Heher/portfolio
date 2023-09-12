@@ -23,7 +23,8 @@ type VisitsGraphProps = {
 };
 
 const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
-  const { loaded } = useTripContext();
+  const { appState } = useTripContext();
+  const { loaded } = appState;
   const svgRef = useRef<SVGSVGElement>(null);
 
   const count = useMotionValue(loaded ? visits : 0);
@@ -41,7 +42,7 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
       if (!loaded) {
         path
           .transition()
-          .duration(1000)
+          .duration(700)
           .attrTween('d', function () {
             const interpolate = d3.interpolate(0, 2 * 0.8 * Math.PI * arcPercent);
 
@@ -64,9 +65,9 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   if (mainArc === null || bgArc === null) return null;
 
   return (
-    <div>
+    <div className="relative">
       <h3 className="text-center text-[0.9rem] font-semibold uppercase text-slate-100">{title}</h3>
-      <svg ref={svgRef} className="mt-[10px] h-[120px] w-[120px]" viewBox={`0 0 ${size} ${size}`}>
+      <svg ref={svgRef} className="mt-[10px] block w-[120px]" viewBox={`0 0 ${size} ${size}`} width={120} height={120}>
         <g className="translate-x-[50%] translate-y-[50%] rotate-[215deg]">
           <path className="fill-[var(--flag-box-shadow)]" d={bgArc} fill="none" />
           <path
@@ -77,8 +78,8 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
           />
         </g>
       </svg>
-      <p className="mt-[-90px] text-center text-slate-100">
-        <motion.span className="text-[2.3rem]">{rounded}</motion.span>
+      <p className="absolute left-1/2 top-[70px] w-full -translate-x-2/4 text-center text-slate-100">
+        <motion.span className="text-[2.3rem] leading-none">{rounded}</motion.span>
         <span className="ml-[5px]">/ {total}</span>
       </p>
     </div>

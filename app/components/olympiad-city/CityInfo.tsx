@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
-import type { FragmentType } from '~/gql';
-import type { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import type { CityOlympiadFragment } from '~/gql/graphql';
 import CityOlympiadGroup from './CityOlympiadGroup';
 import { sharedStadiums } from './settings';
 import SharedOlympiads from './SharedOlympiads';
 
 type CityInfoProps = {
   cityName: string;
-  olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
+  olympiads: CityOlympiadFragment[];
 };
 
 const CityInfo = (props: CityInfoProps) => {

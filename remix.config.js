@@ -15,16 +15,30 @@ withEsbuildOverride((option, { isServer, isDev }) => {
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildTarget: 'netlify',
-  server: process.env.NETLIFY || process.env.NETLIFY_LOCAL ? './server.js' : undefined,
   ignoredRouteFiles: ['**/.*'],
-  serverDependenciesToBundle: ['framer-motion-3d', 'react-merge-refs', 'd3', /^d3-*/],
-  future: {
-    unstable_tailwind: true,
-    unstable_postcss: true
-  }
+  server: process.env.NETLIFY || process.env.NETLIFY_LOCAL ? './server.ts' : undefined,
+  serverBuildPath: '.netlify/functions-internal/server.js',
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
-  // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
+  serverModuleFormat: 'cjs',
+  serverDependenciesToBundle: [
+    'framer-motion-3d',
+    'react-merge-refs',
+    'd3',
+    /^d3-*/,
+    'three/examples/jsm/utils/BufferGeometryUtils.js',
+    'delaunator',
+    'internmap',
+    'robust-predicates'
+  ],
+  tailwind: true,
+  future: {
+    v2_dev: true,
+    v2_errorBoundary: true,
+    v2_headers: true,
+    v2_meta: true,
+    v2_normalizeFormMethod: true,
+    v2_routeConvention: true
+  }
 };

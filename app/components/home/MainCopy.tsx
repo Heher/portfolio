@@ -1,26 +1,22 @@
 import { motion } from 'framer-motion';
-import type { AnimationVariants, Visit } from 'types/globe';
-import type { FragmentType } from '~/gql';
-import type { OlympiadFieldsFragmentDoc } from '~/gql/graphql';
+import type { AnimationVariants } from 'types/globe';
+import type { OlympiadFieldsFragment } from '~/gql/graphql';
 import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
-  showDetails: boolean;
-  olympiads: FragmentType<typeof OlympiadFieldsFragmentDoc>[];
-  visits: Visit[];
-  globeMoveable: boolean;
-  routeSelected: boolean;
+  olympiads: OlympiadFieldsFragment[];
   variants: AnimationVariants;
 };
 
-function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected, variants }: MainCopyProps) {
+function MainCopy({ olympiads, variants }: MainCopyProps) {
   return (
     <motion.div
-      className="body-text px-[30px] pt-[5vh] md:max-w-[26rem] lg:max-w-lg"
+      className="px-[30px] pt-[5vh] md:max-w-md lg:max-w-lg"
       variants={variants}
-      animate={showDetails || globeMoveable || routeSelected ? 'hidden' : 'visible'}
+      animate="visible"
+      exit="hidden"
     >
-      <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-[3rem]">
+      <h1 className="text-[2.5rem] leading-[1.2] text-slate-100 lg:text-5xl">
         Olympic trip
         <br />
         around the world
@@ -31,7 +27,7 @@ function MainCopy({ showDetails, olympiads, visits, globeMoveable, routeSelected
         Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just enjoy
         a part of the world I&rsquo;ve never been before.
       </p>
-      <TripStatus olympiads={olympiads} visits={visits} />
+      <TripStatus olympiads={olympiads} />
     </motion.div>
   );
 }

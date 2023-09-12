@@ -1,20 +1,17 @@
-import type { FragmentType } from '~/gql/fragment-masking';
-import { useFragment } from '~/gql/fragment-masking';
-import { CityOlympiadFragmentDoc } from '~/gql/graphql';
+import type { CityOlympiadFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { OlympiadMedia } from './OlympiadMedia';
 import { filterOutNonOlympiadsForCity } from './utils';
 
 type SharedOlympiadsProps = {
-  olympiads: FragmentType<typeof CityOlympiadFragmentDoc>[];
+  olympiads: CityOlympiadFragment[];
   cityName: string;
 };
 
-function SharedOlympiads(props: SharedOlympiadsProps) {
-  const olympiads = useFragment(CityOlympiadFragmentDoc, props.olympiads);
+function SharedOlympiads({ olympiads, cityName }: SharedOlympiadsProps) {
   const { visits } = useTripContext();
 
-  const filteredOlympiads = filterOutNonOlympiadsForCity(props.cityName, olympiads);
+  const filteredOlympiads = filterOutNonOlympiadsForCity(cityName, olympiads);
 
   const olympiadVisits = filteredOlympiads.map((olympiad) => {
     if (!olympiad?.year) {
@@ -27,7 +24,7 @@ function SharedOlympiads(props: SharedOlympiadsProps) {
   });
 
   const olympiadYears = filteredOlympiads.map((olympiad) => {
-    return olympiad.year;
+    return olympiad?.year;
   });
   // const firstOlympiad = olympiads[0];
 

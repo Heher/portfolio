@@ -1,43 +1,77 @@
-import type { Color, Euler, Texture, Vector3 } from 'three';
+import type { BufferGeometry, Color, Material, Mesh, NormalBufferAttributes, Texture } from 'three';
 import { DoubleSide } from 'three';
 import { beamHeight, markerRadius } from '../utils';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
+import { motion } from 'framer-motion-3d';
+import type { MarkerInfo } from 'types/globe';
 
 type FlagProps = {
-  position: Vector3;
-  rotation: Euler;
+  markerInfo: MarkerInfo;
   alphaMap: Texture;
   flagColor: Color;
   shown: boolean;
+  radius: number;
+  height: number;
+  newFlag: boolean;
+  dim?: boolean;
 };
 
-export function Flag({ position, rotation, alphaMap, flagColor, shown }: FlagProps) {
-  const flagRef = useRef(null);
+const variants = {
+  show: {
+    scale: 1,
+    transition: {
+      duration: 0.5
+    }
+  },
+  halfShow: {
+    scale: 0.5,
+    transition: {
+      duration: 0.5
+    }
+  },
+  hide: {
+    scale: 0,
+    transition: {
+      duration: 0.5
+    }
+  }
+};
 
-  useFrame((state) => {
+export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, newFlag, dim = false }: FlagProps) {
+  const flagRef = useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[]>>(null);
+
+  useFrame(() => {
     if (!flagRef?.current) {
       return;
     }
 
-    flagRef.current.rotation.x = 0;
     flagRef.current.rotation.y += 0.005;
-    flagRef.current.rotation.z = 0;
   });
 
+  // console.log('beam top', radius * 4);
+
+  // console.log(height);
+
   return (
-    <group position={position} rotation={rotation} visible={shown}>
-      <mesh ref={flagRef} receiveShadow position-y={beamHeight / 2}>
-        <cylinderGeometry args={[0.03, markerRadius, beamHeight, 32, 32, true]} />
+    <motion.group
+      position={markerInfo.position}
+      rotation={markerInfo.rotation}
+      initial="hide"
+      animate={shown ? (newFlag ? 'show' : 'halfShow') : 'hide'}
+      variants={variants}
+    >
+      <mesh ref={flagRef} receiveShadow position-y={height / 2}>
+        <cylinderGeometry args={[radius * 4, radius, height, 32, 32, true]} />
         <meshStandardMaterial
           transparent
           alphaMap={alphaMap}
           emissive={flagColor}
-          emissiveIntensity={1.5}
+          emissiveIntensity={dim ? 0.3 : 1.5}
           toneMapped={false}
           side={DoubleSide}
         />
       </mesh>
-    </group>
+    </motion.group>
   );
 }

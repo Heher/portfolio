@@ -1,18 +1,26 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 import { motion } from 'framer-motion';
 import { Suspense, useState } from 'react';
 import useMeasure from 'react-use-measure';
-import ErrorBoundarySimple from '~/components/ErrorBoundary';
 import { DonutContainer } from '~/components/donut/DonutContainer';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'Donut | John Heher',
-  description: "John Heher's donut",
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
-  'og:title': 'Donut | John Heher',
-  'og:image': '/olympic-cities-og.jpg'
-});
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'Donut | John Heher' },
+    {
+      name: 'description',
+      content: "John Heher's donut"
+    },
+    {
+      name: 'og:title',
+      content: 'Donut | John Heher'
+    },
+    {
+      name: 'og:image',
+      content: '/olympic-cities-og.jpg'
+    }
+  ];
+};
 
 type IcingColor = {
   baseColor: string;
@@ -76,11 +84,9 @@ export default function DonutIndex() {
           >
             <div className="relative flex h-full justify-end rounded-lg bg-slate-100">
               <div className="h-[80%] w-[80%]">
-                <ErrorBoundarySimple>
-                  <Suspense fallback={<DonutFallback />}>
-                    <DonutContainer color={color} />
-                  </Suspense>
-                </ErrorBoundarySimple>
+                <Suspense fallback={<DonutFallback />}>
+                  <DonutContainer color={color} />
+                </Suspense>
               </div>
               <div className="absolute left-0 top-[50%] pl-[50px] text-gray-900">
                 <h1 className="text-6xl">Donut</h1>
