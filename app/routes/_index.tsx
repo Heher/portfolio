@@ -28,7 +28,7 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 50"
+      viewBox="0 0 300 100"
       className={className}
       initial={{ y: '30%' }}
       animate={{ y: '-30%' }}
@@ -41,7 +41,8 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
       }}
     >
       <g>
-        <polygon points="91.247,57.092 91.283,57.072 91.283,29.941 49.815,0 8.717,29.602 8.717,56.738 49.791,27.157" />
+        {/* <polygon points="200,50 200,29 100,0 0,29 0,50 100,29" /> */}
+        <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
       </g>
     </motion.svg>
   );

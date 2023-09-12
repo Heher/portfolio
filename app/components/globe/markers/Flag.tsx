@@ -47,7 +47,9 @@ export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, n
     flagRef.current.rotation.y += 0.005;
   });
 
-  console.log('beam top', radius * 4);
+  // console.log('beam top', radius * 4);
+
+  console.log(height);
 
   return (
     <motion.group

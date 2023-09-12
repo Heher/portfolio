@@ -2,7 +2,7 @@ import { useContext, useMemo, useRef } from 'react';
 import type { Coordinate, RouteInfo, Visit } from 'types/globe';
 import type { GroupProps } from '@react-three/fiber';
 import { useFrame, useThree } from '@react-three/fiber';
-import { convertToRadians, formatCitiesWithVisits } from './utils';
+import { beamHeight, convertToRadians, formatCitiesWithVisits } from './utils';
 import { cities } from './coordinates';
 // import { Euler } from 'three';
 import Sphere from './Sphere';
@@ -233,7 +233,7 @@ export function Globe({
 
   // console.log(cityMovement);
 
-  console.log(citiesWithVisits);
+  // console.log(citiesWithVisits);
 
   return (
     <motion.group
@@ -257,7 +257,7 @@ export function Globe({
       {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
       {!routeSelected &&
         citiesWithVisits.map((city) => {
-          return <City key={city.coord[0]} city={city} />;
+          return <City key={city.name} city={city} height={beamHeight} />;
         })}
 
       <EffectComposer>
