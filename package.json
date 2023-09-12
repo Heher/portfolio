@@ -4,12 +4,12 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "start": "cross-env NODE_ENV=production netlify dev",
+    "start": "remix-serve build",
     "typecheck": "tsc",
     "postinstall": "remix-esbuild-override",
     "test": "cypress run",
-    "codegen": "graphql-codegen",
-    "caddy": "caddy run"
+    "caddy": "caddy run",
+    "gen": "graphql-codegen"
   },
   "dependencies": {
     "@netlify/functions": "^1.6.0",
@@ -33,6 +33,7 @@
     "graphql-request": "^6.1.0",
     "isbot": "^3.6.13",
     "lodash": "^4.17.21",
+    "maath": "^0.7.0",
     "morgan": "^1.10.0",
     "postprocessing": "^6.33.0",
     "react": "^18.2.0",
@@ -74,6 +75,6 @@
     "typescript": "^5.2.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }

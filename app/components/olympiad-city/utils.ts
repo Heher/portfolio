@@ -2,14 +2,14 @@ import type { Visit } from 'types/globe';
 import type { CityFieldsFragment, CityOlympiadFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 
 export function cityStatus(
-  olympiads: readonly CityOlympiadFragment[],
+  olympiads: (CityOlympiadFragment | null)[],
   visits: Visit[]
 ): { amountCompleted: number; totalOlympiads: number } {
   let amountCompleted = 0;
 
   olympiads.forEach((olympiad) => {
     const visit = visits.find(
-      (visit) => visit.year === olympiad.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
+      (visit) => visit.year === olympiad?.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
     );
 
     if (visit) amountCompleted++;
@@ -53,7 +53,26 @@ export function statusColor(amountCompleted: number, totalOlympiads: number) {
   return `negative`;
 }
 
-export function filterOutNonOlympiadsForCity(cityName: string, olympiads: readonly CityOlympiadFragment[]) {
+export function statusColorSlug(amountCompleted: number, totalOlympiads: number) {
+  if (amountCompleted === totalOlympiads) {
+    return 'from-[var(--positive)] to-50%';
+  }
+
+  if (amountCompleted < totalOlympiads && amountCompleted > 0) {
+    return 'from-[var(--incomplete)] to-50%';
+  }
+
+  return `from-[var(--negative)] to-50%`;
+}
+
+export function filterOutNonOlympiadsForCity(
+  cityName: string,
+  olympiads: (CityOlympiadFragment | null)[] | undefined | null
+) {
+  if (!olympiads) {
+    return [];
+  }
+
   //* filter out 1906 Athens and 1956 Stockholm
   return olympiads.filter((olympiad) => {
     if (!olympiad) {

@@ -1,22 +1,6 @@
-declare module '*.wgsl' {
-  const value: string;
-  export default value;
-}
+// import type { Euler, Vector3 } from '@react-three/fiber';
 
-declare module '*.glsl' {
-  const value: string;
-  export default value;
-}
-
-declare module '*.frag' {
-  const value: string;
-  export default value;
-}
-
-declare module '*.vert' {
-  const value: string;
-  export default value;
-}
+import type { Euler, Vector3 } from '@react-three/fiber';
 
 export type Coordinate = [number, number];
 
@@ -37,14 +21,20 @@ export type RouteInfo = {
   coords: Coordinate[];
   type: 'flight' | 'ferry' | 'ground';
   description: string;
+  zoom?: number;
+  midpoint?: Coordinate;
+  cities: { name: string; new: boolean }[];
+  newCities?: string[];
+};
+
+export type MarkerInfo = {
+  position: Vector3;
+  rotation: Euler;
 };
 
 export type MarkerVisit = {
   visited: boolean;
-  markerInfo: {
-    position: number[];
-    rotation: number[];
-  };
+  markerInfo: MarkerInfo;
 };
 
 export type AnimationVariants = {

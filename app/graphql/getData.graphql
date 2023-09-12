@@ -1,0 +1,12 @@
+query GetOlympicData($now: Datetime!) {
+  olympiads(orderBy: YEAR_ASC) {
+    nodes {
+      ...OlympiadFields
+    }
+  }
+  cities {
+    nodes {
+      ...CityFields
+    }
+  }
+}

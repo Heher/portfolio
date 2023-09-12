@@ -1,6 +1,6 @@
 import type { Coordinate } from 'types/globe';
 
-export type City = {
+export type CityType = {
   coord: Coordinate;
   scale: number;
   name: string;
@@ -55,7 +55,7 @@ export const coordinates: { [key: string]: Coordinate } = {
   pyeongchang: [37.3705, -128.39]
 };
 
-export const cities: City[] = [
+export const cities: CityType[] = [
   { coord: coordinates['athens'], scale: 1.2, name: 'athens', type: 'summer', years: ['1896', '2004'] },
   { coord: coordinates['paris'], scale: 1.2, name: 'paris', type: 'summer', years: ['1900', '1924'] },
   { coord: coordinates['stLouis'], scale: 1.2, name: 'st-louis', type: 'summer', years: ['1904'] },

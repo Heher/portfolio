@@ -1,36 +1,26 @@
+import { TripPageContext } from '~/routes/trip';
 import BackButton from './BackButton';
+import { useContext } from 'react';
 
 type BackButtonContainerProps = {
-  routeSelected: boolean;
-  moveableGlobe: boolean;
   handleBackButton: () => void;
-  width: number;
   isCityPage: RegExpMatchArray | null;
 };
 
-const BackButtonContainer = ({
-  routeSelected,
-  moveableGlobe,
-  handleBackButton,
-  width,
-  isCityPage
-}: BackButtonContainerProps) => {
+const BackButtonContainer = ({ handleBackButton, isCityPage }: BackButtonContainerProps) => {
+  const { selectedRouteLeg, moveableGlobe, width } = useContext(TripPageContext);
+
   return (
     <>
       <div
-        className={`globe-background fixed top-0 left-0 w-full ${width < 768 && 'mobile'} ${
-          routeSelected || moveableGlobe ? 'route-selected z-40 h-[50px]' : 'z-10 h-[50vh]'
+        className={`globe-background fixed left-0 top-0 w-full ${width < 768 && 'mobile'} ${
+          selectedRouteLeg !== null || moveableGlobe ? 'route-selected z-40 h-[50px]' : '-z-10 h-[50vh]'
         }`}
       ></div>
       {isCityPage && !moveableGlobe ? (
-        <BackButton
-          routeSelected={routeSelected}
-          globeMoveable={moveableGlobe}
-          handleBackButton={handleBackButton}
-          isLink
-        />
+        <BackButton handleBackButton={handleBackButton} isLink />
       ) : (
-        <BackButton routeSelected={routeSelected} globeMoveable={moveableGlobe} handleBackButton={handleBackButton} />
+        <BackButton handleBackButton={handleBackButton} />
       )}
     </>
   );

@@ -1,15 +1,10 @@
-import type { MetaFunction } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation, useOutlet } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import globalStyles from '~/styles/global.css';
 
 import stylesheet from '~/tailwind.css';
-
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
-});
 
 export function links() {
   return [
@@ -53,28 +48,32 @@ export function links() {
 //   );
 // }
 
-function getBodyBackground(location: string) {
-  if (location.includes('trip')) {
-    return 'bg-[var(--nav-background)]';
-  }
+// function getBodyBackground(location: string) {
+//   if (location.includes('trip')) {
+//     return 'bg-[var(--nav-background)]';
+//   }
 
-  if (location === '/') {
-    return 'bg-[var(--index-background)]';
-  }
+//   if (location === '/') {
+//     return 'bg-[var(--index-background)]';
+//   }
 
-  return 'bg-white';
-}
+//   return 'bg-white';
+// }
 
 function App() {
-  const appLocation = useLocation();
+  // const appLocation = useLocation();
+  // const outlet = useOutlet();
 
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className={getBodyBackground(appLocation.pathname)}>
+      <body className="bg-[var(--body-background)]">
+        {/* <AnimatePresence mode="wait">{outlet}</AnimatePresence> */}
         <Outlet />
         <ScrollRestoration
           getKey={(location, matches) => {

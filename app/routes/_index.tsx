@@ -1,4 +1,5 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
+import { useLocation } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import type { RectReadOnly } from 'react-use-measure';
@@ -11,18 +12,23 @@ import IndexArrow from '~/components/icons/IndexArrow';
 import LinkedInIcon from '~/components/icons/LinkedIn';
 import ResumeIcon from '~/components/icons/Resume';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'John Heher | Web Developer',
-  description: 'John Heher is a web developer from the United States, currently looking for fully remote work.',
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover'
-});
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'John Heher | Web Developer' },
+    {
+      name: 'description',
+      content: 'John Heher is a web developer from the United States, currently looking for fully remote work.'
+    }
+  ];
+};
+
+const MotionArrow = motion(IndexArrow);
 
 function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 50"
+      viewBox="0 0 300 100"
       className={className}
       initial={{ y: '30%' }}
       animate={{ y: '-30%' }}
@@ -35,7 +41,8 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
       }}
     >
       <g>
-        <polygon points="91.247,57.092 91.283,57.072 91.283,29.941 49.815,0 8.717,29.602 8.717,56.738 49.791,27.157" />
+        {/* <polygon points="200,50 200,29 100,0 0,29 0,50 100,29" /> */}
+        <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
       </g>
     </motion.svg>
   );
@@ -53,11 +60,31 @@ function getCloseRight(windowWidth: number) {
   return -20;
 }
 
+function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
+  return (
+    <a
+      className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)] transition-colors hover:text-[var(--index-link-hover)]"
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+}
+
 function IndexContent({ size }: { size: RectReadOnly }) {
   const [expand, setExpand] = useState(false);
+  const [travelLinkHovered, setTravelLinkHovered] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const location = useLocation();
+
   const [contentRef, contentSize] = useMeasure({ debounce: 300 });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--body-background', 'var(--index-background)');
+  }, []);
 
   useEffect(() => {
     if (expand) {
@@ -68,7 +95,14 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   if (!size?.width) return null;
 
   return (
-    <div className={`m-0 mx-auto max-w-2xl ${!expand && 'min-h-[880px]'}`} ref={containerRef}>
+    <motion.div
+      className={`m-0 mx-auto max-w-lg ${!expand && 'min-h-[880px]'}`}
+      ref={containerRef}
+      key={location.key}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <motion.div
         className="main-content pb-5"
         initial={{ x: 0, opacity: 1 }}
@@ -87,39 +121,38 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
         <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
         <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
-          <a
-            href="https://github.com/Heher"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <GitHubIcon className={`h-6 fill-[var(--index-link)]`} />
+          <SocialLink href="https://github.com/Heher">
+            <GitHubIcon className={`h-6 fill-current`} />
             <span className="text-xs">GitHub</span>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/johnheher/"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <LinkedInIcon className={`h-6 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="https://www.linkedin.com/in/johnheher/">
+            <LinkedInIcon className={`h-6 fill-current`} />
             <span className="text-xs">LinkedIn</span>
-          </a>
-          <a
-            href="/cv.pdf"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <ResumeIcon className={`h-6 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="/cv.pdf">
+            <ResumeIcon className={`h-6 fill-current`} />
             <span className="text-xs">Resume</span>
-          </a>
-          <a
-            href="mailto:johnheher@gmail.com"
-            className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)]"
-          >
-            <EmailIcon className={`w-5 fill-[var(--index-link)]`} />
+          </SocialLink>
+          <SocialLink href="mailto:johnheher@gmail.com">
+            <EmailIcon className={`w-5 fill-current`} />
             <span className="text-xs">Email</span>
-          </a>
+          </SocialLink>
         </div>
         <div className="mt-20 grid justify-items-start">
-          <a href="/trip" className="grid grid-cols-[1fr_40px] items-center">
-            <h2 className="text-lg font-semibold uppercase text-[#282B27]">Travels</h2>
-            <IndexArrow className="ml-3 h-3 fill-[var(--index-link)]" />
+          <a
+            href="/trip"
+            className="grid grid-cols-[1fr_40px] items-center"
+            onMouseOver={() => setTravelLinkHovered(true)}
+            onMouseOut={() => setTravelLinkHovered(false)}
+          >
+            <h2
+              className={`text-lg font-semibold uppercase ${
+                travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
+              } transition-colors`}
+            >
+              Travels
+            </h2>
+            <MotionArrow className="ml-3 h-3 fill-[var(--index-link)]" animate={{ x: travelLinkHovered ? 8 : 0 }} />
           </a>
         </div>
       </motion.div>
@@ -157,7 +190,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           <FlagContainer expand={expand} contentSize={size} mainContentSize={contentSize} />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
