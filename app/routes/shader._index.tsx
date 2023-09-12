@@ -2,39 +2,41 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
 import { white } from '~/components/globe/colors';
 
-import vertexShader from '~/components/shader-sandbox/shaders/vertex.glsl';
-import fragmentShader from '~/components/shader-sandbox/shaders/fragment.glsl';
+// import vertexShader from '~/components/shader-sandbox/shaders/vertex.glsl';
+// import fragmentShader from '~/components/shader-sandbox/shaders/fragment.glsl';
 import { OrbitControls, useTexture } from '@react-three/drei';
 import earth from '~/data/map/point-earth.jpg';
 import { useMemo, useRef } from 'react';
-import type { Mesh, MeshStandardMaterial } from 'three';
+import type { Mesh } from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import * as THREE from 'three';
-
-// const eTexture = new THREE.TextureLoader().load(earth);
 
 let dummyObject = new THREE.Object3D();
 let vector = new THREE.Vector3();
 let sphere = new THREE.Spherical();
-let radius = 1;
+let radius = 5;
 
-const pointAmount = 20000;
+const pointAmount = 75000;
 const geometries = [];
 
-let r = 0;
-let dlong = Math.PI * (3 - Math.sqrt(5));
-let dz = 2 / pointAmount;
-let long = 0;
-let z = 1 - dz / 2;
+let radialDistance = 0;
+let changeInLongitude = Math.PI * (3 - Math.sqrt(5));
+let changeInHeight = 2 / pointAmount;
+
+let longitude = 0;
+let height = 1 - changeInHeight / 2;
 
 for (let i = 0; i < pointAmount; i++) {
-  const circleGeometry = new THREE.CircleGeometry(0.01, 64);
+  const circleGeometry = new THREE.PlaneGeometry(1, 1);
 
-  r = Math.sqrt(1 - z * z);
-  vector.set(Math.cos(long) * r, z, -Math.sin(long) * r).multiplyScalar(radius);
+  radialDistance = Math.sqrt(1 - height * height);
+  vector
+    .set(Math.cos(longitude) * radialDistance, height, -Math.sin(longitude) * radialDistance)
+    .multiplyScalar(radius);
 
-  z = z - dz;
-  long = long + dlong;
+  height = height - changeInHeight;
+  longitude = longitude + changeInLongitude;
+
   sphere.setFromVector3(vector);
 
   dummyObject.lookAt(vector);
@@ -67,9 +69,6 @@ for (let i = 0; i < pointAmount; i++) {
 
 const testGeometry = mergeGeometries(geometries);
 
-// m.defines = {'USE_UV':''};
-// earth = new THREE.Mesh(g, m);
-
 function Object() {
   const mesh = useRef<Mesh>(null);
   const eTexture = useTexture(earth);
@@ -91,10 +90,10 @@ function Object() {
       uTexture: {
         value: eTexture
       },
-      gradInner: {
+      gradientInner: {
         value: new THREE.Color(0xff0000)
       },
-      gradOuter: {
+      gradientOuter: {
         value: new THREE.Color(0x00ff00)
       }
     }),
@@ -107,90 +106,74 @@ function Object() {
     shader.uniforms.minSize = uniforms.minSize;
     // shader.uniforms.waveHeight = uniforms.waveHeight;
     shader.uniforms.scaling = uniforms.scaling;
-    shader.uniforms.gradInner = uniforms.gradInner;
-    shader.uniforms.gradOuter = uniforms.gradOuter;
+    shader.uniforms.gradientInner = uniforms.gradientInner;
+    shader.uniforms.gradientOuter = uniforms.gradientOuter;
     shader.uniforms.uTexture = { value: eTexture };
     shader.vertexShader = /* glsl */ `
         uniform sampler2D uTexture;
         uniform float maxSize;
         uniform float minSize;
-        uniform float scaling;
+        // uniform float scaling;
   
         attribute vec3 center;
         attribute vec2 baseUv;
   
         varying float vFinalStep;
-        varying float vMap;
+        varying float vMapColorGreen;
+        // varying float vUv;
   
         ${shader.vertexShader}
       `.replace(
       `#include <begin_vertex>`,
       /* glsl */ `#include <begin_vertex>
-        float finalStep = 0.0;
-        finalStep = clamp(finalStep, 0., 1.);
-        vFinalStep = finalStep;
+        // float finalStep = 0.0;
+        // finalStep = clamp(finalStep, 0., 1.);
+        // vFinalStep = finalStep;
+
+        // vec2 vUv = baseUv;
   
-        float map = texture(uTexture, baseUv).g;
-        vMap = map;
-        float pSize = map < 0.5 ? maxSize : minSize;
-        float scale = scaling;
+        float mapColorGreen = texture(uTexture, baseUv).g;
+        vMapColorGreen = mapColorGreen;
+        float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
+        // float scale = scaling;
   
-        transformed = (position - center) * pSize * mix(1., scale * 1.25, finalStep) + center; // scale on wave
-        transformed += normal * finalStep; // lift on wave
+        // transformed = (position - center) * pSize * mix(1., scale * 1.25, finalStep) + center; // scale on wave
+        transformed = (position - center) * pointSize + center;
+        // transformed += normal * finalStep; // lift on wave
         `
     );
-    shader.fragmentShader = `
-        uniform vec3 gradInner;
-        uniform vec3 gradOuter;
-        varying float vFinalStep;
-        varying float vMap;
+    shader.fragmentShader = /* glsl */ `
+        uniform vec3 gradientInner;
+        uniform vec3 gradientOuter;
+        // varying float vFinalStep;
+        varying float vMapColorGreen;
         ${shader.fragmentShader}
         `.replace(
       `vec4 diffuseColor = vec4( diffuse, opacity );`,
       /* glsl */ `
         // shaping the point, pretty much from The Book of Shaders
         vec2 hUv = (vUv - 0.5);
-        int N = 8;
-        float a = atan(hUv.x,hUv.y);
-        float r = PI2/float(N);
-        float d = cos(floor(.5+a/r)*r-a)*length(hUv);
-        float f = cos(PI / float(N)) * 0.5;
+        int numberOfSegments = 8;
+        float angle = atan(hUv.x, hUv.y);
+        float r = PI2 / float(numberOfSegments);
+        float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
+        float f = cos(PI / float(numberOfSegments)) * 0.5;
         if (d > f) discard;
   
-        vec3 grad = mix(gradInner, gradOuter, clamp( d / f, 0., 1.)); // gradient
-        vec3 diffuseMap = diffuse * ((vMap > 0.5) ? 0.5 : 1.);
-        vec3 col = mix(diffuseMap, grad, vFinalStep); // color on wave
+        vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.)); // gradient
+        vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
+        // vec3 color = mix(diffuseMap, gradient, vFinalStep); // color on wave
         //if (!gl_FrontFacing) col *= 0.25; // moderate the color on backside
-        vec4 diffuseColor = vec4( col , opacity );
+        // vec4 diffuseColor = vec4( gradient , opacity );
+        vec4 diffuseColor = vec4( diffuseMap , opacity );
         `
     );
   }
 
-  // const uniforms = useMemo(
-  //   () => ({
-  //     uTime: {
-  //       value: 0.0
-  //     },
-  //     uTexture: {
-  //       value: eTexture
-  //     }
-  //   }),
-  //   []
-  // );
-
-  // useFrame((state) => {
-  //   if (mesh.current) {
-  //     const { clock } = state;
-  //     mesh.current.material.uniforms.uTime.value = clock.getElapsedTime();
-  //   }
-  // });
-
   return (
     <mesh ref={mesh}>
       <bufferGeometry attach="geometry" {...testGeometry} />
-      {/* <icosahedronGeometry args={[1, 100]} /> */}
-      <meshBasicMaterial color={0x3366ff} onBeforeCompile={beforeCompile} />
-      {/* <pointsMaterial color={0xf38ba0} size={0.1} /> */}
+      <meshBasicMaterial color={0x3366ff} onBeforeCompile={beforeCompile} defines={{ USE_UV: '' }} />
     </mesh>
   );
 }
@@ -203,7 +186,7 @@ export default function ShaderSandbox() {
       initial={false}
     >
       {/* <Canvas camera={{ position: [0, 0, 8], fov: 45 }} shadows> */}
-      <Canvas shadows>
+      <Canvas camera={{ position: [0, 0, 15.5], fov: 45 }} shadows>
         {/* <MotionCanvas shadows> */}
         {/* <LayoutCamera position={[0, 0, 5]} fov={8} /> */}
         <ambientLight intensity={0.1} />

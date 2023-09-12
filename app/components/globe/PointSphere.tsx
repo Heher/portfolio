@@ -1,37 +1,36 @@
-import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import vertexShader from '~/components/shader-sandbox/shaders/vertex.glsl';
-import fragmentShader from '~/components/shader-sandbox/shaders/fragment.glsl';
 
-// extend({ SphereBufferGeometry });
-// import earthImg from '~/data/map/point-earth.jpg';
 import earth from '~/data/map/point-earth.jpg';
 import { useTexture } from '@react-three/drei';
 
 let dummyObject = new THREE.Object3D();
 let vector = new THREE.Vector3();
 let sphere = new THREE.Spherical();
-let radius = 1;
+let radius = 5;
 
-const pointAmount = 20000;
+const pointAmount = 75000;
 const geometries = [];
 
-let r = 0;
-let dlong = Math.PI * (3 - Math.sqrt(5));
-let dz = 2 / pointAmount;
-let long = 0;
-let z = 1 - dz / 2;
+let radialDistance = 0;
+let changeInLongitude = Math.PI * (3 - Math.sqrt(5));
+let changeInHeight = 2 / pointAmount;
+
+let longitude = 0;
+let height = 1 - changeInHeight / 2;
 
 for (let i = 0; i < pointAmount; i++) {
-  const circleGeometry = new THREE.CircleGeometry(0.01, 64);
+  const circleGeometry = new THREE.PlaneGeometry(1, 1);
 
-  r = Math.sqrt(1 - z * z);
-  vector.set(Math.cos(long) * r, z, -Math.sin(long) * r).multiplyScalar(radius);
+  radialDistance = Math.sqrt(1 - height * height);
+  vector
+    .set(Math.cos(longitude) * radialDistance, height, -Math.sin(longitude) * radialDistance)
+    .multiplyScalar(radius);
 
-  z = z - dz;
-  long = long + dlong;
+  height = height - changeInHeight;
+  longitude = longitude + changeInLongitude;
+
   sphere.setFromVector3(vector);
 
   dummyObject.lookAt(vector);
@@ -66,13 +65,15 @@ const testGeometry = mergeGeometries(geometries);
 
 export default function PointSphere() {
   const mesh = useRef<THREE.Mesh>(null);
-
   const eTexture = useTexture(earth);
 
   const uniforms = useMemo(
     () => ({
-      uTime: {
-        value: 0.0
+      maxSize: {
+        value: 0.04
+      },
+      minSize: {
+        value: 0.025
       },
       uTexture: {
         value: eTexture
@@ -81,19 +82,62 @@ export default function PointSphere() {
     []
   );
 
-  useFrame((state) => {
-    if (mesh.current) {
-      const { clock } = state;
-      mesh.current.material.uniforms.uTime.value = clock.getElapsedTime();
-    }
-  });
+  function beforeCompile(shader) {
+    shader.uniforms.maxSize = uniforms.maxSize;
+    shader.uniforms.minSize = uniforms.minSize;
+    shader.uniforms.uTexture = { value: eTexture };
+    shader.vertexShader = /* glsl */ `
+        uniform sampler2D uTexture;
+        uniform float maxSize;
+        uniform float minSize;
+  
+        attribute vec3 center;
+        attribute vec2 baseUv;
+  
+        varying float vFinalStep;
+        varying float vMapColorGreen;
+  
+        ${shader.vertexShader}
+      `.replace(
+      `#include <begin_vertex>`,
+      /* glsl */ `#include <begin_vertex>
+  
+        float mapColorGreen = texture(uTexture, baseUv).g;
+        vMapColorGreen = mapColorGreen;
+        float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
+
+        transformed = (position - center) * pointSize + center;
+        `
+    );
+    shader.fragmentShader = /* glsl */ `
+        uniform vec3 gradientInner;
+        uniform vec3 gradientOuter;
+
+        varying float vMapColorGreen;
+        ${shader.fragmentShader}
+        `.replace(
+      `vec4 diffuseColor = vec4( diffuse, opacity );`,
+      /* glsl */ `
+        // shaping the point, pretty much from The Book of Shaders
+        vec2 hUv = (vUv - 0.5);
+        int numberOfSegments = 8;
+        float angle = atan(hUv.x, hUv.y);
+        float r = PI2 / float(numberOfSegments);
+        float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
+        float f = cos(PI / float(numberOfSegments)) * 0.5;
+        if (d > f) discard;
+  
+        vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
+        vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
+        vec4 diffuseColor = vec4( diffuseMap , opacity );
+        `
+    );
+  }
 
   return (
-    <mesh ref={mesh}>
+    <mesh ref={mesh} scale={0.2} rotation-y={Math.PI / 2}>
       <bufferGeometry attach="geometry" {...testGeometry} />
-      {/* <icosahedronGeometry args={[1, 100]} /> */}
-      <shaderMaterial vertexShader={vertexShader} fragmentShader={fragmentShader} uniforms={uniforms} />
-      {/* <pointsMaterial color={0xf38ba0} size={0.1} /> */}
+      <meshBasicMaterial color={0x3366ff} onBeforeCompile={beforeCompile} defines={{ USE_UV: '' }} />
     </mesh>
   );
 }
