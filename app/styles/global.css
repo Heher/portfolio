@@ -16,6 +16,7 @@
   --nav-link: #cbd8e1;
   --nav-border: #7d9fb5;
   --max-width: 1100px;
+  --back-button-max-width: 1140px;
   --page-background: #d8e2e9;
   --nav-link-hover: #97b2c3;
   --cta: #74add4;
@@ -122,10 +123,6 @@
 }
 .city-status.incomplete {
   border-color: var(--incomplete);
-}
-
-.route-selector-container {
-  background: rgba(15, 22, 26, 0.7);
 }
 
 #color-input {

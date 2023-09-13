@@ -6,6 +6,7 @@ import { useLoaderData } from '@remix-run/react';
 import type { Dispatch } from 'react';
 import { useEffect } from 'react';
 import type { CityFieldsFragment } from '~/gql/graphql';
+import NewBackButton from '~/components/home/NewBackButton';
 
 export async function loader({ params }: LoaderArgs) {
   if (!params.slug) {
@@ -41,7 +42,7 @@ function CityTest({ city, dispatch }: { city: CityFieldsFragment; dispatch: Disp
     return null;
   }
 
-  return null;
+  return <NewBackButton />;
 }
 
 function CityPage() {
