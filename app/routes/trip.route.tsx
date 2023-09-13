@@ -4,6 +4,7 @@ import { Selector } from '~/components/route/Selector';
 import { useTripContext } from './trip';
 import { motion } from 'framer-motion';
 import { useLocation } from '@remix-run/react';
+import NewBackButton from '~/components/home/NewBackButton';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -39,6 +40,7 @@ function RoutePage() {
 
   return (
     <motion.div key={location.key} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <NewBackButton />
       {selectedRouteLeg !== null && <Selector width={width} />}
     </motion.div>
   );
