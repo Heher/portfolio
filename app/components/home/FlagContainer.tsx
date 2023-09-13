@@ -153,22 +153,6 @@ export default function FlagContainer({
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (ref.current && containerRef.current) {
-  //     ref.current.scrollTop = containerRef.current.offsetHeight;
-  //   }
-  // }, []);
-
-  // useLayoutEffect(() => {
-  //   if (ref.current && containerRef.current && endOfListRef.current) {
-  //     if (!expand) {
-  //       console.log('YO', ref.current.scrollTop, containerRef.current.offsetHeight);
-  //       ref.current.scrollTop = containerRef.current.offsetHeight;
-  //       // ref.current.scrollTop = containerRef.current.offsetHeight;
-  //     }
-  //   }
-  // }, [expand]);
-
   return (
     <motion.div
       className={`absolute left-0 max-w-lg ${

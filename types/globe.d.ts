@@ -25,6 +25,8 @@ export type RouteInfo = {
   midpoint?: Coordinate;
   cities: { name: string; new: boolean }[];
   newCities?: string[];
+  rotation?: number;
+  y?: number;
 };
 
 export type MarkerInfo = {

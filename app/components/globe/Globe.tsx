@@ -6,8 +6,6 @@ import { beamHeight, convertToRadians, formatCitiesWithVisits } from './utils';
 import { cities } from './coordinates';
 import { Route } from './Route';
 import { City } from './City';
-import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { myRoute } from './routeCoordinates';
@@ -30,12 +28,16 @@ function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
   return [(lat1 + lat2) / 2, (lon1 + lon2) / 2];
 }
 
-function getRouteRotation(leg: RouteInfo): Coordinate {
+function getRouteRotation(leg: RouteInfo): number[] {
   const midpoint = leg.midpoint || findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
 
   const { latRad, lonRad } = convertToRadians(midpoint);
 
-  return [latRad, lonRad - Math.PI / 2];
+  return [latRad, lonRad - Math.PI / 2, leg.rotation || 0.5];
+}
+
+function getRouteY(leg: RouteInfo): number {
+  return leg.y || 0;
 }
 
 function newGetCityRotation(selectedCity: string | null) {
@@ -52,7 +54,7 @@ function newGetCityRotation(selectedCity: string | null) {
   return [latRad - Math.PI * 0.35, lonRad - Math.PI / 2, 0];
 }
 
-function getGlobeX(width, screenWidth) {
+function getGlobeX(width: number, screenWidth: number) {
   if (screenWidth < 768) {
     return 0;
   }
@@ -64,7 +66,7 @@ function getGlobeX(width, screenWidth) {
   return width / 4;
 }
 
-function getGlobeZoom(screenWidth, zoom) {
+function getGlobeZoom(screenWidth: number, zoom: number) {
   if (screenWidth < 768) {
     return zoom - 6;
   }
@@ -85,12 +87,22 @@ const variants = {
       ease: 'easeInOut'
     }
   }),
-  route: ({ cityMovement, zoom, screenWidth }: { cityMovement: number[]; zoom: number; screenWidth: number }) => ({
+  route: ({
+    cityMovement,
+    zoom,
+    screenWidth,
+    routeY
+  }: {
+    cityMovement: number[];
+    zoom: number;
+    screenWidth: number;
+    routeY: number;
+  }) => ({
     rotateX: cityMovement[0],
     rotateY: cityMovement[1],
     rotateZ: cityMovement[2],
     x: 0,
-    y: 0,
+    y: routeY,
     z: getGlobeZoom(screenWidth, zoom),
     transition: {
       duration: 0.7,
@@ -100,8 +112,7 @@ const variants = {
   show: ({
     width,
     rotateY,
-    screenWidth,
-    screenHeight
+    screenWidth
   }: {
     width: number;
     rotateY: number;
@@ -112,7 +123,7 @@ const variants = {
     opacity: 1,
     rotateY: [rotateY, rotateY + Math.PI * 2],
     rotateZ: 0.5,
-    x: getGlobeX(width, screenWidth, screenHeight),
+    x: getGlobeX(width, screenWidth),
     y: 0,
     z: screenWidth < 768 ? 0 : -10 / width,
     transition: {
@@ -168,10 +179,12 @@ export function Globe({
   });
 
   let cityMovement: number[];
+  let routeY = 0;
 
   if (routeSelected) {
     const leg = myRoute[selectedRouteLeg - 1];
     cityMovement = getRouteRotation(leg) || [0, 0, 0];
+    routeY = getRouteY(leg);
   } else {
     cityMovement = newGetCityRotation(selectedCity) || [0, 0, 0];
   }
@@ -190,28 +203,15 @@ export function Globe({
         width: viewport.width,
         height: viewport.height,
         rotateY: rotateY.get(),
-        zoom: getZoom(selectedRouteLeg, selectedCity)
+        zoom: getZoom(selectedRouteLeg, selectedCity),
+        routeY
       }}
     >
       <PointSphere />
       {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
-      {!routeSelected &&
-        citiesWithVisits.map((city) => {
-          return <City key={city.name} city={city} height={beamHeight} />;
-        })}
-
-      <EffectComposer>
-        <Bloom
-          intensity={1.0} // The bloom intensity.
-          blurPass={undefined} // A blur pass.
-          kernelSize={KernelSize.LARGE} // blur kernel size
-          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
-          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
-          mipmapBlur={false} // Enables or disables mipmap blur.
-          resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
-          resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
-        />
-      </EffectComposer>
+      {citiesWithVisits.map((city) => {
+        return <City key={city.name} city={city} height={beamHeight} zoom={getZoom(selectedRouteLeg, selectedCity)} />;
+      })}
     </motion.group>
   );
 }

@@ -1,6 +1,5 @@
 import type { BufferGeometry, Color, Material, Mesh, NormalBufferAttributes, Texture } from 'three';
 import { DoubleSide } from 'three';
-import { beamHeight, markerRadius } from '../utils';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import { motion } from 'framer-motion-3d';
@@ -48,10 +47,6 @@ export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, n
 
     flagRef.current.rotation.y += 0.005;
   });
-
-  // console.log('beam top', radius * 4);
-
-  // console.log(height);
 
   return (
     <motion.group
