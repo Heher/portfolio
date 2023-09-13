@@ -23,7 +23,7 @@ export function Selector({ width }: { width: number }) {
 
   return (
     <div
-      className={`route-selector-container fixed bottom-0 right-[${positionRight}] z-50 flex h-[100px] w-full items-center justify-center md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] text-xl font-semibold uppercase text-[#e0e0e0]`}
+      className={`route-selector-container fixed bottom-0 right-[${positionRight}] z-50 flex h-[100px] w-full items-center justify-center md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] text-xl font-semibold uppercase text-[#e0e0e0] bg-[rgba(15,22,26,0.7)]`}
     >
       <div className="grid gap-[10px] grid-cols-[40px_1fr_40px] items-center w-[300px]">
         <button

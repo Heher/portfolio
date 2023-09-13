@@ -92,17 +92,17 @@ export default function CitySlider({
                 key={olympiad.id}
                 className={`relative border-l-2 ${last ? 'border-transparent' : 'border-[#868686]'} ml-[8px]`}
               >
-                <div className="flex items-center">
+                <div className="absolute left-[-9px] top-[-6px] flex items-center">
                   <span
-                    className={`city-status absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-[var(--negative)] md:left-[-11px] md:h-5 md:w-5 ${
+                    className={`city-status h-4 w-4 rounded-full bg-[var(--negative)] md:left-[-11px] md:h-5 md:w-5 ${
                       visit && 'bg-[var(--positive)]'
                     }`}
                   />
-                  <h3 className="absolute left-5 top-[-5px] text-xl md:left-7 md:top-[-2px] md:text-[22px] md:leading-6">{`${
-                    olympiad.year
-                  } ${olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()} Games`}</h3>
+                  <h3 className="ml-2 text-xl md:left-7 md:top-[-2px] md:text-[22px] md:leading-6">{`${olympiad.year} ${
+                    olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()
+                  } Games`}</h3>
                 </div>
-                <div className="media ml-5 mt-12 items-end md:ml-7">
+                <div className="media ml-5 items-end md:ml-7">
                   {visit && (
                     <OlympiadMedia
                       visit={visit}
