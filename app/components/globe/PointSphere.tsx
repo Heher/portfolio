@@ -70,16 +70,16 @@ export default function PointSphere() {
   const uniforms = useMemo(
     () => ({
       maxSize: {
-        value: 0.04
+        value: 0.05
       },
       minSize: {
-        value: 0.025
+        value: 0.02
       },
       uTexture: {
         value: eTexture
       }
     }),
-    []
+    [eTexture]
   );
 
   function beforeCompile(shader) {

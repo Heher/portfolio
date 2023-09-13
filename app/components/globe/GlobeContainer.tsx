@@ -1,12 +1,12 @@
-// import { Canvas, useThree } from '@react-three/fiber';
-
-// import type { Visit } from 'types/globe';
 import { Globe } from './Globe';
 import { white } from './colors';
 import { useContext } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { TripPageContext } from '~/routes/trip';
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
+// import { PerformanceMonitor, Stats } from '@react-three/drei';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { KernelSize, Resolution } from 'postprocessing';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -52,6 +52,19 @@ export function GlobeContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[5, 5, 5]} intensity={2} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
+      <EffectComposer>
+        <Bloom
+          intensity={1.0} // The bloom intensity.
+          blurPass={undefined} // A blur pass.
+          kernelSize={KernelSize.LARGE} // blur kernel size
+          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
+          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+          mipmapBlur={false} // Enables or disables mipmap blur.
+          resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
+          resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
+        />
+      </EffectComposer>
+      {/* <Stats /> */}
     </Canvas>
   );
 }

@@ -91,7 +91,7 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   return '#3366ff';
 }
 
-export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (CityType & MarkerVisit)[] {
+export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (CityType & MarkerVisit)[] {
   const citiesWithVisits = cities.map((city) => {
     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;
