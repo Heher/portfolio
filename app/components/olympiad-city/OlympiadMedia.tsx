@@ -7,13 +7,6 @@ type OlympiadMediaProps = {
 };
 
 export function OlympiadMedia({ visit, olympiadType, handleImageModal }: OlympiadMediaProps) {
-  // console.log('MEDIA visit', visit);
-  // const tripContext = useTripContext();
-
-  // if (!tripContext) return null;
-
-  // const { handleImageModal } = tripContext;
-
   return (
     <div className={`mt-7 grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] md:max-w-[500px]`}>
       {visit.stadium?.img && (

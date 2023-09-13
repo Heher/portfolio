@@ -114,7 +114,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         ref={contentRef}
       >
         <img
-          src="/images/me.jpeg"
+          src="/images/me.jpg"
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
           className="w-32 rounded-xl"
         />
@@ -195,15 +195,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 }
 
 export default function Index() {
-  // useEffect(() => {
-  //   if (ref.current && containerRef.current) {
-  //     ref.current.scrollTop = containerRef.current.offsetHeight;
-  //   }
-  // }, [expand]);
-
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
-
-  // console.log(size);
 
   return (
     <main
