@@ -8,7 +8,7 @@ type OlympiadMediaProps = {
 
 export function OlympiadMedia({ visit, olympiadType, handleImageModal }: OlympiadMediaProps) {
   return (
-    <div className={`mt-7 grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] md:max-w-[500px]`}>
+    <div className={`grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] pt-10 md:max-w-[500px]`}>
       {visit.stadium?.img && (
         <div>
           <p className="mb-3 text-center text-xs uppercase md:text-sm">Stadium</p>
