@@ -26,7 +26,7 @@ export function CitiesList({ cities, firstRef }: CitiesListProps) {
       <Link
         className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] text-center font-semibold uppercase text-[#e0e0e0]`}
         type="button"
-        to={'route'}
+        to={'route/1'}
         prefetch="intent"
       >
         My route

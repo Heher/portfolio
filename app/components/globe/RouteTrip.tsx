@@ -42,7 +42,8 @@ export function RouteTrip({ coords, type, zoom }: RouteInfo) {
     <CatmullRomLine
       points={path.points}
       color={colors[type]}
-      lineWidth={zoom ? 3 * (7 / zoom) : 3}
+      // lineWidth={zoom ? 3 * (7 / zoom) : 3}
+      lineWidth={3}
       // curveType="catmullrom"
       tension={5}
     />

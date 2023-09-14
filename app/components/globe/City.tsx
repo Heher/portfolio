@@ -46,6 +46,7 @@ export function City({ city, zoom, height }: CitiesProps) {
   }
 
   const radius = zoom ? markerRadius * (7 / zoom) : markerRadius;
+  // const radius = markerRadius;
 
   let showFlag = false;
   let newFlag = true;
