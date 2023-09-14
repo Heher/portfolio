@@ -17,12 +17,12 @@ type TransportType = {
 };
 
 function TransportIconContainer({ transports }: { transports: TransportType[] }) {
-  const top = 76 + transports.length * 20;
+  const top = 112 + transports.length * 30;
 
   return (
     <div
       className="absolute left-0 grid -translate-x-1/2 items-center justify-items-center bg-[var(--index-background)]"
-      style={{ top: top * -1, gridTemplateRows: `repeat(${transports.length}, 40px)` }}
+      style={{ top: top * -1, gridTemplateRows: `repeat(${transports.length}, 60px)` }}
     >
       {transports.map((transport) => (
         <div key={transport.type} className="relative">
@@ -44,16 +44,16 @@ function TransportIcon({ transport }: { transport: TransportType }) {
       return <PlaneIcon className={`h-4 fill-[#282B27] `} />;
 
     case 'car':
-      return <CarIcon className={`h-3 fill-[#282B27] `} />;
+      return <CarIcon className={`h-5 fill-[#282B27] `} />;
 
     case 'train':
-      return <TrainIcon className={`h-3 fill-[#282B27] `} />;
+      return <TrainIcon className={`h-7 fill-[#282B27] `} />;
 
     case 'bus':
-      return <BusIcon className={`h-3 fill-[#282B27] `} />;
+      return <BusIcon className={`h-6 fill-[#282B27] `} />;
 
     case 'ferry':
-      return <FerryIcon className={`h-3 fill-[#282B27] `} />;
+      return <FerryIcon className={`h-7 fill-[#282B27] `} />;
 
     case 'walk':
       return <WalkIcon className={`h-6 fill-[#282B27] `} />;
@@ -68,10 +68,16 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
   const [hover, setHover] = useState(false);
   const flag = flags.countries.find((flag) => flag?.name === visit.country);
 
+  // pb-32 = 128px
+  // pb-40 = 160px
+  // pb-44 = 176px
+  // pb-48 = 192px
+  // pb-52 = 208px
+
   return (
     <div
       className={`relative border-l-4 ${
-        !lastVisit ? 'border-[#282B27] pb-32' : 'border-transparent pb-7'
+        !lastVisit ? 'border-[#282B27] pb-52' : 'border-transparent pb-7'
       } text-[#282B27]`}
     >
       {visit.transport && <TransportIconContainer transports={visit.transport} />}
