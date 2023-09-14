@@ -2,7 +2,16 @@ import { useMemo, useRef } from 'react';
 import type { Coordinate, RouteInfo, Visit } from 'types/globe';
 import type { GroupProps } from '@react-three/fiber';
 import { useFrame, useThree } from '@react-three/fiber';
-import { beamHeight, convertToRadians, formatCitiesWithVisits } from './utils';
+import {
+  beamHeight,
+  convertToRadians,
+  formatCitiesWithVisits,
+  getGlobeVariant,
+  getGlobeX,
+  getGlobeZoom,
+  getRouteY,
+  getZoom
+} from './utils';
 import { cities } from './coordinates';
 import { Route } from './Route';
 import { City } from './City';
@@ -10,14 +19,6 @@ import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { myRoute } from './routeCoordinates';
 import PointSphere from './PointSphere';
-
-function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
-  if (selectedRouteLeg !== null) {
-    return myRoute[selectedRouteLeg - 1].zoom || 7;
-  }
-
-  return 7;
-}
 
 function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
   const lat1 = coord1[0];
@@ -36,10 +37,6 @@ function getRouteRotation(leg: RouteInfo): number[] {
   return [latRad, lonRad - Math.PI / 2, leg.rotation || 0.5];
 }
 
-function getRouteY(leg: RouteInfo): number {
-  return leg.y || 0;
-}
-
 function newGetCityRotation(selectedCity: string | null) {
   const foundCity = cities.find((city) => city.name === selectedCity);
 
@@ -52,26 +49,6 @@ function newGetCityRotation(selectedCity: string | null) {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return [latRad - Math.PI * 0.35, lonRad - Math.PI / 2, 0];
-}
-
-function getGlobeX(width: number, screenWidth: number) {
-  if (screenWidth < 768) {
-    return 0;
-  }
-
-  if (screenWidth < 1024) {
-    return width / 1.5;
-  }
-
-  return width / 4;
-}
-
-function getGlobeZoom(screenWidth: number, zoom: number) {
-  if (screenWidth < 768) {
-    return zoom - 6;
-  }
-
-  return zoom - 2;
 }
 
 const variants = {
@@ -138,18 +115,6 @@ const variants = {
   })
 };
 
-function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
-  if (routeSelected) {
-    return 'route';
-  }
-
-  if (selectedCity) {
-    return 'selectedCity';
-  }
-
-  return 'show';
-}
-
 export function Globe({
   visits,
   selectedCity,
@@ -208,7 +173,7 @@ export function Globe({
       }}
     >
       <PointSphere />
-      {routeSelected && <Route citiesWithVisits={citiesWithVisits} />}
+      {routeSelected && <Route />}
       {citiesWithVisits.map((city) => {
         return <City key={city.name} city={city} height={beamHeight} zoom={getZoom(selectedRouteLeg, selectedCity)} />;
       })}

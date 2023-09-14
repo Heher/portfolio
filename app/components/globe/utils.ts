@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import type { Coordinate, MarkerVisit, Visit } from 'types/globe';
+import type { Coordinate, MarkerVisit, RouteInfo, Visit } from 'types/globe';
 import type { CityType } from './coordinates';
 import type { Euler, Vector3 } from '@react-three/fiber';
+import { myRoute } from './routeCoordinates';
 // import type { Euler, Vector3 } from '@react-three/fiber';
 
 export const globeRadius = 1;
@@ -107,4 +108,48 @@ export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (Ci
   });
 
   return citiesWithVisits;
+}
+
+export function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
+  if (selectedRouteLeg !== null) {
+    return myRoute[selectedRouteLeg - 1].zoom || 7;
+  }
+
+  return 7;
+}
+
+export function getRouteY(leg: RouteInfo): number {
+  return leg.y || 0;
+}
+
+export function getGlobeX(width: number, screenWidth: number) {
+  if (screenWidth < 768) {
+    return 0;
+  }
+
+  if (screenWidth < 1024) {
+    return width / 1.5;
+  }
+
+  return width / 4;
+}
+
+export function getGlobeZoom(screenWidth: number, zoom: number) {
+  if (screenWidth < 768) {
+    return zoom - 6;
+  }
+
+  return zoom - 2;
+}
+
+export function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
+  if (routeSelected) {
+    return 'route';
+  }
+
+  if (selectedCity) {
+    return 'selectedCity';
+  }
+
+  return 'show';
 }

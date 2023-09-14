@@ -9,7 +9,7 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { myRoute } from './routeCoordinates';
-import type { RouteInfo } from 'types/globe';
+import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -39,38 +39,6 @@ export function ErrorBoundary() {
       <p>Could not load globe. Please reload.</p>
     </div>
   );
-}
-
-function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
-  if (selectedRouteLeg !== null) {
-    return myRoute[selectedRouteLeg - 1].zoom || 7;
-  }
-
-  return 7;
-}
-
-function getRouteY(leg: RouteInfo): number {
-  return leg.y || 0;
-}
-
-function getGlobeX(width: number, screenWidth: number) {
-  if (screenWidth < 768) {
-    return 0;
-  }
-
-  if (screenWidth < 1024) {
-    return width / 1.5;
-  }
-
-  return width / 4;
-}
-
-function getGlobeZoom(screenWidth: number, zoom: number) {
-  if (screenWidth < 768) {
-    return zoom - 6;
-  }
-
-  return zoom - 2;
 }
 
 const variants = {
@@ -104,19 +72,13 @@ const variants = {
   })
 };
 
-function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
-  if (routeSelected) {
-    return 'route';
-  }
-
-  if (selectedCity) {
-    return 'selectedCity';
-  }
-
-  return 'show';
-}
-
-function GlobeBackdrop({ selectedRouteLeg, selectedCity }) {
+function GlobeBackdrop({
+  selectedRouteLeg,
+  selectedCity
+}: {
+  selectedRouteLeg: number | null;
+  selectedCity: string | null;
+}) {
   const { viewport } = useThree();
 
   const routeSelected = selectedRouteLeg !== null;
