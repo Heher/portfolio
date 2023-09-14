@@ -73,6 +73,7 @@ function App() {
         <Links />
       </head>
       <body className="bg-[var(--body-background)]">
+        {/* <body> */}
         {/* <AnimatePresence mode="wait">{outlet}</AnimatePresence> */}
         <Outlet />
         <ScrollRestoration

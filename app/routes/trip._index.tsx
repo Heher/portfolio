@@ -7,8 +7,9 @@ import { CitiesList } from '~/components/CitiesList';
 import { useTripContext } from './trip';
 import type { CityFieldsFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { getGQLClient } from '~/utils/graphql';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -27,6 +28,29 @@ export const meta: V2_MetaFunction = () => {
     }
   ];
 };
+
+function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
+  return (
+    <motion.svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 300 100"
+      className={className}
+      initial={{ y: '-30%' }}
+      animate={{ y: '30%' }}
+      transition={{
+        duration: 1,
+        repeat: Infinity,
+        ease: 'easeOut',
+        repeatType: 'reverse',
+        delay
+      }}
+    >
+      <g>
+        <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
+      </g>
+    </motion.svg>
+  );
+}
 
 export async function loader() {
   // const stravaResponse = await getStravaActivities();
@@ -48,7 +72,43 @@ const animationVariants: AnimationVariants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
 };
 
-function TripIndexInner({ olympiads, cities }: { olympiads: OlympiadFieldsFragment[]; cities: CityFieldsFragment[] }) {
+function observerCallback(entries: IntersectionObserverEntry[], setCitiesSeen: (seen: boolean) => void) {
+  entries.forEach((entry) => {
+    setCitiesSeen(entry.isIntersecting);
+  });
+}
+
+function TripIndexInner({
+  olympiads,
+  cities,
+  width
+}: {
+  olympiads: OlympiadFieldsFragment[];
+  cities: CityFieldsFragment[];
+  width: number;
+}) {
+  const [citiesSeen, setCitiesSeen] = useState(false);
+  const firstRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => observerCallback(entries, setCitiesSeen), {
+      rootMargin: '0px',
+      threshold: 0.5
+    });
+
+    const observedRef = firstRef.current;
+
+    if (observedRef) {
+      observer.observe(observedRef);
+    }
+
+    return () => {
+      if (observedRef) {
+        observer.unobserve(observedRef);
+      }
+    };
+  }, []);
+
   if (!olympiads || !cities) {
     return null;
   }
@@ -56,7 +116,23 @@ function TripIndexInner({ olympiads, cities }: { olympiads: OlympiadFieldsFragme
   return (
     <Fragment key="trip-index-inner">
       <MainCopy olympiads={olympiads as OlympiadFieldsFragment[]} variants={animationVariants} />
-      <CitiesList cities={cities as CityFieldsFragment[]} variants={animationVariants} />
+      <div className="mt-10 h-4">
+        <AnimatePresence>
+          {width < 768 && !citiesSeen && (
+            <motion.div
+              className="flex w-full rotate-180 flex-col items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {[0, 1].map((_, i) => (
+                <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <CitiesList cities={cities as CityFieldsFragment[]} firstRef={firstRef} />
     </Fragment>
   );
 }
@@ -73,7 +149,7 @@ export default function TripIndex() {
   useEffect(() => {
     const root = document.documentElement;
 
-    root.style.setProperty('--body-background', 'var(--trip-background)');
+    root.style.setProperty('--body-background', 'var(--globe-background)');
   }, [showDetails, width]);
 
   useEffect(() => {
@@ -91,6 +167,7 @@ export default function TripIndex() {
       <TripIndexInner
         olympiads={loaderData.olympiads as OlympiadFieldsFragment[]}
         cities={loaderData.cities as CityFieldsFragment[]}
+        width={width}
       />
     </div>
   );
