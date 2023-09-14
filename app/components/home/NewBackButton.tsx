@@ -14,8 +14,8 @@ export default function NewBackButton() {
         <Link
           to="/trip"
           className="rotate-180 px-2 py-1"
-          onMouseOver={() => setHover(true)}
-          onMouseOut={() => setHover(false)}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
         >
           <MotionArrow className="h-4 fill-[#dddddd] md:h-5" initial={{ x: 0 }} animate={{ x: hover ? '4px' : 0 }} />
         </Link>
