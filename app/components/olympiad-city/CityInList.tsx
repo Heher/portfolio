@@ -12,9 +12,10 @@ type CityInListProps = {
   amountCompleted: number;
   totalOlympiads: number;
   olympiads: (CityOlympiadFragment | null)[];
+  firstRef: React.RefObject<HTMLDivElement> | null;
 };
 
-const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityInListProps) => {
+const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef }: CityInListProps) => {
   const { visits, appState } = useTripContext();
 
   if (!city.slug) {
@@ -23,6 +24,7 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads }: CityIn
 
   return (
     <MotionLink
+      ref={firstRef}
       className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
       to={`/trip/${city.slug}`}
       // layoutId={city.slug}
