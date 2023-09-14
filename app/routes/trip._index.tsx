@@ -9,7 +9,7 @@ import type { CityFieldsFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { getGQLClient } from '~/utils/graphql';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -96,13 +96,15 @@ function TripIndexInner({
       threshold: 0.5
     });
 
-    if (firstRef.current) {
-      observer.observe(firstRef.current);
+    const observedRef = firstRef.current;
+
+    if (observedRef) {
+      observer.observe(observedRef);
     }
 
     return () => {
-      if (firstRef.current) {
-        observer.unobserve(firstRef.current);
+      if (observedRef) {
+        observer.unobserve(observedRef);
       }
     };
   }, []);
@@ -115,13 +117,20 @@ function TripIndexInner({
     <Fragment key="trip-index-inner">
       <MainCopy olympiads={olympiads as OlympiadFieldsFragment[]} variants={animationVariants} />
       <div className="mt-10 h-4">
-        {width < 768 && !citiesSeen && (
-          <motion.div className="flex w-full rotate-180 flex-col items-center">
-            {[0, 1].map((_, i) => (
-              <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
-            ))}
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {width < 768 && !citiesSeen && (
+            <motion.div
+              className="flex w-full rotate-180 flex-col items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {[0, 1].map((_, i) => (
+                <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <CitiesList cities={cities as CityFieldsFragment[]} firstRef={firstRef} />
     </Fragment>
