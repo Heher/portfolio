@@ -5,9 +5,10 @@ import { cityStatus, filterOutNonOlympiadsForCity } from './utils';
 
 type OlympiadCityProps = {
   city: CityFieldsFragment;
+  firstRef: React.RefObject<HTMLDivElement> | null;
 };
 
-export function OlympiadCity({ city }: OlympiadCityProps) {
+export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
   const { visits } = useTripContext();
 
   if (!city.name) {
@@ -20,6 +21,7 @@ export function OlympiadCity({ city }: OlympiadCityProps) {
 
   return (
     <CityInList
+      firstRef={firstRef}
       city={city}
       amountCompleted={amountCompleted}
       totalOlympiads={totalOlympiads}

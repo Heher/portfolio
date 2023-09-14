@@ -153,6 +153,7 @@ export default function TripPage() {
 
   return (
     <main ref={pageContainerRef} className={`relative mx-auto min-h-[100dvh] w-full max-w-[var(--max-width)]`}>
+      <div className="fixed left-0 top-0 z-[-1] h-full min-h-[100dvh] w-full bg-gradient-to-b from-[var(--globe-background)] to-[var(--nav-background)] to-50%"></div>
       <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
         {width > 0 && (
           <motion.div

@@ -151,7 +151,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             >
               Travels
             </h2>
-            <MotionArrow className="ml-3 h-3 fill-[var(--index-link)]" animate={{ x: travelLinkHovered ? 8 : 0 }} />
+            <MotionArrow className="ml-3 h-3 fill-[var(--index-link)]" animate={{ x: travelLinkHovered ? 4 : 0 }} />
           </a>
         </div>
       </motion.div>
