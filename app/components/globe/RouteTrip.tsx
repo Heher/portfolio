@@ -1,7 +1,11 @@
 import { CatmullRomLine } from '@react-three/drei';
-import { Vector3, CatmullRomCurve3 } from 'three';
+import { Vector3, CatmullRomCurve3, MeshStandardMaterial } from 'three';
 import type { RouteInfo } from 'types/globe';
 import { getPositionVector, globeRadius } from './utils';
+import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import type { Line2 } from 'three-stdlib';
+// import { line } from 'd3';
 
 const colors = {
   ground: '#E8E288',
@@ -15,7 +19,21 @@ function flightScale(i: number, tubeSections: number) {
 
 const sectionsPerCity = 40;
 
-export function RouteTrip({ coords, type, zoom }: RouteInfo) {
+// const lineMaterial = new MeshStandardMaterial({ color: '#E6781E' });
+
+let uniforms = {
+  time: { value: 0 }
+};
+
+export function RouteTrip({ coords, type, lineWidth }: RouteInfo) {
+  const lineRef = useRef<Line2>(null);
+
+  useFrame(({ clock }, delta) => {
+    if (!lineRef.current?.material?.uniforms?.time) return;
+
+    lineRef.current.material.uniforms.time.value = (clock.getElapsedTime() / 100) * -1;
+  });
+
   const cityVectors = coords.map((coord) => {
     return getPositionVector(coord, globeRadius);
   });
@@ -40,12 +58,22 @@ export function RouteTrip({ coords, type, zoom }: RouteInfo) {
 
   return (
     <CatmullRomLine
+      ref={lineRef}
       points={path.points}
       color={colors[type]}
-      // lineWidth={zoom ? 3 * (7 / zoom) : 3}
-      lineWidth={3}
-      // curveType="catmullrom"
+      lineWidth={lineWidth || 3}
+      curveType="catmullrom"
+      dashed
+      dashSize={0.01}
+      gapSize={0.01}
       tension={5}
+      onBeforeCompile={(shader) => {
+        shader.uniforms.time = uniforms.time;
+        shader.fragmentShader = `
+          uniform float time;
+          ${shader.fragmentShader}
+        `.replace(`vLineDistance + dashOffset`, `vLineDistance + dashOffset + time`);
+      }}
     />
   );
 }

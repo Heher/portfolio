@@ -74,9 +74,12 @@ export const myRoute: RouteInfo[] = [
     ],
     type: 'ground',
     description: 'Amsterdam to Paris by train',
-    zoom: 17,
-    // midpoint: [50.1893, -4.4971],
+    zoom: 16,
     midpoint: [50, -5],
+    // midpoint: [50, 10],
+    // rotation: 0.9,
+    lineWidth: 5,
+    // y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: true }

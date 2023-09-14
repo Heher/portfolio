@@ -10,6 +10,7 @@ import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { myRoute } from './routeCoordinates';
 import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
+import { OrbitControls } from '@react-three/drei';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -125,7 +126,7 @@ export function GlobeContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
-      <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} />
+      {/* <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} /> */}
       <EffectComposer>
         <Bloom
           intensity={1.0} // The bloom intensity.
@@ -139,6 +140,7 @@ export function GlobeContainer() {
         />
       </EffectComposer>
       {/* <Stats /> */}
+      <OrbitControls />
     </Canvas>
   );
 }

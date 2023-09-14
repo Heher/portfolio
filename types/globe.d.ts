@@ -27,6 +27,7 @@ export type RouteInfo = {
   newCities?: string[];
   rotation?: number;
   y?: number;
+  lineWidth?: number;
 };
 
 export type MarkerInfo = {
