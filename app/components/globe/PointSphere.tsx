@@ -5,6 +5,18 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import earth from '~/data/map/point-earth.jpg';
 import { useTexture } from '@react-three/drei';
 
+type UniformType = {
+  maxSize: {
+    value: number;
+  };
+  minSize: {
+    value: number;
+  };
+  uTexture: {
+    value: THREE.Texture;
+  };
+};
+
 let dummyObject = new THREE.Object3D();
 let vector = new THREE.Vector3();
 let sphere = new THREE.Spherical();
@@ -63,6 +75,58 @@ for (let i = 0; i < pointAmount; i++) {
 
 const testGeometry = mergeGeometries(geometries);
 
+function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: THREE.Texture) {
+  shader.uniforms.maxSize = uniforms.maxSize;
+  shader.uniforms.minSize = uniforms.minSize;
+  shader.uniforms.uTexture = { value: eTexture };
+  shader.vertexShader = /* glsl */ `
+      uniform sampler2D uTexture;
+      uniform float maxSize;
+      uniform float minSize;
+
+      attribute vec3 center;
+      attribute vec2 baseUv;
+
+      varying float vFinalStep;
+      varying float vMapColorGreen;
+
+      ${shader.vertexShader}
+    `.replace(
+    `#include <begin_vertex>`,
+    /* glsl */ `#include <begin_vertex>
+
+      float mapColorGreen = texture(uTexture, baseUv).g;
+      vMapColorGreen = mapColorGreen;
+      float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
+
+      transformed = (position - center) * pointSize + center;
+      `
+  );
+  shader.fragmentShader = /* glsl */ `
+      uniform vec3 gradientInner;
+      uniform vec3 gradientOuter;
+
+      varying float vMapColorGreen;
+      ${shader.fragmentShader}
+      `.replace(
+    `vec4 diffuseColor = vec4( diffuse, opacity );`,
+    /* glsl */ `
+      // shaping the point, pretty much from The Book of Shaders
+      vec2 hUv = (vUv - 0.5);
+      int numberOfSegments = 8;
+      float angle = atan(hUv.x, hUv.y);
+      float r = PI2 / float(numberOfSegments);
+      float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
+      float f = cos(PI / float(numberOfSegments)) * 0.5;
+      if (d > f) discard;
+
+      vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
+      vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
+      vec4 diffuseColor = vec4( diffuseMap , opacity );
+      `
+  );
+}
+
 export default function PointSphere() {
   const mesh = useRef<THREE.Mesh>(null);
   const eTexture = useTexture(earth);
@@ -82,62 +146,14 @@ export default function PointSphere() {
     [eTexture]
   );
 
-  function beforeCompile(shader) {
-    shader.uniforms.maxSize = uniforms.maxSize;
-    shader.uniforms.minSize = uniforms.minSize;
-    shader.uniforms.uTexture = { value: eTexture };
-    shader.vertexShader = /* glsl */ `
-        uniform sampler2D uTexture;
-        uniform float maxSize;
-        uniform float minSize;
-  
-        attribute vec3 center;
-        attribute vec2 baseUv;
-  
-        varying float vFinalStep;
-        varying float vMapColorGreen;
-  
-        ${shader.vertexShader}
-      `.replace(
-      `#include <begin_vertex>`,
-      /* glsl */ `#include <begin_vertex>
-  
-        float mapColorGreen = texture(uTexture, baseUv).g;
-        vMapColorGreen = mapColorGreen;
-        float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
-
-        transformed = (position - center) * pointSize + center;
-        `
-    );
-    shader.fragmentShader = /* glsl */ `
-        uniform vec3 gradientInner;
-        uniform vec3 gradientOuter;
-
-        varying float vMapColorGreen;
-        ${shader.fragmentShader}
-        `.replace(
-      `vec4 diffuseColor = vec4( diffuse, opacity );`,
-      /* glsl */ `
-        // shaping the point, pretty much from The Book of Shaders
-        vec2 hUv = (vUv - 0.5);
-        int numberOfSegments = 8;
-        float angle = atan(hUv.x, hUv.y);
-        float r = PI2 / float(numberOfSegments);
-        float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
-        float f = cos(PI / float(numberOfSegments)) * 0.5;
-        if (d > f) discard;
-  
-        vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
-        vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
-        vec4 diffuseColor = vec4( diffuseMap , opacity );
-        `
-    );
-  }
-
   return (
-    <mesh ref={mesh} scale={0.2} rotation-y={Math.PI / 2}>
+    <mesh ref={mesh} scale={0.2} rotation-y={Math.PI / 2} receiveShadow>
       <bufferGeometry attach="geometry" {...testGeometry} />
-      <meshBasicMaterial color={0x3366ff} onBeforeCompile={beforeCompile} defines={{ USE_UV: '' }} />
+      <meshPhysicalMaterial
+        color={0x8fa1b3}
+        onBeforeCompile={(shader) => beforeCompile(shader, uniforms, eTexture)}
+        defines={{ USE_UV: '' }}
+      />
     </mesh>
   );
 }

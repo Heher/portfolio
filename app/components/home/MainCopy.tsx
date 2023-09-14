@@ -11,7 +11,7 @@ type MainCopyProps = {
 function MainCopy({ olympiads, variants }: MainCopyProps) {
   return (
     <motion.div
-      className="px-[30px] pt-[5vh] md:max-w-md lg:max-w-lg"
+      className="bg-gradient-to-b from-[var(--globe-background)] to-transparent px-[30px] pt-[5vh] md:max-w-md md:bg-none lg:max-w-lg"
       variants={variants}
       animate="visible"
       exit="hidden"
