@@ -58,6 +58,9 @@ export const myRoute: RouteInfo[] = [
     description: 'Flight to Amsterdam',
     cities: [{ name: 'amsterdam', new: true }],
     zoom: 6,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     // midpoint: [51.431, 47.3434]
     midpoint: [32.942, 54.226]
     // midpoint: coordinates.amsterdam
@@ -91,6 +94,9 @@ export const myRoute: RouteInfo[] = [
     description: 'Thanksgiving',
     midpoint: [32.942, 54.226],
     zoom: 7,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false }
@@ -102,6 +108,9 @@ export const myRoute: RouteInfo[] = [
     description: 'Flight back to Paris',
     midpoint: [45, 30],
     zoom: 7,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -116,6 +125,10 @@ export const myRoute: RouteInfo[] = [
     rotation: -0.2,
     zoom: 16,
     y: -0.5,
+    lineWidth: 5,
+    lineSpeed: 20,
+    dashSize: 0.03,
+    dashGap: 0.03,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -131,6 +144,7 @@ export const myRoute: RouteInfo[] = [
     rotation: -0.15,
     zoom: 17,
     y: -0.5,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -147,6 +161,7 @@ export const myRoute: RouteInfo[] = [
     rotation: -0.1,
     zoom: 16,
     y: -0.5,
+    lineWidth: 7,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -164,6 +179,7 @@ export const myRoute: RouteInfo[] = [
     rotation: 0.1,
     zoom: 16,
     y: -0.5,
+    lineWidth: 7,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -181,6 +197,7 @@ export const myRoute: RouteInfo[] = [
     rotation: 0.3,
     zoom: 16,
     y: -0.5,
+    lineWidth: 7,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -198,6 +215,7 @@ export const myRoute: RouteInfo[] = [
     rotation: 0.5,
     zoom: 17,
     y: -0.5,
+    lineWidth: 7,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -212,7 +230,11 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.helsinki, coordinates.losAngeles],
     type: 'flight',
     description: 'Christmas',
-    zoom: 7,
+    zoom: 5,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
+    midpoint: [45, 72],
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -228,7 +250,10 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.losAngeles, coordinates.london, coordinates.berlin],
     type: 'flight',
     description: 'Flight to Berlin',
-    zoom: 7,
+    zoom: 5,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -252,6 +277,10 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Berlin to Munich',
     zoom: 16,
+    lineWidth: 5,
+    midpoint: [25, -29],
+    rotation: -0.4,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -270,6 +299,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Train to Innsbruck through Garmisch-Partenkirchen',
     zoom: 18,
+    midpoint: [22, -28],
+    rotation: -0.4,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -290,6 +322,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: "Train and bus to Cortina d'Ampezzo",
     zoom: 18,
+    midpoint: [20, -28],
+    rotation: -0.4,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -311,6 +346,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Bus and trains to Torino',
     zoom: 18,
+    midpoint: [19, -26],
+    rotation: -0.4,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -333,6 +371,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Train and bus to Sestriere',
     zoom: 18,
+    midpoint: [17, -22],
+    rotation: -0.4,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -355,6 +396,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Bus and trains to Grenoble',
     zoom: 18,
+    midpoint: [17, -18],
+    rotation: -0.3,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -378,6 +422,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Trains to Albertville',
     zoom: 18,
+    midpoint: [18, -18],
+    rotation: -0.3,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -402,6 +449,9 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Busses to Chamonix',
     zoom: 18,
+    midpoint: [18, -18],
+    rotation: -0.3,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },

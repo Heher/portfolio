@@ -25,13 +25,13 @@ let uniforms = {
   time: { value: 0 }
 };
 
-export function RouteTrip({ coords, type, lineWidth }: RouteInfo) {
+export function RouteTrip({ coords, type, lineWidth, lineSpeed, dashSize, dashGap }: RouteInfo) {
   const lineRef = useRef<Line2>(null);
 
   useFrame(({ clock }, delta) => {
     if (!lineRef.current?.material?.uniforms?.time) return;
 
-    lineRef.current.material.uniforms.time.value = (clock.getElapsedTime() / 100) * -1;
+    lineRef.current.material.uniforms.time.value = (clock.getElapsedTime() / (lineSpeed || 100)) * -1;
   });
 
   const cityVectors = coords.map((coord) => {
@@ -64,8 +64,8 @@ export function RouteTrip({ coords, type, lineWidth }: RouteInfo) {
       lineWidth={lineWidth || 3}
       curveType="catmullrom"
       dashed
-      dashSize={0.01}
-      gapSize={0.01}
+      dashSize={dashSize || 0.01}
+      gapSize={dashGap || 0.01}
       tension={5}
       onBeforeCompile={(shader) => {
         shader.uniforms.time = uniforms.time;

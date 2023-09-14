@@ -126,7 +126,7 @@ export function GlobeContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
-      {/* <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} /> */}
+      <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} />
       <EffectComposer>
         <Bloom
           intensity={1.0} // The bloom intensity.

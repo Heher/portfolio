@@ -28,6 +28,9 @@ export type RouteInfo = {
   rotation?: number;
   y?: number;
   lineWidth?: number;
+  lineSpeed?: number;
+  dashSize?: number;
+  dashGap?: number;
 };
 
 export type MarkerInfo = {
