@@ -1,6 +1,6 @@
 import flags from '~/data/countryFlags.json';
 import { format, isSameYear } from 'date-fns';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import PlaneIcon from '../icons/Plane';
 import CarIcon from '../icons/Car';
 import TrainIcon from '../icons/Train';
@@ -65,6 +65,7 @@ function TransportIcon({ transport }: { transport: TransportType }) {
 }
 
 function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date: Date; lastVisit?: boolean }) {
+  const [hover, setHover] = useState(false);
   const flag = flags.countries.find((flag) => flag?.name === visit.country);
 
   return (
@@ -75,12 +76,15 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
     >
       {visit.transport && <TransportIconContainer transports={visit.transport} />}
       {visit.link ? (
-        <a
+        <motion.a
           href={visit.link}
           className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[var(--index-link)] text-center text-xs leading-10 text-[#e0e0e0]`}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          animate={{ background: hover ? 'var(--index-link-hover)' : 'var(--index-link)' }}
         >
           {format(date, 'M/d')}
-        </a>
+        </motion.a>
       ) : (
         <span
           className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full ${
@@ -92,9 +96,15 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
       )}
       <div className="pl-10">
         {visit.link ? (
-          <a href={visit.link} className="text-base font-semibold leading-10 text-[var(--index-link)]">
+          <motion.a
+            href={visit.link}
+            className="text-base font-semibold leading-10 text-[var(--index-link)]"
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            animate={{ color: hover ? 'var(--index-link-hover)' : 'var(--index-link)' }}
+          >
             {visit.name}
-          </a>
+          </motion.a>
         ) : (
           <p className="text-base font-semibold leading-10">{visit.name}</p>
         )}
