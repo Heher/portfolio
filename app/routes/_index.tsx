@@ -141,8 +141,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           <a
             href="/trip"
             className="grid grid-cols-[1fr_40px] items-center"
-            onMouseOver={() => setTravelLinkHovered(true)}
-            onMouseOut={() => setTravelLinkHovered(false)}
+            onMouseEnter={() => setTravelLinkHovered(true)}
+            onMouseLeave={() => setTravelLinkHovered(false)}
           >
             <h2
               className={`text-lg font-semibold uppercase ${
@@ -151,7 +151,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             >
               Travels
             </h2>
-            <MotionArrow className="ml-3 h-3 fill-[var(--index-link)]" animate={{ x: travelLinkHovered ? 4 : 0 }} />
+            <MotionArrow
+              className="ml-3 h-3"
+              animate={{
+                x: travelLinkHovered ? 4 : 0,
+                fill: travelLinkHovered ? 'var(--index-link-hover)' : 'var(--index-link)'
+              }}
+            />
           </a>
         </div>
       </motion.div>
