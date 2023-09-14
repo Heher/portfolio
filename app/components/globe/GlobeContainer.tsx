@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { TripPageContext } from '~/routes/trip';
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
-import { PerformanceMonitor, Stats } from '@react-three/drei';
+// import { PerformanceMonitor, Stats } from '@react-three/drei';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
@@ -176,7 +176,7 @@ export function GlobeContainer() {
           resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
         />
       </EffectComposer>
-      <Stats />
+      {/* <Stats /> */}
     </Canvas>
   );
 }
