@@ -4,7 +4,12 @@ import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
 
 export function Route() {
-  const { selectedRouteLeg } = useContext(TripPageContext);
+  const context = useContext(TripPageContext);
+
+  if (!context?.selectedRouteLeg) {
+    return null;
+  }
+  const { selectedRouteLeg } = context;
 
   const selectedRoute = myRoute[selectedRouteLeg - 1];
 
