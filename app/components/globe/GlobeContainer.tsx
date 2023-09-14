@@ -1,12 +1,15 @@
 import { Globe } from './Globe';
 import { white } from './colors';
 import { useContext } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { TripPageContext } from '~/routes/trip';
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
-// import { PerformanceMonitor, Stats } from '@react-three/drei';
+import { PerformanceMonitor, Stats } from '@react-three/drei';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { KernelSize, Resolution } from 'postprocessing';
+import { motion } from 'framer-motion-3d';
+import { myRoute } from './routeCoordinates';
+import type { RouteInfo } from 'types/globe';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -38,6 +41,114 @@ export function ErrorBoundary() {
   );
 }
 
+function getZoom(selectedRouteLeg: number | null, selectedCity: string | null) {
+  if (selectedRouteLeg !== null) {
+    return myRoute[selectedRouteLeg - 1].zoom || 7;
+  }
+
+  return 7;
+}
+
+function getRouteY(leg: RouteInfo): number {
+  return leg.y || 0;
+}
+
+function getGlobeX(width: number, screenWidth: number) {
+  if (screenWidth < 768) {
+    return 0;
+  }
+
+  if (screenWidth < 1024) {
+    return width / 1.5;
+  }
+
+  return width / 4;
+}
+
+function getGlobeZoom(screenWidth: number, zoom: number) {
+  if (screenWidth < 768) {
+    return zoom - 6;
+  }
+
+  return zoom - 2;
+}
+
+const variants = {
+  selectedCity: ({ height }: { height: number }) => ({
+    x: 0,
+    y: height / -4,
+    z: 10,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  route: ({ zoom, screenWidth, routeY }: { zoom: number; screenWidth: number; routeY: number }) => ({
+    x: 0,
+    y: routeY,
+    z: getGlobeZoom(screenWidth, zoom),
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  }),
+  show: ({ width, screenWidth }: { width: number; screenWidth: number }) => ({
+    opacity: 1,
+    x: getGlobeX(width, screenWidth),
+    y: 0,
+    z: screenWidth < 768 ? 0 : -10 / width,
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut'
+    }
+  })
+};
+
+function getGlobeVariant(routeSelected: boolean, selectedCity: string | null) {
+  if (routeSelected) {
+    return 'route';
+  }
+
+  if (selectedCity) {
+    return 'selectedCity';
+  }
+
+  return 'show';
+}
+
+function GlobeBackdrop({ selectedRouteLeg, selectedCity }) {
+  const { viewport } = useThree();
+
+  const routeSelected = selectedRouteLeg !== null;
+
+  let routeY = 0;
+
+  if (routeSelected) {
+    const leg = myRoute[selectedRouteLeg - 1];
+    routeY = getRouteY(leg);
+  }
+
+  return (
+    <motion.mesh
+      rotation={[0, 0, 0.5, 'ZXY']}
+      variants={variants}
+      initial={{ opacity: 0 }}
+      animate={getGlobeVariant(routeSelected, selectedCity)}
+      custom={{
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        width: viewport.width,
+        height: viewport.height,
+        zoom: getZoom(selectedRouteLeg, selectedCity),
+        routeY
+      }}
+    >
+      <circleGeometry args={[1, 64]} />
+      <meshBasicMaterial color="#2B4955" />
+    </motion.mesh>
+  );
+}
+
 export function GlobeContainer() {
   const tripContext = useContext(TripPageContext);
 
@@ -50,8 +161,9 @@ export function GlobeContainer() {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       <ambientLight intensity={0.1} />
-      <directionalLight position={[5, 5, 5]} intensity={2} color={white} castShadow shadow-mapSize={[3072, 3072]} />
+      <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
+      <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} />
       <EffectComposer>
         <Bloom
           intensity={1.0} // The bloom intensity.
@@ -64,7 +176,7 @@ export function GlobeContainer() {
           resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
         />
       </EffectComposer>
-      {/* <Stats /> */}
+      <Stats />
     </Canvas>
   );
 }

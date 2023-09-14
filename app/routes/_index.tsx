@@ -41,7 +41,6 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
       }}
     >
       <g>
-        {/* <polygon points="200,50 200,29 100,0 0,29 0,50 100,29" /> */}
         <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
       </g>
     </motion.svg>
