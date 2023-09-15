@@ -63,8 +63,8 @@ const visits: Visit[] = [
       link: 'https://www.strava.com/activities/8422088610',
       img: ''
     },
-    date: '2023-04-27',
-    leg: 38
+    date: '2023-01-19',
+    leg: 20
   },
   {
     year: '1928',
