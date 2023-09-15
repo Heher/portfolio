@@ -82,7 +82,7 @@ const variants = {
     y: routeY,
     z: getGlobeZoom(screenWidth, zoom),
     transition: {
-      duration: 0.7,
+      duration: 0.9,
       ease: 'easeInOut'
     }
   }),

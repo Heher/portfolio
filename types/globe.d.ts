@@ -1,6 +1,6 @@
 // import type { Euler, Vector3 } from '@react-three/fiber';
 
-import type { Euler, Vector3 } from '@react-three/fiber';
+import type { Euler } from '@react-three/fiber';
 
 export type Coordinate = [number, number];
 
@@ -24,6 +24,7 @@ export type RouteInfo = {
   zoom?: number;
   midpoint?: Coordinate;
   cities: { name: string; new: boolean }[];
+  extraCities?: Coordinate[];
   newCities?: string[];
   rotation?: number;
   y?: number;
@@ -34,7 +35,7 @@ export type RouteInfo = {
 };
 
 export type MarkerInfo = {
-  position: Vector3;
+  position: [x: number, y: number, z: number];
   rotation: Euler;
 };
 

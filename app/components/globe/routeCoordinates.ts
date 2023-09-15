@@ -3,7 +3,6 @@ import { coordinates } from './coordinates';
 
 const extraCoordinates: { [key: string]: Coordinate } = {
   austin: [30.2672, 97.7431],
-  atlanta: [33.7488, 84.3877],
   ghent: [51.05, -3.73],
   ieper: [50.8492, -2.8779],
   brussels: [50.8476, -4.3572],
@@ -53,10 +52,11 @@ const extraCoordinates: { [key: string]: Coordinate } = {
 
 export const myRoute: RouteInfo[] = [
   {
-    coords: [extraCoordinates.austin, extraCoordinates.atlanta, coordinates.amsterdam],
+    coords: [extraCoordinates.austin, coordinates.atlanta, coordinates.amsterdam],
     type: 'flight',
     description: 'Flight to Amsterdam',
     cities: [{ name: 'amsterdam', new: true }],
+    extraCities: [extraCoordinates.austin, coordinates.atlanta],
     zoom: 6,
     lineSpeed: 20,
     dashSize: 0.1,
@@ -86,6 +86,13 @@ export const myRoute: RouteInfo[] = [
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: true }
+    ],
+    extraCities: [
+      extraCoordinates.ghent,
+      extraCoordinates.ieper,
+      extraCoordinates.brussels,
+      extraCoordinates.luxembourg,
+      coordinates.paris
     ]
   },
   {
@@ -100,7 +107,8 @@ export const myRoute: RouteInfo[] = [
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false }
-    ]
+    ],
+    extraCities: [coordinates.london, extraCoordinates.austin]
   },
   {
     coords: [extraCoordinates.austin, coordinates.london, coordinates.paris],
@@ -115,7 +123,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
       { name: 'paris', new: true }
-    ]
+    ],
+    extraCities: [coordinates.london, extraCoordinates.austin]
   },
   {
     coords: [coordinates.paris, coordinates.oslo],
@@ -169,7 +178,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'oslo', new: false },
       { name: 'lillehammer', new: false },
       { name: 'stockholm', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.gothenburg]
   },
   {
     coords: [coordinates.stockholm, extraCoordinates.tallin],
@@ -187,7 +197,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'oslo', new: false },
       { name: 'lillehammer', new: false },
       { name: 'stockholm', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.tallin]
   },
   {
     coords: [extraCoordinates.tallin, extraCoordinates.riga, extraCoordinates.tallin],
@@ -205,7 +216,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'oslo', new: false },
       { name: 'lillehammer', new: false },
       { name: 'stockholm', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.tallin, extraCoordinates.riga]
   },
   {
     coords: [extraCoordinates.tallin, coordinates.helsinki],
@@ -224,7 +236,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'lillehammer', new: false },
       { name: 'stockholm', new: false },
       { name: 'helsinki', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.tallin]
   },
   {
     coords: [coordinates.helsinki, coordinates.losAngeles],
@@ -264,7 +277,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'helsinki', new: false },
       { name: 'los-angeles', new: false },
       { name: 'berlin', new: true }
-    ]
+    ],
+    extraCities: [coordinates.london]
   },
   {
     coords: [
@@ -292,12 +306,14 @@ export const myRoute: RouteInfo[] = [
       { name: 'los-angeles', new: false },
       { name: 'berlin', new: false },
       { name: 'munich', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.liepzig, extraCoordinates.dresden, extraCoordinates.nuremberg]
   },
   {
     coords: [coordinates.munich, coordinates.garmisch, coordinates.innsbruck],
     type: 'ground',
     description: 'Train to Innsbruck through Garmisch-Partenkirchen',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [22, -28],
     rotation: -0.4,
@@ -321,6 +337,7 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.innsbruck, coordinates.cortina],
     type: 'ground',
     description: "Train and bus to Cortina d'Ampezzo",
+    lineWidth: 5,
     zoom: 18,
     midpoint: [20, -28],
     rotation: -0.4,
@@ -345,6 +362,7 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.cortina, extraCoordinates.venice, extraCoordinates.bologna, coordinates.torino],
     type: 'ground',
     description: 'Bus and trains to Torino',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [19, -26],
     rotation: -0.4,
@@ -364,12 +382,14 @@ export const myRoute: RouteInfo[] = [
       { name: 'innsbruck', new: false },
       { name: 'cortina-dampezzo', new: false },
       { name: 'torino', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.venice, extraCoordinates.bologna]
   },
   {
     coords: [coordinates.torino, extraCoordinates.sestriere],
     type: 'ground',
     description: 'Train and bus to Sestriere',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [17, -22],
     rotation: -0.4,
@@ -389,12 +409,14 @@ export const myRoute: RouteInfo[] = [
       { name: 'innsbruck', new: false },
       { name: 'cortina-dampezzo', new: false },
       { name: 'torino', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.sestriere]
   },
   {
     coords: [extraCoordinates.sestriere, coordinates.grenoble],
     type: 'ground',
     description: 'Bus and trains to Grenoble',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [17, -18],
     rotation: -0.3,
@@ -415,12 +437,14 @@ export const myRoute: RouteInfo[] = [
       { name: 'cortina-dampezzo', new: false },
       { name: 'torino', new: false },
       { name: 'grenoble', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.sestriere]
   },
   {
     coords: [coordinates.grenoble, coordinates.albertville],
     type: 'ground',
     description: 'Trains to Albertville',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [18, -18],
     rotation: -0.3,
@@ -448,6 +472,7 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.albertville, extraCoordinates.annecy, coordinates.chamonix],
     type: 'ground',
     description: 'Busses to Chamonix',
+    lineWidth: 5,
     zoom: 18,
     midpoint: [18, -18],
     rotation: -0.3,
@@ -470,7 +495,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'grenoble', new: false },
       { name: 'albertville', new: false },
       { name: 'chamonix', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.annecy]
   },
   {
     coords: [
@@ -483,6 +509,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Busses and trains to St. Moritz',
     zoom: 18,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -502,7 +529,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'albertville', new: false },
       { name: 'chamonix', new: false },
       { name: 'st-moritz', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.geneva, extraCoordinates.zurich, extraCoordinates.chur]
   },
   {
     coords: [
@@ -516,6 +544,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'St. Moritz to Zurich by way of Liechtenstein',
     zoom: 18,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -535,13 +564,15 @@ export const myRoute: RouteInfo[] = [
       { name: 'albertville', new: false },
       { name: 'chamonix', new: false },
       { name: 'st-moritz', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.chur, extraCoordinates.sargans, extraCoordinates.vaduz, extraCoordinates.zurich]
   },
   {
     coords: [extraCoordinates.zurich, extraCoordinates.vienna, coordinates.sarajevo],
     type: 'flight',
     description: 'Flight to Sarajevo',
     zoom: 16,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -562,13 +593,15 @@ export const myRoute: RouteInfo[] = [
       { name: 'chamonix', new: false },
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.zurich, extraCoordinates.vienna]
   },
   {
     coords: [coordinates.sarajevo, extraCoordinates.vienna, coordinates.london],
     type: 'flight',
     description: 'Flight to London',
     zoom: 14,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -590,13 +623,17 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.vienna]
   },
   {
     coords: [coordinates.london, extraCoordinates.austin],
     type: 'flight',
     description: 'Flight to Austin to resupply',
     zoom: 7,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -618,13 +655,17 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.austin]
   },
   {
     coords: [extraCoordinates.austin, extraCoordinates.dallas, extraCoordinates.auckland],
     type: 'flight',
     description: 'Flight to Auckland',
-    zoom: 7,
+    zoom: 3,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     midpoint: [-8.554007668365598, 150.7136274555137],
     cities: [
       { name: 'amsterdam', new: false },
@@ -647,7 +688,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.austin, extraCoordinates.dallas, extraCoordinates.auckland]
   },
   {
     coords: [extraCoordinates.auckland, extraCoordinates.coromandel],
@@ -675,7 +717,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.auckland, extraCoordinates.coromandel]
   },
   {
     coords: [extraCoordinates.coromandel, extraCoordinates.rotorua],
@@ -703,7 +746,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.coromandel, extraCoordinates.rotorua]
   },
   {
     coords: [extraCoordinates.rotorua, extraCoordinates.taupo],
@@ -731,7 +775,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.rotorua, extraCoordinates.taupo]
   },
   {
     coords: [extraCoordinates.taupo, extraCoordinates.tauranga],
@@ -759,7 +804,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.taupo, extraCoordinates.tauranga]
   },
   {
     coords: [extraCoordinates.tauranga, extraCoordinates.napier],
@@ -787,7 +833,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.tauranga, extraCoordinates.napier]
   },
   {
     coords: [extraCoordinates.napier, extraCoordinates.wellington],
@@ -815,7 +862,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'st-moritz', new: false },
       { name: 'sarajevo', new: false },
       { name: 'london', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.napier, extraCoordinates.wellington]
   },
   {
     coords: [extraCoordinates.wellington, coordinates.melbourne],
@@ -844,7 +892,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'sarajevo', new: false },
       { name: 'london', new: false },
       { name: 'melbourne', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.wellington]
   },
   {
     coords: [coordinates.melbourne, coordinates.sydney],
@@ -904,7 +953,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'london', new: false },
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.bali]
   },
   {
     coords: [extraCoordinates.bali, extraCoordinates.singapore],
@@ -934,7 +984,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'london', new: false },
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.bali, extraCoordinates.singapore]
   },
   {
     coords: [extraCoordinates.singapore, coordinates.paris, coordinates.london],
@@ -963,7 +1014,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'london', new: false },
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.singapore]
   },
   {
     coords: [coordinates.london, coordinates.paris],
@@ -1023,7 +1075,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'london', new: false },
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.toulouse]
   },
   {
     coords: [extraCoordinates.toulouse, extraCoordinates.andorra],
@@ -1053,7 +1106,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'london', new: false },
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.toulouse, extraCoordinates.andorra]
   },
   {
     coords: [extraCoordinates.andorra, coordinates.barcelona],
@@ -1084,7 +1138,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.andorra]
   },
   {
     coords: [coordinates.barcelona, extraCoordinates.marseille],
@@ -1115,7 +1170,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.marseille]
   },
   {
     coords: [extraCoordinates.marseille, extraCoordinates.pisa],
@@ -1146,7 +1202,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.marseille, extraCoordinates.pisa]
   },
   {
     coords: [extraCoordinates.pisa, extraCoordinates.florence, extraCoordinates.bologna, extraCoordinates.sanMarino],
@@ -1177,6 +1234,12 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
+    ],
+    extraCities: [
+      extraCoordinates.pisa,
+      extraCoordinates.florence,
+      extraCoordinates.bologna,
+      extraCoordinates.sanMarino
     ]
   },
   {
@@ -1208,7 +1271,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.sanMarino, extraCoordinates.bologna, extraCoordinates.florence]
   },
   {
     coords: [extraCoordinates.florence, extraCoordinates.chiusi, extraCoordinates.castiglione],
@@ -1239,7 +1303,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'melbourne', new: false },
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.florence, extraCoordinates.chiusi, extraCoordinates.castiglione]
   },
   {
     coords: [extraCoordinates.castiglione, extraCoordinates.chiusi, coordinates.rome],
@@ -1271,7 +1336,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false },
       { name: 'rome', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.castiglione, extraCoordinates.chiusi]
   },
   {
     coords: [coordinates.rome, extraCoordinates.naples],
@@ -1303,7 +1369,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false },
       { name: 'rome', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.naples]
   },
   {
     coords: [extraCoordinates.naples, extraCoordinates.bari],
@@ -1335,7 +1402,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false },
       { name: 'rome', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.naples, extraCoordinates.bari]
   },
   {
     coords: [extraCoordinates.bari, extraCoordinates.patras],
@@ -1367,7 +1435,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false },
       { name: 'rome', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.bari, extraCoordinates.patras]
   },
   {
     coords: [extraCoordinates.patras, coordinates.athens],
@@ -1400,7 +1469,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.patras]
   },
   {
     coords: [coordinates.athens, extraCoordinates.olympia],
@@ -1433,7 +1503,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.olympia]
   },
   {
     coords: [extraCoordinates.olympia, coordinates.athens],
@@ -1466,7 +1537,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.olympia]
   },
   {
     coords: [coordinates.athens, coordinates.london],
@@ -1532,7 +1604,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.copenhagen]
   },
   {
     coords: [extraCoordinates.copenhagen, extraCoordinates.tòrshavn],
@@ -1565,7 +1638,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.copenhagen, extraCoordinates.tòrshavn]
   },
   {
     coords: [extraCoordinates.tòrshavn, extraCoordinates.reykjavik],
@@ -1598,7 +1672,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'barcelona', new: false },
       { name: 'rome', new: false },
       { name: 'athens', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.tòrshavn, extraCoordinates.reykjavik]
   },
   {
     coords: [extraCoordinates.reykjavik, coordinates.montreal],
@@ -1632,7 +1707,8 @@ export const myRoute: RouteInfo[] = [
       { name: 'rome', new: false },
       { name: 'athens', new: false },
       { name: 'montreal', new: true }
-    ]
+    ],
+    extraCities: [extraCoordinates.reykjavik]
   },
   {
     coords: [coordinates.montreal, extraCoordinates.austin],
@@ -1666,6 +1742,7 @@ export const myRoute: RouteInfo[] = [
       { name: 'rome', new: false },
       { name: 'athens', new: false },
       { name: 'montreal', new: false }
-    ]
+    ],
+    extraCities: [extraCoordinates.austin]
   }
 ];
