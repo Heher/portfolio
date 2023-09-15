@@ -10,6 +10,7 @@ import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { myRoute } from './routeCoordinates';
 import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
+import { OrbitControls } from '@react-three/drei';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -56,7 +57,7 @@ const variants = {
     y: routeY,
     z: getGlobeZoom(screenWidth, zoom),
     transition: {
-      duration: 0.7,
+      duration: 0.9,
       ease: 'easeInOut'
     }
   }),
@@ -139,6 +140,7 @@ export function GlobeContainer() {
         />
       </EffectComposer>
       {/* <Stats /> */}
+      <OrbitControls />
     </Canvas>
   );
 }

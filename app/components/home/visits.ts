@@ -403,7 +403,7 @@ export const visits = [
     name: 'Pisa',
     date: '2023-05-12',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train', amount: 2 }]
   },
   {
     country: 'San Marino',

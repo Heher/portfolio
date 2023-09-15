@@ -7,11 +7,12 @@ import type { Visit } from 'types/globe';
 
 type SharedOlympiadsProps = {
   olympiads: (CityOlympiadFragment | null)[];
+  citySlug: string;
   visits: Visit[];
   handleImageModal: (img: string | null) => void;
 };
 
-function SharedOlympiads({ olympiads, visits, handleImageModal }: SharedOlympiadsProps) {
+function SharedOlympiads({ olympiads, citySlug, visits, handleImageModal }: SharedOlympiadsProps) {
   const firstOlympiad = olympiads[0];
 
   if (!firstOlympiad?.olympiadType) return null;
@@ -34,7 +35,12 @@ function SharedOlympiads({ olympiads, visits, handleImageModal }: SharedOlympiad
       </div>
       <div className="media mt-[20px] items-end">
         {visit && (
-          <OlympiadMedia visit={visit} olympiadType={firstOlympiad.olympiadType} handleImageModal={handleImageModal} />
+          <OlympiadMedia
+            visit={visit}
+            citySlug={citySlug}
+            olympiadType={firstOlympiad.olympiadType}
+            handleImageModal={handleImageModal}
+          />
         )}
       </div>
     </div>
@@ -76,7 +82,12 @@ export default function CitySlider({
       </div>
       <div className="mt-16 md:mt-24">
         {sharedStadiums.includes(data?.name) ? (
-          <SharedOlympiads olympiads={filteredOlympiads} visits={visits} handleImageModal={handleImageModal} />
+          <SharedOlympiads
+            olympiads={filteredOlympiads}
+            citySlug={data.slug}
+            visits={visits}
+            handleImageModal={handleImageModal}
+          />
         ) : (
           filteredOlympiads.map((olympiad, index) => {
             if (!olympiad?.olympiadType) return null;
@@ -98,7 +109,7 @@ export default function CitySlider({
                       visit && 'bg-[var(--positive)]'
                     }`}
                   />
-                  <h3 className="ml-2 text-xl md:left-7 md:top-[-2px] md:text-[22px] md:leading-6">{`${olympiad.year} ${
+                  <h3 className="ml-4 text-xl md:text-[22px] md:leading-6">{`${olympiad.year} ${
                     olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()
                   } Games`}</h3>
                 </div>
@@ -106,6 +117,7 @@ export default function CitySlider({
                   {visit && (
                     <OlympiadMedia
                       visit={visit}
+                      citySlug={data.slug}
                       olympiadType={olympiad.olympiadType}
                       handleImageModal={handleImageModal}
                     />
