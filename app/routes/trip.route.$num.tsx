@@ -2,13 +2,26 @@ import type { V2_MetaFunction } from '@remix-run/node';
 import { useEffect } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import type { RouteContext } from './trip.route';
+import { myRoute } from '~/components/globe/routeCoordinates';
 
 export const meta: V2_MetaFunction = ({ params }) => {
+  if (!params?.num) {
+    return [
+      { title: `Unknown leg | Olympic Trip Route | John Heher` },
+      {
+        name: 'description',
+        content: `An unknown leg of John Heher's Olympic trip.`
+      }
+    ];
+  }
+
+  const data = myRoute[parseInt(params.num) - 1];
+
   return [
     { title: `Leg ${params.num} | Olympic Trip Route | John Heher` },
     {
       name: 'description',
-      content: `John Heher's leg #${params.num} of his Olympic trip route.`
+      content: `Leg #${params.num} of John Heher's Olympic trip: ${data.description}`
     },
     {
       name: 'og:title',

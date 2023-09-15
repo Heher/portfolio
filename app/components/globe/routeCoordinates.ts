@@ -25,6 +25,7 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   vienna: [48.2082, -16.3738],
   dallas: [32.7767, 96.797],
   auckland: [-36.8485, -174.7633],
+  mangatarata: [-37.345, -175.338],
   coromandel: [-36.7615, -175.4968],
   rotorua: [-38.1368, -176.2497],
   taupo: [-38.6857, -176.0702],
@@ -35,7 +36,12 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   singapore: [1.3521, -103.8198],
   toulouse: [43.6047, -1.4442],
   andorra: [42.5063, -1.5218],
+  nîmes: [43.8367, -4.3601],
+  narbonne: [43.1833, -3.0044],
   marseille: [43.2965, -5.3698],
+  monaco: [43.7417, -7.4245],
+  genoa: [44.4056, -8.9463],
+  'la-spezia': [44.1024, -9.8241],
   pisa: [43.7228, -10.3966],
   sanMarino: [43.9424, -12.4578],
   florence: [43.7696, -11.2558],
@@ -43,11 +49,14 @@ const extraCoordinates: { [key: string]: Coordinate } = {
   castiglione: [43.0058, -11.6161],
   naples: [40.8518, -14.2681],
   bari: [41.1171, -16.8719],
+  'bari-ferry1': [40.469, -18.97],
+  'bari-ferry2': [38.534, -20.123],
   patras: [38.2466, -21.7346],
   olympia: [37.6384, -21.6297],
   copenhagen: [55.6761, -12.5683],
   tòrshavn: [62.0107, 6.7741],
-  reykjavik: [64.147, 21.9408]
+  reykjavik: [64.147, 21.9408],
+  toronto: [43.6532, 79.3832]
 };
 
 export const myRoute: RouteInfo[] = [
@@ -104,6 +113,7 @@ export const myRoute: RouteInfo[] = [
     lineSpeed: 20,
     dashSize: 0.1,
     dashGap: 0.1,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false }
@@ -290,10 +300,10 @@ export const myRoute: RouteInfo[] = [
     ],
     type: 'ground',
     description: 'Berlin to Munich',
-    zoom: 16,
+    zoom: 17.5,
     lineWidth: 5,
-    midpoint: [25, -29],
-    rotation: -0.4,
+    midpoint: [30, -40],
+    rotation: -0.6,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -364,8 +374,8 @@ export const myRoute: RouteInfo[] = [
     description: 'Bus and trains to Torino',
     lineWidth: 5,
     zoom: 18,
-    midpoint: [19, -26],
-    rotation: -0.4,
+    midpoint: [15, -14],
+    rotation: -0.1,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -391,8 +401,8 @@ export const myRoute: RouteInfo[] = [
     description: 'Train and bus to Sestriere',
     lineWidth: 5,
     zoom: 18,
-    midpoint: [17, -22],
-    rotation: -0.4,
+    midpoint: [18, 10],
+    rotation: 0.4,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -418,8 +428,8 @@ export const myRoute: RouteInfo[] = [
     description: 'Bus and trains to Grenoble',
     lineWidth: 5,
     zoom: 18,
-    midpoint: [17, -18],
-    rotation: -0.3,
+    midpoint: [19, 11],
+    rotation: 0.4,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -446,8 +456,8 @@ export const myRoute: RouteInfo[] = [
     description: 'Trains to Albertville',
     lineWidth: 5,
     zoom: 18,
-    midpoint: [18, -18],
-    rotation: -0.3,
+    midpoint: [19, -23],
+    rotation: -0.4,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -474,8 +484,8 @@ export const myRoute: RouteInfo[] = [
     description: 'Busses to Chamonix',
     lineWidth: 5,
     zoom: 18,
-    midpoint: [18, -18],
-    rotation: -0.3,
+    midpoint: [22, -31],
+    rotation: -0.6,
     y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
@@ -510,6 +520,9 @@ export const myRoute: RouteInfo[] = [
     description: 'Busses and trains to St. Moritz',
     zoom: 18,
     lineWidth: 5,
+    midpoint: [16, -11],
+    rotation: -0.1,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -545,6 +558,9 @@ export const myRoute: RouteInfo[] = [
     description: 'St. Moritz to Zurich by way of Liechtenstein',
     zoom: 18,
     lineWidth: 5,
+    midpoint: [16, -11],
+    rotation: -0.1,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -571,8 +587,11 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.zurich, extraCoordinates.vienna, coordinates.sarajevo],
     type: 'flight',
     description: 'Flight to Sarajevo',
-    zoom: 16,
-    lineWidth: 5,
+    zoom: 17,
+    lineWidth: 7,
+    midpoint: [16, -11],
+    rotation: 0.1,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -600,8 +619,11 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.sarajevo, extraCoordinates.vienna, coordinates.london],
     type: 'flight',
     description: 'Flight to London',
-    zoom: 14,
-    lineWidth: 5,
+    zoom: 17,
+    lineWidth: 7,
+    midpoint: [16, -15],
+    rotation: -0.1,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -630,10 +652,12 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.london, extraCoordinates.austin],
     type: 'flight',
     description: 'Flight to Austin to resupply',
-    zoom: 7,
     lineSpeed: 20,
     dashSize: 0.1,
     dashGap: 0.1,
+    lineWidth: 5,
+    midpoint: [32.942, 54.226],
+    zoom: 7,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -667,6 +691,7 @@ export const myRoute: RouteInfo[] = [
     dashSize: 0.1,
     dashGap: 0.1,
     midpoint: [-8.554007668365598, 150.7136274555137],
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -692,10 +717,11 @@ export const myRoute: RouteInfo[] = [
     extraCities: [extraCoordinates.austin, extraCoordinates.dallas, extraCoordinates.auckland]
   },
   {
-    coords: [extraCoordinates.auckland, extraCoordinates.coromandel],
+    coords: [extraCoordinates.auckland, extraCoordinates.mangatarata, extraCoordinates.coromandel],
     type: 'ground',
     description: 'Driving to Coromandel Peninsula',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -725,6 +751,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Driving to Rotorua',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -754,6 +781,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Driving to Taupo',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -783,6 +811,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Driving to Tauranga',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -808,10 +837,11 @@ export const myRoute: RouteInfo[] = [
     extraCities: [extraCoordinates.taupo, extraCoordinates.tauranga]
   },
   {
-    coords: [extraCoordinates.tauranga, extraCoordinates.napier],
+    coords: [extraCoordinates.tauranga, extraCoordinates.taupo, extraCoordinates.napier],
     type: 'ground',
     description: 'Driving to Napier',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -841,6 +871,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'Driving to Wellington',
     zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -869,7 +900,14 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.wellington, coordinates.melbourne],
     type: 'flight',
     description: 'Flight to Melbourne',
-    zoom: 10,
+    zoom: 11,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashSize: 0.05,
+    dashGap: 0.05,
+    midpoint: [-60, -125],
+    rotation: 1,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -899,7 +937,14 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.melbourne, coordinates.sydney],
     type: 'flight',
     description: 'Flight to Sydney',
-    zoom: 10,
+    zoom: 12,
+    lineWidth: 5,
+    lineSpeed: 80,
+    dashSize: 0.01,
+    dashGap: 0.01,
+    midpoint: [-20.6619, -107.8724],
+    rotation: 2,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -929,7 +974,14 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.sydney, extraCoordinates.bali],
     type: 'flight',
     description: 'Flight to Bali',
-    zoom: 10,
+    zoom: 11,
+    midpoint: [-45, -110],
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashSize: 0.05,
+    dashGap: 0.05,
+    rotation: 0.5,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -960,7 +1012,14 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.bali, extraCoordinates.singapore],
     type: 'flight',
     description: 'Flight to Singapore',
-    zoom: 10,
+    zoom: 12,
+    midpoint: [-35, -80],
+    lineWidth: 5,
+    lineSpeed: 80,
+    dashSize: 0.05,
+    dashGap: 0.05,
+    rotation: 0.7,
+    y: -0.5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -991,6 +1050,10 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.singapore, coordinates.paris, coordinates.london],
     type: 'flight',
     description: 'Flight to London',
+    lineWidth: 5,
+    lineSpeed: 20,
+    dashSize: 0.1,
+    dashGap: 0.1,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1022,6 +1085,7 @@ export const myRoute: RouteInfo[] = [
     type: 'ground',
     description: 'London to Paris by train',
     zoom: 16,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1051,7 +1115,8 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.paris, extraCoordinates.toulouse],
     type: 'ground',
     description: 'Paris to Toulouse by train',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1082,7 +1147,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.toulouse, extraCoordinates.andorra],
     type: 'ground',
     description: 'Toulouse to Andorra by bus',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1113,7 +1179,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.andorra, coordinates.barcelona],
     type: 'ground',
     description: 'Andorra to Barcelona by bus',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1142,10 +1209,11 @@ export const myRoute: RouteInfo[] = [
     extraCities: [extraCoordinates.andorra]
   },
   {
-    coords: [coordinates.barcelona, extraCoordinates.marseille],
+    coords: [coordinates.barcelona, extraCoordinates.narbonne, extraCoordinates.nîmes, extraCoordinates.marseille],
     type: 'ground',
     description: 'Barcelona to Marseille by train',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1171,13 +1239,14 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
     ],
-    extraCities: [extraCoordinates.marseille]
+    extraCities: [extraCoordinates.nîmes, extraCoordinates.marseille]
   },
   {
-    coords: [extraCoordinates.marseille, extraCoordinates.pisa],
+    coords: [extraCoordinates.marseille, extraCoordinates.monaco],
     type: 'ground',
-    description: 'Marseille to Pisa by train',
-    zoom: 16,
+    description: 'Marseille to Monaco by train',
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1203,13 +1272,47 @@ export const myRoute: RouteInfo[] = [
       { name: 'sydney', new: false },
       { name: 'barcelona', new: false }
     ],
-    extraCities: [extraCoordinates.marseille, extraCoordinates.pisa]
+    extraCities: [extraCoordinates.marseille, extraCoordinates.monaco]
+  },
+  {
+    coords: [extraCoordinates.monaco, extraCoordinates.genoa, extraCoordinates['la-spezia'], extraCoordinates.pisa],
+    type: 'ground',
+    description: 'Monaco to Pisa by train',
+    zoom: 17,
+    lineWidth: 5,
+    cities: [
+      { name: 'amsterdam', new: false },
+      { name: 'antwerp', new: false },
+      { name: 'paris', new: false },
+      { name: 'oslo', new: false },
+      { name: 'lillehammer', new: false },
+      { name: 'stockholm', new: false },
+      { name: 'helsinki', new: false },
+      { name: 'los-angeles', new: false },
+      { name: 'berlin', new: false },
+      { name: 'munich', new: false },
+      { name: 'garmisch-partenkirchen', new: false },
+      { name: 'innsbruck', new: false },
+      { name: 'cortina-dampezzo', new: false },
+      { name: 'torino', new: false },
+      { name: 'grenoble', new: false },
+      { name: 'albertville', new: false },
+      { name: 'chamonix', new: false },
+      { name: 'st-moritz', new: false },
+      { name: 'sarajevo', new: false },
+      { name: 'london', new: false },
+      { name: 'melbourne', new: false },
+      { name: 'sydney', new: false },
+      { name: 'barcelona', new: false }
+    ],
+    extraCities: [extraCoordinates.monaco, extraCoordinates['la-spezia'], extraCoordinates.pisa]
   },
   {
     coords: [extraCoordinates.pisa, extraCoordinates.florence, extraCoordinates.bologna, extraCoordinates.sanMarino],
     type: 'ground',
     description: 'Pisa to San Marino by train and bus',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1246,7 +1349,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.sanMarino, extraCoordinates.bologna, extraCoordinates.florence],
     type: 'ground',
     description: 'San Marino to Florence by bus and train',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1278,7 +1382,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.florence, extraCoordinates.chiusi, extraCoordinates.castiglione],
     type: 'ground',
     description: 'Florence to Castiglione by train',
-    zoom: 16,
+    zoom: 18,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1310,7 +1415,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.castiglione, extraCoordinates.chiusi, coordinates.rome],
     type: 'ground',
     description: 'Castiglione to Rome by train',
-    zoom: 16,
+    zoom: 18,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1343,7 +1449,8 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.rome, extraCoordinates.naples],
     type: 'ground',
     description: 'Rome to Naples by train',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1376,7 +1483,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.naples, extraCoordinates.bari],
     type: 'ground',
     description: 'Naples to Bari by train',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1406,10 +1514,16 @@ export const myRoute: RouteInfo[] = [
     extraCities: [extraCoordinates.naples, extraCoordinates.bari]
   },
   {
-    coords: [extraCoordinates.bari, extraCoordinates.patras],
+    coords: [
+      extraCoordinates.bari,
+      extraCoordinates['bari-ferry1'],
+      extraCoordinates['bari-ferry2'],
+      extraCoordinates.patras
+    ],
     type: 'ferry',
     description: 'Ferry to Patras',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1442,7 +1556,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.patras, coordinates.athens],
     type: 'ground',
     description: 'Patras to Athens by bus',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1476,7 +1591,8 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.athens, extraCoordinates.olympia],
     type: 'ground',
     description: 'Driving to Olympia',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1510,7 +1626,8 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.olympia, coordinates.athens],
     type: 'ground',
     description: 'Driving back to Athens',
-    zoom: 16,
+    zoom: 17,
+    lineWidth: 5,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1544,7 +1661,11 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.athens, coordinates.london],
     type: 'flight',
     description: 'Flight to London',
-    zoom: 12,
+    zoom: 15,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1577,7 +1698,11 @@ export const myRoute: RouteInfo[] = [
     coords: [coordinates.london, extraCoordinates.copenhagen],
     type: 'flight',
     description: 'Flight to Copenhagen',
-    zoom: 12,
+    zoom: 15,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1611,7 +1736,11 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.copenhagen, extraCoordinates.tòrshavn],
     type: 'flight',
     description: 'Flight to the Faroe Islands',
-    zoom: 12,
+    zoom: 15,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1645,7 +1774,11 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.tòrshavn, extraCoordinates.reykjavik],
     type: 'flight',
     description: 'Flight to Reykjavik',
-    zoom: 12,
+    zoom: 15,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1679,7 +1812,11 @@ export const myRoute: RouteInfo[] = [
     coords: [extraCoordinates.reykjavik, coordinates.montreal],
     type: 'flight',
     description: 'Flight to Montreal',
-    zoom: 10,
+    zoom: 12,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1711,10 +1848,14 @@ export const myRoute: RouteInfo[] = [
     extraCities: [extraCoordinates.reykjavik]
   },
   {
-    coords: [coordinates.montreal, extraCoordinates.austin],
+    coords: [coordinates.montreal, extraCoordinates.toronto, extraCoordinates.austin],
     type: 'flight',
     description: 'Flight to Austin',
-    zoom: 10,
+    zoom: 12,
+    lineWidth: 5,
+    lineSpeed: 50,
+    dashGap: 0.05,
+    dashSize: 0.05,
     cities: [
       { name: 'amsterdam', new: false },
       { name: 'antwerp', new: false },
@@ -1743,6 +1884,6 @@ export const myRoute: RouteInfo[] = [
       { name: 'athens', new: false },
       { name: 'montreal', new: false }
     ],
-    extraCities: [extraCoordinates.austin]
+    extraCities: [extraCoordinates.toronto, extraCoordinates.austin]
   }
 ];
