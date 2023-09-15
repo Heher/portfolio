@@ -15,6 +15,8 @@ export type Visit = {
     img: string;
     link: string;
   };
+  date?: string;
+  leg?: number;
 };
 
 export type RouteInfo = {

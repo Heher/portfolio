@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import type { CityFieldsFragment } from '~/gql/graphql';
 import NewBackButton from '~/components/home/NewBackButton';
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, params }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
     return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
   }
@@ -20,7 +20,10 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, params }) => {
   ];
 };
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
+  const url = new URL(request.url);
+  const referSlug = url.searchParams.get('refer');
+
   if (!params.slug) {
     return json({ city: null });
   }
@@ -35,14 +38,31 @@ export async function loader({ params }: LoaderArgs) {
     return json({ city: null });
   }
 
-  return json({ city: response.data.cityBySlug });
+  if (referSlug) {
+    const referResponse = await sdk.GetCityName({ slug: referSlug });
+
+    return json({
+      city: response.data.cityBySlug,
+      refer: { name: referResponse?.data?.cityBySlug?.name, slug: referSlug }
+    });
+  }
+
+  return json({ city: response.data.cityBySlug, refer: null });
 }
 
-function CityTest({ city, dispatch }: { city: CityFieldsFragment; dispatch: Dispatch<any> }) {
+function CityTest({
+  city,
+  dispatch,
+  refer
+}: {
+  city: CityFieldsFragment;
+  dispatch: Dispatch<any>;
+  refer: { name: string; slug: string } | null;
+}) {
   useEffect(() => {
     if (city?.slug) {
+      dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
-      dispatch({ type: 'SHOW_DETAILS', showDetails: true });
       dispatch({ type: 'SELECTED_CITY_DATA', selectedCityData: city });
 
       const root = document.documentElement;
@@ -54,7 +74,7 @@ function CityTest({ city, dispatch }: { city: CityFieldsFragment; dispatch: Disp
     return null;
   }
 
-  return <NewBackButton />;
+  return <NewBackButton refer={refer} />;
 }
 
 function CityPage() {
@@ -67,7 +87,7 @@ function CityPage() {
 
   const { dispatch } = tripContext;
 
-  return <CityTest city={loaderData.city as CityFieldsFragment} dispatch={dispatch} />;
+  return <CityTest city={loaderData.city as CityFieldsFragment} dispatch={dispatch} refer={loaderData.refer} />;
 }
 
 export default CityPage;

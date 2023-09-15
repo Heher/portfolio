@@ -8,7 +8,7 @@ import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { V2_MetaFunction } from '@remix-run/node';
 
-import visits from '~/data/new-visits';
+import visits from '~/data/visits';
 import type { Visit } from 'types/globe';
 import type { CityFieldsFragment } from '~/gql/graphql';
 import CitySlider from '~/components/olympiad-city/CitySlider';
@@ -16,7 +16,6 @@ import CitySlider from '~/components/olympiad-city/CitySlider';
 type TripPageState = {
   selectedImage: string | null;
   moveableGlobe: boolean;
-  showDetails: boolean;
   selectedCity: string | null;
   selectedCityData: CityFieldsFragment | null;
   selectedRouteLeg: number | null;
@@ -88,7 +87,6 @@ function GlobeFallback() {
 type Action =
   | { type: 'IMAGE'; selectedImage: string | null }
   | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
-  | { type: 'SHOW_DETAILS'; showDetails: boolean }
   | { type: 'SELECTED_CITY'; selectedCity: string | null }
   | { type: 'SELECTED_CITY_DATA'; selectedCityData: CityFieldsFragment | null }
   | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number | null }
@@ -100,8 +98,6 @@ const reducer = (state: TripPageState, action: Action) => {
       return { ...state, selectedImage: action.selectedImage };
     case 'MOVEABLE_GLOBE':
       return { ...state, moveableGlobe: action.moveableGlobe };
-    case 'SHOW_DETAILS':
-      return { ...state, showDetails: action.showDetails };
     case 'SELECTED_CITY':
       return { ...state, selectedCity: action.selectedCity };
     case 'SELECTED_CITY_DATA':
@@ -121,7 +117,6 @@ export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null)
 const initialState: TripPageState = {
   selectedImage: null,
   moveableGlobe: false,
-  showDetails: false,
   selectedCity: null,
   selectedCityData: null,
   selectedRouteLeg: null,
