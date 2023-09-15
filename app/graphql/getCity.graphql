@@ -28,6 +28,12 @@ query GetCity($slug: String!, $now: Datetime!) {
   }
 }
 
+query GetCityName($slug: String!) {
+  cityBySlug(slug: $slug) {
+    name
+  }
+}
+
 query GetCities($now: Datetime!) {
   cities {
     nodes {

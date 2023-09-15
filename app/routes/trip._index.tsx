@@ -144,13 +144,13 @@ export default function TripIndex() {
 
   const { width, appState, dispatch } = tripContext;
 
-  const { showDetails, loaded } = appState;
+  const { loaded } = appState;
 
   useEffect(() => {
     const root = document.documentElement;
 
     root.style.setProperty('--body-background', 'var(--globe-background)');
-  }, [showDetails, width]);
+  }, [width]);
 
   useEffect(() => {
     if (!loaded) {

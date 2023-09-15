@@ -46,6 +46,7 @@ export function City({ city, zoom, height }: CitiesProps) {
   }
 
   const radius = zoom ? markerRadius * (7 / zoom) : markerRadius;
+  // const radius = markerRadius;
 
   let showFlag = false;
   let newFlag = true;
@@ -63,7 +64,12 @@ export function City({ city, zoom, height }: CitiesProps) {
 
   return (
     <group>
-      <Marker markerInfo={city.markerInfo} color={city.type === 'summer' ? summerColor : winterColor} radius={radius} />
+      <Marker
+        markerInfo={city.markerInfo}
+        color={city.type === 'summer' ? summerColor : winterColor}
+        radius={radius}
+        shown={showFlag}
+      />
       <Flag
         markerInfo={city.markerInfo}
         alphaMap={alphaMap}

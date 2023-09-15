@@ -5,6 +5,7 @@ export const darkWinterColor = new Color('#122831').convertSRGBToLinear();
 export const winterColor = new Color(0x5bcaf5);
 export const visitedColor = new Color(0x3dbd73);
 export const notVisitedColor = new Color(0xff5a5a);
+export const extraCityColor = new Color(0x671967);
 
 export const notSelectedColor = new Color(0xcccccc);
 export const black = new Color('#000000').convertSRGBToLinear();

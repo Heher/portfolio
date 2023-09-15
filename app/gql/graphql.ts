@@ -10119,6 +10119,15 @@ export type GetCityQuery = {
   } | null;
 };
 
+export type GetCityNameQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+export type GetCityNameQuery = {
+  __typename?: 'Query';
+  cityBySlug?: { __typename?: 'City'; name?: string | null } | null;
+};
+
 export type GetCitiesQueryVariables = Exact<{
   now: Scalars['Datetime']['input'];
 }>;
@@ -10331,6 +10340,13 @@ export const GetCityDocument = gql`
   }
   ${CityFieldsFragmentDoc}
 `;
+export const GetCityNameDocument = gql`
+  query GetCityName($slug: String!) {
+    cityBySlug(slug: $slug) {
+      name
+    }
+  }
+`;
 export const GetCitiesDocument = gql`
   query GetCities($now: Datetime!) {
     cities {
@@ -10390,6 +10406,7 @@ export type SdkFunctionWrapper = <T>(
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
 const GetCityDocumentString = print(GetCityDocument);
+const GetCityNameDocumentString = print(GetCityNameDocument);
 const GetCitiesDocumentString = print(GetCitiesDocument);
 const GetOlympicDataDocumentString = print(GetOlympicDataDocument);
 const GetFlagsDocumentString = print(GetFlagsDocument);
@@ -10407,6 +10424,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             ...wrappedRequestHeaders
           }),
         'GetCity',
+        'query'
+      );
+    },
+    GetCityName(
+      variables: GetCityNameQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<{ data: GetCityNameQuery; extensions?: any; headers: Dom.Headers; status: number }> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.rawRequest<GetCityNameQuery>(GetCityNameDocumentString, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'GetCityName',
         'query'
       );
     },

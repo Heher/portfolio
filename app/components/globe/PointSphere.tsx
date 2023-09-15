@@ -73,7 +73,7 @@ for (let i = 0; i < pointAmount; i++) {
   geometries.push(circleGeometry);
 }
 
-const testGeometry = mergeGeometries(geometries);
+const globeGeometry = mergeGeometries(geometries);
 
 function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: THREE.Texture) {
   shader.uniforms.maxSize = uniforms.maxSize;
@@ -148,8 +148,8 @@ export default function PointSphere() {
 
   return (
     <mesh ref={mesh} scale={0.2} rotation-y={Math.PI / 2} receiveShadow>
-      <bufferGeometry attach="geometry" {...testGeometry} />
-      <meshPhysicalMaterial
+      <bufferGeometry {...globeGeometry} />
+      <meshStandardMaterial
         color={0x8fa1b3}
         onBeforeCompile={(shader) => beforeCompile(shader, uniforms, eTexture)}
         defines={{ USE_UV: '' }}

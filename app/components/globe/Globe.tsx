@@ -34,7 +34,7 @@ function getRouteRotation(leg: RouteInfo): number[] {
 
   const { latRad, lonRad } = convertToRadians(midpoint);
 
-  return [latRad, lonRad - Math.PI / 2, leg.rotation || 0.5];
+  return [latRad, lonRad - Math.PI / 2, leg.rotation !== null && leg.rotation !== undefined ? leg.rotation : 0.5];
 }
 
 function newGetCityRotation(selectedCity: string | null) {
@@ -82,7 +82,7 @@ const variants = {
     y: routeY,
     z: getGlobeZoom(screenWidth, zoom),
     transition: {
-      duration: 0.7,
+      duration: 0.9,
       ease: 'easeInOut'
     }
   }),
