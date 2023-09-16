@@ -140,7 +140,7 @@ export function GlobeContainer() {
         />
       </EffectComposer>
       {/* <Stats /> */}
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </Canvas>
   );
 }
