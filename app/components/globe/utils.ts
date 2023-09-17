@@ -113,9 +113,14 @@ export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (Ci
   return citiesWithVisits;
 }
 
-export function getZoom(selectedRouteLeg: number | null) {
+export function getZoom(selectedRouteLeg: number | null, width: number) {
   if (selectedRouteLeg !== null) {
-    return myRoute[selectedRouteLeg - 1].zoom || 7;
+    let zoom = myRoute[selectedRouteLeg - 1].zoom || 7;
+    if (width < 768) {
+      zoom = zoom + 3;
+    }
+
+    return zoom;
   }
 
   return 7;
