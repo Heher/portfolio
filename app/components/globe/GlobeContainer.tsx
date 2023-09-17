@@ -10,7 +10,8 @@ import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { myRoute } from './routeCoordinates';
 import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
-import { OrbitControls } from '@react-three/drei';
+import { GradientTexture, GradientType } from '@react-three/drei';
+// import { OrbitControls } from '@react-three/drei';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -102,12 +103,22 @@ function GlobeBackdrop({
         screenHeight: window.innerHeight,
         width: viewport.width,
         height: viewport.height,
-        zoom: getZoom(selectedRouteLeg, selectedCity),
+        zoom: getZoom(selectedRouteLeg, window.innerWidth),
         routeY
       }}
     >
       <circleGeometry args={[1, 64]} />
-      <meshBasicMaterial color="#2B4955" />
+      <meshBasicMaterial>
+        <GradientTexture
+          stops={[0.6, 0.9, 1]} // As many stops as you want
+          colors={['#004953', '#317873', '#008080']} // Colors need to match the number of stops
+          size={1024} // Size (height) is optional, default = 1024
+          width={1024} // Width of the canvas producing the texture, default = 16
+          type={GradientType.Radial} // The type of the gradient, default = GradientType.Linear
+          innerCircleRadius={0} // Optional, the radius of the inner circle of the gradient, default = 0
+          outerCircleRadius={'auto'} // Optional, the radius of the outer circle of the gradient, default = auto
+        />
+      </meshBasicMaterial>
     </motion.mesh>
   );
 }
