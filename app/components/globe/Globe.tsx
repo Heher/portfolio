@@ -168,14 +168,16 @@ export function Globe({
         width: viewport.width,
         height: viewport.height,
         rotateY: rotateY.get(),
-        zoom: getZoom(selectedRouteLeg, selectedCity),
+        zoom: getZoom(selectedRouteLeg, window.innerWidth),
         routeY
       }}
     >
       <PointSphere />
       {routeSelected && <Route />}
       {citiesWithVisits.map((city) => {
-        return <City key={city.name} city={city} height={beamHeight} zoom={getZoom(selectedRouteLeg, selectedCity)} />;
+        return (
+          <City key={city.name} city={city} height={beamHeight} zoom={getZoom(selectedRouteLeg, window.innerWidth)} />
+        );
       })}
     </motion.group>
   );
