@@ -18,7 +18,8 @@ export function Marker({ markerInfo, color, radius, shown }: MarkerProps) {
       animate={{ y: shown ? markerInfo.position[1] : markerInfo.position[1] - 0.01, scale: shown ? 1 : 0 }}
       transition={{ duration: 0.6, ease: 'easeInOut' }}
     >
-      <mesh castShadow receiveShadow position-y={markerHeight / 2}>
+      <mesh position-y={markerHeight / 2}>
+        {/* <mesh position-y={markerHeight / 2}> */}
         <cylinderGeometry args={[radius, radius, markerHeight, 32]} />
         <meshStandardMaterial color={shown ? color : 0xe0e0e0} />
       </mesh>

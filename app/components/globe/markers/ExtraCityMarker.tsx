@@ -10,6 +10,7 @@ type MarkerProps = {
 export default function ExtraCityMarker({ color, radius }: MarkerProps) {
   return (
     <motion.mesh castShadow receiveShadow position-y={markerHeight / 2}>
+      {/* <motion.mesh position-y={markerHeight / 2}> */}
       <cylinderGeometry args={[radius / 1.2, radius / 1.2, markerHeight, 32]} />
       <meshStandardMaterial color={color} />
     </motion.mesh>
