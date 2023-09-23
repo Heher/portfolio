@@ -18,7 +18,7 @@
     "@react-three/drei": "^9.83.9",
     "@react-three/fiber": "^8.14.2",
     "@react-three/postprocessing": "^2.15.1",
-    "@remix-run/css-bundle": "^2.0.0",
+    "@remix-run/css-bundle": "^2.0.1",
     "@remix-run/express": "^2.0.1",
     "@remix-run/netlify": "^1.19.3",
     "@remix-run/node": "^1.19.3",
