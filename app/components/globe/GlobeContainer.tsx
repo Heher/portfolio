@@ -106,6 +106,7 @@ function GlobeBackdrop({
         zoom: getZoom(selectedRouteLeg, window.innerWidth),
         routeY
       }}
+      receiveShadow
     >
       <circleGeometry args={[1, 64]} />
       <meshBasicMaterial>
@@ -133,9 +134,11 @@ export function GlobeContainer() {
   const { selectedCity, visits, selectedRouteLeg } = tripContext;
 
   return (
-    <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
+    // <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
+    <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
       <ambientLight intensity={0.1} />
       <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
+      {/* <directionalLight position={[0, 1, 1]} intensity={3} color={white} /> */}
       <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
       <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} />
       <EffectComposer>

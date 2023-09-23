@@ -56,13 +56,14 @@ export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, n
       animate={shown ? (newFlag ? 'show' : 'halfShow') : 'hide'}
       variants={variants}
     >
-      <mesh ref={flagRef} receiveShadow position-y={height / 2}>
+      {/* <mesh ref={flagRef} receiveShadow position-y={height / 2}> */}
+      <mesh ref={flagRef} position-y={height / 2}>
         <cylinderGeometry args={[radius * 4, radius, height, 32, 32, true]} />
         <meshStandardMaterial
           transparent
           alphaMap={alphaMap}
           emissive={flagColor}
-          emissiveIntensity={dim ? 0.3 : 1.5}
+          emissiveIntensity={dim ? 0.9 : 1.5}
           toneMapped={false}
           side={DoubleSide}
         />

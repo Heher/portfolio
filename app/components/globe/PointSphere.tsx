@@ -20,9 +20,10 @@ type UniformType = {
 let dummyObject = new THREE.Object3D();
 let vector = new THREE.Vector3();
 let sphere = new THREE.Spherical();
-let radius = 5;
+let radius = 1;
 
-const pointAmount = 75000;
+const pointAmount = 100000;
+// const pointAmount = 100;
 const geometries = [];
 
 let radialDistance = 0;
@@ -33,9 +34,10 @@ let longitude = 0;
 let height = 1 - changeInHeight / 2;
 
 for (let i = 0; i < pointAmount; i++) {
-  const circleGeometry = new THREE.PlaneGeometry(1, 1);
+  const circleGeometry = new THREE.PlaneGeometry(0.2, 0.2);
 
   radialDistance = Math.sqrt(1 - height * height);
+
   vector
     .set(Math.cos(longitude) * radialDistance, height, -Math.sin(longitude) * radialDistance)
     .multiplyScalar(radius);
@@ -147,9 +149,10 @@ export default function PointSphere() {
   );
 
   return (
-    <mesh ref={mesh} scale={0.2} rotation-y={Math.PI / 2} receiveShadow>
+    <mesh ref={mesh} rotation-y={Math.PI / 2} receiveShadow castShadow>
+      {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       <bufferGeometry {...globeGeometry} />
-      <meshStandardMaterial
+      <meshPhysicalMaterial
         color={0x8fa1b3}
         onBeforeCompile={(shader) => beforeCompile(shader, uniforms, eTexture)}
         defines={{ USE_UV: '' }}
