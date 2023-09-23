@@ -33,7 +33,7 @@
     "framer-motion-3d": "^10.16.4",
     "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
-    "isbot": "^3.6.13",
+    "isbot": "^3.7.0",
     "lodash": "^4.17.21",
     "maath": "^0.8.2",
     "morgan": "^1.10.0",
