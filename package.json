@@ -68,7 +68,7 @@
     "cypress": "^13.2.0",
     "dotenv": "^16.3.1",
     "esbuild-plugin-glsl": "^1.2.1",
-    "eslint": "^8.48.0",
+    "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
