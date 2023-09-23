@@ -17,6 +17,8 @@ export type Visit = {
   };
   date?: string;
   leg?: number;
+  entranceType: 'plane' | 'ferry' | 'train' | 'bus';
+  countryCode: string;
 };
 
 export type RouteInfo = {

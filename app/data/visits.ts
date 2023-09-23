@@ -11,8 +11,10 @@ const visits: Visit[] = [
       link: 'https://www.strava.com/activities/8192713736',
       img: ''
     },
-    date: '2022-11-21',
-    leg: 4
+    date: '2022-11-28',
+    leg: 4,
+    entranceType: 'plane',
+    countryCode: 'FR'
   },
   {
     year: '1908',
@@ -25,7 +27,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-29',
-    leg: 24
+    leg: 24,
+    entranceType: 'plane',
+    countryCode: 'GB'
   },
   {
     year: '1912',
@@ -38,7 +42,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-08',
-    leg: 7
+    leg: 7,
+    entranceType: 'train',
+    countryCode: 'SE'
   },
   {
     year: '1920',
@@ -51,7 +57,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-11-11',
-    leg: 2
+    leg: 2,
+    entranceType: 'train',
+    countryCode: 'BE'
   },
   {
     year: '1924',
@@ -64,7 +72,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-19',
-    leg: 20
+    leg: 20,
+    entranceType: 'bus',
+    countryCode: 'FR'
   },
   {
     year: '1928',
@@ -77,7 +87,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-11-02',
-    leg: 1
+    leg: 1,
+    entranceType: 'plane',
+    countryCode: 'NL'
   },
   {
     year: '1928',
@@ -90,7 +102,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-21',
-    leg: 21
+    leg: 21,
+    entranceType: 'train',
+    countryCode: 'CH'
   },
   {
     year: '1932',
@@ -103,7 +117,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-23',
-    leg: 11
+    leg: 11,
+    entranceType: 'plane',
+    countryCode: 'US'
   },
   {
     year: '1964',
@@ -116,7 +132,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-09',
-    leg: 14
+    leg: 14,
+    entranceType: 'train',
+    countryCode: 'AT'
   },
   {
     year: '1984',
@@ -129,7 +147,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-23',
-    leg: 11
+    leg: 11,
+    entranceType: 'plane',
+    countryCode: 'US'
   },
   {
     year: '1984',
@@ -142,7 +162,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-25',
-    leg: 23
+    leg: 23,
+    entranceType: 'plane',
+    countryCode: 'BA'
   },
   {
     year: '1936',
@@ -155,7 +177,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-28',
-    leg: 12
+    leg: 12,
+    entranceType: 'plane',
+    countryCode: 'DE'
   },
   {
     year: '1936',
@@ -168,7 +192,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-09',
-    leg: 14
+    leg: 14,
+    entranceType: 'train',
+    countryCode: 'DE'
   },
   {
     year: '1952',
@@ -181,7 +207,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-19',
-    leg: 10
+    leg: 10,
+    entranceType: 'ferry',
+    countryCode: 'FI'
   },
   {
     year: '1952',
@@ -194,7 +222,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-02',
-    leg: 5
+    leg: 5,
+    entranceType: 'plane',
+    countryCode: 'NO'
   },
   {
     year: '1972',
@@ -207,7 +237,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-06',
-    leg: 13
+    leg: 13,
+    entranceType: 'train',
+    countryCode: 'DE'
   },
   {
     year: '1992',
@@ -220,7 +252,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-17',
-    leg: 19
+    leg: 19,
+    entranceType: 'train',
+    countryCode: 'FR'
   },
   {
     year: '1948',
@@ -233,7 +267,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-29',
-    leg: 24
+    leg: 24,
+    entranceType: 'plane',
+    countryCode: 'GB'
   },
   {
     year: '1948',
@@ -246,7 +282,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-21',
-    leg: 21
+    leg: 21,
+    entranceType: 'train',
+    countryCode: 'CH'
   },
   {
     year: '1976',
@@ -259,7 +297,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-09',
-    leg: 14
+    leg: 14,
+    entranceType: 'train',
+    countryCode: 'AT'
   },
   {
     year: '1968',
@@ -272,7 +312,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-15',
-    leg: 18
+    leg: 18,
+    entranceType: 'train',
+    countryCode: 'FR'
   },
   {
     year: '1994',
@@ -285,7 +327,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2022-12-05',
-    leg: 6
+    leg: 6,
+    entranceType: 'train',
+    countryCode: 'NO'
   },
   {
     year: '2006',
@@ -298,7 +342,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-13',
-    leg: 16
+    leg: 16,
+    entranceType: 'train',
+    countryCode: 'IT'
   },
   {
     year: '2010',
@@ -311,7 +357,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2021-03-22',
-    leg: 0
+    leg: 0,
+    entranceType: 'plane',
+    countryCode: 'CA'
   },
   {
     year: '1956',
@@ -324,7 +372,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-11',
-    leg: 15
+    leg: 15,
+    entranceType: 'bus',
+    countryCode: 'IT'
   },
   {
     year: '2012',
@@ -337,7 +387,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-01-29',
-    leg: 24
+    leg: 24,
+    entranceType: 'plane',
+    countryCode: 'GB'
   },
   {
     year: '1956',
@@ -350,7 +402,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-03-29',
-    leg: 33
+    leg: 33,
+    entranceType: 'plane',
+    countryCode: 'AU'
   },
   {
     year: '2000',
@@ -363,7 +417,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-04-03',
-    leg: 34
+    leg: 34,
+    entranceType: 'plane',
+    countryCode: 'AU'
   },
   {
     year: '1924',
@@ -376,7 +432,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-04-27',
-    leg: 38
+    leg: 38,
+    entranceType: 'train',
+    countryCode: 'FR'
   },
   {
     year: '1992',
@@ -389,7 +447,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-05-05',
-    leg: 41
+    leg: 41,
+    entranceType: 'bus',
+    countryCode: 'ES'
   },
   {
     year: '1960',
@@ -402,7 +462,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-05-22',
-    leg: 48
+    leg: 48,
+    entranceType: 'train',
+    countryCode: 'IT'
   },
   {
     year: '2004',
@@ -415,7 +477,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-05-29',
-    leg: 52
+    leg: 52,
+    entranceType: 'bus',
+    countryCode: 'GR'
   },
   {
     year: '1896',
@@ -428,7 +492,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-05-29',
-    leg: 52
+    leg: 52,
+    entranceType: 'bus',
+    countryCode: 'GR'
   },
   {
     year: '1976',
@@ -441,7 +507,9 @@ const visits: Visit[] = [
       img: ''
     },
     date: '2023-07-01',
-    leg: 59
+    leg: 59,
+    entranceType: 'plane',
+    countryCode: 'CA'
   }
 ];
 
