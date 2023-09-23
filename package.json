@@ -35,7 +35,7 @@
     "graphql-request": "^6.1.0",
     "isbot": "^3.6.13",
     "lodash": "^4.17.21",
-    "maath": "^0.8.2",
+    "maath": "^0.9.0",
     "morgan": "^1.10.0",
     "postprocessing": "^6.33.0",
     "react": "^18.2.0",
