@@ -4,9 +4,10 @@ export default function BusIcon({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       viewBox="0 0 312 327.5"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       className={className}
+      aria-label="Bus icon"
     >
       <g>
         <path d="M9 48l14 0c5,0 9,5 9,10l0 47c0,5 -4,10 -9,10l-14 0c-5,0 -9,-5 -9,-10l0 -47c0,-5 4,-10 9,-10z" />
