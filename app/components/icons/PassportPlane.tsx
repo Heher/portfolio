@@ -3,8 +3,8 @@ export default function PassportPlane({ className }: { className?: string }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 704.06 278.6875"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       className={className}
     >
       <g>
