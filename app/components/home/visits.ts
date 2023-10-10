@@ -4,8 +4,9 @@ export const visits = [
     name: 'Amsterdam',
     date: '2022-11-02',
     temperature: 70,
-    link: '/trip/amsterdam',
-    transport: [{ type: 'plane', amount: 2 }]
+    link: '/trip/amsterdam'
+    // Commenting this out for now because the design doesn't support it yet
+    // transport: [{ type: 'plane', amount: 2 }]
   },
   {
     country: 'Belgium',

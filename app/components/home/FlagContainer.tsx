@@ -27,7 +27,10 @@ function TransportIconContainer({ transports }: { transports: TransportType[] })
       {transports.map((transport) => (
         <div key={transport.type} className="relative">
           {transport.amount && (
-            <span className="absolute -right-3 -top-4 h-5 w-5 rounded-full bg-[#282B27] text-center text-xs leading-5 text-[#e0e0e0]">
+            <span
+              className="absolute -right-3 -top-4 h-5 w-5 rounded-full bg-[#282B27] text-center text-xs leading-5 text-[#e0e0e0]"
+              aria-hidden="true"
+            >
               {`x${transport.amount}`}
             </span>
           )}
@@ -88,14 +91,14 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           animate={{ background: hover ? 'var(--index-link-hover)' : 'var(--index-link)' }}
+          aria-label={format(date, 'MMMM d, yyyy')}
         >
           {format(date, 'M/d')}
         </motion.a>
       ) : (
         <span
-          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full ${
-            visit.link ? 'bg-[var(--index-link)]' : 'bg-[#282B27]'
-          } text-center text-xs leading-10 text-[#e0e0e0]`}
+          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[#282B27] text-center text-xs leading-10 text-[#e0e0e0]`}
+          aria-label={format(date, 'MMMM d, yyyy')}
         >
           {format(date, 'M/d')}
         </span>
@@ -119,7 +122,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
             <img
               className="mr-3 h-4 w-auto shadow-[1px_1px_4px_rgba(80,80,80,0.5)]"
               src={flag.flagByTimestamp.png}
-              alt={flag.name}
+              alt={`Flag of ${flag.name}`}
             />
           )}
           <span className="text-sm font-semibold">{visit.country}</span>
@@ -171,6 +174,9 @@ export default function FlagContainer({
 
   return (
     <motion.div
+      id="itenerary"
+      aria-hidden={!expand}
+      aria-label="List of all my travels."
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
       } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}

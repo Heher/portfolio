@@ -111,6 +111,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           ease: 'easeOut'
         }}
         ref={contentRef}
+        style={{ visibility: expand ? 'hidden' : 'visible' }}
       >
         <img
           src="/images/me.jpg"
@@ -120,19 +121,19 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
         <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
         <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
-          <SocialLink href="https://github.com/Heher">
+          <SocialLink href="https://github.com/Heher" aria-label="My GitHub">
             <GitHubIcon className={`h-6 fill-current`} />
             <span className="text-xs">GitHub</span>
           </SocialLink>
-          <SocialLink href="https://www.linkedin.com/in/johnheher/">
+          <SocialLink href="https://www.linkedin.com/in/johnheher/" aria-label="My LinkedIn">
             <LinkedInIcon className={`h-6 fill-current`} />
             <span className="text-xs">LinkedIn</span>
           </SocialLink>
-          <SocialLink href="/cv.pdf">
+          <SocialLink href="/cv.pdf" aria-label="My Résumé">
             <ResumeIcon className={`h-6 fill-current`} />
             <span className="text-xs">Resume</span>
           </SocialLink>
-          <SocialLink href="mailto:johnheher@gmail.com">
+          <SocialLink href="mailto:johnheher@gmail.com" aria-label="Email me">
             <EmailIcon className={`w-5 fill-current`} />
             <span className="text-xs">Email</span>
           </SocialLink>
@@ -143,6 +144,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             className="grid grid-cols-[1fr_40px] items-center"
             onMouseEnter={() => setTravelLinkHovered(true)}
             onMouseLeave={() => setTravelLinkHovered(false)}
+            aria-label="My travels to the Olympic cities"
           >
             <h2
               className={`text-lg font-semibold uppercase ${
@@ -173,6 +175,9 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               right: expand ? getCloseRight(size.width) : 0,
               borderRadius: expand ? '50%' : 0
             }}
+            aria-label={expand ? `Close expanded list` : `Expand for a list of my most recent travels`}
+            aria-controls="itenerary"
+            aria-expanded={expand}
           >
             <motion.div>
               {expand ? (
