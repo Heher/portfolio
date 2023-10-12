@@ -12,6 +12,8 @@ import IndexArrow from '~/components/icons/IndexArrow';
 import LinkedInIcon from '~/components/icons/LinkedIn';
 import ResumeIcon from '~/components/icons/Resume';
 
+import * as gtag from '~/utils/gtags.client';
+
 export const meta: V2_MetaFunction = () => {
   return [
     { title: 'John Heher | Web Developer' },
@@ -121,19 +123,59 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
         <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
         <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
-          <SocialLink href="https://github.com/Heher" aria-label="My GitHub">
+          <SocialLink
+            href="https://github.com/Heher"
+            aria-label="My GitHub"
+            onClick={() => {
+              gtag.event({
+                action: 'click_contact',
+                category: 'Contact Link',
+                label: 'GitHub'
+              });
+            }}
+          >
             <GitHubIcon className={`h-6 fill-current`} />
             <span className="text-xs">GitHub</span>
           </SocialLink>
-          <SocialLink href="https://www.linkedin.com/in/johnheher/" aria-label="My LinkedIn">
+          <SocialLink
+            href="https://www.linkedin.com/in/johnheher/"
+            aria-label="My LinkedIn"
+            onClick={() => {
+              gtag.event({
+                action: 'click_contact',
+                category: 'Contact Link',
+                label: 'LinkedIn'
+              });
+            }}
+          >
             <LinkedInIcon className={`h-6 fill-current`} />
             <span className="text-xs">LinkedIn</span>
           </SocialLink>
-          <SocialLink href="/cv.pdf" aria-label="My Résumé">
+          <SocialLink
+            href="/cv.pdf"
+            aria-label="My Résumé"
+            onClick={() => {
+              gtag.event({
+                action: 'click_contact',
+                category: 'Contact Link',
+                label: 'Resume'
+              });
+            }}
+          >
             <ResumeIcon className={`h-6 fill-current`} />
             <span className="text-xs">Resume</span>
           </SocialLink>
-          <SocialLink href="mailto:johnheher@gmail.com" aria-label="Email me">
+          <SocialLink
+            href="mailto:johnheher@gmail.com"
+            aria-label="Email me"
+            onClick={() => {
+              gtag.event({
+                action: 'click_contact',
+                category: 'Contact Link',
+                label: 'Email'
+              });
+            }}
+          >
             <EmailIcon className={`w-5 fill-current`} />
             <span className="text-xs">Email</span>
           </SocialLink>
