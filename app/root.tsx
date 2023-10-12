@@ -107,9 +107,7 @@ function App() {
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
-                gtag('config', '${gaTrackingId}', {
-                  page_path: window.location.pathname,
-                });
+                gtag('config', '${gaTrackingId}');
               `
               }}
             />
