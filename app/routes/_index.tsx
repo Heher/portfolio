@@ -82,6 +82,16 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 
   const [contentRef, contentSize] = useMeasure({ debounce: 300 });
 
+  function handleItineraryClick() {
+    gtag.event({
+      action: 'click_itinerary',
+      category: 'Itinerary Click',
+      label: expand ? 'Close' : 'Open'
+    });
+
+    setExpand(!expand);
+  }
+
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--body-background', 'var(--index-background)');
@@ -209,7 +219,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <div className="relative w-full max-w-lg">
           <motion.button
             className="absolute z-10 flex h-10 w-full max-w-lg items-center justify-center border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0] transition-colors hover:bg-[#403a3b]"
-            onClick={() => setExpand(!expand)}
+            onClick={handleItineraryClick}
             initial={{ width: '100%', top: 0, right: 0 }}
             animate={{
               width: expand ? 40 : '100%',
