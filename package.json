@@ -54,7 +54,7 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
     "@remix-run/dev": "^2.1.0",
-    "@remix-run/eslint-config": "^2.0.1",
+    "@remix-run/eslint-config": "^2.1.0",
     "@types/d3": "^7.4.1",
     "@types/lodash": "^4.14.199",
     "@types/react": "^18.2.28",
