@@ -18,7 +18,7 @@ function sentryEnv(env: string) {
 }
 
 Sentry.init({
-  dsn: 'https://0aa7b4d5bdd251a7d437b27799f3c8b0@o918579.ingest.us.sentry.io/4505710801453056',
+  dsn: 'https://3546d2dfae964405a7a1211e6b147388@o918579.ingest.us.sentry.io/5861922',
   tracesSampleRate: 1,
   environment: sentryEnv(process.env.VITE_DEPLOY_ENV)
 });

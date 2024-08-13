@@ -1,5 +1,5 @@
 import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation } from '@remix-run/react';
-import { withSentry } from '@sentry/remix';
+// import { withSentry } from '@sentry/remix';
 import { useEffect } from 'react';
 
 import globalStyles from '~/styles/global.css?url';

@@ -11,13 +11,13 @@ import IndexArrow from '~/icons/IndexArrow';
 import LinkedInIcon from '~/icons/LinkedIn';
 import ResumeIcon from '~/icons/Resume';
 import DrizzleIcon from '~/icons/stack/Drizzle';
-import GraphQLIcon from '~/icons/stack/GraphQl';
-import PostgraphileIcon from '~/icons/stack/Postgraphile';
+// import GraphQLIcon from '~/icons/stack/GraphQl';
+// import PostgraphileIcon from '~/icons/stack/Postgraphile';
 import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
 import ReactIcon from '~/icons/stack/React';
 import RemixIcon from '~/icons/stack/Remix';
 import SentryIcon from '~/icons/stack/Sentry';
-import SSTIcon from '~/icons/stack/SST';
+// import SSTIcon from '~/icons/stack/SST';
 import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
@@ -127,7 +127,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
     }
   }, [expand]);
 
-  if (!size?.width) return null;
+  if (!size.width) return null;
 
   return (
     <motion.div
@@ -225,7 +225,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         </div>
         <div className="mt-20 md:mt-32">
           <h2 className={`mb-5 text-xl font-semibold uppercase`}>Stack</h2>
-          <p className="max-w-md text-base text-[#282B27] mt-3">
+          <p className="mt-3 max-w-md text-base text-[#282B27]">
             Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
             stack (and the one that built this site) has been:
           </p>
@@ -288,12 +288,16 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </div>
         </div>
-        <div className="mt-20 md:mt-32 grid justify-items-start">
+        <div className="mt-20 grid justify-items-start md:mt-32">
           <Link
             to="/trip"
             className="grid grid-cols-[1fr_40px] items-center"
-            onMouseEnter={() => setTravelLinkHovered(true)}
-            onMouseLeave={() => setTravelLinkHovered(false)}
+            onMouseEnter={() => {
+              setTravelLinkHovered(true);
+            }}
+            onMouseLeave={() => {
+              setTravelLinkHovered(false);
+            }}
             aria-label="My travels to the Olympic cities"
           >
             <h2
@@ -323,7 +327,7 @@ export default function Index() {
 
   return (
     <main
-      className="min-h-screen w-[100vw] bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]"
+      className="min-h-screen w-screen bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]"
       ref={pageContainerRef}
     >
       <IndexContent size={size} />

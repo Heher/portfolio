@@ -18,7 +18,7 @@ export function CitiesList({ cities, firstRef }: CitiesListProps) {
   return (
     <div
       key="cities-list"
-      className={`cities-container relative z-0 mt-20 flex flex-col px-[5vw] pb-[20px] md:mt-0 ${
+      className={`relative z-0 mt-20 flex flex-col px-[5vw] pb-[20px] md:mt-0 ${
         !moveableGlobe && !selectedRouteLeg && 'md:z-40'
       } md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]`}
     >

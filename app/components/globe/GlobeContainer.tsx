@@ -36,7 +36,7 @@ export function ErrorBoundary() {
 
   return (
     <div
-      className={`absolute bottom-[20%] left-[50%] flex h-[250px] w-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:h-[500px] md:w-[500px]`}
+      className={`absolute bottom-[20%] left-[50%] flex size-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:size-[500px]`}
     >
       <p>Could not load globe. Please reload.</p>
     </div>
@@ -124,7 +124,7 @@ function GlobeBackdrop({
   );
 }
 
-export function GlobeContainer() {
+export default function GlobeContainer() {
   const tripContext = useContext(TripPageContext);
 
   if (!tripContext) {

@@ -115,7 +115,7 @@ export default defineConfig({
     sentryVitePlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: 'heher',
-      project: 'portfolio'
+      project: 'john-heher'
     })
   ]
 });

@@ -1,8 +1,8 @@
 import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 
-import { GlobeContainer } from '~/components/globe/GlobeContainer';
+// import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import type { Dispatch } from 'react';
-import { Suspense, useEffect, useReducer, createContext } from 'react';
+import { Suspense, useEffect, useReducer, createContext, lazy } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
@@ -11,6 +11,8 @@ import type { MetaFunction } from '@remix-run/node';
 import visits from '~/data/visits';
 import type { Visit } from 'types/globe';
 import CitySlider from '~/components/olympiad-city/CitySlider';
+
+const LazyGlobe = lazy(() => import('~/components/globe/GlobeContainer'));
 
 type TripPageState = {
   selectedImage: string | null;
@@ -132,7 +134,7 @@ export default function TripPage() {
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
   useEffect(() => {
-    if (location?.pathname === '/' || location?.pathname === '/trip') {
+    if (location.pathname === '/' || location.pathname === '/trip') {
       dispatch({ type: 'SELECTED_CITY', selectedCity: null });
       dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
     }
@@ -146,19 +148,19 @@ export default function TripPage() {
   }
 
   return (
-    <main ref={pageContainerRef} className={`relative mx-auto min-h-[100dvh] w-full max-w-[var(--max-width)]`}>
-      <div className="fixed left-0 top-0 z-[-1] h-full min-h-[100dvh] w-full bg-gradient-to-b from-[var(--globe-background)] to-[var(--nav-background)] to-50%"></div>
-      <div className="body-container mx-auto h-[100dvh] max-w-[var(--max-width)]">
+    <main ref={pageContainerRef} className={`relative mx-auto min-h-dvh w-full max-w-[var(--max-width)]`}>
+      <div className="fixed left-0 top-0 z-[-1] size-full min-h-dvh bg-gradient-to-b from-[var(--globe-background)] to-[var(--nav-background)] to-50%"></div>
+      <div className="body-container mx-auto h-dvh max-w-[var(--max-width)]">
         {width > 0 && (
           <motion.div
-            className={`globe-container fixed left-0 top-0 -z-0 h-full w-full `}
+            className={`globe-container fixed left-0 top-0 -z-0 size-full `}
             transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
             initial={false}
           >
             <Suspense fallback={<GlobeFallback />}>
               <TripPageContext.Provider value={{ ...state, width, visits }}>
                 <TripPageDispatchContext.Provider value={dispatch}>
-                  {/* <GlobeContainer /> */}
+                  <LazyGlobe />
                 </TripPageDispatchContext.Provider>
               </TripPageContext.Provider>
             </Suspense>
@@ -179,7 +181,14 @@ export default function TripPage() {
         <AnimatePresence>
           {selectedCity && <CitySlider data={selectedCityData} visits={visits} handleImageModal={handleImageModal} />}
         </AnimatePresence>
-        {selectedImage && <ImageModal img={selectedImage} closeModal={() => handleImageModal(null)} />}
+        {selectedImage && (
+          <ImageModal
+            img={selectedImage}
+            closeModal={() => {
+              handleImageModal(null);
+            }}
+          />
+        )}
       </div>
     </main>
   );
