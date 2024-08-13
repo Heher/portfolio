@@ -2,14 +2,14 @@ import { extend, useLoader } from '@react-three/fiber';
 
 import type { MarkerVisit } from 'types/globe';
 import type { CityType } from './coordinates';
-import { MarkerMaterial } from './materials/MarkerMaterial';
+// import { MarkerMaterial } from './materials/MarkerMaterial';
 import { notVisitedColor, summerColor, visitedColor, winterColor } from './colors';
-import { FlagMaterial } from './materials/FlagMaterial';
+// import { FlagMaterial } from './materials/FlagMaterial';
 import type { Color } from 'three';
 import { TextureLoader } from 'three';
 
 import alphaMapImg from '~/data/beam/alphamap10.png';
-import { Flag } from './markers/Flag';
+// import { Flag } from './markers/Flag';
 import { Marker } from './markers/Marker';
 // import { motion } from 'framer-motion-3d';
 // import { AnimatePresence } from 'framer-motion';
@@ -24,7 +24,7 @@ type CitiesProps = {
   height: number;
 };
 
-extend({ MarkerMaterial, FlagMaterial });
+// extend({ MarkerMaterial, FlagMaterial });
 
 export function City({ city, zoom, height }: CitiesProps) {
   const alphaMap = useLoader(TextureLoader, alphaMapImg);
@@ -59,18 +59,18 @@ export function City({ city, zoom, height }: CitiesProps) {
     showFlag = foundCity ? true : false;
     newFlag = foundCity ? foundCity.new : false;
   } else {
-    showFlag = ((selectedCity && selectedCity === city.name) || !selectedCity) as boolean;
+    showFlag = (selectedCity && selectedCity === city.name) || !selectedCity;
   }
 
   return (
     <group>
-      <Marker
+      {/* <Marker
         markerInfo={city.markerInfo}
         color={city.type === 'summer' ? summerColor : winterColor}
         radius={radius}
         shown={showFlag}
-      />
-      <Flag
+      /> */}
+      {/* <Flag
         markerInfo={city.markerInfo}
         alphaMap={alphaMap}
         flagColor={findFlagColor()}
@@ -79,7 +79,7 @@ export function City({ city, zoom, height }: CitiesProps) {
         height={height}
         newFlag={newFlag}
         dim={!selectedCity && selectedRouteLeg === null}
-      />
+      /> */}
     </group>
   );
 }
