@@ -1,11 +1,10 @@
 import { Link } from '@remix-run/react';
-import { orderBy } from 'lodash';
-import type { CityFieldsFragment } from '~/gql/graphql';
+import { orderBy } from 'lodash-es';
 import { useTripContext } from '~/routes/trip';
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
 
 type CitiesListProps = {
-  cities: CityFieldsFragment[];
+  cities: any[];
   firstRef: React.RefObject<HTMLDivElement>;
 };
 

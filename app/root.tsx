@@ -1,20 +1,10 @@
-import { json } from '@remix-run/node';
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-  useLocation
-} from '@remix-run/react';
+import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 import { useEffect } from 'react';
 
-import globalStyles from '~/styles/global.css';
+import globalStyles from '~/styles/global.css?url';
 
-import stylesheet from '~/tailwind.css';
+import stylesheet from '~/tailwind.css?url';
 import * as gtag from '~/utils/gtags.client';
 
 export function links() {
@@ -25,51 +15,6 @@ export function links() {
     { href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap', rel: 'stylesheet' }
   ];
 }
-
-// export function ErrorBoundary({ error }) {
-//   return (
-//     <html>
-//       <head>
-//         <title>Oh no!</title>
-//         <Meta />
-//         <Links />
-//       </head>
-//       <body className="m-4">
-//         <h1 className="text-2xl">Something went wrong!</h1>
-//         <p>{error.message}</p>
-//         <Scripts />
-//       </body>
-//     </html>
-//   );
-// }
-
-// export function CatchBoundary() {
-//   const caught = useCatch();
-
-//   console.log(caught);
-
-//   return (
-//     <div>
-//       <h1>Caught</h1>
-//       <p>Status: {caught.status}</p>
-//       <pre>
-//         <code>{JSON.stringify(caught.data, null, 2)}</code>
-//       </pre>
-//     </div>
-//   );
-// }
-
-// function getBodyBackground(location: string) {
-//   if (location.includes('trip')) {
-//     return 'bg-[var(--nav-background)]';
-//   }
-
-//   if (location === '/') {
-//     return 'bg-[var(--index-background)]';
-//   }
-
-//   return 'bg-white';
-// }
 
 export const loader = async () => {
   return json({ gaTrackingId: process.env.GA_TRACKING_ID });
@@ -122,10 +67,9 @@ function App() {
           }}
         />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
 }
 
-export default withSentry(App);
+export default App;

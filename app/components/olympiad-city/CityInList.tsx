@@ -1,6 +1,5 @@
 import { Link } from '@remix-run/react';
 import { motion } from 'framer-motion';
-import type { CityFieldsFragment, CityOlympiadFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { CityOlympiad } from './CityOlympiad';
 import { statusColor } from './utils';
@@ -8,10 +7,10 @@ import { statusColor } from './utils';
 const MotionLink = motion(Link);
 
 type CityInListProps = {
-  city: CityFieldsFragment;
+  city: any;
   amountCompleted: number;
   totalOlympiads: number;
-  olympiads: (CityOlympiadFragment | null)[];
+  olympiads: (any | null)[];
   firstRef: React.RefObject<HTMLDivElement> | null;
 };
 

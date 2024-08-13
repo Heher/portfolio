@@ -1,6 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme');
-module.exports = {
+import type { Config } from 'tailwindcss';
+import * as defaultTheme from 'tailwindcss/defaultTheme';
+
+export default {
   content: ['./app/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -10,4 +11,4 @@ module.exports = {
     }
   },
   plugins: []
-};
+} satisfies Config;

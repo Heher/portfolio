@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { OlympiadMedia } from './OlympiadMedia';
-import type { CityFieldsFragment, CityOlympiadFragment } from '~/gql/graphql';
 import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from './utils';
 import { sharedStadiums } from './settings';
 import type { Visit } from 'types/globe';
@@ -16,7 +15,7 @@ import { useState } from 'react';
 const MotionArrow = motion(GotoArrow);
 
 type SharedOlympiadsProps = {
-  olympiads: (CityOlympiadFragment | null)[];
+  olympiads: (any | null)[];
   citySlug: string;
   visits: Visit[];
   handleImageModal: (img: string | null) => void;
@@ -131,7 +130,7 @@ export default function CitySlider({
   visits,
   handleImageModal
 }: {
-  data: CityFieldsFragment | null;
+  data: any | null;
   visits: Visit[];
   handleImageModal: (img: string | null) => void;
 }) {

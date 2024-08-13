@@ -1,10 +1,9 @@
-import type { CityFieldsFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import CityInList from './CityInList';
 import { cityStatus, filterOutNonOlympiadsForCity } from './utils';
 
 type OlympiadCityProps = {
-  city: CityFieldsFragment;
+  city: any;
   firstRef: React.RefObject<HTMLDivElement> | null;
 };
 

@@ -1,14 +1,12 @@
-import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { getGQLClient } from '~/utils/graphql';
 import { useTripContext } from './trip';
 import { useLoaderData } from '@remix-run/react';
 import type { Dispatch } from 'react';
 import { useEffect } from 'react';
-import type { CityFieldsFragment } from '~/gql/graphql';
 import NewBackButton from '~/components/home/NewBackButton';
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
     return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
   }
@@ -20,7 +18,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const referSlug = url.searchParams.get('refer');
 
@@ -28,26 +26,26 @@ export async function loader({ request, params }: LoaderArgs) {
     return json({ city: null });
   }
 
-  const sdk = getGQLClient();
+  // const sdk = getGQLClient();
 
   const now = new Date().toISOString();
 
-  const response = await sdk.GetCity({ now, slug: params.slug });
+  // const response = await sdk.GetCity({ now, slug: params.slug });
 
-  if (!response?.data?.cityBySlug?.name) {
-    return json({ city: null });
-  }
+  // if (!response?.data?.cityBySlug?.name) {
+  //   return json({ city: null });
+  // }
 
   if (referSlug) {
-    const referResponse = await sdk.GetCityName({ slug: referSlug });
+    // const referResponse = await sdk.GetCityName({ slug: referSlug });
 
     return json({
-      city: response.data.cityBySlug,
-      refer: { name: referResponse?.data?.cityBySlug?.name, slug: referSlug }
+      city: null,
+      refer: { name: 'City name', slug: referSlug }
     });
   }
 
-  return json({ city: response.data.cityBySlug, refer: null });
+  return json({ city: null, refer: null });
 }
 
 function CityTest({

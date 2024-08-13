@@ -1,17 +1,15 @@
 import { useLoaderData } from '@remix-run/react';
 
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import MainCopy from '~/components/home/MainCopy';
 import { CitiesList } from '~/components/CitiesList';
 import { useTripContext } from './trip';
-import type { CityFieldsFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 import type { AnimationVariants } from 'types/globe';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { getGQLClient } from '~/utils/graphql';
 import { AnimatePresence, motion } from 'framer-motion';
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: 'Olympic Trip | John Heher' },
     {
@@ -55,10 +53,12 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
 export async function loader() {
   // const stravaResponse = await getStravaActivities();
 
-  const sdk = getGQLClient();
-  const response = await sdk.GetOlympicData({
-    now: new Date().toISOString()
-  });
+  // const sdk = getGQLClient();
+  // const response = await sdk.GetOlympicData({
+  //   now: new Date().toISOString()
+  // });
+
+  const response = null;
 
   if (!response?.data?.olympiads || !response?.data?.cities) {
     return json({ olympiads: [], cities: [] });

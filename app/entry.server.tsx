@@ -1,26 +1,35 @@
-/**
- * By default, Remix will handle generating the HTTP Response for you.
- * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
- * For more information, see https://remix.run/file-conventions/entry.server
- */
+import * as Sentry from '@sentry/remix';
+
+export function handleError(error, { request }) {
+  Sentry.captureRemixServerException(error, 'remix.server', request);
+}
+
+function sentryEnv(env: string) {
+  switch (env) {
+    case 'dev':
+      return 'development';
+    case 'beta':
+      return 'beta';
+    case 'prod':
+      return 'production';
+    default:
+      return 'unknown';
+  }
+}
+
+Sentry.init({
+  dsn: 'https://0aa7b4d5bdd251a7d437b27799f3c8b0@o918579.ingest.us.sentry.io/4505710801453056',
+  tracesSampleRate: 1,
+  environment: sentryEnv(process.env.VITE_DEPLOY_ENV)
+});
+
 import { PassThrough } from 'node:stream';
 
 import type { AppLoadContext, EntryContext } from '@remix-run/node';
-import { Response } from '@remix-run/node';
+import { createReadableStreamFromReadable } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
-import isbot from 'isbot';
+import * as isbotModule from 'isbot';
 import { renderToPipeableStream } from 'react-dom/server';
-
-import * as Sentry from '@sentry/remix';
-
-Sentry.init({
-  dsn: 'https://548f2fb81cf1456da9c7eb57e389f758:ee5a27cdedfa46f59045ffda21a11607@o918579.ingest.sentry.io/4504724271726592',
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 0.1
-});
 
 const ABORT_DELAY = 5_000;
 
@@ -31,9 +40,32 @@ export default function handleRequest(
   remixContext: EntryContext,
   loadContext: AppLoadContext
 ) {
-  return isbot(request.headers.get('user-agent'))
+  const prohibitOutOfOrderStreaming = isBotRequest(request.headers.get('user-agent')) || remixContext.isSpaMode;
+
+  return prohibitOutOfOrderStreaming
     ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
     : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext);
+}
+
+// We have some Remix apps in the wild already running with isbot@3 so we need
+// to maintain backwards compatibility even though we want new apps to use
+// isbot@4.  That way, we can ship this as a minor Semver update to @remix-run/dev.
+function isBotRequest(userAgent: string | null) {
+  if (!userAgent) {
+    return false;
+  }
+
+  // isbot >= 3.8.0, >4
+  if ('isbot' in isbotModule && typeof isbotModule.isbot === 'function') {
+    return isbotModule.isbot(userAgent);
+  }
+
+  // isbot < 3.8.0
+  if ('default' in isbotModule && typeof isbotModule.default === 'function') {
+    return isbotModule.default(userAgent);
+  }
+
+  return false;
 }
 
 function handleBotRequest(
@@ -50,11 +82,12 @@ function handleBotRequest(
         onAllReady() {
           shellRendered = true;
           const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
 
           responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
-            new Response(body, {
+            new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode
             })
@@ -87,6 +120,20 @@ function handleBrowserRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  if (!request.headers.get('cookie')?.includes('clockOffset')) {
+    const script = `
+      document.cookie = 'gdtz=' + (Intl.DateTimeFormat().resolvedOptions().timeZone) + '; path=/';
+      window.location.reload();
+    `;
+    return new Response(`<html><body><script>${script}</script></body></html>`, {
+      headers: {
+        'Content-Type': 'text/html',
+        'Set-Cookie': 'clockOffset=0; path=/',
+        Refresh: `0; url=${request.url}`
+      }
+    });
+  }
+
   return new Promise((resolve, reject) => {
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
@@ -95,11 +142,12 @@ function handleBrowserRequest(
         onShellReady() {
           shellRendered = true;
           const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
 
           responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
-            new Response(body, {
+            new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode
             })

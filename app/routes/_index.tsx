@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { useLocation } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +14,7 @@ import ResumeIcon from '~/components/icons/Resume';
 
 import * as gtag from '~/utils/gtags.client';
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: 'John Heher | Web Developer' },
     {

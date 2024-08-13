@@ -1,17 +1,16 @@
 import { json } from '@remix-run/node';
-import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { useEffect } from 'react';
 import { Selector } from '~/components/route/Selector';
 import { useTripContext } from './trip';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import NewBackButton from '~/components/home/NewBackButton';
-import { getGQLClient } from '~/utils/graphql';
 
 export type RouteContext = {
   dispatch: React.Dispatch<any>;
 };
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: 'My Route | Olympic Trip' },
     {
@@ -29,16 +28,16 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const referSlug = url.searchParams.get('refer');
 
-  const sdk = getGQLClient();
+  // const sdk = getGQLClient();
 
   if (referSlug) {
-    const referResponse = await sdk.GetCityName({ slug: referSlug });
+    // const referResponse = await sdk.GetCityName({ slug: referSlug });
     // const refer = referResponse?.data?.cityBySlug?.name || null;
-    return json({ refer: { name: referResponse?.data?.cityBySlug?.name, slug: referSlug } });
+    return json({ refer: { name: 'Test', slug: referSlug } });
   }
 
   return json({ refer: null });

@@ -6,18 +6,17 @@ import { Suspense, useEffect, useReducer, createContext } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import visits from '~/data/visits';
 import type { Visit } from 'types/globe';
-import type { CityFieldsFragment } from '~/gql/graphql';
 import CitySlider from '~/components/olympiad-city/CitySlider';
 
 type TripPageState = {
   selectedImage: string | null;
   moveableGlobe: boolean;
   selectedCity: string | null;
-  selectedCityData: CityFieldsFragment | null;
+  selectedCityData: any | null;
   selectedRouteLeg: number | null;
   loaded: boolean;
 };
@@ -36,7 +35,7 @@ export type OutletContextType = {
   dispatch: Dispatch<any>;
 };
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: 'John Heher | Olympic Trip' },
     {
@@ -88,7 +87,7 @@ type Action =
   | { type: 'IMAGE'; selectedImage: string | null }
   | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
   | { type: 'SELECTED_CITY'; selectedCity: string | null }
-  | { type: 'SELECTED_CITY_DATA'; selectedCityData: CityFieldsFragment | null }
+  | { type: 'SELECTED_CITY_DATA'; selectedCityData: any | null }
   | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number | null }
   | { type: 'LOADED'; loaded: boolean };
 
@@ -159,7 +158,7 @@ export default function TripPage() {
             <Suspense fallback={<GlobeFallback />}>
               <TripPageContext.Provider value={{ ...state, width, visits }}>
                 <TripPageDispatchContext.Provider value={dispatch}>
-                  <GlobeContainer />
+                  {/* <GlobeContainer /> */}
                 </TripPageDispatchContext.Provider>
               </TripPageContext.Provider>
             </Suspense>

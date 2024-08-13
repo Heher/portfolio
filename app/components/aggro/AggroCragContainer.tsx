@@ -47,7 +47,7 @@ export function AggroCragContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[1, 1, 5]} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       <motion.group ref={groupRef} scale={1} rotation={[0, 1.5, 0.15, 'ZXY']} position={[0, -0.7, 0]}>
-        <AggroCrag />
+        {/* <AggroCrag /> */}
       </motion.group>
       <OrbitControls
         minPolarAngle={Math.PI / 2}

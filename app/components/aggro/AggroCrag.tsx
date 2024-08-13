@@ -27,6 +27,7 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
   const rockGltf = useLoader(GLTFLoader, rock);
 
   useFrame((state, delta) => {
+    if (!ref.current) return;
     ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() / 2) / 2;
   });
 

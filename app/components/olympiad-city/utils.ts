@@ -1,8 +1,7 @@
 import type { Visit } from 'types/globe';
-import type { CityFieldsFragment, CityOlympiadFragment, OlympiadFieldsFragment } from '~/gql/graphql';
 
 export function cityStatus(
-  olympiads: (CityOlympiadFragment | null)[],
+  olympiads: (any | null)[],
   visits: Visit[]
 ): { amountCompleted: number; totalOlympiads: number } {
   let amountCompleted = 0;
@@ -65,10 +64,7 @@ export function statusColorSlug(amountCompleted: number, totalOlympiads: number)
   return `from-[var(--negative)] to-50%`;
 }
 
-export function filterOutNonOlympiadsForCity(
-  cityName: string,
-  olympiads: (CityOlympiadFragment | null)[] | undefined | null
-) {
+export function filterOutNonOlympiadsForCity(cityName: string, olympiads: (any | null)[] | undefined | null) {
   if (!olympiads) {
     return [];
   }
@@ -92,7 +88,7 @@ export function filterOutNonOlympiadsForCity(
   });
 }
 
-export function filterOutNonOlympiads(olympiads: readonly OlympiadFieldsFragment[]) {
+export function filterOutNonOlympiads(olympiads: readonly any[]) {
   //* filter out 1906 Athens and 1956 Stockholm
   return olympiads.filter((olympiad) => {
     if (!olympiad) {
@@ -104,7 +100,7 @@ export function filterOutNonOlympiads(olympiads: readonly OlympiadFieldsFragment
     }
 
     if (olympiad.year === 1956) {
-      const { name } = olympiad.city as CityFieldsFragment;
+      const { name } = olympiad.city as any;
       if (name === 'Stockholm') {
         return false;
       }

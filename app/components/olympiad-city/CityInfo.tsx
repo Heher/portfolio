@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion';
-import type { CityOlympiadFragment } from '~/gql/graphql';
 import CityOlympiadGroup from './CityOlympiadGroup';
 import { sharedStadiums } from './settings';
 import SharedOlympiads from './SharedOlympiads';
 
 type CityInfoProps = {
   cityName: string;
-  olympiads: CityOlympiadFragment[];
+  olympiads: any[];
 };
 
 const CityInfo = (props: CityInfoProps) => {

@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
 import type { AnimationVariants } from 'types/globe';
-import type { OlympiadFieldsFragment } from '~/gql/graphql';
 import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
-  olympiads: OlympiadFieldsFragment[];
+  olympiads: any[];
   variants: AnimationVariants;
 };
 

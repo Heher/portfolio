@@ -1,10 +1,9 @@
-import type { OlympiadFieldsFragment } from '~/gql/graphql';
 import { filterOutNonOlympiads } from './olympiad-city/utils';
 import VisitsGraph from './VisitsGraph';
 import { useTripContext } from '~/routes/trip';
 
 type TripStatusProps = {
-  olympiads: OlympiadFieldsFragment[];
+  olympiads: any[];
 };
 
 const TripStatus = ({ olympiads }: TripStatusProps) => {
