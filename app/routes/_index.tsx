@@ -1,16 +1,26 @@
 import type { MetaFunction } from '@remix-run/node';
-import { useLocation } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import type { RectReadOnly } from 'react-use-measure';
 import useMeasure from 'react-use-measure';
-import FlagContainer from '~/components/home/FlagContainer';
-import CloseIcon from '~/components/icons/CloseIcon';
-import EmailIcon from '~/components/icons/Email';
-import GitHubIcon from '~/components/icons/Github';
-import IndexArrow from '~/components/icons/IndexArrow';
-import LinkedInIcon from '~/components/icons/LinkedIn';
-import ResumeIcon from '~/components/icons/Resume';
+import { Itenerary } from '~/components/Itenerary';
+import EmailIcon from '~/icons/Email';
+import GitHubIcon from '~/icons/Github';
+import IndexArrow from '~/icons/IndexArrow';
+import LinkedInIcon from '~/icons/LinkedIn';
+import ResumeIcon from '~/icons/Resume';
+import DrizzleIcon from '~/icons/stack/Drizzle';
+import GraphQLIcon from '~/icons/stack/GraphQl';
+import PostgraphileIcon from '~/icons/stack/Postgraphile';
+import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
+import ReactIcon from '~/icons/stack/React';
+import RemixIcon from '~/icons/stack/Remix';
+import SentryIcon from '~/icons/stack/Sentry';
+import SSTIcon from '~/icons/stack/SST';
+import TailwindIcon from '~/icons/stack/Tailwind';
+import TypeScriptIcon from '~/icons/stack/TypeScript';
+import ViteIcon from '~/icons/stack/Vite';
 
 import * as gtag from '~/utils/gtags.client';
 
@@ -69,6 +79,20 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
     >
       {children}
     </a>
+  );
+}
+
+function StackTech({ name, link, icon }: { name: string; link?: string }) {
+  return (
+    <li className="">
+      <a
+        href={link}
+        className="grid grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-[rgba(255,255,255,0.4)] py-4 pl-3 pr-5 text-[var(--index-link)] transition-colors hover:bg-[rgba(255,255,255,0.6)]"
+      >
+        {icon && icon}
+        {name}
+      </a>
+    </li>
   );
 }
 
@@ -132,74 +156,148 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         />
         <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
         <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
-        <div className="mt-10 grid grid-cols-1 grid-rows-4 justify-items-start gap-5">
-          <SocialLink
-            href="https://github.com/Heher"
-            aria-label="My GitHub"
-            onClick={() => {
-              gtag.event({
-                action: 'click_contact',
-                category: 'Contact Link',
-                label: 'GitHub'
-              });
-            }}
-          >
-            <GitHubIcon className={`h-6 fill-current`} />
-            <span className="text-xs">GitHub</span>
-          </SocialLink>
-          <SocialLink
-            href="https://www.linkedin.com/in/johnheher/"
-            aria-label="My LinkedIn"
-            onClick={() => {
-              gtag.event({
-                action: 'click_contact',
-                category: 'Contact Link',
-                label: 'LinkedIn'
-              });
-            }}
-          >
-            <LinkedInIcon className={`h-6 fill-current`} />
-            <span className="text-xs">LinkedIn</span>
-          </SocialLink>
-          <SocialLink
-            href="/cv.pdf"
-            aria-label="My Résumé"
-            onClick={() => {
-              gtag.event({
-                action: 'click_contact',
-                category: 'Contact Link',
-                label: 'Resume'
-              });
-            }}
-          >
-            <ResumeIcon className={`h-6 fill-current`} />
-            <span className="text-xs">Resume</span>
-          </SocialLink>
-          <SocialLink
-            href="mailto:johnheher@gmail.com"
-            aria-label="Email me"
-            onClick={() => {
-              gtag.event({
-                action: 'click_contact',
-                category: 'Contact Link',
-                label: 'Email'
-              });
-            }}
-          >
-            <EmailIcon className={`w-5 fill-current`} />
-            <span className="text-xs">Email</span>
-          </SocialLink>
+        <div className="mt-10 flex flex-col-reverse gap-8 md:flex-row">
+          <div className="mt-5 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-5 md:mt-0">
+            <SocialLink
+              href="https://github.com/Heher"
+              aria-label="My GitHub"
+              onClick={() => {
+                gtag.event({
+                  action: 'click_contact',
+                  category: 'Contact Link',
+                  label: 'GitHub'
+                });
+              }}
+            >
+              <GitHubIcon className={`h-6 fill-current`} />
+              <span className="text-xs">GitHub</span>
+            </SocialLink>
+            <SocialLink
+              href="https://www.linkedin.com/in/johnheher/"
+              aria-label="My LinkedIn"
+              onClick={() => {
+                gtag.event({
+                  action: 'click_contact',
+                  category: 'Contact Link',
+                  label: 'LinkedIn'
+                });
+              }}
+            >
+              <LinkedInIcon className={`h-6 fill-current`} />
+              <span className="text-xs">LinkedIn</span>
+            </SocialLink>
+            <SocialLink
+              href="/cv.pdf"
+              aria-label="My Résumé"
+              onClick={() => {
+                gtag.event({
+                  action: 'click_contact',
+                  category: 'Contact Link',
+                  label: 'Resume'
+                });
+              }}
+            >
+              <ResumeIcon className={`h-6 fill-current`} />
+              <span className="text-xs">Resume</span>
+            </SocialLink>
+            <SocialLink
+              href="mailto:johnheher@gmail.com"
+              aria-label="Email me"
+              onClick={() => {
+                gtag.event({
+                  action: 'click_contact',
+                  category: 'Contact Link',
+                  label: 'Email'
+                });
+              }}
+            >
+              <EmailIcon className={`w-5 fill-current`} />
+              <span className="text-xs">Email</span>
+            </SocialLink>
+          </div>
+          <div>
+            <p className="text-lg text-[#363b34]">
+              Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
+              projects from small start-ups to large agencies with{' '}
+              <span className="whitespace-nowrap">Fortune 500</span> clients.
+            </p>
+          </div>
         </div>
-        <div className="mt-20 grid justify-items-start">
-          <a
-            href="/trip"
+        <div className="mt-32">
+          <h2 className={`mb-5 text-xl font-semibold uppercase`}>Stack</h2>
+          <p className="max-w-md text-base text-[#282B27] mt-3">
+            Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
+            stack (and the one that built this site) has been:
+          </p>
+          <div className="mt-10 flex gap-5">
+            <div className="flex w-full justify-around">
+              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
+                <StackTech
+                  name="Remix"
+                  link="https://remix.run/"
+                  icon={<RemixIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="React"
+                  link="https://react.dev/"
+                  icon={<ReactIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="Tailwind"
+                  link="https://tailwindcss.com/"
+                  icon={<TailwindIcon className="h-[15px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="TypeScript"
+                  link="https://www.typescriptlang.org/"
+                  icon={<TypeScriptIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+              </ul>
+              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
+                <StackTech
+                  name="Vite"
+                  link="https://vitejs.dev/"
+                  icon={<ViteIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="Sentry"
+                  link="https://www.sentry.io/"
+                  icon={<SentryIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                {/* <StackTech
+                  name="Postgraphile"
+                  link="https://www.graphile.org/postgraphile/"
+                  icon={<PostgraphileIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="GraphQL"
+                  link="https://graphql.org/"
+                  icon={<GraphQLIcon className="h-[20px] justify-self-center fill-current" />}
+                /> */}
+                <StackTech
+                  name="Drizzle"
+                  link="https://orm.drizzle.team/"
+                  icon={<DrizzleIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+                <StackTech
+                  name="PostgreSQL"
+                  link="https://www.postgresql.org/"
+                  icon={<PostgreSQLIcon className="h-[20px] justify-self-center fill-current" />}
+                />
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="mt-32 grid justify-items-start">
+          <Link
+            to="/trip"
             className="grid grid-cols-[1fr_40px] items-center"
             onMouseEnter={() => setTravelLinkHovered(true)}
             onMouseLeave={() => setTravelLinkHovered(false)}
             aria-label="My travels to the Olympic cities"
           >
             <h2
-              className={`text-lg font-semibold uppercase ${
+              className={`text-xl font-semibold uppercase ${
                 travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
               } transition-colors`}
             >
@@ -212,46 +310,10 @@ function IndexContent({ size }: { size: RectReadOnly }) {
                 fill: travelLinkHovered ? 'var(--index-link-hover)' : 'var(--index-link)'
               }}
             />
-          </a>
+          </Link>
         </div>
       </motion.div>
-      {contentSize?.height > 0 && (
-        <div className="relative w-full max-w-lg">
-          <motion.button
-            className="absolute z-10 flex h-10 w-full max-w-lg items-center justify-center border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0] transition-colors hover:bg-[#403a3b]"
-            onClick={handleItineraryClick}
-            initial={{ width: '100%', top: 0, right: 0 }}
-            animate={{
-              width: expand ? 40 : '100%',
-              top: expand ? getClosePosition(contentSize.height) : 0,
-              right: expand ? getCloseRight(size.width) : 0,
-              borderRadius: expand ? '50%' : 0
-            }}
-            aria-label={expand ? `Close expanded list` : `Expand for a list of my most recent travels`}
-            aria-controls="itenerary"
-            aria-expanded={expand}
-          >
-            <motion.div>
-              {expand ? (
-                <CloseIcon className="fill-[#e0e0e0]" />
-              ) : (
-                [0, 1].map((_, i) => <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />)
-              )}
-            </motion.div>
-          </motion.button>
-          <motion.div
-            className="absolute top-10 z-10 h-16 w-full px-[2px]"
-            initial={{ height: 64, top: 40 }}
-            animate={{
-              height: expand ? 0 : 64,
-              top: expand ? getClosePosition(size.height) : 40
-            }}
-          >
-            <div className="h-16 w-full bg-gradient-to-b from-[rgba(176,178,178,0.7)] to-transparent"></div>
-          </motion.div>
-          <FlagContainer expand={expand} contentSize={size} mainContentSize={contentSize} />
-        </div>
-      )}
+      <Itenerary expand={expand} setExpand={setExpand} contentSize={contentSize} size={size} />
     </motion.div>
   );
 }

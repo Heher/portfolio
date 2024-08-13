@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
-import IndexArrow from '../icons/IndexArrow';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import IndexArrow from '~/icons/IndexArrow';
 
 const MotionArrow = motion(IndexArrow);
 

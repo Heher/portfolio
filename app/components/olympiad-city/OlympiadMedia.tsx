@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import type { Visit } from 'types/globe';
-import EnterIcon from '../icons/Enter';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
+import EnterIcon from '~/icons/Enter';
 
 type OlympiadMediaProps = {
   visit: Visit;

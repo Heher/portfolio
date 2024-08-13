@@ -4,13 +4,13 @@ import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from './utils';
 import { sharedStadiums } from './settings';
 import type { Visit } from 'types/globe';
 import { Link } from '@remix-run/react';
-import EnterIcon from '../icons/Enter';
-import PassportPlane from '../icons/PassportPlane';
-import PassportTrain from '../icons/PassportTrain';
-import PassportFerry from '../icons/PassportFerry';
-import PassportBus from '../icons/PassportBus';
-import GotoArrow from '../icons/GotoArrow';
 import { useState } from 'react';
+import PassportPlane from '~/icons/PassportPlane';
+import GotoArrow from '~/icons/GotoArrow';
+import PassportTrain from '~/icons/PassportTrain';
+import PassportFerry from '~/icons/PassportFerry';
+import PassportBus from '~/icons/PassportBus';
+import EnterIcon from '~/icons/Enter';
 
 const MotionArrow = motion(GotoArrow);
 
