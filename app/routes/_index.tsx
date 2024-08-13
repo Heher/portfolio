@@ -223,7 +223,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </p>
           </div>
         </div>
-        <div className="mt-32">
+        <div className="mt-20 md:mt-32">
           <h2 className={`mb-5 text-xl font-semibold uppercase`}>Stack</h2>
           <p className="max-w-md text-base text-[#282B27] mt-3">
             Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
@@ -288,7 +288,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </div>
         </div>
-        <div className="mt-32 grid justify-items-start">
+        <div className="mt-20 md:mt-32 grid justify-items-start">
           <Link
             to="/trip"
             className="grid grid-cols-[1fr_40px] items-center"
