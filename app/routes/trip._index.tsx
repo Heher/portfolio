@@ -60,7 +60,7 @@ export async function loader() {
 
   const response = null;
 
-  if (!response?.data?.olympiads || !response?.data?.cities) {
+  if (!response?.data?.olympiads || !response.data?.cities) {
     return json({ olympiads: [], cities: [] });
   }
 
@@ -91,10 +91,15 @@ function TripIndexInner({
   const firstRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => observerCallback(entries, setCitiesSeen), {
-      rootMargin: '0px',
-      threshold: 0.5
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        observerCallback(entries, setCitiesSeen);
+      },
+      {
+        rootMargin: '0px',
+        threshold: 0.5
+      }
+    );
 
     const observedRef = firstRef.current;
 
@@ -115,7 +120,7 @@ function TripIndexInner({
 
   return (
     <Fragment key="trip-index-inner">
-      <MainCopy olympiads={olympiads as OlympiadFieldsFragment[]} variants={animationVariants} />
+      <MainCopy olympiads={olympiads as any[]} variants={animationVariants} />
       <div className="mt-10 h-4">
         <AnimatePresence>
           {width < 768 && !citiesSeen && (
@@ -132,7 +137,7 @@ function TripIndexInner({
           )}
         </AnimatePresence>
       </div>
-      <CitiesList cities={cities as CityFieldsFragment[]} firstRef={firstRef} />
+      <CitiesList cities={cities} firstRef={firstRef} />
     </Fragment>
   );
 }
@@ -158,7 +163,7 @@ export default function TripIndex() {
     }
   }, [loaded, dispatch]);
 
-  if (!loaderData?.olympiads || !loaderData?.cities) {
+  if (!loaderData.olympiads || !loaderData.cities) {
     return null;
   }
 
