@@ -8,6 +8,9 @@ import { useTripContext } from './trip';
 import type { AnimationVariants } from 'types/globe';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { getDB } from '@drizzle/db';
+import { CityTable, CountryTable, OlympiadTable } from '@drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,6 +54,7 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
 }
 
 export async function loader() {
+  const db = getDB();
   // const stravaResponse = await getStravaActivities();
 
   // const sdk = getGQLClient();
@@ -58,14 +62,41 @@ export async function loader() {
   //   now: new Date().toISOString()
   // });
 
-  const response = null;
-
-  if (!response?.data?.olympiads || !response.data?.cities) {
+  if (!db) {
     return json({ olympiads: [], cities: [] });
   }
 
-  return json({ olympiads: response.data.olympiads.nodes, cities: response.data.cities.nodes });
+  const response = await db
+    .select({
+      id: OlympiadTable.id,
+      year: OlympiadTable.year,
+      olympiadType: OlympiadTable.olympiadType,
+      city: { id: CityTable.id, name: CityTable.name, countryName: CountryTable.name }
+    })
+    .from(OlympiadTable)
+    .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
+    .innerJoin(CountryTable, eq(CityTable.countryId, CountryTable.id))
+    .where(eq(OlympiadTable.realOlympiad, true))
+    .orderBy(OlympiadTable.year);
+
+  if (!response.length) {
+    return json({ olympiads: [], cities: [] });
+  }
+
+  const cities = response.reduce((acc, olympiad) => {
+    if (!acc[olympiad.city.id]) {
+      acc[olympiad.city.id] = olympiad.city;
+    }
+
+    return acc;
+  }, {});
+
+  console.log('cities', cities);
+
+  return json({ olympiads: response, cities: Object.values(cities) });
 }
+
+export type TripLoader = typeof loader;
 
 const animationVariants: AnimationVariants = {
   hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
@@ -78,15 +109,8 @@ function observerCallback(entries: IntersectionObserverEntry[], setCitiesSeen: (
   });
 }
 
-function TripIndexInner({
-  olympiads,
-  cities,
-  width
-}: {
-  olympiads: OlympiadFieldsFragment[];
-  cities: CityFieldsFragment[];
-  width: number;
-}) {
+function TripIndexInner({ width }: { width: number }) {
+  const { olympiads, cities } = useLoaderData<typeof loader>();
   const [citiesSeen, setCitiesSeen] = useState(false);
   const firstRef = useRef<HTMLDivElement>(null);
 
@@ -120,7 +144,7 @@ function TripIndexInner({
 
   return (
     <Fragment key="trip-index-inner">
-      <MainCopy olympiads={olympiads as any[]} variants={animationVariants} />
+      <MainCopy variants={animationVariants} />
       <div className="mt-10 h-4">
         <AnimatePresence>
           {width < 768 && !citiesSeen && (
@@ -137,13 +161,13 @@ function TripIndexInner({
           )}
         </AnimatePresence>
       </div>
-      <CitiesList cities={cities} firstRef={firstRef} />
+      <CitiesList firstRef={firstRef} />
     </Fragment>
   );
 }
 
 export default function TripIndex() {
-  const loaderData = useLoaderData<typeof loader>() || {};
+  const loaderData = useLoaderData<typeof loader>();
 
   const tripContext = useTripContext();
 
@@ -169,11 +193,7 @@ export default function TripIndex() {
 
   return (
     <div className="relative z-10">
-      <TripIndexInner
-        olympiads={loaderData.olympiads as OlympiadFieldsFragment[]}
-        cities={loaderData.cities as CityFieldsFragment[]}
-        width={width}
-      />
+      <TripIndexInner width={width} />
     </div>
   );
 }

@@ -1,14 +1,15 @@
-import { Link } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { orderBy } from 'lodash-es';
 import { useTripContext } from '~/routes/trip';
 import { OlympiadCity } from './olympiad-city/OlympiadCity';
+import { TripLoader } from '~/routes/trip._index';
 
 type CitiesListProps = {
-  cities: any[];
   firstRef: React.RefObject<HTMLDivElement>;
 };
 
-export function CitiesList({ cities, firstRef }: CitiesListProps) {
+export function CitiesList({ firstRef }: CitiesListProps) {
+  const { cities } = useLoaderData<TripLoader>();
   const { appState } = useTripContext();
 
   const { moveableGlobe, selectedRouteLeg } = appState;

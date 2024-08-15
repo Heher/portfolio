@@ -22,7 +22,7 @@ type VisitsGraphProps = {
   total: number;
 };
 
-const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
+export default function VisitsGraph({ title, visits, total }: VisitsGraphProps) {
   const { appState } = useTripContext();
   const { loaded } = appState;
   const svgRef = useRef<SVGSVGElement>(null);
@@ -36,7 +36,7 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
   const mainArc = arc({ endAngle: 0 } as DefaultArcObject);
 
   useEffect(() => {
-    if (svgRef?.current) {
+    if (svgRef.current) {
       const path = d3.select(`.main-arc-${title}`);
 
       if (!loaded) {
@@ -49,7 +49,7 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
             return (t) => {
               const endAngle = interpolate(t);
               const arcInter = arc({ endAngle } as DefaultArcObject);
-              return arcInter || '';
+              return arcInter ?? '';
             };
           });
       } else {
@@ -64,11 +64,13 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
 
   if (mainArc === null || bgArc === null) return null;
 
+  console.log(mainArc);
+
   return (
     <div className="relative">
       <h3 className="text-center text-[0.9rem] font-semibold uppercase text-slate-100">{title}</h3>
       <svg ref={svgRef} className="mt-[10px] block w-[120px]" viewBox={`0 0 ${size} ${size}`} width={120} height={120}>
-        <g className="translate-x-[50%] translate-y-[50%] rotate-[215deg]">
+        <g className="translate-x-1/2 translate-y-1/2 rotate-[215deg]">
           <path className="fill-[var(--flag-box-shadow)]" d={bgArc} fill="none" />
           <path
             className={`main-arc-${title} ${
@@ -84,6 +86,4 @@ const VisitsGraph = ({ title, visits, total }: VisitsGraphProps) => {
       </p>
     </div>
   );
-};
-
-export default VisitsGraph;
+}

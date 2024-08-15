@@ -87,24 +87,3 @@ export function filterOutNonOlympiadsForCity(cityName: string, olympiads: (any |
     return true;
   });
 }
-
-export function filterOutNonOlympiads(olympiads: readonly any[]) {
-  //* filter out 1906 Athens and 1956 Stockholm
-  return olympiads.filter((olympiad) => {
-    if (!olympiad) {
-      return false;
-    }
-
-    if (olympiad.year === 1906) {
-      return false;
-    }
-
-    if (olympiad.year === 1956) {
-      const { name } = olympiad.city as any;
-      if (name === 'Stockholm') {
-        return false;
-      }
-    }
-    return true;
-  });
-}

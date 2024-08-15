@@ -25,6 +25,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
+      "@drizzle/*": ["./drizzle/*"],
       "@tests/*": ["./__tests__/*"]
     },
 

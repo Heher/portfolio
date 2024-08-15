@@ -1,6 +1,8 @@
 import { useTripContext } from '~/routes/trip';
 import CityInList from './CityInList';
-import { cityStatus, filterOutNonOlympiadsForCity } from './utils';
+import { cityStatus } from './utils';
+import { TripLoader } from '~/routes/trip._index';
+import { useLoaderData } from '@remix-run/react';
 
 type OlympiadCityProps = {
   city: any;
@@ -8,15 +10,20 @@ type OlympiadCityProps = {
 };
 
 export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
+  const { olympiads } = useLoaderData<TripLoader>();
   const { visits } = useTripContext();
 
   if (!city.name) {
     return null;
   }
 
-  const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, city.olympiads.nodes);
+  // const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, city.olympiads.nodes);
 
-  const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
+  const cityOlympiads = olympiads.filter((olympiad) => olympiad.city.id === city.id);
+
+  console.log('cityOlympiads', cityOlympiads);
+
+  const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
 
   return (
     <CityInList
@@ -24,7 +31,7 @@ export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
       city={city}
       amountCompleted={amountCompleted}
       totalOlympiads={totalOlympiads}
-      olympiads={filteredOlympiads}
+      olympiads={cityOlympiads}
     />
   );
 }
