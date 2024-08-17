@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import ExpandIcon from '~/icons/Expand';
-import * as gtag from '~/utils/gtags.client';
+// import * as gtag from '~/utils/gtags.client';
 import FlagContainer from './FlagContainer';
 import type { RectReadOnly } from 'react-use-measure';
 import Close from '~/icons/Close';
@@ -26,11 +26,11 @@ function getCloseRight(windowWidth: number) {
 
 export function Itenerary({ expand, setExpand, contentSize, size }: IteneraryProps) {
   function handleItineraryClick() {
-    gtag.event({
-      action: 'click_itinerary',
-      category: 'Itinerary Click',
-      label: expand ? 'Close' : 'Open'
-    });
+    // gtag.event({
+    //   action: 'click_itinerary',
+    //   category: 'Itinerary Click',
+    //   label: expand ? 'Close' : 'Open'
+    // });
 
     setExpand(!expand);
   }
@@ -44,7 +44,7 @@ export function Itenerary({ expand, setExpand, contentSize, size }: IteneraryPro
         animate={{
           position: expand ? 'absolute' : 'relative',
           width: expand ? 40 : '100%',
-          top: expand ? getClosePosition(contentSize?.height) : 0,
+          top: expand ? getClosePosition(contentSize.height) : 0,
           right: expand ? getCloseRight(size.width) : 0,
           borderRadius: expand ? '50%' : 0
         }}

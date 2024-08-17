@@ -1,15 +1,14 @@
 import type { Visit } from 'types/globe';
 
-export function cityStatus(
-  olympiads: (any | null)[],
-  visits: Visit[]
-): { amountCompleted: number; totalOlympiads: number } {
+export function cityStatus(olympiads: any[], visits: Visit[]): { amountCompleted: number; totalOlympiads: number } {
   let amountCompleted = 0;
 
   olympiads.forEach((olympiad) => {
     const visit = visits.find(
       (visit) => visit.year === olympiad?.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
     );
+
+    // console.log('visit', visit);
 
     if (visit) amountCompleted++;
   });

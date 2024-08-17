@@ -21,9 +21,10 @@ export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
 
   const cityOlympiads = olympiads.filter((olympiad) => olympiad.city.id === city.id);
 
-  console.log('cityOlympiads', cityOlympiads);
+  const { amountCompleted, totalOlympiads } = cityStatus(cityOlympiads, visits);
 
-  const { amountCompleted, totalOlympiads } = cityStatus(olympiads, visits);
+  // console.log('amountCompleted', amountCompleted);
+  // console.log('totalOlympiads', totalOlympiads);
 
   return (
     <CityInList

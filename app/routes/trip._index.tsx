@@ -71,7 +71,7 @@ export async function loader() {
       id: OlympiadTable.id,
       year: OlympiadTable.year,
       olympiadType: OlympiadTable.olympiadType,
-      city: { id: CityTable.id, name: CityTable.name, countryName: CountryTable.name }
+      city: { id: CityTable.id, slug: CityTable.slug, name: CityTable.name, countryName: CountryTable.name }
     })
     .from(OlympiadTable)
     .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
@@ -90,8 +90,6 @@ export async function loader() {
 
     return acc;
   }, {});
-
-  console.log('cities', cities);
 
   return json({ olympiads: response, cities: Object.values(cities) });
 }
@@ -138,7 +136,7 @@ function TripIndexInner({ width }: { width: number }) {
     };
   }, []);
 
-  if (!olympiads || !cities) {
+  if (!olympiads.length || !cities.length) {
     return null;
   }
 

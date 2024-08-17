@@ -3,7 +3,7 @@ import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
 // import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import type { Dispatch } from 'react';
 import { Suspense, useEffect, useReducer, createContext, lazy } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import { ImageModal } from '~/components/modal/ImageModal';
 import type { MetaFunction } from '@remix-run/node';
@@ -77,8 +77,8 @@ export const meta: MetaFunction = () => {
 function toggleBodyBackground() {
   const body = document.body;
 
-  body.classList.toggle('bg-[var(--globe-background)]');
-  body.classList.toggle('bg-[var(--nav-background)]');
+  body.classList.toggle('bg-globe-background');
+  body.classList.toggle('bg-nav-background');
 }
 
 function GlobeFallback() {
@@ -113,7 +113,6 @@ const reducer = (state: TripPageState, action: Action) => {
 };
 
 export const TripPageContext = createContext<ContextType | null>(null);
-export const TripPageDispatchContext = createContext<Dispatch<any> | null>(null);
 
 const initialState: TripPageState = {
   selectedImage: null,
@@ -128,6 +127,8 @@ export default function TripPage() {
   const location = useLocation();
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // console.log('STATE', state);
 
   const { selectedImage, selectedCity, selectedCityData } = state;
 
@@ -149,23 +150,16 @@ export default function TripPage() {
 
   return (
     <main ref={pageContainerRef} className={`relative mx-auto min-h-dvh w-full max-w-[var(--max-width)]`}>
-      <div className="fixed left-0 top-0 z-[-1] size-full min-h-dvh bg-gradient-to-b from-[var(--globe-background)] to-[var(--nav-background)] to-50%"></div>
-      <div className="body-container mx-auto h-dvh max-w-[var(--max-width)]">
-        {width > 0 && (
-          <motion.div
-            className={`globe-container fixed left-0 top-0 -z-0 size-full `}
-            transition={{ type: 'tween', ease: 'anticipate', duration: 0.6 }}
-            initial={false}
-          >
-            <Suspense fallback={<GlobeFallback />}>
-              <TripPageContext.Provider value={{ ...state, width, visits }}>
-                <TripPageDispatchContext.Provider value={dispatch}>
-                  <LazyGlobe />
-                </TripPageDispatchContext.Provider>
-              </TripPageContext.Provider>
-            </Suspense>
-          </motion.div>
-        )}
+      <div className="fixed left-0 top-0 z-[-1] size-full min-h-dvh bg-gradient-to-b from-globe-background to-nav-background to-50%"></div>
+      <div className="mx-auto h-dvh max-w-[var(--max-width)]">
+        <div className={`fixed inset-0 z-0 size-full`}>
+          <Suspense fallback={<GlobeFallback />}>
+            <TripPageContext.Provider value={{ ...state, width, visits }}>
+              <LazyGlobe />
+            </TripPageContext.Provider>
+          </Suspense>
+        </div>
+
         <AnimatePresence mode="wait">
           <Outlet
             context={{

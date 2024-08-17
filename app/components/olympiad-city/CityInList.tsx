@@ -24,7 +24,7 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
   return (
     <MotionLink
       ref={firstRef}
-      className={`mb-[20px] flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
+      className={`mb-5 flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
       to={`/trip/${city.slug}`}
       // layoutId={city.slug}
       initial={{ opacity: 0 }}
@@ -40,7 +40,7 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
       />
       <div className={`flex px-[25px] py-[30px]`}>
         <div className="text-[var(--text)]">
-          <motion.div className="header flex items-center">
+          <motion.div className="flex items-center">
             <div className="">
               <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">{city.name}</motion.h3>
               <motion.h4 className="text-[1rem]">

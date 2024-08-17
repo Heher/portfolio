@@ -5,6 +5,9 @@ import { useLoaderData } from '@remix-run/react';
 import type { Dispatch } from 'react';
 import { useEffect } from 'react';
 import NewBackButton from '~/components/home/NewBackButton';
+import { getDB } from '@drizzle/db';
+import { CityTable, OlympiadTable } from '@drizzle/schema';
+import { eq, and } from 'drizzle-orm';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
@@ -12,9 +15,14 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   const { city } = data;
+
+  if (!city?.name) {
+    return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
+  }
+
   return [
-    { title: `${city?.name} | Olympic Trip | John Heher` },
-    { name: 'description', content: `John Heher's past or future trip to ${city?.name}` }
+    { title: `${city.name} | Olympic Trip | John Heher` },
+    { name: 'description', content: `John Heher's past or future trip to ${city.name}` }
   ];
 };
 
@@ -26,9 +34,43 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     return json({ city: null });
   }
 
-  // const sdk = getGQLClient();
+  const db = getDB();
 
-  const now = new Date().toISOString();
+  if (!db) {
+    return json({ city: null });
+  }
+
+  const result = await db
+    .select({
+      id: OlympiadTable.id,
+      year: OlympiadTable.year,
+      olympiadType: OlympiadTable.olympiadType,
+      name: CityTable.name,
+      slug: CityTable.slug
+    })
+    .from(OlympiadTable)
+    .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
+    .where(and(eq(CityTable.slug, params.slug), eq(OlympiadTable.realOlympiad, true)));
+
+  // if (!result[0]) {
+  //   return json({ city: null });
+  // }
+
+  const city = result.at(0);
+
+  if (!city) {
+    return json({ city: null });
+  }
+
+  const formattedCity = {
+    name: city.name,
+    slug: city.slug,
+    olympiads: result.map((row) => ({ id: row.id, year: row.year, olympiadType: row.olympiadType }))
+  };
+
+  return json({ city: formattedCity, refer: referSlug });
+
+  // const now = new Date().toISOString();
 
   // const response = await sdk.GetCity({ now, slug: params.slug });
 
@@ -36,29 +78,24 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   //   return json({ city: null });
   // }
 
-  if (referSlug) {
-    // const referResponse = await sdk.GetCityName({ slug: referSlug });
+  // if (referSlug) {
+  //   return json({
+  //     city: null,
+  //     refer: { name: 'City name', slug: referSlug }
+  //   });
+  // }
 
-    return json({
-      city: null,
-      refer: { name: 'City name', slug: referSlug }
-    });
-  }
-
-  return json({ city: null, refer: null });
+  // return json({ city: null, refer: null });
 }
 
-function CityTest({
-  city,
-  dispatch,
-  refer
-}: {
-  city: CityFieldsFragment;
-  dispatch: Dispatch<any>;
-  refer: { name: string; slug: string } | null;
-}) {
+function CityTest({ dispatch }: { dispatch: Dispatch<any> }) {
+  const { city, refer } = useLoaderData<typeof loader>();
+
+  // console.log('CITY', city);
+
   useEffect(() => {
     if (city?.slug) {
+      // console.log('CITY SLUG', city.slug);
       dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
       dispatch({ type: 'SELECTED_CITY_DATA', selectedCityData: city });
@@ -75,17 +112,15 @@ function CityTest({
   return <NewBackButton refer={refer} />;
 }
 
-function CityPage() {
+export default function CityPage() {
   const tripContext = useTripContext();
-  const loaderData = useLoaderData<typeof loader>() || {};
+  const loaderData = useLoaderData<typeof loader>();
 
-  if (!tripContext || !loaderData?.city) {
+  if (!tripContext || !loaderData.city) {
     return null;
   }
 
   const { dispatch } = tripContext;
 
-  return <CityTest city={loaderData.city as CityFieldsFragment} dispatch={dispatch} refer={loaderData.refer} />;
+  return <CityTest dispatch={dispatch} refer={loaderData.refer} />;
 }
-
-export default CityPage;

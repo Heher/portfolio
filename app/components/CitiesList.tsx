@@ -14,7 +14,7 @@ export function CitiesList({ firstRef }: CitiesListProps) {
 
   const { moveableGlobe, selectedRouteLeg } = appState;
 
-  const orderedCities = orderBy(cities, (city) => city.firstOlympiad);
+  // const orderedCities = orderBy(cities, (city) => city.firstOlympiad);
 
   return (
     <div
@@ -24,14 +24,14 @@ export function CitiesList({ firstRef }: CitiesListProps) {
       } md:max-w-[50vw] md:bg-transparent md:px-[30px] md:pt-[100px] lg:max-w-[500px]`}
     >
       <Link
-        className={`route-button relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-[var(--globe-background)] p-[20px] text-center font-semibold uppercase text-[#e0e0e0]`}
+        className={`relative mb-[40px] w-full rounded-[6px] border border-solid border-[#9db7c6] bg-globe-background p-[20px] text-center font-semibold uppercase text-[#e0e0e0]`}
         type="button"
         to={'route/1'}
         prefetch="intent"
       >
         My route
       </Link>
-      {orderedCities.map((city, index) => {
+      {cities.map((city, index) => {
         return <OlympiadCity firstRef={index === 0 ? firstRef : null} key={city.id} city={city} />;
       })}
     </div>

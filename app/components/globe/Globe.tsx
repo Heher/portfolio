@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import type { Coordinate, RouteInfo, Visit } from 'types/globe';
 import type { GroupProps } from '@react-three/fiber';
 import { useFrame, useThree } from '@react-three/fiber';
@@ -19,6 +19,7 @@ import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { myRoute } from './routeCoordinates';
 import PointSphere from './PointSphere';
+import { TripPageContext } from '~/routes/trip';
 
 function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
   const lat1 = coord1[0];
@@ -29,8 +30,10 @@ function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
   return [(lat1 + lat2) / 2, (lon1 + lon2) / 2];
 }
 
-function getRouteRotation(leg: RouteInfo): number[] {
-  const midpoint = leg.midpoint || findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
+function getRouteRotation(leg: RouteInfo | undefined): number[] | null {
+  if (!leg) return null;
+
+  const midpoint = leg.midpoint ?? findMidpoint(leg.coords[0], leg.coords[leg.coords.length - 1]);
 
   const { latRad, lonRad } = convertToRadians(midpoint);
 
@@ -40,11 +43,14 @@ function getRouteRotation(leg: RouteInfo): number[] {
 function newGetCityRotation(selectedCity: string | null) {
   const foundCity = cities.find((city) => city.name === selectedCity);
 
+  // console.log('FOUND CITY', foundCity);
+  // console.log('SELECTED CITY', selectedCity);
+
   if (!foundCity && selectedCity) {
     return null;
   }
 
-  const coord = foundCity?.coord || [0, 0];
+  const coord = foundCity?.coord ?? [0, 0];
 
   const { latRad, lonRad } = convertToRadians(coord);
 
@@ -115,21 +121,17 @@ const variants = {
   })
 };
 
-export function Globe({
-  visits,
-  selectedCity,
-  selectedRouteLeg
-}: {
-  visits: Visit[];
-  selectedCity: string | null;
-  selectedRouteLeg: number | null;
-}) {
+export function Globe() {
+  const tripContext = useContext(TripPageContext);
+
+  // console.log('TRIP CONTEXT', tripContext);
+
   const groupRef = useRef<GroupProps>(null);
   const rotateY = useMotionValue(0);
 
-  const routeSelected = selectedRouteLeg !== null;
+  const routeSelected = tripContext?.selectedRouteLeg && tripContext.selectedRouteLeg !== null;
 
-  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
+  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, tripContext?.visits), [tripContext?.visits]);
 
   const { viewport } = useThree();
 
@@ -147,12 +149,14 @@ export function Globe({
   let routeY = 0;
 
   if (routeSelected) {
-    const leg = myRoute[selectedRouteLeg - 1];
-    cityMovement = getRouteRotation(leg) || [0, 0, 0];
+    const leg = myRoute[tripContext.selectedRouteLeg - 1];
+    cityMovement = getRouteRotation(leg) ?? [0, 0, 0];
     routeY = getRouteY(leg);
   } else {
-    cityMovement = newGetCityRotation(selectedCity) || [0, 0, 0];
+    cityMovement = newGetCityRotation(tripContext?.selectedCity) ?? [0, 0, 0];
   }
+
+  // console.log('CITY MOVEMENT', cityMovement);
 
   return (
     <motion.group
@@ -160,7 +164,7 @@ export function Globe({
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
       initial={{ opacity: 0 }}
-      animate={getGlobeVariant(routeSelected, selectedCity)}
+      animate={getGlobeVariant(routeSelected, tripContext?.selectedCity)}
       custom={{
         cityMovement,
         screenWidth: window.innerWidth,
@@ -168,7 +172,7 @@ export function Globe({
         width: viewport.width,
         height: viewport.height,
         rotateY: rotateY.get(),
-        zoom: getZoom(selectedRouteLeg, window.innerWidth),
+        zoom: getZoom(tripContext?.selectedRouteLeg, window.innerWidth),
         routeY
       }}
     >
@@ -176,7 +180,12 @@ export function Globe({
       {routeSelected && <Route />}
       {citiesWithVisits.map((city) => {
         return (
-          <City key={city.name} city={city} height={beamHeight} zoom={getZoom(selectedRouteLeg, window.innerWidth)} />
+          <City
+            key={city.name}
+            city={city}
+            height={beamHeight}
+            zoom={getZoom(tripContext?.selectedRouteLeg, window.innerWidth)}
+          />
         );
       })}
     </motion.group>

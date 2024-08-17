@@ -64,8 +64,6 @@ export default function VisitsGraph({ title, visits, total }: VisitsGraphProps) 
 
   if (mainArc === null || bgArc === null) return null;
 
-  console.log(mainArc);
-
   return (
     <div className="relative">
       <h3 className="text-center text-[0.9rem] font-semibold uppercase text-slate-100">{title}</h3>
@@ -73,9 +71,7 @@ export default function VisitsGraph({ title, visits, total }: VisitsGraphProps) 
         <g className="translate-x-1/2 translate-y-1/2 rotate-[215deg]">
           <path className="fill-[var(--flag-box-shadow)]" d={bgArc} fill="none" />
           <path
-            className={`main-arc-${title} ${
-              title === 'Summer' ? 'fill-[var(--summer-background)]' : 'fill-[var(--winter-background)]'
-            }`}
+            className={`main-arc-${title} ${title === 'Summer' ? 'fill-summer-background' : 'fill-winter-background'}`}
             d={mainArc}
           />
         </g>

@@ -22,7 +22,7 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
-import * as gtag from '~/utils/gtags.client';
+// import * as gtag from '~/utils/gtags.client';
 
 export const meta: MetaFunction = () => {
   return [
@@ -107,11 +107,11 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   const [contentRef, contentSize] = useMeasure({ debounce: 300 });
 
   function handleItineraryClick() {
-    gtag.event({
-      action: 'click_itinerary',
-      category: 'Itinerary Click',
-      label: expand ? 'Close' : 'Open'
-    });
+    // gtag.event({
+    //   action: 'click_itinerary',
+    //   category: 'Itinerary Click',
+    //   label: expand ? 'Close' : 'Open'
+    // });
 
     setExpand(!expand);
   }
@@ -161,13 +161,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             <SocialLink
               href="https://github.com/Heher"
               aria-label="My GitHub"
-              onClick={() => {
-                gtag.event({
-                  action: 'click_contact',
-                  category: 'Contact Link',
-                  label: 'GitHub'
-                });
-              }}
+              // onClick={() => {
+              //   gtag.event({
+              //     action: 'click_contact',
+              //     category: 'Contact Link',
+              //     label: 'GitHub'
+              //   });
+              // }}
             >
               <GitHubIcon className={`h-6 fill-current`} />
               <span className="text-xs">GitHub</span>
@@ -175,13 +175,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             <SocialLink
               href="https://www.linkedin.com/in/johnheher/"
               aria-label="My LinkedIn"
-              onClick={() => {
-                gtag.event({
-                  action: 'click_contact',
-                  category: 'Contact Link',
-                  label: 'LinkedIn'
-                });
-              }}
+              // onClick={() => {
+              //   gtag.event({
+              //     action: 'click_contact',
+              //     category: 'Contact Link',
+              //     label: 'LinkedIn'
+              //   });
+              // }}
             >
               <LinkedInIcon className={`h-6 fill-current`} />
               <span className="text-xs">LinkedIn</span>
@@ -189,13 +189,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             <SocialLink
               href="/cv.pdf"
               aria-label="My Résumé"
-              onClick={() => {
-                gtag.event({
-                  action: 'click_contact',
-                  category: 'Contact Link',
-                  label: 'Resume'
-                });
-              }}
+              // onClick={() => {
+              //   gtag.event({
+              //     action: 'click_contact',
+              //     category: 'Contact Link',
+              //     label: 'Resume'
+              //   });
+              // }}
             >
               <ResumeIcon className={`h-6 fill-current`} />
               <span className="text-xs">Resume</span>
@@ -203,13 +203,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             <SocialLink
               href="mailto:johnheher@gmail.com"
               aria-label="Email me"
-              onClick={() => {
-                gtag.event({
-                  action: 'click_contact',
-                  category: 'Contact Link',
-                  label: 'Email'
-                });
-              }}
+              // onClick={() => {
+              //   gtag.event({
+              //     action: 'click_contact',
+              //     category: 'Contact Link',
+              //     label: 'Email'
+              //   });
+              // }}
             >
               <EmailIcon className={`w-5 fill-current`} />
               <span className="text-xs">Email</span>
