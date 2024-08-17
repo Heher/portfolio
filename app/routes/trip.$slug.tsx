@@ -88,14 +88,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   // return json({ city: null, refer: null });
 }
 
-function CityTest({ dispatch }: { dispatch: Dispatch<any> }) {
-  const { city, refer } = useLoaderData<typeof loader>();
-
-  // console.log('CITY', city);
+function CityTest() {
+  const { city } = useLoaderData<typeof loader>();
+  const { dispatch } = useTripContext();
 
   useEffect(() => {
     if (city?.slug) {
-      // console.log('CITY SLUG', city.slug);
       dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
       dispatch({ type: 'SELECTED_CITY_DATA', selectedCityData: city });
@@ -109,18 +107,15 @@ function CityTest({ dispatch }: { dispatch: Dispatch<any> }) {
     return null;
   }
 
-  return <NewBackButton refer={refer} />;
+  return <NewBackButton />;
 }
 
 export default function CityPage() {
-  const tripContext = useTripContext();
   const loaderData = useLoaderData<typeof loader>();
 
-  if (!tripContext || !loaderData.city) {
+  if (!loaderData.city) {
     return null;
   }
 
-  const { dispatch } = tripContext;
-
-  return <CityTest dispatch={dispatch} refer={loaderData.refer} />;
+  return <CityTest />;
 }

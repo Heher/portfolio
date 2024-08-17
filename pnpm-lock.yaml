@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/overpass':
+        specifier: ^5.0.17
+        version: 5.0.18
       '@react-spring/three':
         specifier: ^9.7.3
         version: 9.7.4(@react-three/fiber@8.17.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(three@0.167.1))(react@18.3.1)(three@0.167.1)
@@ -742,6 +745,9 @@ packages:
   '@eslint/object-schema@2.1.4':
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource/overpass@5.0.18':
+    resolution: {integrity: sha512-LU7sz+9d0vBpnxuefhaXD+E16gkXksHfxjF9CaT/n9oYDur6HivPM4Qd8KYvvbsaaCyBQkx23gddpDwBX6aANw==}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -6428,6 +6434,8 @@ snapshots:
   '@eslint/js@9.9.0': {}
 
   '@eslint/object-schema@2.1.4': {}
+
+  '@fontsource/overpass@5.0.18': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
