@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Link, useLocation } from '@remix-run/react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import type { RectReadOnly } from 'react-use-measure';
 import useMeasure from 'react-use-measure';
@@ -24,6 +24,8 @@ import ViteIcon from '~/icons/stack/Vite';
 
 import logo from '~/assets/images/logo8.png?url';
 import rings from '~/assets/images/rings.png?url';
+import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
+import useResizeObserver from '~/hooks/useResizeObserver';
 
 // import * as gtag from '~/utils/gtags.client';
 
@@ -39,40 +41,40 @@ export const meta: MetaFunction = () => {
 
 const MotionArrow = motion(IndexArrow);
 
-function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 300 100"
-      className={className}
-      initial={{ y: '30%' }}
-      animate={{ y: '-30%' }}
-      transition={{
-        duration: 1,
-        repeat: Infinity,
-        ease: 'easeOut',
-        repeatType: 'reverse',
-        delay
-      }}
-    >
-      <g>
-        <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
-      </g>
-    </motion.svg>
-  );
-}
+// function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
+//   return (
+//     <motion.svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       viewBox="0 0 300 100"
+//       className={className}
+//       initial={{ y: '30%' }}
+//       animate={{ y: '-30%' }}
+//       transition={{
+//         duration: 1,
+//         repeat: Infinity,
+//         ease: 'easeOut',
+//         repeatType: 'reverse',
+//         delay
+//       }}
+//     >
+//       <g>
+//         <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
+//       </g>
+//     </motion.svg>
+//   );
+// }
 
-function getClosePosition(windowHeight: number) {
-  return (windowHeight + 20) * -1;
-}
+// function getClosePosition(windowHeight: number) {
+//   return (windowHeight + 20) * -1;
+// }
 
-function getCloseRight(windowWidth: number) {
-  if (windowWidth <= 640) {
-    return -10;
-  }
+// function getCloseRight(windowWidth: number) {
+//   if (windowWidth <= 640) {
+//     return -10;
+//   }
 
-  return -20;
-}
+//   return -20;
+// }
 
 function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
   return (
@@ -107,34 +109,32 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 
   const location = useLocation();
 
-  const [contentRef, contentSize] = useMeasure({ debounce: 300 });
+  // function handleItineraryClick() {
+  //   // gtag.event({
+  //   //   action: 'click_itinerary',
+  //   //   category: 'Itinerary Click',
+  //   //   label: expand ? 'Close' : 'Open'
+  //   // });
 
-  function handleItineraryClick() {
-    // gtag.event({
-    //   action: 'click_itinerary',
-    //   category: 'Itinerary Click',
-    //   label: expand ? 'Close' : 'Open'
-    // });
-
-    setExpand(!expand);
-  }
+  //   setExpand(!expand);
+  // }
 
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--body-background', 'var(--index-background)');
   }, []);
 
-  useEffect(() => {
-    if (expand) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [expand]);
+  // useEffect(() => {
+  //   if (expand) {
+  //     window.scrollTo({ top: 0, behavior: 'smooth' });
+  //   }
+  // }, [expand]);
 
   if (!size.width) return null;
 
   return (
     <motion.div
-      className={`m-0 mx-auto max-w-lg ${!expand && 'min-h-[880px]'}`}
+      className={`m-0 mx-auto max-w-lg`}
       ref={containerRef}
       key={location.key}
       initial={{ opacity: 0 }}
@@ -142,14 +142,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="main-content pb-5"
+        className="pb-5"
         initial={{ x: 0, opacity: 1 }}
         animate={{ x: expand ? -150 : 0, opacity: expand ? 0 : 1 }}
         transition={{
           duration: 0.3,
           ease: 'easeOut'
         }}
-        ref={contentRef}
         style={{ visibility: expand ? 'hidden' : 'visible' }}
       >
         <img
@@ -316,7 +315,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <div className="mt-20 grid justify-items-start md:mt-32">
           <Link
             to="/trip"
-            className="grid grid-cols-[1fr_40px] items-center"
+            className="mb-5 grid grid-cols-[1fr_40px] items-center"
             onMouseEnter={() => {
               setTravelLinkHovered(true);
             }}
@@ -341,20 +340,25 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             />
           </Link>
         </div>
+        <Itenerary setExpand={setExpand} />
       </motion.div>
-      <Itenerary expand={expand} setExpand={setExpand} contentSize={contentSize} size={size} />
+      <AnimatePresence mode="wait">
+        {expand && <ExpandedFlagContainer contentSize={size} setExpand={setExpand} />}
+      </AnimatePresence>
     </motion.div>
   );
 }
 
 export default function Index() {
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+  // const pageContainerRef = useRef<HTMLDivElement>(null);
+
+  // const dimensions = useResizeObserver(pageContainerRef);
+
+  // console.log('dimensions', dimensions);
 
   return (
-    <main
-      className="min-h-screen w-screen bg-[var(--index-background)] px-5 py-10 font-['Figtree'] text-[18px]"
-      ref={pageContainerRef}
-    >
+    <main className="w-screen bg-index-background px-5 py-10 font-figtree text-lg" ref={pageContainerRef}>
       <IndexContent size={size} />
     </main>
   );

@@ -11,7 +11,7 @@ import { journey } from '~/data/journey';
 import PlaneIcon from '~/icons/Plane';
 import { Link } from '@remix-run/react';
 import Close from '~/icons/Close';
-import ExpandIcon from '~/icons/Expand';
+// import ExpandIcon from '~/icons/Expand';
 
 type TransportType = {
   type: string;
@@ -148,39 +148,62 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof journey)[0]; dat
   );
 }
 
-function getExpandHeight(windowHeight: number) {
-  return windowHeight * -1;
+// function getExpandHeight(windowHeight: number) {
+//   return windowHeight * -1;
+// }
+
+function getListWidth() {
+  if (window.innerWidth > 512) {
+    return 512;
+  }
+
+  return window.innerWidth - 40;
 }
 
-function getListHeight(windowHeight: number) {
-  if (windowHeight > 800) {
+function getListHeight() {
+  if (window.innerHeight > 800) {
     return 800;
   }
 
-  return windowHeight - 80;
+  return window.innerHeight - 40;
 }
 
-function getCloseRight(windowWidth: number) {
-  if (windowWidth <= 640) {
-    return -10;
+function getCloseTop() {
+  if (window.innerHeight > 800) {
+    return (window.innerHeight - 800) / 2 - 20;
   }
 
-  return -20;
+  return 5;
 }
 
-function getClosePosition(windowHeight: number) {
-  console.log('windowHeight', windowHeight);
-  const closeTop = (windowHeight + 20) * -1;
+function getCloseRight() {
+  if (window.innerWidth > 512) {
+    return (window.innerWidth - 512) / 2 - 20;
+  }
 
-  console.log('closeTop', closeTop);
-
-  return 0;
+  return 5;
 }
 
-export default function FlagContainer() {
+export default function ExpandedFlagContainer({
+  contentSize,
+  setExpand
+}: {
+  contentSize: { height: number };
+  setExpand: (expand: boolean) => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
+
+  function handleItineraryClick() {
+    // gtag.event({
+    //   action: 'click_itinerary',
+    //   category: 'Itinerary Click',
+    //   label: expand ? 'Close' : 'Open'
+    // });
+
+    setExpand(false);
+  }
 
   useEffect(() => {
     if (ref.current) {
@@ -198,53 +221,69 @@ export default function FlagContainer() {
   }, []);
 
   return (
-    <motion.div
-      id="itenerary"
-      aria-hidden={true}
-      aria-label="List of all my travels."
-      className={`max-h-[calc(100dvh-60px)] w-full max-w-lg overflow-hidden rounded-b-md border-2 border-[#282B27] bg-index-background pl-16 pt-6`}
-      ref={ref}
-      initial={{ height: 320, top: 0, left: 0, x: 0, y: 0 }}
-      animate={{
-        position: 'relative',
-        height: 320,
-        // top: expand ? getExpandHeight(mainContentSize.height) : 0,
-        top: 0,
-        left: 0,
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0,
-        x: 0,
-        y: 0
-      }}
-    >
-      <div ref={containerRef}>
-        {journey.map((visit, index) => {
-          const date = new Date(visit.date);
+    <motion.div className="fixed inset-0 bg-slate-400" layoutId="itenerary">
+      <motion.button
+        layoutId="expand-button"
+        className="absolute z-20 flex size-10 max-w-lg items-center justify-center rounded-full border-2 border-[#282B27] bg-[#282B27] text-center text-[#e0e0e0] transition-colors hover:bg-[#403a3b]"
+        onClick={handleItineraryClick}
+        initial={{ width: '100%', top: 0, right: 0 }}
+        animate={{
+          top: getCloseTop(),
+          right: getCloseRight(),
+          borderRadius: '50%',
+          width: 40
+        }}
+        aria-label={`Close expanded list`}
+        aria-controls="itenerary"
+        aria-expanded={true}
+      >
+        <motion.div layoutId="button-icon">
+          <Close className="fill-[#e0e0e0]" />
+        </motion.div>
+      </motion.button>
+      <motion.div
+        id="itenerary"
+        aria-hidden={false}
+        aria-label="List of all my travels."
+        className={`absolute w-full max-w-lg overflow-scroll rounded-b-md border-2 border-[#282B27] bg-index-background pl-16 pt-6`}
+        ref={ref}
+        initial={{ width: 320, height: 320, top: '50%', left: '50%', x: '-50%', y: '-50%' }}
+        animate={{
+          width: getListWidth(),
+          height: getListHeight(),
+          borderTopLeftRadius: '0.375rem',
+          borderTopRightRadius: '0.375rem'
+        }}
+      >
+        <div ref={containerRef}>
+          {journey.map((visit, index) => {
+            const date = new Date(visit.date);
 
-          if (index > 0) {
-            const prevDate = new Date(journey[index - 1]?.date);
+            if (index > 0) {
+              const prevDate = new Date(journey[index - 1]?.date);
 
-            if (!isSameYear(date, prevDate)) {
-              return (
-                <Fragment key={`${visit.date}-${visit.name}`}>
-                  <span className="block py-8 pr-8 text-center text-xs font-semibold">{date.getFullYear()}</span>
-                  <TripVisit key={visit.date} visit={visit} date={date} lastVisit={index === journey.length - 1} />
-                </Fragment>
-              );
+              if (!isSameYear(date, prevDate)) {
+                return (
+                  <Fragment key={`${visit.date}-${visit.name}`}>
+                    <span className="block py-8 pr-8 text-center text-xs font-semibold">{date.getFullYear()}</span>
+                    <TripVisit key={visit.date} visit={visit} date={date} lastVisit={index === journey.length - 1} />
+                  </Fragment>
+                );
+              }
             }
-          }
 
-          return (
-            <TripVisit
-              key={`${visit.date}-${visit.name}`}
-              visit={visit}
-              date={date}
-              lastVisit={index === journey.length - 1}
-            />
-          );
-        })}
-      </div>
-      <div ref={endOfListRef} />
+            return (
+              <TripVisit
+                key={`${visit.date}-${visit.name}`}
+                visit={visit}
+                date={date}
+                lastVisit={index === journey.length - 1}
+              />
+            );
+          })}
+        </div>
+        <div ref={endOfListRef} />
+      </motion.div>
     </motion.div>
   );
 }
