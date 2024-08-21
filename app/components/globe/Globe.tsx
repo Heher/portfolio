@@ -133,6 +133,8 @@ export function Globe() {
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, tripContext?.visits), [tripContext?.visits]);
 
+  // console.log('CITIES WITH VISITS', citiesWithVisits);
+
   const { viewport } = useThree();
 
   useFrame(() => {
@@ -179,6 +181,11 @@ export function Globe() {
       <PointSphere />
       {routeSelected && <Route />}
       {citiesWithVisits.map((city) => {
+        // console.log('CITY', city);
+        if (!city) {
+          return null;
+        }
+
         return (
           <City
             key={city.name}

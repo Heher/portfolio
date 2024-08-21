@@ -27,15 +27,13 @@ type CitiesProps = {
 // extend({ MarkerMaterial, FlagMaterial });
 
 export function City({ city, zoom, height }: CitiesProps) {
-  const alphaMap = useLoader(TextureLoader, alphaMapImg);
+  // const alphaMap = useLoader(TextureLoader, alphaMapImg);
 
   const tripContext = useContext(TripPageContext);
 
-  if (!tripContext) {
-    return null;
-  }
-
-  const { selectedCity, selectedRouteLeg } = tripContext;
+  // if (!tripContext) {
+  //   return null;
+  // }
 
   if (!city.markerInfo) {
     return null;
@@ -51,25 +49,27 @@ export function City({ city, zoom, height }: CitiesProps) {
   let showFlag = false;
   let newFlag = true;
 
-  if (selectedRouteLeg !== null) {
-    const selectedRoute = myRoute[selectedRouteLeg - 1];
+  if (tripContext?.selectedRouteLeg) {
+    const selectedRoute = myRoute[tripContext.selectedRouteLeg - 1];
 
     const foundCity = selectedRoute.cities.find((routeCity) => routeCity.name === city.name);
 
     showFlag = foundCity ? true : false;
     newFlag = foundCity ? foundCity.new : false;
   } else {
-    showFlag = (selectedCity && selectedCity === city.name) || !selectedCity;
+    showFlag = (tripContext?.selectedCity && tripContext.selectedCity === city.name) ?? false;
   }
+
+  console.log('CITY', city);
 
   return (
     <group>
-      {/* <Marker
+      <Marker
         markerInfo={city.markerInfo}
         color={city.type === 'summer' ? summerColor : winterColor}
         radius={radius}
         shown={showFlag}
-      /> */}
+      />
       {/* <Flag
         markerInfo={city.markerInfo}
         alphaMap={alphaMap}
