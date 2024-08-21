@@ -7,7 +7,7 @@ import { myRoute } from './routeCoordinates';
 
 export const globeRadius = 1;
 export const markerRadius = 0.007;
-export const markerHeight = 0.01;
+export const markerHeight = 0.03;
 export const beamHeight = 0.3;
 
 export function convertToRadians(coord: Coordinate) {

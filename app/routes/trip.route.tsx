@@ -5,6 +5,9 @@ import { Selector } from '~/components/route/Selector';
 import { useTripContext } from './trip';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import NewBackButton from '~/components/home/NewBackButton';
+import { getDB } from '@drizzle/db';
+import { CityTable } from '@drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export type RouteContext = {
   dispatch: React.Dispatch<any>;
@@ -35,9 +38,22 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // const sdk = getGQLClient();
 
   if (referSlug) {
+    const db = getDB();
+
+    if (!db) {
+      return json({ refer: null });
+    }
+
+    const cityResult = await db.select({ name: CityTable.name }).from(CityTable).where(eq(CityTable.slug, referSlug));
+
+    const city = cityResult.at(0);
+
+    if (!city) {
+      return json({ refer: null });
+    }
     // const referResponse = await sdk.GetCityName({ slug: referSlug });
     // const refer = referResponse?.data?.cityBySlug?.name || null;
-    return json({ refer: { name: 'Test', slug: referSlug } });
+    return json({ refer: { name: city.name, slug: referSlug } });
   }
 
   return json({ refer: null });
