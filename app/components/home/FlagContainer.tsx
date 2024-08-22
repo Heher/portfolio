@@ -187,7 +187,7 @@ export default function FlagContainer({
       aria-label="List of all my travels."
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-index-background pl-16 pt-6`}
+      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-index-background pl-12 pt-6 md:pl-16`}
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{

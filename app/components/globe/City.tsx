@@ -60,7 +60,7 @@ export function City({ city, zoom, height }: CitiesProps) {
     showFlag = (tripContext?.selectedCity && tripContext.selectedCity === city.name) ?? false;
   }
 
-  console.log('CITY', city);
+  // console.log('CITY', city);
 
   return (
     <group>

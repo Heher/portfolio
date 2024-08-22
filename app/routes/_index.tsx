@@ -120,8 +120,9 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   // }
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty('--body-background', 'var(--index-background)');
+    const body = document.body;
+    body.classList.remove('bg-globe-background');
+    body.classList.add('bg-index-background');
   }, []);
 
   // useEffect(() => {
