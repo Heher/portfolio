@@ -5,8 +5,8 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { TripPageContext } from '~/routes/trip';
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
 // import { PerformanceMonitor, Stats } from '@react-three/drei';
-import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { KernelSize, Resolution } from 'postprocessing';
+// import { Bloom, EffectComposer } from '@react-three/postprocessing';
+// import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
 import { myRoute } from './routeCoordinates';
 import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
@@ -36,7 +36,7 @@ export function ErrorBoundary() {
 
   return (
     <div
-      className={`absolute bottom-[20%] left-[50%] flex h-[250px] w-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:h-[500px] md:w-[500px]`}
+      className={`absolute bottom-[20%] left-1/2 flex size-[250px] -translate-x-1/2 items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:size-[500px]`}
     >
       <p>Could not load globe. Please reload.</p>
     </div>
@@ -74,21 +74,16 @@ const variants = {
   })
 };
 
-function GlobeBackdrop({
-  selectedRouteLeg,
-  selectedCity
-}: {
-  selectedRouteLeg: number | null;
-  selectedCity: string | null;
-}) {
+function GlobeBackdrop() {
+  const tripContext = useContext(TripPageContext);
   const { viewport } = useThree();
 
-  const routeSelected = selectedRouteLeg !== null;
+  const routeSelected = tripContext?.selectedRouteLeg && tripContext.selectedRouteLeg !== null;
 
   let routeY = 0;
 
   if (routeSelected) {
-    const leg = myRoute[selectedRouteLeg - 1];
+    const leg = myRoute[tripContext.selectedRouteLeg - 1];
     routeY = getRouteY(leg);
   }
 
@@ -97,13 +92,13 @@ function GlobeBackdrop({
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
       initial={{ opacity: 0 }}
-      animate={getGlobeVariant(routeSelected, selectedCity)}
+      animate={getGlobeVariant(routeSelected, tripContext?.selectedCity)}
       custom={{
         screenWidth: window.innerWidth,
         screenHeight: window.innerHeight,
         width: viewport.width,
         height: viewport.height,
-        zoom: getZoom(selectedRouteLeg, window.innerWidth),
+        zoom: getZoom(tripContext?.selectedRouteLeg, window.innerWidth),
         routeY
       }}
       receiveShadow
@@ -124,14 +119,18 @@ function GlobeBackdrop({
   );
 }
 
-export function GlobeContainer() {
-  const tripContext = useContext(TripPageContext);
+export default function GlobeContainer() {
+  // const tripContext = useContext(TripPageContext);
 
-  if (!tripContext) {
-    return null;
-  }
+  // console.log('tripContext', tripContext);
 
-  const { selectedCity, visits, selectedRouteLeg } = tripContext;
+  // if (!tripContext) {
+  //   return null;
+  // }
+
+  // const { selectedCity, visits, selectedRouteLeg } = tripContext;
+
+  // console.log('selectedCity', tripContext?.selectedCity);
 
   return (
     // <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
@@ -139,9 +138,9 @@ export function GlobeContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       {/* <directionalLight position={[0, 1, 1]} intensity={3} color={white} /> */}
-      <Globe selectedCity={selectedCity} visits={visits} selectedRouteLeg={selectedRouteLeg} />
-      <GlobeBackdrop selectedRouteLeg={selectedRouteLeg} selectedCity={selectedCity} />
-      <EffectComposer>
+      <Globe />
+      <GlobeBackdrop />
+      {/* <EffectComposer>
         <Bloom
           intensity={1.0} // The bloom intensity.
           blurPass={undefined} // A blur pass.
@@ -152,7 +151,7 @@ export function GlobeContainer() {
           resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
           resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
         />
-      </EffectComposer>
+      </EffectComposer> */}
       {/* <Stats /> */}
       {/* <OrbitControls /> */}
     </Canvas>

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --globe-background: 15 22 26;
+    --summer-background: 231 190 177;
+    --winter-background: 206 232 242;
+    --nav-background: 77 111 133;
+    --better-white: 245 245 245;
+    --gd-background: 77 111 133;
+    --gd-page-background: 216 226 233;
+    --index-background: 221 223 223;
+  }
+}

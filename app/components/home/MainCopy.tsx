@@ -1,17 +1,15 @@
 import { motion } from 'framer-motion';
 import type { AnimationVariants } from 'types/globe';
-import type { OlympiadFieldsFragment } from '~/gql/graphql';
 import TripStatus from '../TripStatus';
 
 type MainCopyProps = {
-  olympiads: OlympiadFieldsFragment[];
   variants: AnimationVariants;
 };
 
-function MainCopy({ olympiads, variants }: MainCopyProps) {
+export default function MainCopy({ variants }: MainCopyProps) {
   return (
     <motion.div
-      className="bg-gradient-to-b from-[var(--globe-background)] to-transparent px-[30px] pt-[5vh] md:max-w-md md:bg-none lg:max-w-lg"
+      className="bg-gradient-to-b from-globe-background to-transparent px-[30px] pt-[5vh] md:max-w-md md:bg-none lg:max-w-lg"
       variants={variants}
       animate="visible"
       exit="hidden"
@@ -27,9 +25,7 @@ function MainCopy({ olympiads, variants }: MainCopyProps) {
         Olympic cities, see their stadiums (or where they once were), go on a run or a ski trip, and overall just enjoy
         a part of the world I&rsquo;ve never been before.
       </p>
-      <TripStatus olympiads={olympiads} />
+      <TripStatus />
     </motion.div>
   );
 }
-
-export default MainCopy;

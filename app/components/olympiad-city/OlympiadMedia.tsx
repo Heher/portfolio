@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import type { Visit } from 'types/globe';
-import EnterIcon from '../icons/Enter';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
+import EnterIcon from '~/icons/Enter';
 
 type OlympiadMediaProps = {
   visit: Visit;
@@ -26,10 +26,10 @@ function Stamp({ visit, citySlug }: { visit: Visit; citySlug?: string | null }) 
   return (
     <Link
       to={`/trip/route/${visit.leg}?refer=${encodeURI(citySlug || '')}`}
-      className="col-span-2 mb-8 w-40 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-[1px] text-[#2B4955]"
+      className="col-span-2 mb-8 w-40 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-px text-[#2B4955]"
     >
       <div className="rounded-md border-2 border-[#2B4955] p-1">
-        <span className="block h-6 w-6 rounded-full border-[2px] border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
+        <span className="block size-6 rounded-full border-2 border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
           GR
         </span>
         <span className="my-2 block w-full text-center text-red-600">{visit.date.replaceAll('-', '.')}</span>
@@ -45,25 +45,27 @@ export function OlympiadMedia({ visit, citySlug, olympiadType, handleImageModal 
     <div
       className={`grid-rows-[repeat(2,_fit-content(0, 1fr))] grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] pt-10 md:max-w-[500px]`}
     >
-      {visit.stadium?.img && (
+      {visit.stadium.img && (
         <div>
           <p className="mb-3 text-center text-xs uppercase md:text-sm">Stadium</p>
-          <div className="h-auto w-auto md:max-w-[250px]">
+          <div className="size-auto md:max-w-[250px]">
             <img
-              className="rounded-[3px])] w-full cursor-pointer border-2 border-solid border-[var(--globe-background)]"
+              className="w-full cursor-pointer rounded border-2 border-solid border-globe-background"
               src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/w_auto,c_scale/q_auto/olympic-visits/${visit.stadium.img}`}
               alt=""
               loading="lazy"
-              onClick={() => handleImageModal(visit.stadium.img)}
+              onClick={() => {
+                handleImageModal(visit.stadium.img);
+              }}
             />
           </div>
         </div>
       )}
-      {visit.strava?.link && (
+      {visit.strava.link && (
         <div>
-          <p className="mb-3 text-center text-xs uppercase md:text-sm">{olympiadType === 'SUMMER' ? 'Run' : 'Ski'}</p>
+          <p className="mb-3 text-center text-xs uppercase md:text-sm">{olympiadType === 'summer' ? 'Run' : 'Ski'}</p>
           <a
-            className="strava-link block w-[100px] rounded-[8px] bg-[#fc4c02] px-[20px] py-[10px] text-center font-semibold uppercase text-white no-underline"
+            className="block w-[100px] rounded-[8px] bg-[#fc4c02] px-[20px] py-[10px] text-center font-semibold uppercase text-white no-underline"
             href={visit.strava.link}
             target="_blank"
             rel="noreferrer"

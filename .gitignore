@@ -12,3 +12,29 @@ node_modules
 .DS_Store
 
 /.netlify
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+## PEM-encoded certificate data
+*.pem
+
+.netlify
+
+# Sentry Config File
+.sentryclirc
+
+# sst
+.sst
+
+# partykit
+.partykit
+
+# Sentry Config File
+.sentryclirc
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# Sentry Config File
+.env.sentry-build-plugin

@@ -1,15 +1,15 @@
 import flags from '~/data/countryFlags.json';
 import { format, isSameYear } from 'date-fns';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import PlaneIcon from '../icons/Plane';
-import CarIcon from '../icons/Car';
-import TrainIcon from '../icons/Train';
-import BusIcon from '../icons/Bus';
-import FerryIcon from '../icons/Ferry';
-import WalkIcon from '../icons/Walk';
 import { motion } from 'framer-motion';
 import type { RectReadOnly } from 'react-use-measure';
 import { visits } from './visits';
+import PlaneIcon from '~/icons/Plane';
+import CarIcon from '~/icons/Car';
+import TrainIcon from '~/icons/Train';
+import BusIcon from '~/icons/Bus';
+import FerryIcon from '~/icons/Ferry';
+import WalkIcon from '~/icons/Walk';
 
 type TransportType = {
   type: string;
@@ -21,14 +21,14 @@ function TransportIconContainer({ transports }: { transports: TransportType[] })
 
   return (
     <div
-      className="absolute left-0 grid -translate-x-1/2 items-center justify-items-center bg-[var(--index-background)]"
+      className="absolute left-0 grid -translate-x-1/2 items-center justify-items-center bg-index-background"
       style={{ top: top * -1, gridTemplateRows: `repeat(${transports.length}, 60px)` }}
     >
       {transports.map((transport) => (
         <div key={transport.type} className="relative">
           {transport.amount && (
             <span
-              className="absolute -right-3 -top-4 h-5 w-5 rounded-full bg-[#282B27] text-center text-xs leading-5 text-[#e0e0e0]"
+              className="absolute -right-3 -top-4 size-5 rounded-full bg-[#282B27] text-center text-xs leading-5 text-[#e0e0e0]"
               aria-hidden="true"
             >
               {`x${transport.amount}`}
@@ -69,7 +69,7 @@ function TransportIcon({ transport }: { transport: TransportType }) {
 
 function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date: Date; lastVisit?: boolean }) {
   const [hover, setHover] = useState(false);
-  const flag = flags.countries.find((flag) => flag?.name === visit.country);
+  const flag = flags.countries.find((flag) => flag.name === visit.country);
 
   // pb-32 = 128px
   // pb-40 = 160px
@@ -87,9 +87,13 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
       {visit.link ? (
         <motion.a
           href={visit.link}
-          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[var(--index-link)] text-center text-xs leading-10 text-[#e0e0e0]`}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
+          className={`absolute left-[-22px] top-0 size-10 rounded-full bg-[var(--index-link)] text-center text-xs leading-10 text-[#e0e0e0]`}
+          onMouseEnter={() => {
+            setHover(true);
+          }}
+          onMouseLeave={() => {
+            setHover(false);
+          }}
           animate={{ background: hover ? 'var(--index-link-hover)' : 'var(--index-link)' }}
           aria-label={format(date, 'MMMM d, yyyy')}
         >
@@ -97,7 +101,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
         </motion.a>
       ) : (
         <span
-          className={`absolute left-[-22px] top-0 h-10 w-10 rounded-full bg-[#282B27] text-center text-xs leading-10 text-[#e0e0e0]`}
+          className={`absolute left-[-22px] top-0 size-10 rounded-full bg-[#282B27] text-center text-xs leading-10 text-[#e0e0e0]`}
           aria-label={format(date, 'MMMM d, yyyy')}
         >
           {format(date, 'M/d')}
@@ -108,8 +112,12 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof visits)[0]; date
           <motion.a
             href={visit.link}
             className="text-base font-semibold leading-10 text-[var(--index-link)]"
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
+            onMouseEnter={() => {
+              setHover(true);
+            }}
+            onMouseLeave={() => {
+              setHover(false);
+            }}
             animate={{ color: hover ? 'var(--index-link-hover)' : 'var(--index-link)' }}
           >
             {visit.name}
@@ -179,7 +187,7 @@ export default function FlagContainer({
       aria-label="List of all my travels."
       className={`absolute left-0 max-w-lg ${
         expand ? 'overflow-scroll' : 'overflow-hidden'
-      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-[var(--index-background)] pl-16 pt-6`}
+      } max-h-[calc(100dvh-60px)] w-full max-w-2xl rounded-b-md border-2 border-[#282B27] bg-index-background pl-16 pt-6`}
       ref={ref}
       initial={{ height: 320, top: 0 }}
       animate={{

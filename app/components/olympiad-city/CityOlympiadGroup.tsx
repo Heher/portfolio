@@ -1,10 +1,9 @@
-import type { CityOlympiadFragment } from '~/gql/graphql';
 import { useTripContext } from '~/routes/trip';
 import { CityOlympiad } from './CityOlympiad';
 import { filterOutNonOlympiadsForCity } from './utils';
 
 type CityOlympiadGroupProps = {
-  olympiads: CityOlympiadFragment[];
+  olympiads: any[];
   cityName: string;
 };
 

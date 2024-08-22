@@ -1,26 +1,32 @@
-import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { getGQLClient } from '~/utils/graphql';
 import { useTripContext } from './trip';
 import { useLoaderData } from '@remix-run/react';
 import type { Dispatch } from 'react';
 import { useEffect } from 'react';
-import type { CityFieldsFragment } from '~/gql/graphql';
 import NewBackButton from '~/components/home/NewBackButton';
+import { getDB } from '@drizzle/db';
+import { CityTable, OlympiadTable } from '@drizzle/schema';
+import { eq, and } from 'drizzle-orm';
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
     return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
   }
 
   const { city } = data;
+
+  if (!city?.name) {
+    return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
+  }
+
   return [
-    { title: `${city?.name} | Olympic Trip | John Heher` },
-    { name: 'description', content: `John Heher's past or future trip to ${city?.name}` }
+    { title: `${city.name} | Olympic Trip | John Heher` },
+    { name: 'description', content: `John Heher's past or future trip to ${city.name}` }
   ];
 };
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const referSlug = url.searchParams.get('refer');
 
@@ -28,37 +34,64 @@ export async function loader({ request, params }: LoaderArgs) {
     return json({ city: null });
   }
 
-  const sdk = getGQLClient();
+  const db = getDB();
 
-  const now = new Date().toISOString();
-
-  const response = await sdk.GetCity({ now, slug: params.slug });
-
-  if (!response?.data?.cityBySlug?.name) {
+  if (!db) {
     return json({ city: null });
   }
 
-  if (referSlug) {
-    const referResponse = await sdk.GetCityName({ slug: referSlug });
+  const result = await db
+    .select({
+      id: OlympiadTable.id,
+      year: OlympiadTable.year,
+      olympiadType: OlympiadTable.olympiadType,
+      name: CityTable.name,
+      slug: CityTable.slug
+    })
+    .from(OlympiadTable)
+    .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
+    .where(and(eq(CityTable.slug, params.slug), eq(OlympiadTable.realOlympiad, true)));
 
-    return json({
-      city: response.data.cityBySlug,
-      refer: { name: referResponse?.data?.cityBySlug?.name, slug: referSlug }
-    });
+  // if (!result[0]) {
+  //   return json({ city: null });
+  // }
+
+  const city = result.at(0);
+
+  if (!city) {
+    return json({ city: null });
   }
 
-  return json({ city: response.data.cityBySlug, refer: null });
+  const formattedCity = {
+    name: city.name,
+    slug: city.slug,
+    olympiads: result.map((row) => ({ id: row.id, year: row.year, olympiadType: row.olympiadType }))
+  };
+
+  return json({ city: formattedCity, refer: referSlug });
+
+  // const now = new Date().toISOString();
+
+  // const response = await sdk.GetCity({ now, slug: params.slug });
+
+  // if (!response?.data?.cityBySlug?.name) {
+  //   return json({ city: null });
+  // }
+
+  // if (referSlug) {
+  //   return json({
+  //     city: null,
+  //     refer: { name: 'City name', slug: referSlug }
+  //   });
+  // }
+
+  // return json({ city: null, refer: null });
 }
 
-function CityTest({
-  city,
-  dispatch,
-  refer
-}: {
-  city: CityFieldsFragment;
-  dispatch: Dispatch<any>;
-  refer: { name: string; slug: string } | null;
-}) {
+function CityTest() {
+  const { city } = useLoaderData<typeof loader>();
+  const { dispatch } = useTripContext();
+
   useEffect(() => {
     if (city?.slug) {
       dispatch({ type: 'SELECTED_ROUTE_LEG', selectedRouteLeg: null });
@@ -74,20 +107,15 @@ function CityTest({
     return null;
   }
 
-  return <NewBackButton refer={refer} />;
+  return <NewBackButton />;
 }
 
-function CityPage() {
-  const tripContext = useTripContext();
-  const loaderData = useLoaderData<typeof loader>() || {};
+export default function CityPage() {
+  const loaderData = useLoaderData<typeof loader>();
 
-  if (!tripContext || !loaderData?.city) {
+  if (!loaderData.city) {
     return null;
   }
 
-  const { dispatch } = tripContext;
-
-  return <CityTest city={loaderData.city as CityFieldsFragment} dispatch={dispatch} refer={loaderData.refer} />;
+  return <CityTest />;
 }
-
-export default CityPage;

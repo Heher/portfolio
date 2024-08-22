@@ -1,9 +1,8 @@
 import type { Visit } from 'types/globe';
-import type { CityOlympiadFragment } from '~/gql/graphql';
 import { OlympiadMedia } from './OlympiadMedia';
 
 type CityOlympiadProps = {
-  olympiad: CityOlympiadFragment;
+  olympiad: any;
   visit: Visit | undefined;
   selected?: boolean;
   expanded?: boolean;

@@ -1,7 +1,8 @@
-import { Link } from '@remix-run/react';
-import IndexArrow from '../icons/IndexArrow';
+import { Link, useLoaderData } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import IndexArrow from '~/icons/IndexArrow';
+import { TripLoader } from '~/routes/trip._index';
 
 const MotionArrow = motion(IndexArrow);
 
@@ -14,17 +15,22 @@ function getText(refer: { name: string; slug: string } | null) {
   return 'Cities';
 }
 
-export default function NewBackButton({ refer }: { refer: { name: string; slug: string } | null }) {
+export default function NewBackButton() {
+  const { refer } = useLoaderData<TripLoader>();
   const [hover, setHover] = useState(false);
 
   return (
     <div className="fixed left-0 top-0 h-[48px] w-full bg-[rgba(15,22,26,0.7)] md:h-[60px]">
-      <div className="mx-auto flex h-full w-full max-w-[var(--back-button-max-width)] items-center px-5">
+      <div className="mx-auto flex size-full max-w-[var(--back-button-max-width)] items-center px-5">
         <Link
           to={refer?.slug ? `/trip/${refer.slug}` : '/trip'}
           className="flex items-center px-2 py-1"
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
+          onMouseEnter={() => {
+            setHover(true);
+          }}
+          onMouseLeave={() => {
+            setHover(false);
+          }}
         >
           <MotionArrow
             className="h-3 rotate-180 fill-[#dddddd] md:h-4"

@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
-import { Arrow } from '../icons/Arrow';
 import { TripPageContext } from '~/routes/trip';
 import { useContext } from 'react';
+import { Arrow } from '~/icons/Arrow';
 
 type BackButtonProps = {
   handleBackButton?: () => void;

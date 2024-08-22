@@ -1,10 +1,10 @@
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { useEffect } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import type { RouteContext } from './trip.route';
 import { myRoute } from '~/components/globe/routeCoordinates';
 
-export const meta: V2_MetaFunction = ({ params }) => {
+export const meta: MetaFunction = ({ params }) => {
   if (!params?.num) {
     return [
       { title: `Unknown leg | Olympic Trip Route | John Heher` },

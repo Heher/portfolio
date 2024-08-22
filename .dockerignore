@@ -1,0 +1,45 @@
+# flyctl launch added from .gitignore
+**/node_modules
+
+.cache
+build
+public/build
+**/.env
+
+# dotenv environment variable files
+**/.env*
+
+# Mac files
+**/.DS_Store
+
+.netlify
+test-results
+playwright-report
+playwright/.cache
+
+## PEM-encoded certificate data
+**/*.pem
+
+**/.netlify
+
+# Sentry Config File
+**/.sentryclirc
+
+# sst
+**/.sst
+
+# partykit
+**/.partykit
+
+# Sentry Config File
+**/.sentryclirc
+
+# Sentry Config File
+**/.env.sentry-build-plugin
+
+# Sentry Config File
+**/.env.sentry-build-plugin
+
+# flyctl launch added from node_modules/.pnpm/tailwindcss@3.4.9/node_modules/tailwindcss/stubs/.gitignore
+!node_modules/.pnpm/tailwindcss@3.4.9/node_modules/tailwindcss/stubs/**/*
+fly.toml

@@ -7,7 +7,7 @@ import { myRoute } from './routeCoordinates';
 
 export const globeRadius = 1;
 export const markerRadius = 0.007;
-export const markerHeight = 0.01;
+export const markerHeight = 0.03;
 export const beamHeight = 0.3;
 
 export function convertToRadians(coord: Coordinate) {
@@ -101,7 +101,9 @@ export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (Ci
     let visited = false;
 
     city.years.forEach((year) => {
-      const visitedCity = visits.find((visit) => visit.year === year && visit.type === city.type);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const visitedCity = visits?.find((visit) => visit.year === year && visit.type === city.type);
+
       if (!visited && visitedCity) {
         visited = true;
       }
@@ -115,7 +117,7 @@ export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (Ci
 
 export function getZoom(selectedRouteLeg: number | null, width: number) {
   if (selectedRouteLeg !== null) {
-    let zoom = myRoute[selectedRouteLeg - 1].zoom || 7;
+    let zoom = myRoute[selectedRouteLeg - 1]?.zoom ?? 7;
     if (width < 768) {
       zoom = zoom + 3;
     }
@@ -127,7 +129,8 @@ export function getZoom(selectedRouteLeg: number | null, width: number) {
 }
 
 export function getRouteY(leg: RouteInfo): number {
-  return leg.y || 0;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  return leg?.y ?? 0;
 }
 
 export function getGlobeX(width: number, screenWidth: number) {

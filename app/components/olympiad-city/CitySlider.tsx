@@ -1,22 +1,21 @@
 import { motion } from 'framer-motion';
 import { OlympiadMedia } from './OlympiadMedia';
-import type { CityFieldsFragment, CityOlympiadFragment } from '~/gql/graphql';
 import { cityStatus, filterOutNonOlympiadsForCity, statusColor } from './utils';
 import { sharedStadiums } from './settings';
 import type { Visit } from 'types/globe';
 import { Link } from '@remix-run/react';
-import EnterIcon from '../icons/Enter';
-import PassportPlane from '../icons/PassportPlane';
-import PassportTrain from '../icons/PassportTrain';
-import PassportFerry from '../icons/PassportFerry';
-import PassportBus from '../icons/PassportBus';
-import GotoArrow from '../icons/GotoArrow';
 import { useState } from 'react';
+import PassportPlane from '~/icons/PassportPlane';
+import GotoArrow from '~/icons/GotoArrow';
+import PassportTrain from '~/icons/PassportTrain';
+import PassportFerry from '~/icons/PassportFerry';
+import PassportBus from '~/icons/PassportBus';
+import EnterIcon from '~/icons/Enter';
 
 const MotionArrow = motion(GotoArrow);
 
 type SharedOlympiadsProps = {
-  olympiads: (CityOlympiadFragment | null)[];
+  olympiads: (any | null)[];
   citySlug: string;
   visits: Visit[];
   handleImageModal: (img: string | null) => void;
@@ -43,13 +42,13 @@ function Stamp({ visit, citySlug, last }: { visit: Visit; citySlug?: string | nu
   if (!visit.leg) {
     return (
       <div
-        className={`block w-32 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-[1px] text-[#2B4955] md:w-36 ${
+        className={`block w-32 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-px text-[#2B4955] md:w-36 ${
           last ? 'mr-0' : 'mr-3'
         }`}
       >
         <div className="rounded-md border-2 border-[#2B4955]">
           <div className="flex justify-between">
-            <span className="ml-1 mt-1 block h-6 w-6 rounded-full border-[2px] border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
+            <span className="ml-1 mt-1 block size-6 rounded-full border-2 border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
               {visit.countryCode}
             </span>
             <div className="flex h-7 items-center border border-r-0 border-t-0 border-black p-1">
@@ -66,15 +65,19 @@ function Stamp({ visit, citySlug, last }: { visit: Visit; citySlug?: string | nu
   return (
     <Link
       to={`/trip/route/${visit.leg}?refer=${encodeURI(citySlug || '')}`}
-      className={`block w-32 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-[1px] text-[#2B4955] md:w-36 ${
+      className={`block w-32 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-px text-[#2B4955] md:w-36 ${
         last ? 'mr-0' : 'mr-3'
       } transition-colors hover:bg-[#ececec]`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => {
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}
     >
       <div className="rounded-md border-2 border-[#2B4955]">
         <div className="flex justify-between">
-          <span className="ml-1 mt-1 block h-6 w-6 rounded-full border-[2px] border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
+          <span className="ml-1 mt-1 block size-6 rounded-full border-2 border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
             {visit.countryCode}
           </span>
           <div className="flex h-7 items-center border border-r-0 border-t-0 border-black p-1">
@@ -106,7 +109,7 @@ function SharedOlympiads({ olympiads, citySlug, visits, handleImageModal }: Shar
     <div className="mt-7">
       <div className="flex items-center">
         <span
-          className={`city-status mr-2 h-4 w-4 rounded-full bg-[var(--negative)] ${visit && 'bg-[var(--positive)]'}`}
+          className={`city-status mr-2 size-4 rounded-full bg-[var(--negative)] ${visit && 'bg-[var(--positive)]'}`}
         />
         <h3 className="text-xl md:text-xl">{`${headerText} ${
           firstOlympiad.olympiadType.charAt(0) + firstOlympiad.olympiadType.slice(1).toLowerCase()
@@ -131,20 +134,20 @@ export default function CitySlider({
   visits,
   handleImageModal
 }: {
-  data: CityFieldsFragment | null;
+  data: any | null;
   visits: Visit[];
   handleImageModal: (img: string | null) => void;
 }) {
   if (!data?.name) return null;
 
-  const filteredOlympiads = filterOutNonOlympiadsForCity(data.name, data.olympiads.nodes);
+  // const data.olympiads = filterOutNonOlympiadsForCity(data.name, data.olympiads);
 
-  const { amountCompleted, totalOlympiads } = cityStatus(filteredOlympiads, visits);
+  const { amountCompleted, totalOlympiads } = cityStatus(data.olympiads, visits);
 
-  let cityVisits: Visit[] = [];
-  let visitDates: string[] = [];
+  const cityVisits: Visit[] = [];
+  const visitDates: string[] = [];
 
-  filteredOlympiads.forEach((olympiad) => {
+  data.olympiads.forEach((olympiad) => {
     if (!olympiad?.olympiadType) return null;
 
     const foundVisit = visits.find(
@@ -187,20 +190,21 @@ export default function CitySlider({
       <div className="mt-10 md:mt-14">
         {sharedStadiums.includes(data?.name) ? (
           <SharedOlympiads
-            olympiads={filteredOlympiads}
+            olympiads={data.olympiads}
             citySlug={data?.slug}
             visits={visits}
             handleImageModal={handleImageModal}
           />
         ) : (
-          filteredOlympiads.map((olympiad, index) => {
+          data.olympiads.map((olympiad, index) => {
+            // console.log('olympiad', olympiad);
             if (!olympiad?.olympiadType) return null;
 
             const visit = visits.find(
               (visit) => visit.year === olympiad.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
             );
 
-            const last = index === filteredOlympiads.length - 1;
+            const last = index === data.olympiads.length - 1;
 
             return (
               <div
@@ -209,7 +213,7 @@ export default function CitySlider({
               >
                 <div className="absolute left-[-10px] top-[-6px] flex items-center">
                   <span
-                    className={`city-status h-4 w-4 rounded-full bg-[var(--negative)] md:left-[-11px] md:h-5 md:w-5 ${
+                    className={`city-status size-4 rounded-full bg-[var(--negative)] md:left-[-11px] md:size-5 ${
                       visit && 'bg-[var(--positive)]'
                     }`}
                   />
@@ -217,7 +221,7 @@ export default function CitySlider({
                     olympiad.olympiadType.charAt(0) + olympiad.olympiadType.slice(1).toLowerCase()
                   } Games`}</h3>
                 </div>
-                <div className="media ml-5 items-end md:ml-7">
+                <div className="ml-5 items-end md:ml-7">
                   {visit && (
                     <OlympiadMedia
                       visit={visit}
