@@ -68,6 +68,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     olympiads: result.map((row) => ({ id: row.id, year: row.year, olympiadType: row.olympiadType }))
   };
 
+  // TODO: See if I need to get the refer city name working again
+
   return json({ city: formattedCity, refer: referSlug });
 
   // const now = new Date().toISOString();
