@@ -6,20 +6,26 @@ of johnheher.com.
 ### Made with:
 
 General
+
 - TypeScript
 - Remix
 
 Front-end
+
 - React
 - Tailwind
 
 Back-end
-- GraphQL
+
+- Drizzle ORM
+- PostgreSQL
 
 Animation
+
 - React Three Fiber
 - Framer Motion
 
 Hosting
-- Netlify
-- Linode
+
+- Cloudflare
+- Fly.io
