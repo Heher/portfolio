@@ -174,10 +174,10 @@ export default function TripIndex() {
   const { loaded } = appState;
 
   useEffect(() => {
-    const root = document.documentElement;
-
-    root.style.setProperty('--body-background', 'var(--globe-background)');
-  }, [width]);
+    const body = document.body;
+    body.classList.remove('bg-index-background');
+    body.classList.add('bg-globe-background');
+  }, []);
 
   useEffect(() => {
     if (!loaded) {

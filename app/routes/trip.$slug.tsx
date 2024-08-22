@@ -68,6 +68,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     olympiads: result.map((row) => ({ id: row.id, year: row.year, olympiadType: row.olympiadType }))
   };
 
+  // TODO: See if I need to get the refer city name working again
+
   return json({ city: formattedCity, refer: referSlug });
 
   // const now = new Date().toISOString();
@@ -98,8 +100,9 @@ function CityTest() {
       dispatch({ type: 'SELECTED_CITY', selectedCity: city.slug });
       dispatch({ type: 'SELECTED_CITY_DATA', selectedCityData: city });
 
-      const root = document.documentElement;
-      root.style.setProperty('--body-background', 'var(--globe-background)');
+      const body = document.body;
+      body.classList.remove('bg-index-background');
+      body.classList.add('bg-globe-background');
     }
   }, [dispatch, city]);
 

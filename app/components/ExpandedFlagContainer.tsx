@@ -165,7 +165,7 @@ function getListHeight() {
     return 800;
   }
 
-  return window.innerHeight - 40;
+  return window.innerHeight - 60;
 }
 
 function getCloseTop() {
@@ -173,7 +173,7 @@ function getCloseTop() {
     return (window.innerHeight - 800) / 2 - 20;
   }
 
-  return 5;
+  return 10;
 }
 
 function getCloseRight() {
@@ -184,13 +184,7 @@ function getCloseRight() {
   return 5;
 }
 
-export default function ExpandedFlagContainer({
-  contentSize,
-  setExpand
-}: {
-  contentSize: { height: number };
-  setExpand: (expand: boolean) => void;
-}) {
+export default function ExpandedFlagContainer({ setExpand }: { setExpand: (expand: boolean) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const endOfListRef = useRef<HTMLDivElement>(null);
@@ -245,7 +239,7 @@ export default function ExpandedFlagContainer({
         id="itenerary"
         aria-hidden={false}
         aria-label="List of all my travels."
-        className={`absolute w-full max-w-lg overflow-scroll rounded-b-md border-2 border-[#282B27] bg-index-background pl-16 pt-6`}
+        className={`absolute w-full max-w-lg overflow-scroll rounded-b-md border-2 border-[#282B27] bg-index-background pl-12 pt-6 md:pl-16`}
         ref={ref}
         initial={{ width: 320, height: 320, top: '50%', left: '50%', x: '-50%', y: '-50%' }}
         animate={{

@@ -34,7 +34,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-full">
+      <body className="min-h-full bg-index-background">
         {/* <body> */}
         {/* <AnimatePresence mode="wait">{outlet}</AnimatePresence> */}
         <Outlet />
