@@ -1,6 +1,6 @@
 import { Globe } from './Globe';
 import { white } from './colors';
-import { useContext } from 'react';
+import { useContext, useLayoutEffect, useRef } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { TripPageContext } from '~/routes/trip';
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
@@ -138,6 +138,7 @@ export default function GlobeContainer() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
       {/* <directionalLight position={[0, 1, 1]} intensity={3} color={white} /> */}
+      {/* <InstancedThing /> */}
       <Globe />
       <GlobeBackdrop />
       {/* <EffectComposer>

@@ -11,6 +11,7 @@ import type { MetaFunction } from '@remix-run/node';
 import visits from '~/data/visits';
 import type { Visit } from 'types/globe';
 import CitySlider from '~/components/olympiad-city/CitySlider';
+import TestGlobe from '~/components/TestGlobe';
 
 const LazyGlobe = lazy(() => import('~/components/globe/GlobeContainer'));
 
@@ -158,6 +159,7 @@ export default function TripPage() {
               <LazyGlobe />
             </TripPageContext.Provider>
           </Suspense>
+          {/* <TestGlobe /> */}
         </div>
 
         <AnimatePresence mode="wait">
