@@ -142,64 +142,117 @@ function GlobeInstance({ el }) {
     if (ref.current) {
       // ref.current.geometry.applyMatrix4(el.matrix);
       // ref.current.geometry.translate(el.position.x, el.position.y, el.position.z);
-      // ref.current.geometry.setAttribute('center', new THREE.Float32BufferAttribute(el.centers, 3));
-      ref.current.geometry.setAttribute('baseUv', new THREE.Float32BufferAttribute(el.uvs, 2));
+      // ref.current.geometry.setAttribute('center', el.centers, 3);
+      ref.current.geometry.setAttribute('baseUv', el.baseUv);
     }
   }, [el]);
 
   return <Instance ref={ref} position={el.position} rotation={el.rotation} scale={el.scale} />;
 }
 
+// function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: THREE.Texture) {
+//   shader.uniforms.maxSize = uniforms.maxSize;
+//   shader.uniforms.minSize = uniforms.minSize;
+//   shader.uniforms.uTexture = { value: eTexture };
+//   shader.vertexShader = `
+//       uniform sampler2D uTexture;
+//       uniform float maxSize;
+//       uniform float minSize;
+
+//       attribute vec3 center;
+//       attribute vec2 baseUv;
+
+//       varying float vFinalStep;
+//       varying float vMapColorGreen;
+
+//       ${shader.vertexShader}
+//     `.replace(
+//     `#include <begin_vertex>`,
+//    `#include <begin_vertex>
+
+//       float mapColorGreen = texture(uTexture, baseUv).g;
+//       vMapColorGreen = mapColorGreen;
+//       float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
+
+//       transformed = (position - center) * pointSize + center;
+//       `
+//   );
+//   shader.fragmentShader =`
+//       uniform vec3 gradientInner;
+//       uniform vec3 gradientOuter;
+
+//       varying float vMapColorGreen;
+//       ${shader.fragmentShader}
+//       `.replace(
+//     `vec4 diffuseColor = vec4( diffuse, opacity );`,
+//     `
+//       // shaping the point, pretty much from The Book of Shaders
+//       vec2 hUv = (vUv - 0.5);
+//       int numberOfSegments = 8;
+//       float angle = atan(hUv.x, hUv.y);
+//       float r = PI2 / float(numberOfSegments);
+//       float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
+//       float f = cos(PI / float(numberOfSegments)) * 0.5;
+//       if (d > f) discard;
+
+//       vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
+//       vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
+//       vec4 diffuseColor = vec4( diffuseMap , opacity );
+//       `
+//   );
+// }
+
+function OctagonGeometry() {
+  const shape = new THREE.Shape();
+  const radius = 0.5;
+  for (let i = 0; i < 8; i++) {
+    const theta = (i / 8) * Math.PI * 2;
+    const x = radius * Math.cos(theta);
+    const y = radius * Math.sin(theta);
+    if (i === 0) {
+      shape.moveTo(x, y);
+    } else {
+      shape.lineTo(x, y);
+    }
+  }
+  shape.closePath();
+
+  const extrudeSettings = {
+    depth: 0.1,
+    bevelEnabled: false
+  };
+
+  return new THREE.ExtrudeGeometry(shape, extrudeSettings);
+}
+
 function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: THREE.Texture) {
   shader.uniforms.maxSize = uniforms.maxSize;
   shader.uniforms.minSize = uniforms.minSize;
   shader.uniforms.uTexture = { value: eTexture };
+
   shader.vertexShader = /* glsl */ `
-      uniform sampler2D uTexture;
-      uniform float maxSize;
-      uniform float minSize;
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      vec3 transformed = position * 0.5; // Scale down to half size
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+    }
+  `;
 
-      attribute vec3 center;
-      attribute vec2 baseUv;
-
-      varying float vFinalStep;
-      varying float vMapColorGreen;
-
-      ${shader.vertexShader}
-    `.replace(
-    `#include <begin_vertex>`,
-    /* glsl */ `#include <begin_vertex>
-
-      float mapColorGreen = texture(uTexture, baseUv).g;
-      vMapColorGreen = mapColorGreen;
-      float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
-
-      transformed = (position - center) * pointSize + center;
-      `
-  );
   shader.fragmentShader = /* glsl */ `
-      uniform vec3 gradientInner;
-      uniform vec3 gradientOuter;
+    varying vec2 vUv;
 
-      varying float vMapColorGreen;
-      ${shader.fragmentShader}
-      `.replace(
-    `vec4 diffuseColor = vec4( diffuse, opacity );`,
-    /* glsl */ `
-      // shaping the point, pretty much from The Book of Shaders
-      vec2 hUv = (vUv - 0.5);
-      int numberOfSegments = 8;
-      float angle = atan(hUv.x, hUv.y);
-      float r = PI2 / float(numberOfSegments);
-      float d = cos(floor(.5 + angle / r) * r - angle) * length(hUv);
-      float f = cos(PI / float(numberOfSegments)) * 0.5;
-      if (d > f) discard;
+    bool isInsideOctagon(vec2 uv) {
+      uv = uv * 2.0 - 1.0; // Transform to [-1, 1] range
+      uv = abs(uv);
+      return (uv.x + uv.y) < 1.0;
+    }
 
-      vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
-      vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
-      vec4 diffuseColor = vec4( diffuseMap , opacity );
-      `
-  );
+    void main() {
+      if (!isInsideOctagon(vUv)) discard; // Discard fragments outside the octagon
+      gl_FragColor = vec4(vUv, 0.1, 1.0); // Gradient color based on UV coordinates
+    }
+  `;
 }
 
 const sampleTexture = (context, canvas, u, v) => {
@@ -234,9 +287,11 @@ function TestInstancesTwo() {
     [eTexture]
   );
 
+  const octagonGeometry = useMemo(() => OctagonGeometry(), []);
+
   const elements = useMemo(() => {
     const dummy = new THREE.Object3D();
-    const pointAmount = 10000;
+    const pointAmount = 15000;
     const sphere = new THREE.Spherical();
     const vector = new THREE.Vector3();
     const radius = 1;
@@ -261,13 +316,12 @@ function TestInstancesTwo() {
 
       const baseUv = new THREE.Float32BufferAttribute(uvs, 2);
 
-      console.log('UVs', baseUv);
-
       const u = 0.5 + Math.atan2(z, x) / (2 * Math.PI);
       const v = 0.5 - Math.asin(y) / Math.PI;
 
-      const pixel = sampleTexture(context, canvas, u, v);
-      const isLand = pixel.g < 0.5; // Assuming land is represented by higher values
+      const pixel = sampleTexture(context, canvas, 1 - u, v);
+
+      const isLand = pixel.r < 100; // Assuming land is represented by higher values
 
       // const pixel = eTexture.image;
       // const index =
@@ -314,11 +368,12 @@ function TestInstancesTwo() {
         rotation: dummy.rotation.clone(),
         rotationSpeed: 0.001 + Math.random() * 0.01,
         // scale: dummy.position.clone().multiplyScalar(1 + Math.random() * 0.1),
-        scale: isLand ? 0.1 : 0.01,
+        scale: isLand ? 0.025 : 0.01,
         delay: Math.random(),
         color: new THREE.Color(Math.random() * 0xffffff),
         uvs,
-        centers
+        centers: new THREE.Float32BufferAttribute(centers, 3),
+        baseUv
       });
     }
 
@@ -326,9 +381,10 @@ function TestInstancesTwo() {
   }, []);
 
   return (
-    <Instances ref={ref} limit={10000}>
-      <planeGeometry args={[0.2, 0.2]} />
+    <Instances ref={ref} limit={15000}>
+      {/* <planeGeometry args={[0.2, 0.2]} /> */}
       {/* <icosahedronGeometry args={[0.01]} /> */}
+      <primitive object={octagonGeometry} />
       <meshPhysicalMaterial
         color={0x8fa1b3}
         // onBeforeCompile={(shader) => {
