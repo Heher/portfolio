@@ -3,8 +3,13 @@ import * as THREE from 'three';
 // import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import earth from '~/data/map/point-earth.jpg';
-import { useTexture } from '@react-three/drei';
+import { shaderMaterial, useTexture } from '@react-three/drei';
 import { createGlobe } from './createGlobe';
+import { motion } from 'framer-motion-3d';
+// import { useFrame } from '@react-three/fiber';
+import vertex from './shaders/globe/vertex.glsl';
+import fragment from './shaders/globe/fragment.glsl';
+import { extend } from '@react-three/fiber';
 
 type UniformType = {
   maxSize: {
@@ -84,16 +89,19 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
   shader.uniforms.maxSize = uniforms.maxSize;
   shader.uniforms.minSize = uniforms.minSize;
   shader.uniforms.uTexture = { value: eTexture };
+  shader.uniforms.uCoordinate = { value: new THREE.Vector3(0, 0, 0) }; // Add this line
   shader.vertexShader = /* glsl */ `
       uniform sampler2D uTexture;
       uniform float maxSize;
       uniform float minSize;
+      uniform vec3 uCoordinate; // Add this line
 
       attribute vec3 center;
       attribute vec2 baseUv;
 
       varying float vFinalStep;
       varying float vMapColorGreen;
+      varying float vDistance; // Add this line
 
       ${shader.vertexShader}
     `.replace(
@@ -105,6 +113,8 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
       float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
 
       transformed = (position - center) * pointSize + center;
+
+      vDistance = distance(transformed, uCoordinate); // Add this line
       `
   );
   shader.fragmentShader = /* glsl */ `
@@ -112,6 +122,7 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
       uniform vec3 gradientOuter;
 
       varying float vMapColorGreen;
+      varying float vDistance; // Add this line
       ${shader.fragmentShader}
       `.replace(
     `vec4 diffuseColor = vec4( diffuse, opacity );`,
@@ -126,16 +137,24 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
       if (d > f) discard;
 
       vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
-      vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
+      vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.4 : 1.);
       vec4 diffuseColor = vec4( diffuseMap , opacity );
+
+      // if (vDistance < 1.0) {
+      //   gl_FragColor.rgb = vec3(1.0, 0.0, 0.0); // Color the area around the coordinate red
+      // }
       `
   );
 }
 
 const globeGeometry = createGlobe();
 
+const PointMaterial = shaderMaterial({ color: 0x8fa1b3 }, vertex, fragment);
+
+extend({ PointMaterial });
+
 export default function PointSphere() {
-  const mesh = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
   const eTexture = useTexture(earth);
 
   const uniforms = useMemo(
@@ -153,17 +172,47 @@ export default function PointSphere() {
     [eTexture]
   );
 
+  // useFrame(() => {
+  //   if (meshRef.current) {
+  //     const time = performance.now() * 0.001;
+  //     const position = meshRef.current.geometry.attributes.position;
+  //     const array = position.array;
+
+  //     for (let i = 0; i < array.length; i += 3) {
+  //       const x = array[i];
+  //       const y = array[i + 1];
+  //       const z = array[i + 2];
+
+  //       // Apply bulge effect on the left side (x < 0)
+  //       if (x < 0) {
+  //         array[i] = x + Math.sin(time + x * 10) * 0.1;
+  //       }
+  //     }
+
+  //     position.needsUpdate = true;
+  //   }
+  // });
+
   return (
-    <mesh ref={mesh} rotation-y={Math.PI / 2} receiveShadow castShadow>
+    <motion.mesh
+      ref={meshRef}
+      rotation-y={Math.PI / 2}
+      receiveShadow
+      castShadow
+      // initial={{ y: 0 }}
+      // animate={{ y: 0.5 }}
+      // transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.5 }}
+    >
       {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       <bufferGeometry {...globeGeometry} />
-      <meshPhysicalMaterial
+      {/* <meshPhysicalMaterial
         color={0x8fa1b3}
         onBeforeCompile={(shader) => {
           beforeCompile(shader, uniforms, eTexture);
         }}
         defines={{ USE_UV: '' }}
-      />
-    </mesh>
+      /> */}
+      <pointMaterial key={PointMaterial.key} color={0x8fa1b3} />
+    </motion.mesh>
   );
 }

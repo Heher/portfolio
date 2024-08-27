@@ -2,6 +2,7 @@
 // import { markerHeight } from '../utils';
 // import type { MarkerInfo } from 'types/globe';
 // import { motion } from 'framer-motion-3d';
+import * as THREE from 'three';
 
 // type MarkerProps = {
 //   markerInfo: MarkerInfo;
@@ -37,13 +38,48 @@ type MarkerProps = {
   color: Color;
 };
 
+const shape = new THREE.Shape();
+const radius = 0.01;
+for (let i = 0; i < 8; i++) {
+  const angle = (i / 8) * Math.PI * 2;
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+  if (i === 0) {
+    shape.moveTo(x, y);
+  } else {
+    shape.lineTo(x, y);
+  }
+}
+shape.closePath();
+
+// Define the extrude settings
+const extrudeSettings = {
+  steps: 1,
+  depth: 0.05,
+  bevelEnabled: false
+};
+
+// Create the geometry
+const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
 export function Marker({ markerInfo, color, type }: MarkerProps) {
   const markerRef = useRef(null);
 
   return (
     <group position={markerInfo.position} rotation={markerInfo.rotation}>
       <mesh ref={markerRef} position-y={markerHeight / 2} castShadow receiveShadow>
-        <cylinderGeometry args={[markerRadius, markerRadius, markerHeight, 32]} />
+        <cylinderGeometry args={[markerRadius, markerRadius, markerHeight, 8]} />
+        <meshPhysicalMaterial color={color} />
+      </mesh>
+    </group>
+  );
+}
+
+export function TestMarker({ markerInfo, color, type }) {
+  return (
+    <group position={markerInfo.position} rotation={markerInfo.rotation}>
+      <mesh position-y={markerHeight / 2} castShadow receiveShadow geometry={geometry}>
+        {/* <cylinderGeometry args={[markerRadius, markerRadius, markerHeight, 32]} /> */}
         <meshStandardMaterial color={color} />
       </mesh>
     </group>

@@ -2,7 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } fro
 import * as THREE from 'three';
 import type { Coordinate, RouteInfo, Visit } from 'types/globe';
 import type { GroupProps } from '@react-three/fiber';
-import { useFrame, useThree } from '@react-three/fiber';
+import { extend, useFrame, useThree } from '@react-three/fiber';
 import {
   beamHeight,
   convertToRadians,
@@ -19,9 +19,9 @@ import { City } from './City';
 import { motion } from 'framer-motion-3d';
 import { useMotionValue } from 'framer-motion';
 import { myRoute } from './routeCoordinates';
-// import PointSphere from './PointSphere';
+import PointSphere from './PointSphere';
 import { TripPageContext } from '~/routes/trip';
-import { Instance, Instances, useTexture } from '@react-three/drei';
+import { Instance, Instances, shaderMaterial, useTexture } from '@react-three/drei';
 import earth from '~/data/map/point-earth.jpg';
 
 type UniformType = {
@@ -133,7 +133,7 @@ const variants = {
   })
 };
 
-const MotionInstance = motion(Instance);
+// const MotionInstance = motion(Instance);
 
 function GlobeInstance({ el }) {
   const ref = useRef();
@@ -291,7 +291,7 @@ function TestInstancesTwo() {
 
   const elements = useMemo(() => {
     const dummy = new THREE.Object3D();
-    const pointAmount = 15000;
+    const pointAmount = 30000;
     const sphere = new THREE.Spherical();
     const vector = new THREE.Vector3();
     const radius = 1;
@@ -343,36 +343,36 @@ function TestInstancesTwo() {
 
       dummy.position.set(vector.x, vector.y, vector.z);
 
-      const centers = [
-        vector.x,
-        vector.y,
-        vector.z,
-        vector.x,
-        vector.y,
-        vector.z,
-        vector.x,
-        vector.y,
-        vector.z,
-        vector.x,
-        vector.y,
-        vector.z
-      ];
+      // const centers = [
+      //   vector.x,
+      //   vector.y,
+      //   vector.z,
+      //   vector.x,
+      //   vector.y,
+      //   vector.z,
+      //   vector.x,
+      //   vector.y,
+      //   vector.z,
+      //   vector.x,
+      //   vector.y,
+      //   vector.z
+      // ];
       // const uv = new THREE.Vector2((sphere.theta + Math.PI) / (Math.PI * 2), 1 - sphere.phi / Math.PI);
       // const uvs = [uv.x, uv.y, uv.x, uv.y, uv.x, uv.y, uv.x, uv.y];
       // dummy.setAttribute('center', new THREE.Float32BufferAttribute(centers, 3));
       // dummy.setAttribute('baseUv', new THREE.Float32BufferAttribute(uvs, 2));
 
       newElements.push({
-        matrix: dummy.matrix.clone(),
+        // matrix: dummy.matrix.clone(),
         position: dummy.position.clone(),
         rotation: dummy.rotation.clone(),
-        rotationSpeed: 0.001 + Math.random() * 0.01,
+        // rotationSpeed: 0.001 + Math.random() * 0.01,
         // scale: dummy.position.clone().multiplyScalar(1 + Math.random() * 0.1),
-        scale: isLand ? 0.025 : 0.01,
-        delay: Math.random(),
-        color: new THREE.Color(Math.random() * 0xffffff),
-        uvs,
-        centers: new THREE.Float32BufferAttribute(centers, 3),
+        scale: isLand ? 0.015 : 0.005,
+        // delay: Math.random(),
+        // color: new THREE.Color(Math.random() * 0xffffff),
+        // uvs,
+        // centers: new THREE.Float32BufferAttribute(centers, 3),
         baseUv
       });
     }
@@ -381,7 +381,7 @@ function TestInstancesTwo() {
   }, []);
 
   return (
-    <Instances ref={ref} limit={15000}>
+    <Instances ref={ref} limit={30000}>
       {/* <planeGeometry args={[0.2, 0.2]} /> */}
       {/* <icosahedronGeometry args={[0.01]} /> */}
       <primitive object={octagonGeometry} />
@@ -397,6 +397,57 @@ function TestInstancesTwo() {
         return <GlobeInstance key={i} el={el} />;
       })}
     </Instances>
+  );
+}
+
+// Define the custom shader material extending MeshPhysicalMaterial
+function testBeforeCompile(shader) {
+  shader.uniforms.uTime = { value: 0 };
+  shader.vertexShader = `
+        varying vec2 vUv;
+        ${shader.vertexShader}
+      `.replace(
+    `#include <uv_vertex>`,
+    `#include <uv_vertex>
+         vUv = uv;`
+  );
+  shader.fragmentShader = `
+        uniform float uTime;
+        varying vec2 vUv;
+        ${shader.fragmentShader}
+      `.replace(
+    `#include <dithering_fragment>`,
+    `float radius = 0.005; // Radius of the dots
+          float dotSpacing = 0.5; // Spacing between dots
+          
+          // Calculate the nearest dot center
+          vec2 center = vec2(mod(vUv.x + uTime * 0.1, dotSpacing), mod(vUv.y, dotSpacing));
+          float distanceFromCenter = length(vUv - center);
+          
+          // Create a smooth circular pattern
+          float circlePattern = smoothstep(radius, radius + 0.001, distanceFromCenter);
+          
+          // Apply the pattern to the alpha channel
+          float alpha = 1.0 - circlePattern;
+          gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
+         #include <dithering_fragment>`
+  );
+}
+
+function TestPointGlobe() {
+  // const materialRef = useRef();
+
+  return (
+    <mesh>
+      <sphereGeometry args={[1, 32, 32]} />
+      <meshPhysicalMaterial
+        color="green"
+        transparent
+        onBeforeCompile={(shader) => {
+          testBeforeCompile(shader);
+        }}
+      />
+    </mesh>
   );
 }
 
@@ -462,9 +513,10 @@ export function Globe() {
         routeY
       }}
     >
-      <TestInstancesTwo />
+      {/* <TestInstancesTwo /> */}
       {/* <InstancedThing /> */}
-      {/* <PointSphere /> */}
+      <PointSphere />
+      {/* <TestPointGlobe /> */}
       {routeSelected && <Route />}
       {citiesWithVisits.map((city) => {
         // console.log('CITY', city);

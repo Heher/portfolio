@@ -10,7 +10,7 @@ import { TextureLoader } from 'three';
 
 import alphaMapImg from '~/data/beam/alphamap10.png';
 // import { Flag } from './markers/Flag';
-import { Marker } from './markers/Marker';
+import { Marker, TestMarker } from './markers/Marker';
 // import { motion } from 'framer-motion-3d';
 // import { AnimatePresence } from 'framer-motion';
 import { TripPageContext } from '~/routes/trip';

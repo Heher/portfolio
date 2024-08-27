@@ -6,7 +6,7 @@ import { myRoute } from './routeCoordinates';
 // import type { Euler, Vector3 } from '@react-three/fiber';
 
 export const globeRadius = 1;
-export const markerRadius = 0.007;
+export const markerRadius = 0.006;
 export const markerHeight = 0.03;
 export const beamHeight = 0.3;
 
@@ -40,6 +40,16 @@ export function getPosition(coord: Coordinate, radius: number): [x: number, y: n
   ];
 }
 
+export function newGetPosition(coord: Coordinate, radius: number): [x: number, y: number, z: number] {
+  const { latRad, lonRad } = convertToRadians(coord);
+
+  return [
+    Math.cos(latRad) * Math.cos(lonRad) * radius,
+    Math.sin(latRad) * radius,
+    Math.cos(latRad) * Math.sin(lonRad) * radius
+  ];
+}
+
 export function getPointPosition(coord: Coordinate, radius: number) {
   const { latRad, lonRad } = convertToRadians(coord);
 
@@ -62,6 +72,17 @@ export function placeObjectOnPlanet(
 ): { position: [x: number, y: number, z: number]; rotation: Euler } {
   return {
     position: getPosition(coord, radius),
+    // flagPosition: getPosition(coord, radius + 0.1),
+    rotation: getCoordRotation(coord)
+  };
+}
+
+export function newPlaceObjectOnPlanet(
+  coord: Coordinate,
+  radius: number
+): { position: [x: number, y: number, z: number]; rotation: Euler } {
+  return {
+    position: newGetPosition(coord, radius),
     // flagPosition: getPosition(coord, radius + 0.1),
     rotation: getCoordRotation(coord)
   };

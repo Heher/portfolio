@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // import topLevelAwait from 'vite-plugin-top-level-await';
 // import { installGlobals } from '@remix-run/node';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import glsl from 'vite-plugin-glsl';
 import { iconsSpritesheet } from 'vite-plugin-icons-spritesheet';
 // import { remixDevTools } from 'remix-development-tools/vite';
 
@@ -103,6 +104,7 @@ export default defineConfig({
     //   iconNameTransformer: (iconName) => iconName
     // }),
     tsconfigPaths(),
+    glsl(),
     remix({
       ignoredRouteFiles: ['**/.*'],
       serverModuleFormat: 'esm'
