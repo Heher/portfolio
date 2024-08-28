@@ -170,7 +170,9 @@ export default function PointSphere() {
       },
       u_time: {
         value: 0.0
-      }
+      },
+      u_colorA: { value: new THREE.Color('#FFE486') },
+      u_colorB: { value: new THREE.Color('#FEB3D9') }
     }),
     [eTexture]
   );
@@ -201,6 +203,8 @@ export default function PointSphere() {
 
     const { clock } = state;
     meshRef.current.material.uniforms.u_time.value = clock.getElapsedTime();
+
+    // meshRef.current.rotation.y += 0.01;
   });
 
   return (
@@ -215,14 +219,8 @@ export default function PointSphere() {
     >
       {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       {/* <sphereGeometry args={[1, 64, 64]} /> */}
-      <bufferGeometry {...globeGeometry} />
-      {/* <meshPhysicalMaterial
-        color={0x8fa1b3}
-        onBeforeCompile={(shader) => {
-          beforeCompile(shader, uniforms, eTexture);
-        }}
-        defines={{ USE_UV: '' }}
-      /> */}
+      {/* <bufferGeometry {...globeGeometry} /> */}
+      <planeGeometry args={[1, 1, 16, 16]} />
       <pointMaterial key={PointMaterial.key} color={0x3366ff} uniforms={uniforms} />
       {/* <meshBasicMaterial>
         <GradientTexture
