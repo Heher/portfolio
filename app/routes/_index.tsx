@@ -313,10 +313,10 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </div>
         </div>
-        <div className="mt-20 grid justify-items-start md:mt-32">
+        <div className="mb-10 mt-20 grid justify-items-start md:mt-32">
           <Link
             to="/trip"
-            className="mb-5 grid grid-cols-[1fr_40px] items-center"
+            className="grid grid-cols-[1fr_40px] items-center"
             onMouseEnter={() => {
               setTravelLinkHovered(true);
             }}
@@ -340,6 +340,26 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               }}
             />
           </Link>
+          <p className="mt-3 max-w-md text-base text-[#282B27]">
+            In November 2022, I decided to put all my stuff in storage and go travel for a bit. Made it to 29 countries
+            in that time (Vatican City counts).
+          </p>
+          <p className="mt-3 max-w-md text-base text-[#282B27]">
+            Check out my itinerary below or{' '}
+            <Link to="/trip" className="font-semibold underline transition-colors hover:text-[#282B27]/60">
+              head over
+            </Link>{' '}
+            to my very cool, fun, and most importantly educational site with{' '}
+            <motion.span
+              className="bg-gradient-to-r from-red-700 via-blue-500 to-red-700 bg-[length:200%_100%] bg-clip-text font-semibold text-transparent"
+              initial={{ backgroundPosition: '0% 0%' }}
+              animate={{ backgroundPosition: '200% 0%' }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'loop' }}
+            >
+              interactive
+            </motion.span>{' '}
+            buttons and and spinning globes.
+          </p>
         </div>
         <Itenerary setExpand={setExpand} />
       </motion.div>
