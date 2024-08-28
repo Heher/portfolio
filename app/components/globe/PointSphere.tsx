@@ -219,8 +219,8 @@ export default function PointSphere() {
     >
       {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       {/* <sphereGeometry args={[1, 64, 64]} /> */}
-      {/* <bufferGeometry {...globeGeometry} /> */}
-      <planeGeometry args={[1, 1, 16, 16]} />
+      <bufferGeometry {...globeGeometry} />
+      {/* <planeGeometry args={[1, 1, 16, 16]} /> */}
       <pointMaterial key={PointMaterial.key} color={0x3366ff} uniforms={uniforms} />
       {/* <meshBasicMaterial>
         <GradientTexture
