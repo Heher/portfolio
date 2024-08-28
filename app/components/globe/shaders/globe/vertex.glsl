@@ -1,54 +1,33 @@
-#define NORMAL
+uniform float u_time;
+varying vec2 vUv;
 
-#if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
+uniform sampler2D uTexture;
+uniform float maxSize;
+uniform float minSize;
+uniform vec3 uCoordinate; // Add this line
 
-varying vec3 vViewPosition;
+in vec3 center;
+in vec2 baseUv;
 
-#endif
-
-#include <common>
-#include <batching_pars_vertex>
-#include <uv_pars_vertex>
-#include <displacementmap_pars_vertex>
-#include <normal_pars_vertex>
-#include <morphtarget_pars_vertex>
-#include <skinning_pars_vertex>
-#include <logdepthbuf_pars_vertex>
-#include <clipping_planes_pars_vertex>
+varying float vFinalStep;
+varying float vMapColorGreen;
+varying float vDistance; // Add this line
 
 void main() {
 
-	#include <uv_vertex>
-	#include <batching_vertex>
+  float mapColorGreen = texture(uTexture, baseUv).g;
+  vMapColorGreen = mapColorGreen;
+  float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
 
-	#include <beginnormal_vertex>
-	#include <morphinstance_vertex>
-	#include <morphnormal_vertex>
-	#include <skinbase_vertex>
-	#include <skinnormal_vertex>
-	#include <defaultnormal_vertex>
-	#include <normal_vertex>
+  vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+  modelPosition.y += sin(modelPosition.x * 4.0 + u_time * 2.0) * 0.2;
 
-	#include <begin_vertex>
-	#include <morphtarget_vertex>
-	#include <skinning_vertex>
-	#include <displacementmap_vertex>
-	#include <project_vertex>
-	#include <logdepthbuf_vertex>
-	#include <clipping_planes_vertex>
+  // Uncomment the code and hit the refresh button below for a more complex effect 🪄
+  // modelPosition.y += sin(modelPosition.z * 6.0 + u_time * 2.0) * 0.1;
 
-#if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
+  vec4 viewPosition = viewMatrix * modelPosition;
+  vec4 projectedPosition = projectionMatrix * viewPosition;
 
-  vViewPosition = -mvPosition.xyz;
-
-#endif
-
-  // vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-  // modelPosition.y += sin(modelPosition.x * 2.0) * 0.2;
-
-  // vec4 viewPosition = viewMatrix * modelPosition;
-  // vec4 projectedPosition = projectionMatrix * viewPosition;
-
-  // gl_Position = projectedPosition;
+  gl_Position = projectedPosition;
 
 }

@@ -3,13 +3,13 @@ import * as THREE from 'three';
 // import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import earth from '~/data/map/point-earth.jpg';
-import { shaderMaterial, useTexture } from '@react-three/drei';
+import { GradientTexture, shaderMaterial, useTexture } from '@react-three/drei';
 import { createGlobe } from './createGlobe';
 import { motion } from 'framer-motion-3d';
 // import { useFrame } from '@react-three/fiber';
 import vertex from './shaders/globe/vertex.glsl';
 import fragment from './shaders/globe/fragment.glsl';
-import { extend } from '@react-three/fiber';
+import { extend, useFrame } from '@react-three/fiber';
 
 type UniformType = {
   maxSize: {
@@ -149,7 +149,7 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
 
 const globeGeometry = createGlobe();
 
-const PointMaterial = shaderMaterial({ color: 0x8fa1b3 }, vertex, fragment);
+const PointMaterial = shaderMaterial({ color: new THREE.Color(0.9, 1.0, 0.2) }, vertex, fragment);
 
 extend({ PointMaterial });
 
@@ -167,6 +167,9 @@ export default function PointSphere() {
       },
       uTexture: {
         value: eTexture
+      },
+      u_time: {
+        value: 0.0
       }
     }),
     [eTexture]
@@ -193,6 +196,13 @@ export default function PointSphere() {
   //   }
   // });
 
+  useFrame((state) => {
+    if (!meshRef.current) return;
+
+    const { clock } = state;
+    meshRef.current.material.uniforms.u_time.value = clock.getElapsedTime();
+  });
+
   return (
     <motion.mesh
       ref={meshRef}
@@ -204,6 +214,7 @@ export default function PointSphere() {
       // transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.5 }}
     >
       {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
+      {/* <sphereGeometry args={[1, 64, 64]} /> */}
       <bufferGeometry {...globeGeometry} />
       {/* <meshPhysicalMaterial
         color={0x8fa1b3}
@@ -212,7 +223,14 @@ export default function PointSphere() {
         }}
         defines={{ USE_UV: '' }}
       /> */}
-      <pointMaterial key={PointMaterial.key} color={0x8fa1b3} />
+      <pointMaterial key={PointMaterial.key} color={0x3366ff} uniforms={uniforms} />
+      {/* <meshBasicMaterial>
+        <GradientTexture
+          stops={[0, 1]} // As many stops as you want
+          colors={['aquamarine', 'hotpink']} // Colors need to match the number of stops
+          size={1024} // Size is optional, default = 1024
+        />
+      </meshBasicMaterial> */}
     </motion.mesh>
   );
 }

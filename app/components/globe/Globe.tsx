@@ -500,8 +500,8 @@ export function Globe() {
       ref={groupRef}
       rotation={[0, 0, 0.5, 'ZXY']}
       variants={variants}
-      initial={{ opacity: 0 }}
-      animate={getGlobeVariant(routeSelected, tripContext?.selectedCity)}
+      // initial={{ opacity: 0 }}
+      // animate={getGlobeVariant(routeSelected, tripContext?.selectedCity)}
       custom={{
         cityMovement,
         screenWidth: window.innerWidth,
