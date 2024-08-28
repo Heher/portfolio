@@ -201,6 +201,11 @@ export default function ExpandedFlagContainer({ setExpand }: { setExpand: (expan
 
   useEffect(() => {
     if (ref.current) {
+      const body = document.body;
+      body.classList.remove('bg-globe-background');
+      body.classList.remove('bg-index-background');
+      body.classList.add('bg-slate-400');
+
       const observer = new ResizeObserver(() => {
         if (ref.current && containerRef.current && endOfListRef.current) {
           ref.current.scrollTop = containerRef.current.offsetHeight;
@@ -208,7 +213,11 @@ export default function ExpandedFlagContainer({ setExpand }: { setExpand: (expan
       });
 
       observer.observe(ref.current);
+
       return () => {
+        body.classList.remove('bg-slate-400');
+        body.classList.add('bg-index-background');
+
         observer.disconnect();
       };
     }
