@@ -6,7 +6,7 @@ import BusIcon from '~/icons/Bus';
 import FerryIcon from '~/icons/Ferry';
 import WalkIcon from '~/icons/Walk';
 import { motion } from 'framer-motion';
-import type { RectReadOnly } from 'react-use-measure';
+// import type { RectReadOnly } from 'react-use-measure';
 import { journey } from '~/data/journey';
 import PlaneIcon from '~/icons/Plane';
 import { Link } from '@remix-run/react';
