@@ -157,7 +157,7 @@ export default function PointSphere() {
     <mesh ref={mesh} rotation-y={Math.PI / 2} receiveShadow castShadow>
       {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       <bufferGeometry {...globeGeometry} />
-      <meshPhysicalMaterial
+      <meshStandardMaterial
         color={0x8fa1b3}
         onBeforeCompile={(shader) => {
           beforeCompile(shader, uniforms, eTexture);
