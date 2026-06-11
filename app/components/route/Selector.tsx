@@ -1,16 +1,17 @@
-/* eslint-disable tailwindcss/classnames-order */
-// import { useState } from 'react';
-import { useTripContext } from '~/routes/trip';
+import { Link } from 'react-router';
+
+import { useTripContext } from '~/hooks/useTripContext';
+
 import { getMoveableGlobeContainerRight } from '../globe/globePositioning';
 import { myRoute } from '../globe/routeCoordinates';
-import { Link } from '@remix-run/react';
 
 export function Selector({ width }: { width: number }) {
   const { appState } = useTripContext();
 
   const { selectedRouteLeg } = appState;
 
-  if (!selectedRouteLeg) return null;
+  if (!selectedRouteLeg)
+    return null;
 
   const positionRight = getMoveableGlobeContainerRight(width);
 
@@ -26,11 +27,21 @@ export function Selector({ width }: { width: number }) {
 
   return (
     <div
-      className={`route-selector-container fixed bottom-0 right-[${positionRight}] z-50 flex h-[100px] w-full items-center justify-center md:max-h-[800px] lg:max-h-[1000px] lg:max-w-[var(--max-width)] text-xl font-semibold uppercase text-[#e0e0e0] bg-[rgba(15,22,26,0.7)]`}
+      className={`
+        route-selector-container fixed bottom-0
+        right-[${positionRight}]
+        z-50 flex h-[100px] w-full items-center justify-center bg-[rgba(15,22,26,0.7)] text-xl font-semibold text-[#e0e0e0] uppercase
+        md:max-h-[800px]
+        lg:max-h-[1000px]
+        lg:max-w-(--max-width)
+      `}
     >
-      <div className="grid gap-[10px] grid-cols-[40px_1fr_40px] items-center w-[300px]">
+      <div className="grid w-[300px] grid-cols-[40px_1fr_40px] items-center gap-[10px]">
         <Link
-          className={`h-[25px] w-[40px] px-[10px] py-[5px] ${selectedRouteLeg === 1 ? 'pointer-events-none' : ''}`}
+          className={`
+            h-[25px] w-[40px] px-[10px] py-[5px]
+            ${selectedRouteLeg === 1 ? 'pointer-events-none' : ''}
+          `}
           to={`/trip/route/${selectedRouteLeg - 1}`}
         >
           <svg className="" version="1.1" viewBox="100 80 500 400" xmlns="http://www.w3.org/2000/svg">
@@ -40,11 +51,14 @@ export function Selector({ width }: { width: number }) {
             />
           </svg>
         </Link>
-        <p className="text-center text-[16px] leading-5">{myRoute[selectedRouteLeg - 1].description}</p>
+        <p className="text-center text-[16px]/5">{myRoute[selectedRouteLeg - 1].description}</p>
         <Link
-          className={`h-[25px] w-[40px] px-[10px] py-[5px] rotate-180 ${
-            selectedRouteLeg === totalLegs ? 'pointer-events-none' : ''
-          }`}
+          className={`
+            h-[25px] w-[40px] rotate-180 px-[10px] py-[5px]
+            ${
+    selectedRouteLeg === totalLegs ? 'pointer-events-none' : ''
+    }
+          `}
           type="button"
           // onClick={() => handleLegChange(selectedRouteLeg + 1)}
           to={`/trip/route/${selectedRouteLeg + 1}`}

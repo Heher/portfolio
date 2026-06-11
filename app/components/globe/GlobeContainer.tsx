@@ -1,16 +1,18 @@
-import { Globe } from './Globe';
-import { white } from './colors';
-import { useContext } from 'react';
+import { GradientTexture, GradientType } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber';
-import { TripPageContext } from '~/routes/trip';
-import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
 // import { PerformanceMonitor, Stats } from '@react-three/drei';
 // import { Bloom, EffectComposer } from '@react-three/postprocessing';
 // import { KernelSize, Resolution } from 'postprocessing';
 import { motion } from 'framer-motion-3d';
+import { use } from 'react';
+import { isRouteErrorResponse, useRouteError } from 'react-router';
+
+import { TripPageContext } from '~/utils/context';
+
+import { white } from './colors';
+import { Globe } from './Globe';
 import { myRoute } from './routeCoordinates';
 import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
-import { GradientTexture, GradientType } from '@react-three/drei';
 // import { OrbitControls } from '@react-three/drei';
 
 export function ErrorBoundary() {
@@ -21,7 +23,10 @@ export function ErrorBoundary() {
     return (
       <div>
         <h1>Oops</h1>
-        <p>Status: {error.status}</p>
+        <p>
+          Status:
+          {error.status}
+        </p>
         <p>{error.data.message}</p>
       </div>
     );
@@ -36,7 +41,10 @@ export function ErrorBoundary() {
 
   return (
     <div
-      className={`absolute bottom-[20%] left-1/2 flex size-[250px] -translate-x-1/2 items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:size-[500px]`}
+      className="
+        absolute bottom-[20%] left-1/2 flex size-[250px] -translate-x-1/2 items-center justify-center rounded-full bg-slate-400
+        md:top-[100px] md:right-[400px] md:size-[500px]
+      "
     >
       <p>Could not load globe. Please reload.</p>
     </div>
@@ -50,8 +58,8 @@ const variants = {
     z: 10,
     transition: {
       duration: 0.7,
-      ease: 'easeInOut'
-    }
+      ease: 'easeInOut',
+    },
   }),
   route: ({ zoom, screenWidth, routeY }: { zoom: number; screenWidth: number; routeY: number }) => ({
     x: 0,
@@ -59,8 +67,8 @@ const variants = {
     z: getGlobeZoom(screenWidth, zoom),
     transition: {
       duration: 0.9,
-      ease: 'easeInOut'
-    }
+      ease: 'easeInOut',
+    },
   }),
   show: ({ width, screenWidth }: { width: number; screenWidth: number }) => ({
     opacity: 1,
@@ -69,13 +77,13 @@ const variants = {
     z: screenWidth < 768 ? 0 : -10 / width,
     transition: {
       duration: 0.7,
-      ease: 'easeInOut'
-    }
-  })
+      ease: 'easeInOut',
+    },
+  }),
 };
 
 function GlobeBackdrop() {
-  const tripContext = useContext(TripPageContext);
+  const tripContext = use(TripPageContext);
   const { viewport } = useThree();
 
   const routeSelected = tripContext?.selectedRouteLeg && tripContext.selectedRouteLeg !== null;
@@ -99,7 +107,7 @@ function GlobeBackdrop() {
         width: viewport.width,
         height: viewport.height,
         zoom: getZoom(tripContext?.selectedRouteLeg, window.innerWidth),
-        routeY
+        routeY,
       }}
       receiveShadow
     >
@@ -112,7 +120,7 @@ function GlobeBackdrop() {
           width={1024} // Width of the canvas producing the texture, default = 16
           type={GradientType.Radial} // The type of the gradient, default = GradientType.Linear
           innerCircleRadius={0} // Optional, the radius of the inner circle of the gradient, default = 0
-          outerCircleRadius={'auto'} // Optional, the radius of the outer circle of the gradient, default = auto
+          outerCircleRadius="auto" // Optional, the radius of the outer circle of the gradient, default = auto
         />
       </meshBasicMaterial>
     </motion.mesh>

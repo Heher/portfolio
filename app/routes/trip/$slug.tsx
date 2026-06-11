@@ -1,43 +1,26 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useTripContext } from './trip';
-import { useLoaderData } from '@remix-run/react';
-import type { Dispatch } from 'react';
+import { and, eq } from 'drizzle-orm';
 import { useEffect } from 'react';
-import NewBackButton from '~/components/home/NewBackButton';
+import { useLoaderData } from 'react-router';
+
 import { getDB } from '@drizzle/db';
-import { CityTable, OlympiadTable } from '@drizzle/schema';
-import { eq, and } from 'drizzle-orm';
+import { city as CityTable, olympiad as OlympiadTable } from '@drizzle/schema';
+import NewBackButton from '~/components/home/NewBackButton';
+import { useTripContext } from '~/hooks/useTripContext';
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (!data) {
-    return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
-  }
+import type { Route } from './+types/$slug';
 
-  const { city } = data;
-
-  if (!city?.name) {
-    return [{ title: 'Unknown city | Olympic Trip | John Heher' }, { name: 'description', content: `City not found` }];
-  }
-
-  return [
-    { title: `${city.name} | Olympic Trip | John Heher` },
-    { name: 'description', content: `John Heher's past or future trip to ${city.name}` }
-  ];
-};
-
-export async function loader({ request, params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const referSlug = url.searchParams.get('refer');
 
   if (!params.slug) {
-    return json({ city: null });
+    return { city: null };
   }
 
   const db = getDB();
 
   if (!db) {
-    return json({ city: null });
+    return { city: null };
   }
 
   const result = await db
@@ -46,7 +29,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       year: OlympiadTable.year,
       olympiadType: OlympiadTable.olympiadType,
       name: CityTable.name,
-      slug: CityTable.slug
+      slug: CityTable.slug,
     })
     .from(OlympiadTable)
     .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
@@ -59,18 +42,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const city = result.at(0);
 
   if (!city) {
-    return json({ city: null });
+    return { city: null };
   }
 
   const formattedCity = {
     name: city.name,
     slug: city.slug,
-    olympiads: result.map((row) => ({ id: row.id, year: row.year, olympiadType: row.olympiadType }))
+    olympiads: result.map(row => ({ id: row.id, year: row.year, olympiadType: row.olympiadType })),
   };
 
   // TODO: See if I need to get the refer city name working again
 
-  return json({ city: formattedCity, refer: referSlug });
+  return { city: formattedCity, refer: referSlug };
 
   // const now = new Date().toISOString();
 
@@ -110,14 +93,23 @@ function CityTest() {
     return null;
   }
 
-  return <NewBackButton />;
+  return (
+    <div>
+      <title>{`${city.name} | Olympic Trip | John Heher`}</title>
+      <meta name="description" content={`John Heher's past or future trip to ${city.name}`} />
+      <NewBackButton />
+    </div>
+  );
 }
 
-export default function CityPage() {
-  const loaderData = useLoaderData<typeof loader>();
-
-  if (!loaderData.city) {
-    return null;
+export default function CityPage({ loaderData }: Route.ComponentProps) {
+  if (!loaderData?.city?.name) {
+    return (
+      <div>
+        <title>Unknown city | Olympic Trip | John Heher</title>
+        <meta name="description" content="City not found" />
+      </div>
+    );
   }
 
   return <CityTest />;

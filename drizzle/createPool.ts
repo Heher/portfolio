@@ -1,22 +1,38 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
+import { drizzle as pgDrizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
-import * as schema from '@drizzle/schema';
-import { GDDB } from 'types/db';
+
+import { relations } from '@drizzle/relations';
+import config from 'config';
 
 const { Pool } = pg;
 
-export function createPoolConnection() {
-  try {
-    let db: GDDB | null = null;
+// Create a singleton pool that can be reused
+let pool: pg.Pool | undefined;
 
-    const pool = new Pool({
-      connectionString: process.env.DATABASE_URL
-    });
+function getPool() {
+  if (!pool) {
+    const connectionString = config.DATABASE_URL;
 
-    db = drizzle(pool, { schema });
+    console.log(connectionString);
 
-    return db;
-  } catch (e) {
-    return null;
+    if (!connectionString) {
+      throw new Error('DATABASE_URL is not defined');
+    }
+
+    pool = new Pool({ connectionString });
   }
+
+  return pool;
+}
+
+export async function closePool() {
+  if (pool) {
+    await pool.end();
+
+    pool = undefined;
+  }
+}
+
+export function createPoolConnection() {
+  return pgDrizzle({ client: getPool(), relations });
 }

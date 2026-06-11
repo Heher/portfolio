@@ -1,6 +1,10 @@
-import { Link } from '@remix-run/react';
+import type { RefObject } from 'react';
+
 import { motion } from 'framer-motion';
-import { useTripContext } from '~/routes/trip';
+import { Link } from 'react-router';
+
+import { useTripContext } from '~/hooks/useTripContext';
+
 import { CityOlympiad } from './CityOlympiad';
 import { statusColor } from './utils';
 
@@ -11,10 +15,10 @@ type CityInListProps = {
   amountCompleted: number;
   totalOlympiads: number;
   olympiads: (any | null)[];
-  firstRef: React.RefObject<HTMLDivElement> | null;
+  firstRef: RefObject<HTMLAnchorElement | null> | null;
 };
 
-const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef }: CityInListProps) => {
+function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef }: CityInListProps) {
   const { visits, appState } = useTripContext();
 
   if (!city.slug) {
@@ -23,8 +27,11 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
 
   return (
     <MotionLink
-      ref={firstRef}
-      className={`mb-5 flex cursor-pointer rounded-[6px] bg-[#e0e0e0] hover:bg-[#f5f5f5]`}
+      ref={firstRef || undefined}
+      className="
+        mb-5 flex cursor-pointer rounded-[6px] bg-[#e0e0e0]
+        hover:bg-[#f5f5f5]
+      "
       to={`/trip/${city.slug}`}
       // layoutId={city.slug}
       initial={{ opacity: 0 }}
@@ -33,16 +40,19 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <motion.span
-        className={`city-status block rounded-l-[6px] border-l-[15px] border-solid ${statusColor(
-          amountCompleted,
-          totalOlympiads
-        )}`}
+        className={`
+          block rounded-l-[6px] border-l-15 border-solid
+          ${statusColor(
+      amountCompleted,
+      totalOlympiads,
+    )}
+        `}
       />
-      <div className={`flex px-[25px] py-[30px]`}>
-        <div className="text-[var(--text)]">
+      <div className="flex px-[25px] py-[30px]">
+        <div className="text-(--text)">
           <motion.div className="flex items-center">
             <div className="">
-              <motion.h3 className="text-[1.1rem] font-semibold uppercase tracking-wide">{city.name}</motion.h3>
+              <motion.h3 className="text-[1.1rem] font-semibold tracking-wide uppercase">{city.name}</motion.h3>
               <motion.h4 className="text-[1rem]">
                 {city.country?.name === 'United States of America' ? 'USA' : city.country?.name}
               </motion.h4>
@@ -55,8 +65,8 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
               }
 
               const visit = visits.find(
-                (visit) =>
-                  visit.year === olympiad.year.toString() && visit.type === olympiad?.olympiadType?.toLowerCase()
+                visit =>
+                  visit.year === olympiad.year.toString() && visit.type === olympiad?.olympiadType?.toLowerCase(),
               );
 
               return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} />;
@@ -66,6 +76,6 @@ const CityInList = ({ city, amountCompleted, totalOlympiads, olympiads, firstRef
       </div>
     </MotionLink>
   );
-};
+}
 
 export default CityInList;

@@ -1,6 +1,6 @@
 // import React from 'react';
 
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+import { isRouteErrorResponse, useRouteError } from 'react-router';
 
 // type ErrorBoundarySimpleProps = {
 //   children: React.ReactNode;
@@ -44,7 +44,10 @@ export function ErrorBoundary() {
     return (
       <div>
         <h1>Oops</h1>
-        <p>Status: {error.status}</p>
+        <p>
+          Status:
+          {error.status}
+        </p>
         <p>{error.data.message}</p>
       </div>
     );
@@ -59,7 +62,10 @@ export function ErrorBoundary() {
 
   return (
     <div
-      className={`absolute bottom-[20%] left-[50%] flex h-[250px] w-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:h-[500px] md:w-[500px]`}
+      className="
+        absolute bottom-[20%] left-[50%] flex size-[250px] translate-x-[-50%] items-center justify-center rounded-full bg-slate-400
+        md:top-[100px] md:right-[400px] md:size-[500px]
+      "
     >
       <p>Could not load globe. Please reload.</p>
     </div>

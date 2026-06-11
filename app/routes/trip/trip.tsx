@@ -1,32 +1,21 @@
-import { Outlet, useLocation, useOutletContext } from '@remix-run/react';
-
 // import { GlobeContainer } from '~/components/globe/GlobeContainer';
 import type { Dispatch } from 'react';
-import { Suspense, useEffect, useReducer, createContext, lazy } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import useMeasure from 'react-use-measure';
-import { ImageModal } from '~/components/modal/ImageModal';
-import type { MetaFunction } from '@remix-run/node';
 
-import visits from '~/data/visits';
+import { AnimatePresence } from 'framer-motion';
+import { lazy, Suspense, useEffect, useReducer } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import useMeasure from 'react-use-measure';
+
+import type { SelectedCity } from 'types/city';
 import type { Visit } from 'types/globe';
+import type { TripPageState } from 'types/trip';
+
+import { ImageModal } from '~/components/modal/ImageModal';
 import CitySlider from '~/components/olympiad-city/CitySlider';
+import visits from '~/data/visits';
+import { TripPageContext } from '~/utils/context';
 
 const LazyGlobe = lazy(() => import('~/components/globe/GlobeContainer'));
-
-type TripPageState = {
-  selectedImage: string | null;
-  moveableGlobe: boolean;
-  selectedCity: string | null;
-  selectedCityData: any | null;
-  selectedRouteLeg: number | null;
-  loaded: boolean;
-};
-
-export type ContextType = TripPageState & {
-  width: number;
-  visits: Visit[];
-};
 
 export type OutletContextType = {
   handleImageModal: (img: string | null) => void;
@@ -36,43 +25,6 @@ export type OutletContextType = {
   appState: TripPageState;
   dispatch: Dispatch<any>;
 };
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'John Heher | Olympic Trip' },
-    {
-      name: 'description',
-      content: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games."
-    },
-    {
-      name: 'og:title',
-      content: 'John Heher | Olympic Trip'
-    },
-    {
-      name: 'og:image',
-      content: '/olympic-cities-og.jpg'
-    }
-  ];
-};
-
-// export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-//   console.log('ERROR from boundary: ', error);
-//   return <div className="h-[300px] w-[300px] bg-red-400">Error</div>;
-// };
-
-// export function CatchBoundary() {
-//   const caught = useCatch();
-
-//   return (
-//     <div>
-//       <h1>Caught</h1>
-//       <p>Status: {caught.status}</p>
-//       <pre>
-//         <code>{JSON.stringify(caught.data, null, 2)}</code>
-//       </pre>
-//     </div>
-//   );
-// }
 
 function toggleBodyBackground() {
   const body = document.body;
@@ -85,15 +37,15 @@ function GlobeFallback() {
   return <div>Loading...</div>;
 }
 
-type Action =
-  | { type: 'IMAGE'; selectedImage: string | null }
-  | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
-  | { type: 'SELECTED_CITY'; selectedCity: string | null }
-  | { type: 'SELECTED_CITY_DATA'; selectedCityData: any | null }
-  | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number | null }
-  | { type: 'LOADED'; loaded: boolean };
+type Action
+  = | { type: 'IMAGE'; selectedImage: string | null }
+    | { type: 'MOVEABLE_GLOBE'; moveableGlobe: boolean }
+    | { type: 'SELECTED_CITY'; selectedCity: string | null }
+    | { type: 'SELECTED_CITY_DATA'; selectedCityData: SelectedCity | null }
+    | { type: 'SELECTED_ROUTE_LEG'; selectedRouteLeg: number | null }
+    | { type: 'LOADED'; loaded: boolean };
 
-const reducer = (state: TripPageState, action: Action) => {
+function reducer(state: TripPageState, action: Action) {
   switch (action.type) {
     case 'IMAGE':
       return { ...state, selectedImage: action.selectedImage };
@@ -110,9 +62,7 @@ const reducer = (state: TripPageState, action: Action) => {
     default:
       return state;
   }
-};
-
-export const TripPageContext = createContext<ContextType | null>(null);
+}
 
 const initialState: TripPageState = {
   selectedImage: null,
@@ -120,15 +70,13 @@ const initialState: TripPageState = {
   selectedCity: null,
   selectedCityData: null,
   selectedRouteLeg: null,
-  loaded: false
+  loaded: false,
 };
 
 export default function TripPage() {
   const location = useLocation();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // console.log('STATE', state);
 
   const { selectedImage, selectedCity, selectedCityData } = state;
 
@@ -149,14 +97,18 @@ export default function TripPage() {
   }
 
   return (
-    <main ref={pageContainerRef} className={`relative mx-auto min-h-dvh w-full max-w-[var(--max-width)]`}>
-      <div className="fixed left-0 top-0 z-[-1] size-full min-h-dvh bg-gradient-to-b from-globe-background to-nav-background to-50%"></div>
-      <div className="mx-auto h-dvh max-w-[var(--max-width)]">
-        <div className={`fixed inset-0 z-0 size-full`}>
+    <main ref={pageContainerRef} className="relative mx-auto min-h-dvh w-full max-w-(--max-width)">
+      <title>John Heher | Olympic Trip</title>
+      <meta name="description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
+      <meta property="og:title" content="John Heher | Olympic Trip" />
+      <meta property="og:image" content="/olympic-cities-og.jpg" />
+      <div className="fixed top-0 left-0 z-[-1] size-full min-h-dvh bg-linear-to-b from-globe-background to-nav-background to-50%"></div>
+      <div className="mx-auto h-dvh max-w-(--max-width)">
+        <div className="fixed inset-0 z-0 size-full">
           <Suspense fallback={<GlobeFallback />}>
-            <TripPageContext.Provider value={{ ...state, width, visits }}>
+            <TripPageContext value={{ ...state, width, visits }}>
               <LazyGlobe />
-            </TripPageContext.Provider>
+            </TripPageContext>
           </Suspense>
         </div>
 
@@ -168,12 +120,12 @@ export default function TripPage() {
               visits,
               toggleBodyBackground,
               appState: state,
-              dispatch
+              dispatch,
             }}
           />
         </AnimatePresence>
         <AnimatePresence>
-          {selectedCity && <CitySlider data={selectedCityData} visits={visits} handleImageModal={handleImageModal} />}
+          {selectedCity && <CitySlider data={selectedCityData} visits={visits} />}
         </AnimatePresence>
         {selectedImage && (
           <ImageModal
@@ -187,7 +139,3 @@ export default function TripPage() {
     </main>
   );
 }
-
-export const useTripContext = () => {
-  return useOutletContext<OutletContextType>();
-};

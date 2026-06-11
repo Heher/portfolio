@@ -1,56 +1,75 @@
-import { Link } from '@remix-run/react';
+// import { Link } from 'react-router';
+
 import type { Visit } from 'types/globe';
+
+import { useTripContext } from '~/hooks/useTripContext';
+
 // import { format } from 'date-fns';
-import EnterIcon from '~/icons/Enter';
+// import EnterIcon from '~/icons/Enter';
 
 type OlympiadMediaProps = {
   visit: Visit;
   citySlug?: string | null;
   olympiadType: string;
-  handleImageModal: (img: string) => void;
 };
 
-function Stamp({ visit, citySlug }: { visit: Visit; citySlug?: string | null }) {
-  if (!visit.date) return null;
+// function Stamp({ visit, citySlug }: { visit: Visit; citySlug?: string | null }) {
+//   if (!visit.date)
+//     return null;
 
-  // console.log(citySlug);
+//   // console.log(citySlug);
 
-  if (!visit.leg) {
-    return (
-      <p className="col-span-2 mb-8 justify-self-start rounded-md border-2 border-[#2B4955] px-6 py-3 text-[#2B4955]">
-        <span className="block">{visit.date}</span>
-      </p>
-    );
-  }
+//   if (!visit.leg) {
+//     return (
+//       <p className="col-span-2 mb-8 justify-self-start rounded-md border-2 border-[#2B4955] px-6 py-3 text-[#2B4955]">
+//         <span className="block">{visit.date}</span>
+//       </p>
+//     );
+//   }
 
-  return (
-    <Link
-      to={`/trip/route/${visit.leg}?refer=${encodeURI(citySlug || '')}`}
-      className="col-span-2 mb-8 w-40 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-px text-[#2B4955]"
-    >
-      <div className="rounded-md border-2 border-[#2B4955] p-1">
-        <span className="block size-6 rounded-full border-2 border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
-          GR
-        </span>
-        <span className="my-2 block w-full text-center text-red-600">{visit.date.replaceAll('-', '.')}</span>
-        {/* <span className="block">Part of Leg {visit.leg}</span> */}
-        <EnterIcon className="h-6 fill-[#2B4955] stroke-[#2B4955]  stroke-[4px]" />
-      </div>
-    </Link>
-  );
-}
+//   return (
+//     <Link
+//       to={`/trip/route/${visit.leg}?refer=${encodeURI(citySlug || '')}`}
+//       className="col-span-2 mb-8 w-40 rotate-6 justify-self-start rounded-[8px] border-2 border-[#2B4955] p-px text-[#2B4955]"
+//     >
+//       <div className="rounded-md border-2 border-[#2B4955] p-1">
+//         <span className="block size-6 rounded-full border-2 border-[#2B4955] text-center text-xs leading-[21px] text-[#2B4955]">
+//           GR
+//         </span>
+//         <span className="my-2 block w-full text-center text-red-600">{visit.date.replaceAll('-', '.')}</span>
+//         {/* <span className="block">Part of Leg {visit.leg}</span> */}
+//         <EnterIcon className="h-6 fill-[#2B4955] stroke-[#2B4955] stroke-[4px]" />
+//       </div>
+//     </Link>
+//   );
+// }
 
-export function OlympiadMedia({ visit, citySlug, olympiadType, handleImageModal }: OlympiadMediaProps) {
+export function OlympiadMedia({ visit, olympiadType }: OlympiadMediaProps) {
+  const { handleImageModal } = useTripContext();
+
   return (
     <div
-      className={`grid-rows-[repeat(2,_fit-content(0, 1fr))] grid w-full grid-cols-[1fr_1fr] justify-items-center pb-[120px] pt-10 md:max-w-[500px]`}
+      className="
+        grid w-full grid-cols-[1fr_1fr] grid-rows-[repeat(2,fit-content(0,1fr))] justify-items-center pt-10 pb-[120px]
+        md:max-w-[500px]
+      "
     >
       {visit.stadium.img && (
         <div>
-          <p className="mb-3 text-center text-xs uppercase md:text-sm">Stadium</p>
-          <div className="size-auto md:max-w-[250px]">
+          <p className="
+            mb-3 text-center text-xs uppercase
+            md:text-sm
+          "
+          >
+            Stadium
+          </p>
+          <div className="
+            size-auto
+            md:max-w-[250px]
+          "
+          >
             <img
-              className="w-full cursor-pointer rounded border-2 border-solid border-globe-background"
+              className="w-full cursor-pointer rounded-sm border-2 border-solid border-globe-background"
               src={`https://res.cloudinary.com/globe-draft/image/upload/h_500,c_scale/w_auto,c_scale/q_auto/olympic-visits/${visit.stadium.img}`}
               alt=""
               loading="lazy"
@@ -63,9 +82,15 @@ export function OlympiadMedia({ visit, citySlug, olympiadType, handleImageModal 
       )}
       {visit.strava.link && (
         <div>
-          <p className="mb-3 text-center text-xs uppercase md:text-sm">{olympiadType === 'summer' ? 'Run' : 'Ski'}</p>
+          <p className="
+            mb-3 text-center text-xs uppercase
+            md:text-sm
+          "
+          >
+            {olympiadType === 'summer' ? 'Run' : 'Ski'}
+          </p>
           <a
-            className="block w-[100px] rounded-[8px] bg-[#fc4c02] px-[20px] py-[10px] text-center font-semibold uppercase text-white no-underline"
+            className="block w-[100px] rounded-[8px] bg-[#fc4c02] px-[20px] py-[10px] text-center font-semibold text-white uppercase no-underline"
             href={visit.strava.link}
             target="_blank"
             rel="noreferrer"

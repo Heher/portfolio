@@ -1,4 +1,5 @@
-import { useTripContext } from '~/routes/trip';
+import { useTripContext } from '~/hooks/useTripContext';
+
 import { CityOlympiad } from './CityOlympiad';
 import { filterOutNonOlympiadsForCity } from './utils';
 
@@ -7,7 +8,7 @@ type CityOlympiadGroupProps = {
   cityName: string;
 };
 
-const CityOlympiadGroup = ({ olympiads, cityName }: CityOlympiadGroupProps) => {
+export default function CityOlympiadGroup({ olympiads, cityName }: CityOlympiadGroupProps) {
   const { visits } = useTripContext();
 
   const filteredOlympiads = filterOutNonOlympiadsForCity(cityName, olympiads);
@@ -20,7 +21,7 @@ const CityOlympiadGroup = ({ olympiads, cityName }: CityOlympiadGroupProps) => {
         }
 
         const visit = visits.find(
-          (visit) => visit.year === olympiad.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
+          visit => visit.year === olympiad.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase(),
         );
 
         return <CityOlympiad key={olympiad.id} olympiad={olympiad} visit={visit} selected expanded />;
@@ -28,5 +29,3 @@ const CityOlympiadGroup = ({ olympiads, cityName }: CityOlympiadGroupProps) => {
     </div>
   );
 };
-
-export default CityOlympiadGroup;

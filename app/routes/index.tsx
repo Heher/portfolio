@@ -1,9 +1,13 @@
-import type { MetaFunction } from '@remix-run/node';
-import { Link, useLocation } from '@remix-run/react';
+import type { RectReadOnly } from 'react-use-measure';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import type { RectReadOnly } from 'react-use-measure';
+import { Link, useLocation } from 'react-router';
 import useMeasure from 'react-use-measure';
+
+import logo from '~/assets/images/logo8.png?url';
+import rings from '~/assets/images/rings.png?url';
+import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
 import { Itenerary } from '~/components/Itenerary';
 import EmailIcon from '~/icons/Email';
 import GitHubIcon from '~/icons/Github';
@@ -22,22 +26,17 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
-import logo from '~/assets/images/logo8.png?url';
-import rings from '~/assets/images/rings.png?url';
-import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
-import useResizeObserver from '~/hooks/useResizeObserver';
-
 // import * as gtag from '~/utils/gtags.client';
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'John Heher | Web Developer' },
-    {
-      name: 'description',
-      content: 'John Heher is a web developer from the United States, currently looking for fully remote work.'
-    }
-  ];
-};
+// export const meta: MetaFunction = () => {
+//   return [
+//     { title: 'John Heher | Web Developer' },
+//     {
+//       name: 'description',
+//       content: 'John Heher is a web developer from the United States, currently looking for fully remote work.',
+//     },
+//   ];
+// };
 
 const MotionArrow = motion(IndexArrow);
 
@@ -79,7 +78,10 @@ const MotionArrow = motion(IndexArrow);
 function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
   return (
     <a
-      className="grid grid-cols-[40px_1fr] items-center text-sm font-semibold uppercase leading-none text-[var(--index-link)] transition-colors hover:text-[var(--index-link-hover)]"
+      className="
+        grid grid-cols-[40px_1fr] items-center text-sm leading-none font-semibold text-(--index-link) uppercase transition-colors
+        hover:text-(--index-link-hover)
+      "
       {...rest}
     >
       {children}
@@ -92,7 +94,10 @@ function StackTech({ name, link, icon }: { name: string; link?: string }) {
     <li className="">
       <a
         href={link}
-        className="grid grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-[rgba(255,255,255,0.4)] py-4 pl-3 pr-5 text-[var(--index-link)] transition-colors hover:bg-[rgba(255,255,255,0.6)]"
+        className="
+          grid grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-[rgba(255,255,255,0.4)] py-4 pr-5 pl-3 text-(--index-link) transition-colors
+          hover:bg-[rgba(255,255,255,0.6)]
+        "
       >
         {icon && icon}
         {name}
@@ -131,11 +136,12 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   //   }
   // }, [expand]);
 
-  if (!size.width) return null;
+  if (!size.width)
+    return null;
 
   return (
     <motion.div
-      className={`m-0 mx-auto max-w-lg`}
+      className="m-0 mx-auto max-w-lg"
       ref={containerRef}
       key={location.key}
       initial={{ opacity: 0 }}
@@ -148,7 +154,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         animate={{ x: expand ? -150 : 0, opacity: expand ? 0 : 1 }}
         transition={{
           duration: 0.3,
-          ease: 'easeOut'
+          ease: 'easeOut',
         }}
         style={{ visibility: expand ? 'hidden' : 'visible' }}
       >
@@ -157,10 +163,18 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
           className="w-32 rounded-xl"
         />
-        <h1 className="mt-10 text-4xl font-semibold leading-none text-[#282B27]">John Heher</h1>
-        <h2 className="mt-2 text-base uppercase text-[#50564E]">Web Developer</h2>
-        <div className="mt-10 flex flex-col-reverse gap-8 md:flex-row">
-          <div className="mt-5 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-5 md:mt-0">
+        <h1 className="mt-10 text-4xl leading-none font-semibold text-[#282B27]">John Heher</h1>
+        <h2 className="mt-2 text-base text-[#50564E] uppercase">Web Developer</h2>
+        <div className="
+          mt-10 flex flex-col-reverse gap-8
+          md:flex-row
+        "
+        >
+          <div className="
+            mt-5 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-5
+            md:mt-0
+          "
+          >
             <SocialLink
               href="https://github.com/Heher"
               aria-label="My GitHub"
@@ -172,7 +186,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               //   });
               // }}
             >
-              <GitHubIcon className={`h-6 fill-current`} />
+              <GitHubIcon className="h-6 fill-current" />
               <span className="text-xs">GitHub</span>
             </SocialLink>
             <SocialLink
@@ -186,7 +200,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               //   });
               // }}
             >
-              <LinkedInIcon className={`h-6 fill-current`} />
+              <LinkedInIcon className="h-6 fill-current" />
               <span className="text-xs">LinkedIn</span>
             </SocialLink>
             <SocialLink
@@ -200,7 +214,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               //   });
               // }}
             >
-              <ResumeIcon className={`h-6 fill-current`} />
+              <ResumeIcon className="h-6 fill-current" />
               <span className="text-xs">Resume</span>
             </SocialLink>
             <SocialLink
@@ -214,33 +228,73 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               //   });
               // }}
             >
-              <EmailIcon className={`w-5 fill-current`} />
+              <EmailIcon className="w-5 fill-current" />
               <span className="text-xs">Email</span>
             </SocialLink>
           </div>
           <div>
             <p className="text-lg text-[#363b34]">
               Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
-              projects from small start-ups to large agencies with{' '}
-              <span className="whitespace-nowrap">Fortune 500</span> clients.
+              projects from small start-ups to large agencies with
+              {' '}
+              <span className="whitespace-nowrap">Fortune 500</span>
+              {' '}
+              clients.
             </p>
           </div>
         </div>
-        <div className="mt-20 md:mt-32">
-          <h2 className={`mb-5 text-xl font-semibold uppercase`}>Recent projects</h2>
+        <div className="
+          mt-20
+          md:mt-32
+        "
+        >
+          <h2 className="mb-5 text-xl font-semibold uppercase">Recent projects</h2>
           <a href="https://www.globedraft.com" className="group">
-            <div className="flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] bg-gd-background px-2 py-5 group-hover:bg-gd-background/90 md:px-4">
-              <img src={logo} className="h-7 self-center md:mt-[-4px] md:h-8" />
+            <div className="
+              bg-gd-background
+              group-hover:bg-gd-background/90
+              flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] px-2 py-5
+              md:px-4
+            "
+            >
+              <img
+                src={logo}
+                className="
+                  h-7 self-center
+                  md:mt-[-4px] md:h-8
+                "
+              />
               <h3
-                className={`relative mt-[4px] font-logo text-[20px] font-semibold leading-none tracking-tight text-[var(--nav-link)] no-underline md:mt-0`}
+                className="
+                  relative mt-[4px] font-logo text-[20px] leading-none font-semibold tracking-tight text-(--nav-link) no-underline
+                  md:mt-0
+                "
               >
                 GlobeDraft
               </h3>
             </div>
-            <div className="rounded-b-xl border-2 border-t-0 border-[#3d5061] bg-gd-page-background px-3 py-5 group-hover:bg-gd-page-background/60 md:px-5">
+            <div className="
+              bg-gd-page-background
+              group-hover:bg-gd-page-background/60
+              rounded-b-xl border-2 border-t-0 border-[#3d5061] px-3 py-5
+              md:px-5
+            "
+            >
               <div className="flex items-center justify-center gap-2">
-                <p className="text-[14px] text-[#282B27] md:text-base">Fantasy Olympics</p>
-                <img src={rings} className="h-5 self-center md:h-5" />
+                <p className="
+                  text-[14px] text-[#282B27]
+                  md:text-base
+                "
+                >
+                  Fantasy Olympics
+                </p>
+                <img
+                  src={rings}
+                  className="
+                    h-5 self-center
+                    md:h-5
+                  "
+                />
               </div>
               <p className="mt-7 max-w-md text-base text-[#282B27]">
                 Draft a team of countries to compete against your friends for the most medals.
@@ -248,8 +302,12 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </a>
         </div>
-        <div className="mt-20 md:mt-32">
-          <h2 className={`mb-5 text-xl font-semibold uppercase`}>Stack</h2>
+        <div className="
+          mt-20
+          md:mt-32
+        "
+        >
+          <h2 className="mb-5 text-xl font-semibold uppercase">Stack</h2>
           <p className="mt-3 max-w-md text-base text-[#282B27]">
             Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
             stack (and the one that built this site) has been:
@@ -313,7 +371,11 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </div>
         </div>
-        <div className="mb-10 mt-20 grid justify-items-start md:mt-32">
+        <div className="
+          mt-20 mb-10 grid justify-items-start
+          md:mt-32
+        "
+        >
           <Link
             to="/trip"
             className="grid grid-cols-[1fr_40px] items-center"
@@ -326,9 +388,13 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             aria-label="My travels to the Olympic cities"
           >
             <h2
-              className={`text-xl font-semibold uppercase ${
-                travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
-              } transition-colors`}
+              className={`
+                text-xl font-semibold uppercase
+                ${
+    travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
+    }
+                transition-colors
+              `}
             >
               Travels
             </h2>
@@ -336,7 +402,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               className="ml-3 h-3"
               animate={{
                 x: travelLinkHovered ? 4 : 0,
-                fill: travelLinkHovered ? 'var(--index-link-hover)' : 'var(--index-link)'
+                fill: travelLinkHovered ? 'var(--index-link-hover)' : 'var(--index-link)',
               }}
             />
           </Link>
@@ -345,19 +411,29 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             in that time (Vatican City counts).
           </p>
           <p className="mt-3 max-w-md text-base text-[#282B27]">
-            Check out my itinerary below or{' '}
-            <Link to="/trip" className="font-semibold underline transition-colors hover:text-[#282B27]/60">
+            Check out my itinerary below or
+            {' '}
+            <Link
+              to="/trip"
+              className="
+                font-semibold underline transition-colors
+                hover:text-[#282B27]/60
+              "
+            >
               head over
-            </Link>{' '}
-            to my very cool, fun, and most importantly educational site with{' '}
+            </Link>
+            {' '}
+            to my very cool, fun, and most importantly educational site with
+            {' '}
             <motion.span
-              className="bg-gradient-to-r from-red-700 via-blue-500 to-red-700 bg-[length:200%_100%] bg-clip-text font-semibold text-transparent"
+              className="bg-linear-to-r from-red-700 via-blue-500 to-red-700 bg-size-[200%_100%] bg-clip-text font-semibold text-transparent"
               initial={{ backgroundPosition: '0% 0%' }}
               animate={{ backgroundPosition: '200% 0%' }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'loop' }}
             >
               interactive
-            </motion.span>{' '}
+            </motion.span>
+            {' '}
             buttons and and spinning globes.
           </p>
         </div>
@@ -379,7 +455,7 @@ export default function Index() {
   // console.log('dimensions', dimensions);
 
   return (
-    <main className="w-screen bg-index-background px-5 py-10 font-figtree text-lg" ref={pageContainerRef}>
+    <main className="font-figtree w-screen bg-index-background px-5 py-10 text-lg" ref={pageContainerRef}>
       <IndexContent size={size} />
     </main>
   );

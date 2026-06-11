@@ -1,0 +1,532 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+/*
+  ---break---
+*/
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-logo:
+    Overpass, Almarai, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-sans:
+    Arimo, Almarai, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-timer:
+    Courier Prime, Almarai, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --grid-template-columns-group-page: minmax(300px, 450px) minmax(350px, 400px);
+
+  --grid-template-rows-group-page: min-content min-content 1fr;
+
+  --border-width-6: 6px;
+
+  --border-color-medal: #cbd2d6;
+
+  --breakpoint-non-se: 390px;
+
+  --color-owned-user: var(--owned-user);
+  --color-better-black: var(--better-black);
+  --color-better-white: var(--better-white);
+  --color-index-text: rgb(var(--index-text));
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-nav-background: var(--nav-background);
+  --color-nav-background-hover: rgb(var(--nav-background-hover));
+  --color-page-background: var(--page-background);
+  --color-admin-background: var(--admin-background);
+  --color-owned-player: rgb(var(--owned-player));
+  --color-positive: var(--positive);
+  --color-positive-radiate: var(--positive-radiate);
+  --color-negative: var(--negative);
+  --color-negative-radiate: var(--negative-radiate);
+  --color-incomplete: var(--incomplete);
+  --color-gold-background: var(--gold-background);
+  --color-silver-background: var(--silver-background);
+  --color-bronze-background: var(--bronze-background);
+  --color-player-background: var(--player-background);
+  --color-scoreboard-background: var(--scoreboard-background);
+  --color-gunmetal: rgb(var(--gunmetal));
+  --color-nav-link: var(--nav-link);
+  --color-nav-text: var(--nav-text);
+  --color-nav-text-hover: var(--nav-text-hover);
+  --color-link-hover: var(--link-hover);
+
+  --color-cancel-text: var(--cancel-text);
+  --color-cancel: var(--cancel);
+
+  --color-delete: var(--delete);
+  --color-delete-hover: var(--delete-hover);
+
+  --color-draft-bg: var(--draft-bg);
+  --color-draft-button-selected: var(--draft-button-selected);
+  --color-draft-button-selected-border: var(--draft-button-selected-border);
+  --color-draft-button-unavailable: var(--draft-button-unavailable);
+  --color-draft-button-owned: var(--draft-button-owned);
+  --color-draft-button-owned-lighten: hsl(from var(--draft-button-owned) h s calc(l + 15));
+  --color-draft-button-owned-body-lighten: hsl(from var(--draft-button-owned) h s calc(l + 50));
+  --color-draft-button-taken: var(--draft-button-taken);
+  --color-draft-button-taken-lighten: hsl(from var(--draft-button-taken) h s calc(l + 10));
+  --color-draft-button-taken-body-lighten: hsl(from var(--draft-button-taken) h s calc(l + 50));
+
+  --color-google: var(--google);
+
+  --color-scoreboard-bg: var(--scoreboard-bg);
+  --color-scoreboard-shadow: var(--scoreboard-shadow);
+
+  --color-gold-bg: var(--gold-bg);
+  --color-gold-text: var(--gold-text);
+  --color-gold-outline: var(--gold-outline);
+
+  --color-non-medal-place: var(--non-medal-place);
+  --color-scoreboard-border: var(--scoreboard-border);
+  --color-scoreboard-player-bg: var(--scoreboard-player-bg);
+
+  --color-player-sidebar-bg: var(--player-sidebar-bg);
+  --color-player-sidebar-border: var(--player-sidebar-border);
+
+  --color-medal-text: var(--medal-text);
+
+  --color-draft-filter-bg: var(--draft-filter-bg);
+
+  --color-index-background: var(--index-background);
+
+  --color-globe-background: var(--globe-background);
+
+  --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-hide: hide 100ms ease-in;
+  --animate-slide-in: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-swipe-out: swipeOut 100ms ease-out;
+
+  --spacing-max-width: 1500px;
+
+  --breakpoint-max-width: 1500px;
+
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  @keyframes hide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes swipeOut {
+    from {
+      transform: translateX(var(--radix-toast-swipe-end-x));
+    }
+    to {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+  }
+}
+
+@layer components {
+  .main-status {
+    background: linear-gradient(
+      90deg,
+    oklch(0.751 0.153 61.552) 0%,
+    oklch(0.651 0.163 53.934) 15%,
+    oklch(0.501 0.086 165.795) 35%,
+    oklch(0.725 0.127 164.178) 50%,
+    oklch(0.501 0.086 165.795) 65%,
+    oklch(0.627 0.107 225.650) 85%,
+    oklch(0.417 0.075 227.283) 100%
+    );
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    background-position: 100% 50%;
+    transition: background-position 0.3s ease;
+  }
+
+  .draft-player-list {
+    background: linear-gradient(90deg, var(--color-better-white), #e0e0e0 20%, #e0e0e0 80%, var(--color-better-white));
+  }
+
+  .radiate-draft {
+    background: linear-gradient(
+      0deg,
+      rgba(125, 159, 181, 0.4) 33%,
+      rgba(125, 159, 181, 1) 40%,
+      rgba(125, 159, 181, 1) 60%,
+      rgba(125, 159, 181, 0.4) 67%
+    );
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility clip-arrow {
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+
+@layer base {
+  :root {
+    --owned-user: oklch(0.374 0.158 315.865);
+    --better-black: hsl(0, 0%, 4%);
+    --better-white: hsl(0, 0%, 96%);
+    --apple: 0 122 255;
+    --index-text: 236 242 243;
+    --cta: oklch(0.722 0.083 238.660);
+    --cta-hover: oklch(0.777 0.066 238.194);
+    --nav-background: oklch(0.522 0.053 238.287);
+    --nav-background-hover: 107 143 165;
+    --page-background: hsl(205, 28%, 88%);
+    --admin-background: hsl(0, 0%, 20%);
+    /* --owned-player: 253 158 116; */
+    /* --owned-player: 249 68 22; */
+    --owned-player: 253 120 54;
+    --positive: oklch(0.710 0.155 153.624);
+    --positive-radiate: oklch(0.772 0.044 159.137);
+    --negative: oklch(0.691 0.199 23.923);
+    --negative-radiate: oklch(0.690 0.108 20.217);
+    /* --gold-background: 232 185 35;
+    --gold-text: rgb(46, 36, 5);
+    --silver-background: 202 200 196;
+    --silver-text: rgb(72, 72, 72);
+    --bronze-background: 156 82 33;
+    --bronze-text: rgb(214, 214, 214); */
+    --gold-background: oklch(0.806 0.157 89.131);
+    --gold-text: oklch(0.265 0.048 90.767);
+    --silver-background: oklch(0.833 0.006 84.569);
+    --silver-text: oklch(0.402 0.000 0.000);
+    --bronze-background: oklch(0.519 0.116 50.627);
+    --bronze-text: oklch(0.876 0.000 0.000);
+    --player-background: oklch(0.803 0.087 274.641);
+    /* This should probable be consolidated with the other scoreboard background variable */
+    --scoreboard-background: hsl(20, 100%, 83%);
+    --gunmetal: 10 41 51;
+    --nav-link: hsl(205, 27%, 84%);
+    --nav-link-hover: #97b2c3;
+    --nav-text: hsl(210,30%,96.1%);
+    --link-hover: #eaf3ff;
+    --color-foreground: hsl(0, 0%, 7%);
+    --color-background: hsl(57, 28%, 88%);
+    --color-links: hsl(213, 100%, 52%);
+    --color-links-hover: hsl(213, 100%, 43%);
+    --color-border: hsl(0, 0%, 82%);
+    --font-body:
+      -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, Arial, sans-serif, system-ui, 'Apple Color Emoji',
+      'Segoe UI Emoji';
+    /* --player-background: 240, 72%, 58%; */
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+    --french-sky-blue: #89bbfe;
+    --flag-box-shadow: #505050;
+    --group-box-shadow: #cccccc;
+    --dark-blue: rgba(43, 149, 185, 1);
+    --navy: #001939;
+    --nav-text-hover: oklch(0.891 0.018 240.018);
+    --nav-border: #7d9fb5;
+    --max-width: 1500px;
+
+    --draft-bg: hsl(0, 0%, 90%);
+    --draft-button-selected: hsl(30, 100%, 82%);
+    --draft-button-selected-border: hsl(30, 100%, 50%);
+    --draft-button-unavailable: hsl(0, 100%, 92%);
+    --draft-button-owned: hsl(195, 21%, 29%);
+    --draft-button-taken: hsl(229, 22%, 76%);
+    --google: hsl(5, 69%, 54%);
+    --medal-border: #cbd2d6;
+    --drafting-player: hsl(30, 100%, 72%);
+    --delete: hsl(0, 100%, 68%);
+    --delete-hover: hsl(0, 100%, 77%);
+    --scoreboard-bg: oklch(0.68 0.05 91.448);
+    --scoreboard-shadow: hsl(20, 13%, 44%);
+    --gold-bg: oklch(0.857 0.114 91.448);
+    --gold-outline: oklch(1 0.1 91.448);
+    --gold-text: oklch(0.261 0.046 90.371);
+    --non-medal-place: oklch(0.68 0.05 91.448);
+    --scoreboard-border: oklch(0.980 0.027 92.693);
+    --scoreboard-player-bg: oklch(0.88 0.012 92.693);
+
+    --draft-filter-bg: oklch(0.5826 0.0419 225.65);
+
+    /* --medal-text: oklch(0.2137 0.0379 225.55); */
+    --medal-text: oklch(0.2947 0.0379 225.55);
+
+    --player-sidebar-bg: oklch(0.922 0.000 0.000);
+    --player-sidebar-border: oklch(0.767 0.000 0.000);
+
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+    --french-sky-blue: #89bbfe;
+    --gunmetal: #0a2933;
+    --flag-box-shadow: #505050;
+    --dark-blue: rgba(43, 149, 185, 1);
+    --navy: #001939;
+    --incomplete: oklch(0.79925 0.132756 54.5719);
+    --link-hover: #eaf3ff;
+    --nav-background: #4d6f85;
+    --nav-text: #f2f5f8;
+    --nav-link: #cbd8e1;
+    --nav-border: #7d9fb5;
+    --max-width: 1100px;
+    --back-button-max-width: 1140px;
+    --page-background: #d8e2e9;
+    --nav-link-hover: #97b2c3;
+    --cta: #74add4;
+    /* --globe-background: #3F2827; */
+    --globe-background: #0f161a;
+    --summer-background: #e7beb1;
+    --winter-background: #cee8f2;
+    --road: #e8e288;
+    --ferry: #009fb7;
+    --flight: #e6781e;
+    --text: #13171a;
+    --index-background: #dddfdf;
+    /* --index-link: #648767; */
+    --index-link: #5a795c;
+    --index-link-hover: #8ba18c;
+    --body-background: #4d6f85;
+    --trip-background: #4d6f85;
+  }
+}
+
+/*
+  ---break---
+*/
+
+:root {
+  --radius:
+    0.625rem;
+  --background:
+    oklch(1 0 0);
+  --foreground:
+    oklch(0.145 0 0);
+  --card:
+    oklch(1 0 0);
+  --card-foreground:
+    oklch(0.145 0 0);
+  --popover:
+    oklch(1 0 0);
+  --popover-foreground:
+    oklch(0.145 0 0);
+  --primary:
+    oklch(0.205 0 0);
+  --primary-foreground:
+    oklch(0.985 0 0);
+  --secondary:
+    oklch(0.97 0 0);
+  --secondary-foreground:
+    oklch(0.205 0 0);
+  --muted:
+    oklch(0.97 0 0);
+  --muted-foreground:
+    oklch(0.556 0 0);
+  --accent:
+    oklch(0.97 0 0);
+  --accent-foreground:
+    oklch(0.205 0 0);
+  --destructive:
+    oklch(0.577 0.245 27.325);
+  --border:
+    oklch(0.922 0 0);
+  --input:
+    oklch(0.922 0 0);
+  --ring:
+    oklch(0.708 0 0);
+  --chart-1:
+    oklch(0.646 0.222 41.116);
+  --chart-2:
+    oklch(0.6 0.118 184.704);
+  --chart-3:
+    oklch(0.398 0.07 227.392);
+  --chart-4:
+    oklch(0.828 0.189 84.429);
+  --chart-5:
+    oklch(0.769 0.188 70.08);
+  --sidebar:
+    oklch(0.985 0 0);
+  --sidebar-foreground:
+    oklch(0.145 0 0);
+  --sidebar-primary:
+    oklch(0.205 0 0);
+  --sidebar-primary-foreground:
+    oklch(0.985 0 0);
+  --sidebar-accent:
+    oklch(0.97 0 0);
+  --sidebar-accent-foreground:
+    oklch(0.205 0 0);
+  --sidebar-border:
+    oklch(0.922 0 0);
+  --sidebar-ring:
+    oklch(0.708 0 0);
+  --cancel: hsla(0, 0%, 74%, 1);
+  --cancel-text: hsla(0, 0%, 38%, 1);
+}
+
+/*
+  ---break---
+*/
+
+.dark {
+  --background:
+    oklch(0.145 0 0);
+  --foreground:
+    oklch(0.985 0 0);
+  --card:
+    oklch(0.205 0 0);
+  --card-foreground:
+    oklch(0.985 0 0);
+  --popover:
+    oklch(0.205 0 0);
+  --popover-foreground:
+    oklch(0.985 0 0);
+  --primary:
+    oklch(0.922 0 0);
+  --primary-foreground:
+    oklch(0.205 0 0);
+  --secondary:
+    oklch(0.269 0 0);
+  --secondary-foreground:
+    oklch(0.985 0 0);
+  --muted:
+    oklch(0.269 0 0);
+  --muted-foreground:
+    oklch(0.708 0 0);
+  --accent:
+    oklch(0.269 0 0);
+  --accent-foreground:
+    oklch(0.985 0 0);
+  --destructive:
+    oklch(0.704 0.191 22.216);
+  --border:
+    oklch(1 0 0 / 10%);
+  --input:
+    oklch(1 0 0 / 15%);
+  --ring:
+    oklch(0.556 0 0);
+  --chart-1:
+    oklch(0.488 0.243 264.376);
+  --chart-2:
+    oklch(0.696 0.17 162.48);
+  --chart-3:
+    oklch(0.769 0.188 70.08);
+  --chart-4:
+    oklch(0.627 0.265 303.9);
+  --chart-5:
+    oklch(0.645 0.246 16.439);
+  --sidebar:
+    oklch(0.205 0 0);
+  --sidebar-foreground:
+    oklch(0.985 0 0);
+  --sidebar-primary:
+    oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground:
+    oklch(0.985 0 0);
+  --sidebar-accent:
+    oklch(0.269 0 0);
+  --sidebar-accent-foreground:
+    oklch(0.985 0 0);
+  --sidebar-border:
+    oklch(1 0 0 / 10%);
+  --sidebar-ring:
+    oklch(0.556 0 0);
+}
+
+/*
+  ---break---
+*/
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-2xl:
+    calc(var(--radius) + 8px);
+  --radius-3xl:
+    calc(var(--radius) + 12px);
+  --radius-4xl:
+    calc(var(--radius) + 16px);
+}
+
+/*
+  ---break---
+*/
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
