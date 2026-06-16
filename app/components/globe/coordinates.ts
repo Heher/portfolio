@@ -53,6 +53,7 @@ export const coordinates: Record<string, Coordinate> = {
   vancouver: [49.2827, 123.1207],
   sochi: [43.6028, -39.7342],
   pyeongchang: [37.3705, -128.39],
+  milan: [45.4669, -9.19],
 };
 
 export const cities: City[] = [
@@ -99,4 +100,5 @@ export const cities: City[] = [
   { coord: coordinates.sochi, scale: 1.2, name: 'sochi', type: 'winter', years: ['2014'] },
   { coord: coordinates.rio, scale: 1.2, name: 'rio-de-janeiro', type: 'summer', years: ['2016'] },
   { coord: coordinates.pyeongchang, scale: 1.2, name: 'pyeongchang', type: 'winter', years: ['2018'] },
+  { coord: coordinates.milan, scale: 1.2, name: 'milan', type: 'winter', years: ['2026'] },
 ];

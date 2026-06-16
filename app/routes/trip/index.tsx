@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { AnimatePresence, motion } from 'motion/react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, use, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 
 import type { AnimationVariants } from 'types/globe';
@@ -9,6 +9,7 @@ import { getDB } from '@drizzle/db';
 import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
 import { CitiesList } from '~/components/CitiesList';
 import MainCopy from '~/components/home/MainCopy';
+import { TripPageContext } from '~/utils/context';
 
 import type { Route } from './+types';
 
@@ -128,8 +129,8 @@ function TripIndexInner({ width }: { width: number }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {[0, 1].map((_, i) => (
-                <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              {[0, 1].map((num, i) => (
+                <ExpandIcon key={num} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
               ))}
             </motion.div>
           )}
@@ -141,25 +142,19 @@ function TripIndexInner({ width }: { width: number }) {
 }
 
 export default function TripIndex({ loaderData }: Route.ComponentProps) {
-  // const tripContext = useTripContext();
+  const { width, loaded, dispatch } = use(TripPageContext);
 
-  // console.log(tripContext);
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove('bg-index-background');
+    body.classList.add('bg-globe-background');
+  }, []);
 
-  // const { width, appState, dispatch } = tripContext;
-
-  // const { loaded } = appState;
-
-  // useEffect(() => {
-  //   const body = document.body;
-  //   body.classList.remove('bg-index-background');
-  //   body.classList.add('bg-globe-background');
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!loaded) {
-  //     dispatch({ type: 'LOADED', loaded: true });
-  //   }
-  // }, [loaded, dispatch]);
+  useEffect(() => {
+    if (!loaded) {
+      dispatch({ type: 'LOADED', loaded: true });
+    }
+  }, [loaded, dispatch]);
 
   if (!loaderData.olympiads || !loaderData.cities) {
     return null;
@@ -172,8 +167,7 @@ export default function TripIndex({ loaderData }: Route.ComponentProps) {
       <meta property="og:title" content="Olympic Trip | John Heher" />
       <meta property="og:description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
       <meta property="og:image" content="/olympic-cities-og.jpg" />
-      {/* <TripIndexInner width={width} /> */}
-      <TripIndexInner width={1500} />
+      <TripIndexInner width={width} />
     </div>
   );
 }
