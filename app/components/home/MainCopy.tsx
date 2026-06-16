@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import type { AnimationVariants } from 'types/globe';
 import TripStatus from '../TripStatus';
 

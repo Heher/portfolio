@@ -1,8 +1,10 @@
 // import { Link } from 'react-router';
 
+import { use } from 'react';
+
 import type { Visit } from 'types/globe';
 
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 // import { format } from 'date-fns';
 // import EnterIcon from '~/icons/Enter';
@@ -45,13 +47,13 @@ type OlympiadMediaProps = {
 // }
 
 export function OlympiadMedia({ visit, olympiadType }: OlympiadMediaProps) {
-  const { handleImageModal } = useTripContext();
+  const { handleImageModal } = use(TripPageContext);
 
   return (
     <div
       className="
-        grid w-full grid-cols-[1fr_1fr] grid-rows-[repeat(2,fit-content(0,1fr))] justify-items-center pt-10 pb-[120px]
-        md:max-w-[500px]
+        grid w-full grid-cols-[1fr_1fr] grid-rows-[repeat(2,fit-content(0,1fr))] justify-items-center pt-10 pb-30
+        md:max-w-125
       "
     >
       {visit.stadium.img && (

@@ -16,6 +16,8 @@
   --font-timer:
     Courier Prime, Almarai, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-figtree: 'Figtree', 'Almarai', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
 
   --grid-template-columns-group-page: minmax(300px, 450px) minmax(350px, 400px);
 
@@ -95,6 +97,21 @@
 
   --color-globe-background: var(--globe-background);
 
+  --color-gd-background: var(--gd-background);
+  --color-gd-page-background: var(--gd-page-background);
+
+  --color-name: var(--name);
+  --color-subtitle: var(--subtitle);
+
+  --color-main-description: var(--main-description);
+
+  --color-index-link: var(--index-link);
+
+  --color-back-button: var(--back-button);
+
+  --color-summer-background: var(--summer-background);
+  --color-winter-background: var(--winter-background);
+
   --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-hide: hide 100ms ease-in;
@@ -102,6 +119,7 @@
   --animate-swipe-out: swipeOut 100ms ease-out;
 
   --spacing-max-width: 1500px;
+  --spacing-back-button-max-width: 1140px;
 
   --breakpoint-max-width: 1500px;
 
@@ -206,14 +224,14 @@
 @layer base {
   :root {
     --owned-user: oklch(0.374 0.158 315.865);
-    --better-black: hsl(0, 0%, 4%);
-    --better-white: hsl(0, 0%, 96%);
+    --better-black: oklch(0.1457 0 0);
+    --better-white: oklch(0.9696 0 0);
     --apple: 0 122 255;
     --index-text: 236 242 243;
     --cta: oklch(0.722 0.083 238.660);
     --cta-hover: oklch(0.777 0.066 238.194);
-    --nav-background: oklch(0.522 0.053 238.287);
-    --nav-background-hover: 107 143 165;
+    --nav-background: oklch(0.5245 0.0523 237.45);
+    --nav-background-hover: oklch(0.6312 0.052 235.51);
     --page-background: hsl(205, 28%, 88%);
     --admin-background: hsl(0, 0%, 20%);
     /* --owned-player: 253 158 116; */
@@ -223,12 +241,6 @@
     --positive-radiate: oklch(0.772 0.044 159.137);
     --negative: oklch(0.691 0.199 23.923);
     --negative-radiate: oklch(0.690 0.108 20.217);
-    /* --gold-background: 232 185 35;
-    --gold-text: rgb(46, 36, 5);
-    --silver-background: 202 200 196;
-    --silver-text: rgb(72, 72, 72);
-    --bronze-background: 156 82 33;
-    --bronze-text: rgb(214, 214, 214); */
     --gold-background: oklch(0.806 0.157 89.131);
     --gold-text: oklch(0.265 0.048 90.767);
     --silver-background: oklch(0.833 0.006 84.569);
@@ -286,7 +298,6 @@
 
     --draft-filter-bg: oklch(0.5826 0.0419 225.65);
 
-    /* --medal-text: oklch(0.2137 0.0379 225.55); */
     --medal-text: oklch(0.2947 0.0379 225.55);
 
     --player-sidebar-bg: oklch(0.922 0.000 0.000);
@@ -302,7 +313,6 @@
     --navy: #001939;
     --incomplete: oklch(0.79925 0.132756 54.5719);
     --link-hover: #eaf3ff;
-    --nav-background: #4d6f85;
     --nav-text: #f2f5f8;
     --nav-link: #cbd8e1;
     --nav-border: #7d9fb5;
@@ -311,20 +321,24 @@
     --page-background: #d8e2e9;
     --nav-link-hover: #97b2c3;
     --cta: #74add4;
-    /* --globe-background: #3F2827; */
-    --globe-background: #0f161a;
-    --summer-background: #e7beb1;
-    --winter-background: #cee8f2;
+    --globe-background: oklch(0.1949 0.0133 233.4);
+    --summer-background: oklch(0.8339 0.0507 38.33);
+    --winter-background: oklch(0.915 0.0307 222.9);
     --road: #e8e288;
     --ferry: #009fb7;
     --flight: #e6781e;
     --text: #13171a;
-    --index-background: #dddfdf;
-    /* --index-link: #648767; */
-    --index-link: #5a795c;
+    --index-background: oklch(0.9021 0.0022 197.12);
+    --index-link: oklch(0.5436 0.0572 146.38);
     --index-link-hover: #8ba18c;
     --body-background: #4d6f85;
     --trip-background: #4d6f85;
+    --gd-background: oklch(0.5245 0.0523 237.45);
+    --gd-page-background: oklch(0.9073 0.0144 238.02);
+    --name: oklch(0.2846 0.0083 137.81);
+    --subtitle: oklch(0.4452 0.0149 137.82);
+    --main-description: oklch(0.3451 0.0137 136.65);
+    --back-button: oklch(0.8975 0 0);
   }
 }
 
@@ -333,8 +347,7 @@
 */
 
 :root {
-  --radius:
-    0.625rem;
+  --radius: 0.625rem;
   --background:
     oklch(1 0 0);
   --foreground:
@@ -479,6 +492,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -510,12 +526,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --radius-2xl:
-    calc(var(--radius) + 8px);
-  --radius-3xl:
-    calc(var(--radius) + 12px);
-  --radius-4xl:
-    calc(var(--radius) + 16px);
 }
 
 /*

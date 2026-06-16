@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 
@@ -9,7 +9,6 @@ import { getDB } from '@drizzle/db';
 import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
 import { CitiesList } from '~/components/CitiesList';
 import MainCopy from '~/components/home/MainCopy';
-import { useTripContext } from '~/hooks/useTripContext';
 
 import type { Route } from './+types';
 
@@ -142,23 +141,25 @@ function TripIndexInner({ width }: { width: number }) {
 }
 
 export default function TripIndex({ loaderData }: Route.ComponentProps) {
-  const tripContext = useTripContext();
+  // const tripContext = useTripContext();
 
-  const { width, appState, dispatch } = tripContext;
+  // console.log(tripContext);
 
-  const { loaded } = appState;
+  // const { width, appState, dispatch } = tripContext;
 
-  useEffect(() => {
-    const body = document.body;
-    body.classList.remove('bg-index-background');
-    body.classList.add('bg-globe-background');
-  }, []);
+  // const { loaded } = appState;
 
-  useEffect(() => {
-    if (!loaded) {
-      dispatch({ type: 'LOADED', loaded: true });
-    }
-  }, [loaded, dispatch]);
+  // useEffect(() => {
+  //   const body = document.body;
+  //   body.classList.remove('bg-index-background');
+  //   body.classList.add('bg-globe-background');
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!loaded) {
+  //     dispatch({ type: 'LOADED', loaded: true });
+  //   }
+  // }, [loaded, dispatch]);
 
   if (!loaderData.olympiads || !loaderData.cities) {
     return null;
@@ -171,7 +172,8 @@ export default function TripIndex({ loaderData }: Route.ComponentProps) {
       <meta property="og:title" content="Olympic Trip | John Heher" />
       <meta property="og:description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
       <meta property="og:image" content="/olympic-cities-og.jpg" />
-      <TripIndexInner width={width} />
+      {/* <TripIndexInner width={width} /> */}
+      <TripIndexInner width={1500} />
     </div>
   );
 }

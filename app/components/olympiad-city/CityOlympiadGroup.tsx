@@ -1,4 +1,6 @@
-import { useTripContext } from '~/hooks/useTripContext';
+import { use } from 'react';
+
+import { TripPageContext } from '~/utils/context';
 
 import { CityOlympiad } from './CityOlympiad';
 import { filterOutNonOlympiadsForCity } from './utils';
@@ -9,7 +11,7 @@ type CityOlympiadGroupProps = {
 };
 
 export default function CityOlympiadGroup({ olympiads, cityName }: CityOlympiadGroupProps) {
-  const { visits } = useTripContext();
+  const { visits } = use(TripPageContext);
 
   const filteredOlympiads = filterOutNonOlympiadsForCity(cityName, olympiads);
 

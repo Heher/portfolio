@@ -1,4 +1,6 @@
-import { useTripContext } from '~/hooks/useTripContext';
+import { use } from 'react';
+
+import { TripPageContext } from '~/utils/context';
 
 import { OlympiadMedia } from './OlympiadMedia';
 import { filterOutNonOlympiadsForCity } from './utils';
@@ -9,7 +11,7 @@ type SharedOlympiadsProps = {
 };
 
 export default function SharedOlympiads({ olympiads, cityName }: SharedOlympiadsProps) {
-  const { visits } = useTripContext();
+  const { visits } = use(TripPageContext);
 
   const filteredOlympiads = filterOutNonOlympiadsForCity(cityName, olympiads);
 

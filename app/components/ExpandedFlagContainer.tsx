@@ -1,5 +1,5 @@
 import { format, isSameYear } from 'date-fns';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -11,14 +11,13 @@ import FerryIcon from '~/icons/Ferry';
 import PlaneIcon from '~/icons/Plane';
 import TrainIcon from '~/icons/Train';
 import WalkIcon from '~/icons/Walk';
-// import ExpandIcon from '~/icons/Expand';
 
 type TransportType = {
   type: string;
   amount?: number;
 };
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 function TransportIconContainer({ transports }: { transports: TransportType[] }) {
   const top = 112 + transports.length * 30;
@@ -69,7 +68,7 @@ function TransportIcon({ transport }: { transport: TransportType }) {
       return <WalkIcon className="h-6 fill-[#282B27]" />;
     default:
       return (
-        <span className="absolute top-[-66px] left-[-22px] py-2 text-center text-xs uppercase">{transport.type}</span>
+        <span className="absolute -top-16.5 -left-5.5 py-2 text-center text-xs uppercase">{transport.type}</span>
       );
   }
 }
@@ -98,7 +97,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof journey)[0]; dat
         ? (
             <MotionLink
               to={visit.link}
-              className="absolute top-0 left-[-22px] size-10 rounded-full bg-(--index-link) text-center text-xs/10 text-[#e0e0e0]"
+              className="absolute top-0 -left-5.5 size-10 rounded-full bg-(--index-link) text-center text-xs/10 text-[#e0e0e0]"
               onMouseEnter={() => {
                 setHover(true);
               }}
@@ -115,7 +114,7 @@ function TripVisit({ visit, date, lastVisit }: { visit: (typeof journey)[0]; dat
           )
         : (
             <span
-              className="absolute top-0 left-[-22px] size-10 rounded-full bg-[#282B27] text-center text-xs/10 text-[#e0e0e0]"
+              className="absolute top-0 -left-5.5 size-10 rounded-full bg-[#282B27] text-center text-xs/10 text-[#e0e0e0]"
               aria-label={format(date, 'MMMM d, yyyy')}
             >
               {format(date, 'M/d')}

@@ -1,29 +1,30 @@
+import { AnimatePresence } from 'motion/react';
+import { use } from 'react';
+
+import { TripPageContext } from '~/utils/context';
+
+import ExtraCity from './ExtraCity';
 import { myRoute } from './routeCoordinates';
 import { RouteTrip } from './RouteTrip';
-import { TripPageContext } from '~/routes/trip';
-import { useContext } from 'react';
-import ExtraCity from './ExtraCity';
 import { getZoom, globeRadius, placeObjectOnPlanet } from './utils';
-import { AnimatePresence } from 'framer-motion';
 
 export function Route() {
-  const context = useContext(TripPageContext);
+  const { selectedRouteLeg, width } = use(TripPageContext);
 
-  if (!context?.selectedRouteLeg) {
+  if (!selectedRouteLeg) {
     return null;
   }
-  const { selectedRouteLeg } = context;
 
   const selectedRoute = myRoute[selectedRouteLeg - 1];
 
-  const extraCities = selectedRoute?.extraCities?.map((coord) => placeObjectOnPlanet(coord, globeRadius)) || [];
+  const extraCities = selectedRoute?.extraCities?.map(coord => placeObjectOnPlanet(coord, globeRadius)) || [];
 
   return (
     <group>
       <RouteTrip {...selectedRoute} />
       <AnimatePresence>
         {extraCities.map((markerInfo) => {
-          return <ExtraCity key={markerInfo.position[0]} markerInfo={markerInfo} zoom={getZoom(selectedRouteLeg)} />;
+          return <ExtraCity key={markerInfo.position[0]} markerInfo={markerInfo} zoom={getZoom(selectedRouteLeg, width)} />;
         })}
       </AnimatePresence>
     </group>

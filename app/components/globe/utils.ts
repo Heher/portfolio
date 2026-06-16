@@ -1,7 +1,11 @@
-import * as THREE from 'three';
-import type { Coordinate, MarkerVisit, RouteInfo, Visit } from 'types/globe';
-import type { CityType } from './coordinates';
 import type { Euler } from '@react-three/fiber';
+
+import * as THREE from 'three';
+
+import type { Coordinate, MarkerVisit, RouteInfo, Visit } from 'types/globe';
+
+import type { City } from './coordinates';
+
 import { myRoute } from './routeCoordinates';
 // import type { Euler, Vector3 } from '@react-three/fiber';
 
@@ -16,7 +20,7 @@ export function convertToRadians(coord: Coordinate) {
 
   return {
     latRad,
-    lonRad
+    lonRad,
   };
 }
 
@@ -26,7 +30,7 @@ export function getPositionVector(coord: Coordinate, radius: number) {
   return new THREE.Vector3(
     Math.cos(latRad) * Math.cos(lonRad) * radius,
     Math.sin(latRad) * radius,
-    Math.cos(latRad) * Math.sin(lonRad) * radius
+    Math.cos(latRad) * Math.sin(lonRad) * radius,
   );
 }
 
@@ -36,7 +40,7 @@ export function getPosition(coord: Coordinate, radius: number): [x: number, y: n
   return [
     Math.cos(latRad) * Math.cos(lonRad) * radius,
     Math.sin(latRad) * radius,
-    Math.cos(latRad) * Math.sin(lonRad) * radius
+    Math.cos(latRad) * Math.sin(lonRad) * radius,
   ];
 }
 
@@ -46,7 +50,7 @@ export function getPointPosition(coord: Coordinate, radius: number) {
   return [
     Math.cos(latRad) * Math.cos(lonRad) * radius,
     Math.sin(latRad) * radius,
-    Math.cos(latRad) * Math.sin(lonRad) * (radius + Math.random() * 0.2)
+    Math.cos(latRad) * Math.sin(lonRad) * (radius + Math.random() * 0.2),
   ];
 }
 
@@ -58,12 +62,12 @@ function getCoordRotation(coord: Coordinate): Euler {
 
 export function placeObjectOnPlanet(
   coord: Coordinate,
-  radius: number
+  radius: number,
 ): { position: [x: number, y: number, z: number]; rotation: Euler } {
   return {
     position: getPosition(coord, radius),
     // flagPosition: getPosition(coord, radius + 0.1),
-    rotation: getCoordRotation(coord)
+    rotation: getCoordRotation(coord),
   };
 }
 
@@ -95,14 +99,13 @@ export function topColor(citySelected: string | undefined, selected: boolean, vi
   return '#3366ff';
 }
 
-export function formatCitiesWithVisits(cities: CityType[], visits: Visit[]): (CityType & MarkerVisit)[] {
+export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (City & MarkerVisit)[] {
   const citiesWithVisits = cities.map((city) => {
     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
     let visited = false;
 
     city.years.forEach((year) => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const visitedCity = visits?.find((visit) => visit.year === year && visit.type === city.type);
+      const visitedCity = visits?.find(visit => visit.year === year && visit.type === city.type);
 
       if (!visited && visitedCity) {
         visited = true;
@@ -129,7 +132,6 @@ export function getZoom(selectedRouteLeg: number | null, width: number) {
 }
 
 export function getRouteY(leg: RouteInfo): number {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return leg?.y ?? 0;
 }
 

@@ -1,6 +1,6 @@
 import type { RectReadOnly } from 'react-use-measure';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import useMeasure from 'react-use-measure';
@@ -15,65 +15,16 @@ import IndexArrow from '~/icons/IndexArrow';
 import LinkedInIcon from '~/icons/LinkedIn';
 import ResumeIcon from '~/icons/Resume';
 import DrizzleIcon from '~/icons/stack/Drizzle';
-// import GraphQLIcon from '~/icons/stack/GraphQl';
-// import PostgraphileIcon from '~/icons/stack/Postgraphile';
 import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
 import ReactIcon from '~/icons/stack/React';
-import RemixIcon from '~/icons/stack/Remix';
+import ReactRouterIcon from '~/icons/stack/ReactRouter';
 import SentryIcon from '~/icons/stack/Sentry';
 // import SSTIcon from '~/icons/stack/SST';
 import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
-// import * as gtag from '~/utils/gtags.client';
-
-// export const meta: MetaFunction = () => {
-//   return [
-//     { title: 'John Heher | Web Developer' },
-//     {
-//       name: 'description',
-//       content: 'John Heher is a web developer from the United States, currently looking for fully remote work.',
-//     },
-//   ];
-// };
-
-const MotionArrow = motion(IndexArrow);
-
-// function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
-//   return (
-//     <motion.svg
-//       xmlns="http://www.w3.org/2000/svg"
-//       viewBox="0 0 300 100"
-//       className={className}
-//       initial={{ y: '30%' }}
-//       animate={{ y: '-30%' }}
-//       transition={{
-//         duration: 1,
-//         repeat: Infinity,
-//         ease: 'easeOut',
-//         repeatType: 'reverse',
-//         delay
-//       }}
-//     >
-//       <g>
-//         <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
-//       </g>
-//     </motion.svg>
-//   );
-// }
-
-// function getClosePosition(windowHeight: number) {
-//   return (windowHeight + 20) * -1;
-// }
-
-// function getCloseRight(windowWidth: number) {
-//   if (windowWidth <= 640) {
-//     return -10;
-//   }
-
-//   return -20;
-// }
+const MotionArrow = motion.create(IndexArrow);
 
 function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
   return (
@@ -89,17 +40,17 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
   );
 }
 
-function StackTech({ name, link, icon }: { name: string; link?: string }) {
+function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
   return (
     <li className="">
       <a
         href={link}
         className="
-          grid grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-[rgba(255,255,255,0.4)] py-4 pr-5 pl-3 text-(--index-link) transition-colors
-          hover:bg-[rgba(255,255,255,0.6)]
+          grid w-50 grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-white/40 py-4 pr-5 pl-3 text-index-link transition-colors
+          hover:bg-white/80
         "
       >
-        {icon && icon}
+        {icon}
         {name}
       </a>
     </li>
@@ -163,8 +114,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
           className="w-32 rounded-xl"
         />
-        <h1 className="mt-10 text-4xl leading-none font-semibold text-[#282B27]">John Heher</h1>
-        <h2 className="mt-2 text-base text-[#50564E] uppercase">Web Developer</h2>
+        <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
+        <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2>
         <div className="
           mt-10 flex flex-col-reverse gap-8
           md:flex-row
@@ -233,7 +184,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </SocialLink>
           </div>
           <div>
-            <p className="text-lg text-[#363b34]">
+            <p className="text-lg text-subtitle">
               Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
               projects from small start-ups to large agencies with
               {' '}
@@ -251,9 +202,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           <h2 className="mb-5 text-xl font-semibold uppercase">Recent projects</h2>
           <a href="https://www.globedraft.com" className="group">
             <div className="
-              bg-gd-background
+              flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] bg-gd-background px-2 py-5
               group-hover:bg-gd-background/90
-              flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] px-2 py-5
               md:px-4
             "
             >
@@ -274,9 +224,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               </h3>
             </div>
             <div className="
-              bg-gd-page-background
+              rounded-b-xl border-2 border-t-0 border-[#3d5061] bg-gd-page-background px-3 py-5
               group-hover:bg-gd-page-background/60
-              rounded-b-xl border-2 border-t-0 border-[#3d5061] px-3 py-5
               md:px-5
             "
             >
@@ -310,62 +259,52 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           <h2 className="mb-5 text-xl font-semibold uppercase">Stack</h2>
           <p className="mt-3 max-w-md text-base text-[#282B27]">
             Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
-            stack (and the one that built this site) has been:
+            stack (and the one that built this site) has been these.
           </p>
           <div className="mt-10 flex gap-5">
             <div className="flex w-full justify-around">
               <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
                 <StackTech
-                  name="Remix"
-                  link="https://remix.run/"
-                  icon={<RemixIcon className="h-[20px] justify-self-center fill-current" />}
+                  name="React Router"
+                  link="https://reactrouter.com/"
+                  icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
                 />
                 <StackTech
                   name="React"
                   link="https://react.dev/"
-                  icon={<ReactIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
                 />
                 <StackTech
                   name="Tailwind"
                   link="https://tailwindcss.com/"
-                  icon={<TailwindIcon className="h-[15px] justify-self-center fill-current" />}
+                  icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
                 />
                 <StackTech
                   name="TypeScript"
                   link="https://www.typescriptlang.org/"
-                  icon={<TypeScriptIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
                 />
               </ul>
               <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
                 <StackTech
                   name="Vite"
                   link="https://vitejs.dev/"
-                  icon={<ViteIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
                 />
                 <StackTech
                   name="Sentry"
                   link="https://www.sentry.io/"
-                  icon={<SentryIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
                 />
-                {/* <StackTech
-                  name="Postgraphile"
-                  link="https://www.graphile.org/postgraphile/"
-                  icon={<PostgraphileIcon className="h-[20px] justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="GraphQL"
-                  link="https://graphql.org/"
-                  icon={<GraphQLIcon className="h-[20px] justify-self-center fill-current" />}
-                /> */}
                 <StackTech
                   name="Drizzle"
                   link="https://orm.drizzle.team/"
-                  icon={<DrizzleIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
                 />
                 <StackTech
                   name="PostgreSQL"
                   link="https://www.postgresql.org/"
-                  icon={<PostgreSQLIcon className="h-[20px] justify-self-center fill-current" />}
+                  icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
                 />
               </ul>
             </div>
@@ -440,7 +379,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         <Itenerary setExpand={setExpand} />
       </motion.div>
       <AnimatePresence mode="wait">
-        {expand && <ExpandedFlagContainer contentSize={size} setExpand={setExpand} />}
+        {expand && <ExpandedFlagContainer setExpand={setExpand} />}
       </AnimatePresence>
     </motion.div>
   );
@@ -455,7 +394,7 @@ export default function Index() {
   // console.log('dimensions', dimensions);
 
   return (
-    <main className="font-figtree w-screen bg-index-background px-5 py-10 text-lg" ref={pageContainerRef}>
+    <main className="w-screen bg-index-background px-5 py-10 font-figtree text-lg" ref={pageContainerRef}>
       <IndexContent size={size} />
     </main>
   );

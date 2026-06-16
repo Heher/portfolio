@@ -1,14 +1,15 @@
 import type { RefObject } from 'react';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import { use } from 'react';
 import { Link } from 'react-router';
 
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 import { CityOlympiad } from './CityOlympiad';
 import { statusColor } from './utils';
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 type CityInListProps = {
   city: any;
@@ -19,7 +20,7 @@ type CityInListProps = {
 };
 
 function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef }: CityInListProps) {
-  const { visits, appState } = useTripContext();
+  const { visits, selectedCity } = use(TripPageContext);
 
   if (!city.slug) {
     return null;
@@ -35,7 +36,7 @@ function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef
       to={`/trip/${city.slug}`}
       // layoutId={city.slug}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, x: appState.selectedCity ? (appState.selectedCity === city.slug ? 0 : -100) : 0 }}
+      animate={{ opacity: 1, x: selectedCity ? (selectedCity === city.slug ? 0 : -100) : 0 }}
       // exit={{ opacity: 0, x: 100 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >

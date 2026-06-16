@@ -1,14 +1,15 @@
+import { use } from 'react';
 import { useLoaderData } from 'react-router';
 
 import type { TripLoader } from '~/routes/trip';
 
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 import VisitsGraph from './VisitsGraph';
 
 export default function TripStatus() {
   const { olympiads } = useLoaderData<TripLoader>();
-  const { visits } = useTripContext();
+  const { visits } = use(TripPageContext);
 
   // const filteredOlympiads = filterOutNonOlympiads(olympiads);
   const totalWinter = olympiads.filter(olympiad => olympiad.olympiadType === 'winter').length;
@@ -27,8 +28,8 @@ export default function TripStatus() {
   return (
     <div className="
       mx-auto mt-5 flex w-[75vw] items-center justify-between
-      md:mt-[50px] md:ml-0 md:max-w-[300px]
-      lg:max-w-[350px]
+      md:mt-12.5 md:ml-0 md:max-w-75
+      lg:max-w-87.5
     "
     >
       <VisitsGraph title="Summer" visits={summerVisits} total={totalSummer} />

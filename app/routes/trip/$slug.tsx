@@ -1,11 +1,11 @@
 import { and, eq } from 'drizzle-orm';
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 import { useLoaderData } from 'react-router';
 
 import { getDB } from '@drizzle/db';
 import { city as CityTable, olympiad as OlympiadTable } from '@drizzle/schema';
 import NewBackButton from '~/components/home/NewBackButton';
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 import type { Route } from './+types/$slug';
 
@@ -75,7 +75,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
 function CityTest() {
   const { city } = useLoaderData<typeof loader>();
-  const { dispatch } = useTripContext();
+  const { dispatch } = use(TripPageContext);
 
   useEffect(() => {
     if (city?.slug) {

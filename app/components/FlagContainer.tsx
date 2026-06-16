@@ -1,5 +1,5 @@
 import { format, isSameYear } from 'date-fns';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -16,7 +16,7 @@ type TransportType = {
   amount?: number;
 };
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 function TransportIconContainer({ transports }: { transports: TransportType[] }) {
   const top = 112 + transports.length * 30;

@@ -1,14 +1,13 @@
+import { use } from 'react';
 import { Link } from 'react-router';
 
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 import { getMoveableGlobeContainerRight } from '../globe/globePositioning';
 import { myRoute } from '../globe/routeCoordinates';
 
 export function Selector({ width }: { width: number }) {
-  const { appState } = useTripContext();
-
-  const { selectedRouteLeg } = appState;
+  const { selectedRouteLeg } = use(TripPageContext);
 
   if (!selectedRouteLeg)
     return null;

@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
-export default function ExpandIcon({ className, delay }: { className?: string }) {
+export default function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"

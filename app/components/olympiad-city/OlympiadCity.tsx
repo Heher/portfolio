@@ -1,10 +1,11 @@
 import type { RefObject } from 'react';
 
+import { use } from 'react';
 import { useLoaderData } from 'react-router';
 
 import type { TripLoader } from '~/routes/trip';
 
-import { useTripContext } from '~/hooks/useTripContext';
+import { TripPageContext } from '~/utils/context';
 
 import CityInList from './CityInList';
 import { cityStatus } from './utils';
@@ -16,7 +17,7 @@ type OlympiadCityProps = {
 
 export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
   const { olympiads } = useLoaderData<TripLoader>();
-  const { visits } = useTripContext();
+  const { visits } = use(TripPageContext);
 
   if (!city.name) {
     return null;

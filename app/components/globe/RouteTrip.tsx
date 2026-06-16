@@ -1,16 +1,19 @@
-import { CatmullRomLine } from '@react-three/drei';
-import { Vector3, CatmullRomCurve3, MeshStandardMaterial } from 'three';
-import type { RouteInfo } from 'types/globe';
-import { getPositionVector, globeRadius } from './utils';
-import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
 import type { Line2 } from 'three-stdlib';
+
+import { CatmullRomLine } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import { CatmullRomCurve3, Vector3 } from 'three';
+
+import type { RouteInfo } from 'types/globe';
+
+import { getPositionVector, globeRadius } from './utils';
 // import { line } from 'd3';
 
 const colors = {
   ground: '#E8E288',
   ferry: '#009FB7',
-  flight: '#E6781E'
+  flight: '#E6781E',
 };
 
 function flightScale(i: number, tubeSections: number) {
@@ -22,14 +25,15 @@ const sectionsPerCity = 40;
 // const lineMaterial = new MeshStandardMaterial({ color: '#E6781E' });
 
 let uniforms = {
-  time: { value: 0 }
+  time: { value: 0 },
 };
 
 export function RouteTrip({ coords, type, lineWidth, lineSpeed, dashSize, dashGap }: RouteInfo) {
   const lineRef = useRef<Line2>(null);
 
   useFrame(({ clock }, delta) => {
-    if (!lineRef.current?.material?.uniforms?.time) return;
+    if (!lineRef.current?.material?.uniforms?.time)
+      return;
 
     lineRef.current.material.uniforms.time.value = (clock.getElapsedTime() / (lineSpeed || 100)) * -1;
   });

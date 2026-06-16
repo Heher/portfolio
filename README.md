@@ -3,7 +3,7 @@
 This is the code for my portfolio which contains all pages
 of johnheher.com.
 
-### Made with:
+## Made with:
 
 General
 

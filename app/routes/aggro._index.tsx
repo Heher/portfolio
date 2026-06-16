@@ -1,5 +1,5 @@
 // import type { MetaFunction } from '@remix-run/node';
-// import { motion } from 'framer-motion';
+// import { motion } from 'motion/react';
 // import { Suspense } from 'react';
 // import useMeasure from 'react-use-measure';
 // import { AggroCragContainer } from '~/components/aggro/AggroCragContainer';

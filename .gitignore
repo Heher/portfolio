@@ -11,7 +11,6 @@ node_modules
 # Mac files
 .DS_Store
 
-/.netlify
 /test-results/
 /playwright-report/
 /playwright/.cache/

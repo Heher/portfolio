@@ -1,6 +1,6 @@
 import type { Coordinate } from 'types/globe';
 
-export type CityType = {
+export type City = {
   coord: Coordinate;
   scale: number;
   name: string;
@@ -8,7 +8,7 @@ export type CityType = {
   years: string[];
 };
 
-export const coordinates: { [key: string]: Coordinate } = {
+export const coordinates: Record<string, Coordinate> = {
   athens: [37.9838, -23.7275],
   paris: [48.8566, -2.3522],
   stLouis: [38.627, 90.1994],
@@ -52,51 +52,51 @@ export const coordinates: { [key: string]: Coordinate } = {
   torino: [45.0703, -7.6869],
   vancouver: [49.2827, 123.1207],
   sochi: [43.6028, -39.7342],
-  pyeongchang: [37.3705, -128.39]
+  pyeongchang: [37.3705, -128.39],
 };
 
-export const cities: CityType[] = [
-  { coord: coordinates['athens'], scale: 1.2, name: 'athens', type: 'summer', years: ['1896', '2004'] },
-  { coord: coordinates['paris'], scale: 1.2, name: 'paris', type: 'summer', years: ['1900', '1924'] },
-  { coord: coordinates['stLouis'], scale: 1.2, name: 'st-louis', type: 'summer', years: ['1904'] },
-  { coord: coordinates['london'], scale: 1.2, name: 'london', type: 'summer', years: ['1908', '1948', '2012'] },
-  { coord: coordinates['stockholm'], scale: 1.2, name: 'stockholm', type: 'summer', years: ['1912'] },
-  { coord: coordinates['antwerp'], scale: 1.2, name: 'antwerp', type: 'summer', years: ['1920'] },
-  { coord: coordinates['chamonix'], scale: 1.2, name: 'chamonix', type: 'winter', years: ['1924'] },
-  { coord: coordinates['stMoritz'], scale: 1.2, name: 'st-moritz', type: 'winter', years: ['1928'] },
-  { coord: coordinates['amsterdam'], scale: 1.2, name: 'amsterdam', type: 'summer', years: ['1928'] },
-  { coord: coordinates['lakePlacid'], scale: 1.2, name: 'lake-placid', type: 'winter', years: ['1932'] },
-  { coord: coordinates['losAngeles'], scale: 1.5, name: 'los-angeles', type: 'summer', years: ['1932'] },
-  { coord: coordinates['berlin'], scale: 1.2, name: 'berlin', type: 'summer', years: ['1936'] },
-  { coord: coordinates['garmisch'], scale: 1.2, name: 'garmisch-partenkirchen', type: 'winter', years: ['1936'] },
-  { coord: coordinates['oslo'], scale: 1.2, name: 'oslo', type: 'winter', years: ['1952'] },
-  { coord: coordinates['helsinki'], scale: 1.2, name: 'helsinki', type: 'summer', years: ['1952'] },
-  { coord: coordinates['melbourne'], scale: 1.2, name: 'melbourne', type: 'summer', years: ['1956'] },
-  { coord: coordinates['cortina'], scale: 1.2, name: 'cortina-dampezzo', type: 'winter', years: ['1956'] },
-  { coord: coordinates['rome'], scale: 1.2, name: 'rome', type: 'summer', years: ['1960'] },
-  { coord: coordinates['palisades'], scale: 1.2, name: 'palisades-tahoe', type: 'winter', years: ['1960'] },
-  { coord: coordinates['tokyo'], scale: 1.2, name: 'tokyo', type: 'summer', years: ['1964', '2020'] },
-  { coord: coordinates['innsbruck'], scale: 1.2, name: 'innsbruck', type: 'winter', years: ['1928', '1948'] },
-  { coord: coordinates['mexico'], scale: 1.2, name: 'mexico-city', type: 'summer', years: ['1968'] },
-  { coord: coordinates['grenoble'], scale: 1.2, name: 'grenoble', type: 'winter', years: ['1968'] },
-  { coord: coordinates['sapporo'], scale: 1.2, name: 'sapporo', type: 'winter', years: ['1972'] },
-  { coord: coordinates['munich'], scale: 1.2, name: 'munich', type: 'summer', years: ['1972'] },
-  { coord: coordinates['montreal'], scale: 1.2, name: 'montreal', type: 'summer', years: ['1976'] },
-  { coord: coordinates['moscow'], scale: 1.2, name: 'moscow', type: 'summer', years: ['1980'] },
-  { coord: coordinates['sarajevo'], scale: 1.2, name: 'sarajevo', type: 'winter', years: ['1984'] },
-  { coord: coordinates['calgary'], scale: 1.2, name: 'calgary', type: 'winter', years: ['1988'] },
-  { coord: coordinates['seoul'], scale: 1.2, name: 'seoul', type: 'summer', years: ['1988'] },
-  { coord: coordinates['barcelona'], scale: 1.2, name: 'barcelona', type: 'summer', years: ['1992'] },
-  { coord: coordinates['albertville'], scale: 1.2, name: 'albertville', type: 'winter', years: ['1992'] },
-  { coord: coordinates['lillehammer'], scale: 1.2, name: 'lillehammer', type: 'winter', years: ['1994'] },
-  { coord: coordinates['atlanta'], scale: 1.2, name: 'atlanta', type: 'summer', years: ['1996'] },
-  { coord: coordinates['nagano'], scale: 1.2, name: 'nagano', type: 'winter', years: ['1998'] },
-  { coord: coordinates['sydney'], scale: 1.2, name: 'sydney', type: 'summer', years: ['2000'] },
-  { coord: coordinates['saltLake'], scale: 1.2, name: 'salt-lake-city', type: 'winter', years: ['2002'] },
-  { coord: coordinates['torino'], scale: 1.2, name: 'torino', type: 'winter', years: ['2006'] },
-  { coord: coordinates['beijing'], scale: 1.2, name: 'beijing', type: 'summer', years: ['2008'] },
-  { coord: coordinates['vancouver'], scale: 1.2, name: 'vancouver', type: 'winter', years: ['2010'] },
-  { coord: coordinates['sochi'], scale: 1.2, name: 'sochi', type: 'winter', years: ['2014'] },
-  { coord: coordinates['rio'], scale: 1.2, name: 'rio-de-janeiro', type: 'summer', years: ['2016'] },
-  { coord: coordinates['pyeongchang'], scale: 1.2, name: 'pyeongchang', type: 'winter', years: ['2018'] }
+export const cities: City[] = [
+  { coord: coordinates.athens, scale: 1.2, name: 'athens', type: 'summer', years: ['1896', '2004'] },
+  { coord: coordinates.paris, scale: 1.2, name: 'paris', type: 'summer', years: ['1900', '1924'] },
+  { coord: coordinates.stLouis, scale: 1.2, name: 'st-louis', type: 'summer', years: ['1904'] },
+  { coord: coordinates.london, scale: 1.2, name: 'london', type: 'summer', years: ['1908', '1948', '2012'] },
+  { coord: coordinates.stockholm, scale: 1.2, name: 'stockholm', type: 'summer', years: ['1912'] },
+  { coord: coordinates.antwerp, scale: 1.2, name: 'antwerp', type: 'summer', years: ['1920'] },
+  { coord: coordinates.chamonix, scale: 1.2, name: 'chamonix', type: 'winter', years: ['1924'] },
+  { coord: coordinates.stMoritz, scale: 1.2, name: 'st-moritz', type: 'winter', years: ['1928'] },
+  { coord: coordinates.amsterdam, scale: 1.2, name: 'amsterdam', type: 'summer', years: ['1928'] },
+  { coord: coordinates.lakePlacid, scale: 1.2, name: 'lake-placid', type: 'winter', years: ['1932'] },
+  { coord: coordinates.losAngeles, scale: 1.5, name: 'los-angeles', type: 'summer', years: ['1932'] },
+  { coord: coordinates.berlin, scale: 1.2, name: 'berlin', type: 'summer', years: ['1936'] },
+  { coord: coordinates.garmisch, scale: 1.2, name: 'garmisch-partenkirchen', type: 'winter', years: ['1936'] },
+  { coord: coordinates.oslo, scale: 1.2, name: 'oslo', type: 'winter', years: ['1952'] },
+  { coord: coordinates.helsinki, scale: 1.2, name: 'helsinki', type: 'summer', years: ['1952'] },
+  { coord: coordinates.melbourne, scale: 1.2, name: 'melbourne', type: 'summer', years: ['1956'] },
+  { coord: coordinates.cortina, scale: 1.2, name: 'cortina-dampezzo', type: 'winter', years: ['1956'] },
+  { coord: coordinates.rome, scale: 1.2, name: 'rome', type: 'summer', years: ['1960'] },
+  { coord: coordinates.palisades, scale: 1.2, name: 'palisades-tahoe', type: 'winter', years: ['1960'] },
+  { coord: coordinates.tokyo, scale: 1.2, name: 'tokyo', type: 'summer', years: ['1964', '2020'] },
+  { coord: coordinates.innsbruck, scale: 1.2, name: 'innsbruck', type: 'winter', years: ['1928', '1948'] },
+  { coord: coordinates.mexico, scale: 1.2, name: 'mexico-city', type: 'summer', years: ['1968'] },
+  { coord: coordinates.grenoble, scale: 1.2, name: 'grenoble', type: 'winter', years: ['1968'] },
+  { coord: coordinates.sapporo, scale: 1.2, name: 'sapporo', type: 'winter', years: ['1972'] },
+  { coord: coordinates.munich, scale: 1.2, name: 'munich', type: 'summer', years: ['1972'] },
+  { coord: coordinates.montreal, scale: 1.2, name: 'montreal', type: 'summer', years: ['1976'] },
+  { coord: coordinates.moscow, scale: 1.2, name: 'moscow', type: 'summer', years: ['1980'] },
+  { coord: coordinates.sarajevo, scale: 1.2, name: 'sarajevo', type: 'winter', years: ['1984'] },
+  { coord: coordinates.calgary, scale: 1.2, name: 'calgary', type: 'winter', years: ['1988'] },
+  { coord: coordinates.seoul, scale: 1.2, name: 'seoul', type: 'summer', years: ['1988'] },
+  { coord: coordinates.barcelona, scale: 1.2, name: 'barcelona', type: 'summer', years: ['1992'] },
+  { coord: coordinates.albertville, scale: 1.2, name: 'albertville', type: 'winter', years: ['1992'] },
+  { coord: coordinates.lillehammer, scale: 1.2, name: 'lillehammer', type: 'winter', years: ['1994'] },
+  { coord: coordinates.atlanta, scale: 1.2, name: 'atlanta', type: 'summer', years: ['1996'] },
+  { coord: coordinates.nagano, scale: 1.2, name: 'nagano', type: 'winter', years: ['1998'] },
+  { coord: coordinates.sydney, scale: 1.2, name: 'sydney', type: 'summer', years: ['2000'] },
+  { coord: coordinates.saltLake, scale: 1.2, name: 'salt-lake-city', type: 'winter', years: ['2002'] },
+  { coord: coordinates.torino, scale: 1.2, name: 'torino', type: 'winter', years: ['2006'] },
+  { coord: coordinates.beijing, scale: 1.2, name: 'beijing', type: 'summer', years: ['2008'] },
+  { coord: coordinates.vancouver, scale: 1.2, name: 'vancouver', type: 'winter', years: ['2010'] },
+  { coord: coordinates.sochi, scale: 1.2, name: 'sochi', type: 'winter', years: ['2014'] },
+  { coord: coordinates.rio, scale: 1.2, name: 'rio-de-janeiro', type: 'summer', years: ['2016'] },
+  { coord: coordinates.pyeongchang, scale: 1.2, name: 'pyeongchang', type: 'winter', years: ['2018'] },
 ];
