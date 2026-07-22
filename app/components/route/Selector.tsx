@@ -3,16 +3,14 @@ import { Link } from 'react-router';
 
 import { TripPageContext } from '~/utils/context';
 
-import { getMoveableGlobeContainerRight } from '../globe/globePositioning';
 import { myRoute } from '../globe/routeCoordinates';
 
-export function Selector({ width }: { width: number }) {
+export function Selector() {
   const { selectedRouteLeg } = use(TripPageContext);
 
-  if (!selectedRouteLeg)
+  if (!selectedRouteLeg) {
     return null;
-
-  const positionRight = getMoveableGlobeContainerRight(width);
+  }
 
   const totalLegs = myRoute.length;
 
@@ -27,12 +25,9 @@ export function Selector({ width }: { width: number }) {
   return (
     <div
       className={`
-        route-selector-container fixed bottom-0
-        right-[${positionRight}]
-        z-50 flex h-[100px] w-full items-center justify-center bg-[rgba(15,22,26,0.7)] text-xl font-semibold text-[#e0e0e0] uppercase
+        fixed bottom-0 z-50 flex h-[100px] w-full items-center justify-center bg-[rgba(15,22,26,0.7)] text-xl font-semibold text-[#e0e0e0] uppercase
         md:max-h-[800px]
-        lg:max-h-[1000px]
-        lg:max-w-(--max-width)
+        lg:max-h-[1000px] lg:max-w-(--max-width)
       `}
     >
       <div className="grid w-[300px] grid-cols-[40px_1fr_40px] items-center gap-[10px]">

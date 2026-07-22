@@ -1,5 +1,3 @@
-import type { Euler } from '@react-three/fiber';
-
 import { useFrame } from '@react-three/fiber';
 import { useMotionValue } from 'motion/react';
 import { use, useEffect, useMemo, useRef } from 'react';
@@ -9,50 +7,34 @@ import type { Coordinate, RouteInfo } from 'types/globe';
 
 import { TripPageContext } from '~/utils/context';
 
-import type { City } from './coordinates';
-
 import { summerColor, winterColor } from './colors';
 import { cities } from './coordinates';
 import { Marker } from './markers/Marker';
 import PointSphere from './PointSphere';
 import { Route } from './Route';
 import { myRoute } from './routeCoordinates';
-import { convertToRadians, getPosition, globeRadius } from './utils';
+import { convertToRadians, formatCitiesWithVisits, getCityStatusColor } from './utils';
 
-type MarkerInfo = {
-  position: [x: number, y: number, z: number];
-  rotation: Euler;
-};
+// type MarkerInfo = {
+//   position: [x: number, y: number, z: number];
+//   rotation: Euler;
+// };
 
-type CityWithMarker = City & {
-  markerInfo: MarkerInfo;
-};
+// type CityWithMarker = City & {
+//   markerInfo: MarkerInfo;
+// };
 
-function getCoordRotation(coord: Coordinate): Euler {
-  const { latRad, lonRad } = convertToRadians(coord);
+// Removed placeObjectOnPlanet - now using formatCitiesWithVisits from utils
 
-  return new THREE.Euler(0, -lonRad, latRad - Math.PI * 0.5);
-}
+// function formatCities(cities: City[]): CityWithMarker[] {
+//   const formattedCities = cities.map((city) => {
+//     const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
 
-function placeObjectOnPlanet(
-  coord: Coordinate,
-  radius: number,
-): MarkerInfo {
-  return {
-    position: getPosition(coord, radius) as [number, number, number],
-    rotation: getCoordRotation(coord),
-  };
-}
+//     return { ...city, markerInfo };
+//   });
 
-function formatCities(cities: City[]): CityWithMarker[] {
-  const formattedCities = cities.map((city) => {
-    const markerInfo = placeObjectOnPlanet(city.coord, globeRadius);
-
-    return { ...city, markerInfo };
-  });
-
-  return formattedCities;
-}
+//   return formattedCities;
+// }
 
 function getCityRotation(selectedCity: string | null): [number, number, number] | null {
   const foundCity = cities.find(city => city.name === selectedCity);
@@ -104,7 +86,7 @@ function getRouteRotation(leg: RouteInfo | undefined): [number, number, number] 
 export function Globe() {
   const groupRef = useRef<THREE.Group>(null);
   const rotateY = useMotionValue(0);
-  const { selectedCity, selectedRouteLeg } = use(TripPageContext);
+  const { selectedCity, selectedRouteLeg, visits } = use(TripPageContext);
 
   // Track target rotation for smooth animation
   const targetRotationRef = useRef<THREE.Euler>(new THREE.Euler(0, 0, 0.5, 'ZXY'));
@@ -115,8 +97,8 @@ export function Globe() {
 
   // const routeSelected = selectedRouteLeg !== null;
 
-  // const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
-  const citiesWithVisits = useMemo(() => formatCities(cities), []);
+  const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
+  // const citiesWithVisits = useMemo(() => formatCities(cities), []);
 
   // Update target rotation when selectedCity or selectedRouteLeg changes
   useEffect(() => {
@@ -242,15 +224,24 @@ export function Globe() {
       ref={groupRef}
       rotation={[0, 0, 0.5, 'ZXY']}
     >
-      <PointSphere />
+      <PointSphere selectedCity={selectedCity} isGlobeAnimatingRef={isAnimatingRef} />
       {selectedRouteLeg && <Route />}
       {citiesWithVisits.map((city) => {
+        const isSelected = selectedCity === city.name;
+        const statusColor = getCityStatusColor(city, visits);
+        // console.log(`City: ${city.name}, Status Color: ${statusColor}, Selected: ${isSelected}`);
+        const normalColor = city.type === 'summer' ? summerColor : winterColor;
+
         return (
           <Marker
             key={city.name}
             position={city.markerInfo.position}
             rotation={city.markerInfo.rotation}
-            color={city.type === 'summer' ? summerColor : winterColor}
+            color={normalColor}
+            statusColor={statusColor}
+            isSelected={isSelected}
+            hasSelectedCity={!!selectedCity}
+            years={city.years}
           />
         );
       })}

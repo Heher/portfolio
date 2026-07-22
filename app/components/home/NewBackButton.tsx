@@ -1,8 +1,6 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { Link, useRouteLoaderData } from 'react-router';
-
-import type { LayoutLoaderData } from '~/routes/trip/route';
+import { Link, useLoaderData } from 'react-router';
 
 import IndexArrow from '~/icons/IndexArrow';
 
@@ -17,7 +15,7 @@ function getText(refer: { name: string | null; slug: string } | null | undefined
 }
 
 export default function NewBackButton() {
-  const loaderData = useRouteLoaderData<LayoutLoaderData>('routes/trip/layout');
+  const loaderData = useLoaderData();
   const [hover, setHover] = useState(false);
 
   return (

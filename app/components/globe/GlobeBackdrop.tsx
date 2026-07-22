@@ -11,7 +11,7 @@ export default function GlobeBackdrop() {
         <GradientTexture
           stops={[0.6, 0.9, 1]} // As many stops as you want
           colors={['#004953', '#317873', '#008080']} // Colors need to match the number of stops
-          size={1024} // Size (height) is optional, default = 1024
+          // size={1024} // Size (height) is optional, default = 1024
           width={1024} // Width of the canvas producing the texture, default = 16
           type={GradientType.Radial} // The type of the gradient, default = GradientType.Linear
           innerCircleRadius={0} // Optional, the radius of the inner circle of the gradient, default = 0

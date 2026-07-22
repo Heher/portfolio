@@ -54,7 +54,7 @@ export function getPointPosition(coord: Coordinate, radius: number) {
   ];
 }
 
-function getCoordRotation(coord: Coordinate): Euler {
+export function getCoordRotation(coord: Coordinate): Euler {
   const { latRad, lonRad } = convertToRadians(coord);
 
   return new THREE.Euler(0, -lonRad, latRad - Math.PI * 0.5);
@@ -116,6 +116,37 @@ export function formatCitiesWithVisits(cities: City[], visits: Visit[]): (City &
   });
 
   return citiesWithVisits;
+}
+
+/**
+ * Get the status color for a city based on Olympic visit completion
+ * Returns: positive (all visited), incomplete (some visited), or negative (none visited)
+ */
+export function getCityStatusColor(city: City, visits: Visit[]): string {
+  let visitedCount = 0;
+  const totalOlympiads = city.years.length;
+
+  // console.log(`City: ${city.name}, Years: ${city.years.join(', ')}, Total Olympiads: ${totalOlympiads}`);
+
+  city.years.forEach((year) => {
+    const visitedCity = visits?.find(visit => visit.year === year && visit.type === city.type);
+    if (visitedCity) {
+      visitedCount++;
+    }
+  });
+
+  // All Olympics visited - positive (green)
+  if (visitedCount === totalOlympiads) {
+    return '#3dbd73';
+  }
+
+  // Some Olympics visited - incomplete (orange)
+  if (visitedCount > 0 && visitedCount < totalOlympiads) {
+    return '#ffa566';
+  }
+
+  // No Olympics visited - negative (red)
+  return '#ff5a5a';
 }
 
 export function getZoom(selectedRouteLeg: number | null, width: number) {

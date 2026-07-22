@@ -78,6 +78,7 @@ export default function FullGlobe() {
   useFrame((state, delta) => {
     if (groupRef.current?.position) {
       const lerpFactor = 1 - 0.001 ** delta;
+
       groupRef.current.position.x = THREE.MathUtils.lerp(
         groupRef.current.position.x,
         targetPositionXRef.current,

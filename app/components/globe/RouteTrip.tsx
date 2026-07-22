@@ -24,7 +24,7 @@ const sectionsPerCity = 40;
 
 // const lineMaterial = new MeshStandardMaterial({ color: '#E6781E' });
 
-let uniforms = {
+const uniforms = {
   time: { value: 0 },
 };
 
