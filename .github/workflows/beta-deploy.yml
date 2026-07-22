@@ -8,7 +8,7 @@ on:
 
 env:
   NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }} # You can find this in your Neon project settings
-  FLY_API_TOKEN: ${{ secrets.NEW_FLY_API_TOKEN }} # You can generate a Fly API token in your account settings
+  FLY_API_TOKEN: ${{ secrets.FLY_IO_BETA }} # You can generate a Fly API token in your account settings
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required for commenting on pull requests for private repos
 
 # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
@@ -36,9 +36,18 @@ jobs:
       - name: Install Fly.io CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
+      - id: create-neon-branch
+        uses: neondatabase/create-branch-action@v6
+        with:
+          project_id: ${{ env.NEON_PROJECT_ID }}
+          role: app_postgraphile # Change this to the role you use to connect to your database
+          branch_name: beta
+          database: olympic-db
+          api_key: ${{ secrets.NEON_API_KEY }} # Generate an API key in your Neon account settings
+
       - name: Create or deploy app
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_IO_STAGING }}
+          FLY_API_TOKEN: ${{ secrets.FLY_IO_BETA }}
           VITE_DEPLOY_ENV: beta
           DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url_with_pooler }}
         run: |
