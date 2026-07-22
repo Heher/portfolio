@@ -19,6 +19,7 @@
   "dependencies": {
     "@fontsource/overpass": "^5.0.17",
     "@neondatabase/serverless": "^1.0.2",
+    "@react-router/express": "^8.2.0",
     "@react-router/node": "^7.17.0",
     "@react-router/serve": "^7.17.0",
     "@react-spring/three": "^9.7.3",

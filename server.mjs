@@ -1,9 +1,7 @@
-import { createRequestHandler, installGlobals } from '@react-router/node';
+import { createRequestHandler } from '@react-router/express';
 import { createServer } from 'node:http';
 
 import * as build from './build/server/index.js';
-
-installGlobals();
 
 const requestHandler = createRequestHandler(build, 'production');
 
