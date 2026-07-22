@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for globedraft-remix-beta on 2024-07-06T10:59:36-05:00
+# fly.toml app configuration file generated for jh-portfolio-beta on 2026-07-22T20:26:18Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'jh-portfolio-beta'
-primary_region = 'dfw'
+primary_region = 'ord'
 
 [build]
 
@@ -23,3 +23,4 @@ primary_region = 'dfw'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 256
