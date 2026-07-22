@@ -11,7 +11,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" react-router dev",
-    "start": "HOST='0.0.0.0' react-router-serve ./build/server/index.js",
+    "start": "react-router-serve ./build/server/index.js --host 0.0.0.0 --port 3000",
     "typecheck": "tsc",
     "test": "cypress run",
     "caddy": "caddy run"
