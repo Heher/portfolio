@@ -52,7 +52,7 @@ export function createGlobe() {
       vector.z,
       vector.x,
       vector.y,
-      vector.z
+      vector.z,
     ];
     const uv = new THREE.Vector2((sphere.theta + Math.PI) / (Math.PI * 2), 1 - sphere.phi / Math.PI);
     const uvs = [uv.x, uv.y, uv.x, uv.y, uv.x, uv.y, uv.x, uv.y];

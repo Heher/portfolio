@@ -1,31 +1,24 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
-// import { withSentry } from '@sentry/remix';
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from 'react-router';
 
 import globalStyles from '~/styles/global.css?url';
+import stylesheet from '~/styles/tailwind.css?url';
 
-import stylesheet from '~/tailwind.css?url';
-// import * as gtag from '~/utils/gtags.client';
+import type { Route } from './+types/root';
 
-export function links() {
-  return [
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-    { rel: 'stylesheet', href: globalStyles },
-    { rel: 'stylesheet', href: stylesheet },
-    { href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap', rel: 'stylesheet' }
-  ];
-}
-
-// export const loader = async () => {
-//   return json({ gaTrackingId: process.env.GA_TRACKING_ID });
-// };
+export const links: Route.LinksFunction = () => [
+  { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+  { rel: 'stylesheet', href: globalStyles },
+  { rel: 'stylesheet', href: stylesheet },
+  { href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap', rel: 'stylesheet' },
+];
 
 function App() {
-  // useEffect(() => {
-  //   if (gaTrackingId?.length) {
-  //     gtag.pageview(appLocation.pathname, gaTrackingId);
-  //   }
-  // }, [appLocation, gaTrackingId]);
-
   return (
     <html lang="en">
       <head>
@@ -35,11 +28,9 @@ function App() {
         <Links />
       </head>
       <body className="min-h-full bg-index-background">
-        {/* <body> */}
-        {/* <AnimatePresence mode="wait">{outlet}</AnimatePresence> */}
         <Outlet />
         <ScrollRestoration
-          getKey={(location, matches) => {
+          getKey={(location) => {
             return location.pathname;
           }}
         />

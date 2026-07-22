@@ -1,8 +1,10 @@
 import type { BufferGeometry, Color, Material, Mesh, NormalBufferAttributes, Texture } from 'three';
-import { DoubleSide } from 'three';
+
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
 import { motion } from 'framer-motion-3d';
+import { useRef } from 'react';
+import { DoubleSide } from 'three';
+
 import type { MarkerInfo } from 'types/globe';
 
 type FlagProps = {
@@ -20,21 +22,21 @@ const variants = {
   show: {
     scale: 1,
     transition: {
-      duration: 0.5
-    }
+      duration: 0.5,
+    },
   },
   halfShow: {
     scale: 0.5,
     transition: {
-      duration: 0.5
-    }
+      duration: 0.5,
+    },
   },
   hide: {
     scale: 0,
     transition: {
-      duration: 0.5
-    }
-  }
+      duration: 0.5,
+    },
+  },
 };
 
 export function Flag({ markerInfo, alphaMap, flagColor, shown, radius, height, newFlag, dim = false }: FlagProps) {

@@ -1,7 +1,7 @@
 import flags from '~/data/countryFlags.json';
 import { format, isSameYear } from 'date-fns';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import type { RectReadOnly } from 'react-use-measure';
 import { visits } from './visits';
 import PlaneIcon from '~/icons/Plane';

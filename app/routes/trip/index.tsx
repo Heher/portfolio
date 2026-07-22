@@ -1,34 +1,17 @@
-import { useLoaderData } from '@remix-run/react';
-
-import type { MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import MainCopy from '~/components/home/MainCopy';
-import { CitiesList } from '~/components/CitiesList';
-import { useTripContext } from './trip';
-import type { AnimationVariants } from 'types/globe';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { getDB } from '@drizzle/db';
-import { CityTable, CountryTable, OlympiadTable } from '@drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { AnimatePresence, motion } from 'motion/react';
+import { Fragment, use, useEffect, useRef, useState } from 'react';
+import { useLoaderData } from 'react-router';
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'Olympic Trip | John Heher' },
-    {
-      name: 'description',
-      content: "John Heher's Olympic trip: visiting every city that has hosted the Olympic Games."
-    },
-    {
-      name: 'og:title',
-      content: 'Olympic Trip | John Heher'
-    },
-    {
-      name: 'og:image',
-      content: '/olympic-cities-og.jpg'
-    }
-  ];
-};
+import type { AnimationVariants } from 'types/globe';
+
+import { getDB } from '@drizzle/db';
+import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
+import { CitiesList } from '~/components/CitiesList';
+import MainCopy from '~/components/home/MainCopy';
+import { TripPageContext } from '~/utils/context';
+
+import type { Route } from './+types';
 
 function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
@@ -43,7 +26,7 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
         repeat: Infinity,
         ease: 'easeOut',
         repeatType: 'reverse',
-        delay
+        delay,
       }}
     >
       <g>
@@ -55,15 +38,9 @@ function ExpandIcon({ className, delay }: { className?: string; delay: number })
 
 export async function loader() {
   const db = getDB();
-  // const stravaResponse = await getStravaActivities();
-
-  // const sdk = getGQLClient();
-  // const response = await sdk.GetOlympicData({
-  //   now: new Date().toISOString()
-  // });
 
   if (!db) {
-    return json({ olympiads: [], cities: [] });
+    return { olympiads: [], cities: [] };
   }
 
   const response = await db
@@ -71,7 +48,7 @@ export async function loader() {
       id: OlympiadTable.id,
       year: OlympiadTable.year,
       olympiadType: OlympiadTable.olympiadType,
-      city: { id: CityTable.id, slug: CityTable.slug, name: CityTable.name, countryName: CountryTable.name }
+      city: { id: CityTable.id, slug: CityTable.slug, name: CityTable.name, countryName: CountryTable.name },
     })
     .from(OlympiadTable)
     .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
@@ -80,10 +57,10 @@ export async function loader() {
     .orderBy(OlympiadTable.year);
 
   if (!response.length) {
-    return json({ olympiads: [], cities: [] });
+    return { olympiads: [], cities: [] };
   }
 
-  const cities = response.reduce((acc, olympiad) => {
+  const cities = response.reduce<Record<string, typeof response[0]['city']>>((acc, olympiad) => {
     if (!acc[olympiad.city.id]) {
       acc[olympiad.city.id] = olympiad.city;
     }
@@ -91,14 +68,14 @@ export async function loader() {
     return acc;
   }, {});
 
-  return json({ olympiads: response, cities: Object.values(cities) });
+  return { olympiads: response, cities: Object.values(cities) };
 }
 
 export type TripLoader = typeof loader;
 
 const animationVariants: AnimationVariants = {
   hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
-  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } }
+  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } },
 };
 
 function observerCallback(entries: IntersectionObserverEntry[], setCitiesSeen: (seen: boolean) => void) {
@@ -110,7 +87,7 @@ function observerCallback(entries: IntersectionObserverEntry[], setCitiesSeen: (
 function TripIndexInner({ width }: { width: number }) {
   const { olympiads, cities } = useLoaderData<typeof loader>();
   const [citiesSeen, setCitiesSeen] = useState(false);
-  const firstRef = useRef<HTMLDivElement>(null);
+  const firstRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -119,8 +96,8 @@ function TripIndexInner({ width }: { width: number }) {
       },
       {
         rootMargin: '0px',
-        threshold: 0.5
-      }
+        threshold: 0.5,
+      },
     );
 
     const observedRef = firstRef.current;
@@ -152,8 +129,8 @@ function TripIndexInner({ width }: { width: number }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {[0, 1].map((_, i) => (
-                <ExpandIcon key={i} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              {[0, 1].map((num, i) => (
+                <ExpandIcon key={num} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
               ))}
             </motion.div>
           )}
@@ -164,14 +141,8 @@ function TripIndexInner({ width }: { width: number }) {
   );
 }
 
-export default function TripIndex() {
-  const loaderData = useLoaderData<typeof loader>();
-
-  const tripContext = useTripContext();
-
-  const { width, appState, dispatch } = tripContext;
-
-  const { loaded } = appState;
+export default function TripIndex({ loaderData }: Route.ComponentProps) {
+  const { width, loaded, dispatch } = use(TripPageContext);
 
   useEffect(() => {
     const body = document.body;
@@ -191,6 +162,11 @@ export default function TripIndex() {
 
   return (
     <div className="relative z-10">
+      <title>Olympic Trip | John Heher</title>
+      <meta name="description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
+      <meta property="og:title" content="Olympic Trip | John Heher" />
+      <meta property="og:description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
+      <meta property="og:image" content="/olympic-cities-og.jpg" />
       <TripIndexInner width={width} />
     </div>
   );

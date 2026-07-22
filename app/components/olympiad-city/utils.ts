@@ -5,17 +5,18 @@ export function cityStatus(olympiads: any[], visits: Visit[]): { amountCompleted
 
   olympiads.forEach((olympiad) => {
     const visit = visits.find(
-      (visit) => visit.year === olympiad?.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase()
+      visit => visit.year === olympiad?.year.toString() && visit.type === olympiad.olympiadType?.toLowerCase(),
     );
 
     // console.log('visit', visit);
 
-    if (visit) amountCompleted++;
+    if (visit)
+      amountCompleted++;
   });
 
   return {
     amountCompleted,
-    totalOlympiads: olympiads.length
+    totalOlympiads: olympiads.length,
   };
 }
 
@@ -41,14 +42,14 @@ export function cityStatus(olympiads: any[], visits: Visit[]): { amountCompleted
 
 export function statusColor(amountCompleted: number, totalOlympiads: number) {
   if (amountCompleted === totalOlympiads) {
-    return 'positive';
+    return 'border-positive';
   }
 
   if (amountCompleted < totalOlympiads && amountCompleted > 0) {
-    return 'incomplete';
+    return 'border-incomplete';
   }
 
-  return `negative`;
+  return `border-negative`;
 }
 
 export function statusColorSlug(amountCompleted: number, totalOlympiads: number) {

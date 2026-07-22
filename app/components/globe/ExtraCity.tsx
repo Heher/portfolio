@@ -1,9 +1,8 @@
 import type { MarkerInfo } from 'types/globe';
-import { extraCityColor } from './colors';
 
-import { markerRadius } from './utils';
+import { extraCityColor } from './colors';
 import ExtraCityMarker from './markers/ExtraCityMarker';
-import { motion } from 'framer-motion-3d';
+import { markerRadius } from './utils';
 
 type ExtraCitiesProps = {
   markerInfo: MarkerInfo;
@@ -18,15 +17,15 @@ export default function ExtraCity({ markerInfo, zoom }: ExtraCitiesProps) {
   const radius = zoom ? markerRadius * (7 / zoom) : markerRadius;
 
   return (
-    <motion.group
+    <group
       position={markerInfo.position}
       rotation={markerInfo.rotation}
-      initial={{ scale: 0, y: markerInfo.position[1] - 0.01 }}
-      animate={{ y: markerInfo.position[1], scale: 1 }}
-      exit={{ scale: 0, y: markerInfo.position[1] - 0.01 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      // initial={{ scale: 0, y: markerInfo.position[1] - 0.01 }}
+      // animate={{ y: markerInfo.position[1], scale: 1 }}
+      // exit={{ scale: 0, y: markerInfo.position[1] - 0.01 }}
+      // transition={{ duration: 0.6, ease: 'easeInOut' }}
     >
       <ExtraCityMarker color={extraCityColor} radius={radius} />
-    </motion.group>
+    </group>
   );
 }

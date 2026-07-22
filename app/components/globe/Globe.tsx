@@ -16,7 +16,7 @@ import { cities } from './coordinates';
 import { Route } from './Route';
 import { City } from './City';
 import { motion } from 'framer-motion-3d';
-import { useMotionValue } from 'framer-motion';
+import { useMotionValue } from 'motion/react';
 import { myRoute } from './routeCoordinates';
 import PointSphere from './PointSphere';
 import { TripPageContext } from '~/routes/trip';
