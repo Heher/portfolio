@@ -1,7 +1,7 @@
 import { createRequestHandler } from '@react-router/express';
 import { createServer } from 'node:http';
 
-const build = await import('./build/server/index.js');
+import * as build from './build/server/index.js';
 
 const requestHandler = createRequestHandler(build, 'production');
 
@@ -11,5 +11,5 @@ const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 
 server.listen(port, host, () => {
-  console.log(`Server listening at http://${host}:${port}`);
+  console.log(`✅ Server listening on http://${host}:${port}`);
 });

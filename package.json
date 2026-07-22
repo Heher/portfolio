@@ -11,7 +11,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" react-router dev",
-    "start": "HOST=0.0.0.0 PORT=3000 react-router-serve ./build/server/index.js",
+    "start": "node server.mjs",
     "typecheck": "tsc",
     "test": "cypress run",
     "caddy": "caddy run"
@@ -19,6 +19,7 @@
   "dependencies": {
     "@fontsource/overpass": "^5.0.17",
     "@neondatabase/serverless": "^1.0.2",
+    "@react-router/express": "^8.2.0",
     "@react-router/node": "^7.17.0",
     "@react-router/serve": "^7.17.0",
     "@react-spring/three": "^9.7.3",
