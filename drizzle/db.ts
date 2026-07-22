@@ -1,4 +1,5 @@
-import { DBOptions, GDDB } from 'types/db';
+import type { GDDB } from 'types/db';
+
 // import { createCFConnection } from './createCF';
 import { createPoolConnection } from './createPool';
 
@@ -20,7 +21,7 @@ import { createPoolConnection } from './createPool';
 
 let db: GDDB | null = null;
 
-export function getDB(options?: DBOptions): GDDB | null {
+export function getDB(): GDDB | null {
   if (!db) {
     const newDB = createPoolConnection();
 
