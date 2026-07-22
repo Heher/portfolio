@@ -1,8 +1,6 @@
-import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as schema from '@drizzle/schema';
+import type { createPoolConnection } from '@drizzle/createPool';
 
-export type GDDB = NodePgDatabase<typeof schema> | NeonHttpDatabase<typeof schema>;
+export type GDDB = ReturnType<typeof createPoolConnection>;
 
 export type DBOptions = {
   cloudflare?: string;
