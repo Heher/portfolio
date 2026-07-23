@@ -9,22 +9,46 @@ export const app = express();
 // Pre-load the server build on startup
 let serverBuild: any = null;
 let buildLoadError: any = null;
+let buildLoadStarted = false;
 
 async function loadServerBuild() {
-  if (serverBuild)
-    return serverBuild;
+  if (buildLoadStarted)
+    return;
+  buildLoadStarted = true;
 
   try {
     console.log('Pre-loading React Router server build...');
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Server build import timeout (5s)')), 5000),
-    );
+    console.time('build-import');
 
-    serverBuild = await Promise.race([
-      import('virtual:react-router/server-build'),
-      timeoutPromise,
-    ]);
+    // Try to import the build
+    const importPromise = import('virtual:react-router/server-build');
 
+    // Set an aggressive timeout
+    const timeoutPromise = new Promise((_, reject) => {
+      const timer = setTimeout(() => {
+        console.error('✗ Build import timeout at 3 seconds');
+        reject(new Error('Server build import timeout (3s)'));
+      }, 3000);
+
+      // Also set a process-level timeout
+      const processTimeout = setTimeout(() => {
+        console.error('✗ CRITICAL: Process-level timeout - exiting');
+        process.exit(1);
+      }, 5000);
+
+      // Clear both when promise settles
+      importPromise.then(() => {
+        clearTimeout(timer);
+        clearTimeout(processTimeout);
+      }).catch(() => {
+        clearTimeout(timer);
+        clearTimeout(processTimeout);
+      });
+    });
+
+    serverBuild = await Promise.race([importPromise, timeoutPromise]);
+
+    console.timeEnd('build-import');
     console.log('✓ Server build loaded successfully');
     return serverBuild;
   }
@@ -36,6 +60,7 @@ async function loadServerBuild() {
 }
 
 // Load build immediately on startup but don't block
+console.log('Starting server build preload...');
 const buildLoadPromise = loadServerBuild();
 
 // Request timeout middleware - 30 second timeout for all requests
@@ -74,7 +99,7 @@ app.use(async (req, res, next) => {
   // Wait for build to load, but only on first request
   if (!serverBuild && !buildLoadError) {
     try {
-      console.log('Waiting for server build to load...');
+      console.log('Waiting for server build to load on first request...');
       await buildLoadPromise;
     }
     catch {
