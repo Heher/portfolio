@@ -99,6 +99,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      <title>John Heher | Web Developer</title>
+      <meta name="description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
       <motion.div
         className="pb-5"
         initial={{ x: 0, opacity: 1 }}
