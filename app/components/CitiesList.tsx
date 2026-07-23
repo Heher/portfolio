@@ -1,5 +1,3 @@
-import type { RefObject } from 'react';
-
 import { use } from 'react';
 import { Link, useLoaderData } from 'react-router';
 
@@ -7,13 +5,9 @@ import type { TripLoader } from '~/routes/trip';
 
 import { TripPageContext } from '~/utils/context';
 
-import { OlympiadCity } from './olympiad-city/OlympiadCity';
+import OlympiadCity from './olympiad-city/OlympiadCity';
 
-type CitiesListProps = {
-  firstRef: RefObject<HTMLAnchorElement | null> | null;
-};
-
-export function CitiesList({ firstRef }: CitiesListProps) {
+export function CitiesList() {
   const { cities } = useLoaderData<TripLoader>();
   const { moveableGlobe, selectedRouteLeg } = use(TripPageContext);
 
@@ -40,8 +34,8 @@ export function CitiesList({ firstRef }: CitiesListProps) {
       >
         My route
       </Link>
-      {cities.map((city, index) => {
-        return <OlympiadCity key={city.id} firstRef={index === 0 ? firstRef : null} city={city} />;
+      {cities.map((city) => {
+        return <OlympiadCity key={city.id} city={city} />;
       })}
     </div>
   );
