@@ -8,7 +8,7 @@ import { TripPageContext } from '~/utils/context';
 
 import { cities } from './coordinates';
 import GlobeBackdrop from './GlobeBackdrop';
-// import { Globe } from './NewGlobe';
+import { Globe } from './NewGlobe';
 import { myRoute } from './routeCoordinates';
 
 function findMidpoint(coord1: Coordinate, coord2: Coordinate): Coordinate {
@@ -94,7 +94,7 @@ export default function FullGlobe() {
 
   return (
     <group ref={groupRef} position={[0.8, 0, -2]}>
-      {/* <Globe /> */}
+      <Globe />
       <GlobeBackdrop />
     </group>
   );

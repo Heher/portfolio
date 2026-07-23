@@ -23,13 +23,6 @@ type UniformType = {
   uTexture: {
     value: THREE.Texture;
   };
-  // COMMENTED OUT - TILE ANIMATION CODE
-  // selectedCityPosition: {
-  //   value: THREE.Vector3;
-  // };
-  // towerHeight: {
-  //   value: number;
-  // };
 };
 
 // const dummyObject = new THREE.Object3D();
@@ -98,9 +91,7 @@ function beforeCompile(shader: any, uniforms: UniformType, eTexture: THREE.Textu
   shader.uniforms.maxSize = uniforms.maxSize;
   shader.uniforms.minSize = uniforms.minSize;
   shader.uniforms.uTexture = { value: eTexture };
-  // COMMENTED OUT - TILE ANIMATION CODE
-  // shader.uniforms.selectedCityPosition = uniforms.selectedCityPosition;
-  // shader.uniforms.towerHeight = uniforms.towerHeight;
+
   shader.vertexShader = /* glsl */ `
       uniform sampler2D uTexture;
       uniform float maxSize;
@@ -205,141 +196,21 @@ function beforeCompile(shader: any, uniforms: UniformType, eTexture: THREE.Textu
 
 const globeGeometry = createGlobe();
 
-type PointSphereProps = {
-  selectedCity: string | null;
-  isGlobeAnimatingRef: React.MutableRefObject<boolean>;
-};
-
-// COMMENTED OUT - TILE ANIMATION CODE
-// Cache for storing calculated tile centers for each city
-// const tileCenterCache = new Map<string, THREE.Vector3>();
-
-export default function PointSphere({ selectedCity: _selectedCity, isGlobeAnimatingRef: _isGlobeAnimatingRef }: PointSphereProps) {
+export default function PointSphere() {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
   const shaderRef = useRef<any>(null);
   const eTexture = useTexture(earth);
-
-  // COMMENTED OUT - TILE ANIMATION CODE
-  // // Animation refs for tile height and bounce
-  // const currentHeightRef = useRef(0);
-  // const targetHeightRef = useRef(0);
-  // const bounceTimeRef = useRef(0);
-  // const wasAnimatingRef = useRef(false);
-  // const shouldRaiseRef = useRef(false);
 
   // Create stable uniforms object that won't change reference
   const uniformsRef = useRef({
     maxSize: { value: 0.05 },
     minSize: { value: 0.02 },
     uTexture: { value: eTexture },
-    // COMMENTED OUT - TILE ANIMATION CODE
-    // selectedCityPosition: { value: new THREE.Vector3(0, 0, 0) },
-    // towerHeight: { value: 0 }, // Will be animated
   });
-
-  // COMMENTED OUT - TILE ANIMATION CODE
-  // // Update the selectedCityPosition uniform value when city changes
-  // useEffect(() => {
-  //   if (!selectedCity) {
-  //     uniformsRef.current.selectedCityPosition.value.set(0, 0, 0);
-  //     if (shaderRef.current?.uniforms?.selectedCityPosition) {
-  //       shaderRef.current.uniforms.selectedCityPosition.value.set(0, 0, 0);
-  //     }
-  //     // Immediately animate down when deselecting
-  //     targetHeightRef.current = 0;
-  //     shouldRaiseRef.current = false;
-  //     return;
-  //   }
-
-  //   const city = cities.find(c => c.name === selectedCity);
-  //   if (!city) {
-  //     uniformsRef.current.selectedCityPosition.value.set(0, 0, 0);
-  //     if (shaderRef.current?.uniforms?.selectedCityPosition) {
-  //       shaderRef.current.uniforms.selectedCityPosition.value.set(0, 0, 0);
-  //     }
-  //     // Immediately animate down when deselecting
-  //     targetHeightRef.current = 0;
-  //     shouldRaiseRef.current = false;
-  //     return;
-  //   }
-
-  //   // Get city position in world/group space (same as markers)
-  //   const worldPosition = getPositionVector(city.coord, 1);
-
-  //   // Check if we've already calculated the closest tile for this city
-  //   let closestTileCenter: THREE.Vector3;
-  //   if (tileCenterCache.has(selectedCity)) {
-  //     closestTileCenter = tileCenterCache.get(selectedCity)!;
-  //   }
-  //   else {
-  //     // Find the exact tile center that's closest to this position
-  //     // findClosestTileCenter handles the coordinate transformation and returns in mesh local space
-  //     closestTileCenter = findClosestTileCenter(worldPosition);
-  //     tileCenterCache.set(selectedCity, closestTileCenter);
-  //   }
-
-  //   // closestTileCenter is already in mesh local space, use it directly
-  //   uniformsRef.current.selectedCityPosition.value.copy(closestTileCenter);
-
-  //   // Also update the shader uniform directly if it exists
-  //   if (shaderRef.current?.uniforms?.selectedCityPosition) {
-  //     shaderRef.current.uniforms.selectedCityPosition.value.copy(closestTileCenter);
-  //   }
-
-  //   // Mark that we should raise the tile once globe animation finishes
-  //   shouldRaiseRef.current = true;
-
-  //   // Mark material as needing update
-  //   if (materialRef.current) {
-  //     materialRef.current.needsUpdate = true;
-  //   }
-  // }, [selectedCity]);
-
-  // Update texture uniform when it changes
-  // useEffect(() => {
-  //   uniformsRef.current.uTexture.value = eTexture;
-  // }, [eTexture]);
-
-  // COMMENTED OUT - TILE ANIMATION CODE
-  // // Animate tile height with bounce
-  // useFrame((state, delta) => {
-  //   // Detect when globe animation ends
-  //   if (wasAnimatingRef.current && !isGlobeAnimatingRef.current && shouldRaiseRef.current) {
-  //     targetHeightRef.current = 0.03;
-  //     shouldRaiseRef.current = false;
-  //   }
-  //   wasAnimatingRef.current = isGlobeAnimatingRef.current;
-
-  //   const diff = targetHeightRef.current - currentHeightRef.current;
-
-  //   if (Math.abs(diff) > 0.0001) {
-  //     // Smooth animation with easing
-  //     const speed = 3; // Animation speed
-  //     currentHeightRef.current += diff * speed * delta;
-  //   }
-
-  //   // Add subtle bounce when tile is raised
-  //   let finalHeight = currentHeightRef.current;
-  //   if (targetHeightRef.current > 0 && currentHeightRef.current > 0.02) {
-  //     bounceTimeRef.current += delta;
-  //     const bounceAmount = Math.sin(bounceTimeRef.current * 3) * 0.003; // Subtle bounce
-  //     finalHeight += bounceAmount;
-  //   }
-  //   else {
-  //     bounceTimeRef.current = 0;
-  //   }
-
-  //   // Update the uniform
-  //   uniformsRef.current.towerHeight.value = finalHeight;
-  //   if (shaderRef.current?.uniforms?.towerHeight) {
-  //     shaderRef.current.uniforms.towerHeight.value = finalHeight;
-  //   }
-  // });
 
   return (
     <mesh ref={meshRef} rotation-y={Math.PI / 2} receiveShadow castShadow>
-      {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
       <bufferGeometry {...globeGeometry} />
       <meshStandardMaterial
         ref={materialRef}

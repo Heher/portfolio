@@ -7,11 +7,11 @@ import type { Coordinate, RouteInfo } from 'types/globe';
 
 import { TripPageContext } from '~/utils/context';
 
-import { summerColor, winterColor } from './colors';
+// import { summerColor, winterColor } from './colors';
 import { cities } from './coordinates';
-import { Marker } from './markers/Marker';
+// import { Marker } from './markers/Marker';
 import PointSphere from './PointSphere';
-import { Route } from './Route';
+// import { Route } from './Route';
 import { myRoute } from './routeCoordinates';
 import { convertToRadians, formatCitiesWithVisits, getCityStatusColor } from './utils';
 
@@ -98,7 +98,6 @@ export function Globe() {
   // const routeSelected = selectedRouteLeg !== null;
 
   const citiesWithVisits = useMemo(() => formatCitiesWithVisits(cities, visits), [visits]);
-  // const citiesWithVisits = useMemo(() => formatCities(cities), []);
 
   // Update target rotation when selectedCity or selectedRouteLeg changes
   useEffect(() => {
@@ -224,12 +223,12 @@ export function Globe() {
       ref={groupRef}
       rotation={[0, 0, 0.5, 'ZXY']}
     >
-      <PointSphere selectedCity={selectedCity} isGlobeAnimatingRef={isAnimatingRef} />
-      {selectedRouteLeg && <Route />}
+      <PointSphere />
+      {/* {selectedRouteLeg && <Route />}
       {citiesWithVisits.map((city) => {
         const isSelected = selectedCity === city.name;
         const statusColor = getCityStatusColor(city, visits);
-        // console.log(`City: ${city.name}, Status Color: ${statusColor}, Selected: ${isSelected}`);
+
         const normalColor = city.type === 'summer' ? summerColor : winterColor;
 
         return (
@@ -244,7 +243,7 @@ export function Globe() {
             years={city.years}
           />
         );
-      })}
+      })} */}
     </group>
   );
 }
