@@ -10,8 +10,8 @@ export function createGlobe() {
 
   // const mesh = new THREE.InstancedMesh(circleGeometry, )
 
-  const pointAmount = 100000;
-  // const pointAmount = 100;
+  // const pointAmount = 100000;
+  const pointAmount = 100;
   const geometries = [];
 
   let radialDistance = 0;
