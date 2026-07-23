@@ -12,6 +12,16 @@ const app = express();
 app.use(compression());
 app.disable('x-powered-by');
 
+// TEMPORARY: Simple Hello World for testing
+app.get('/', (req, res) => {
+  res.send('Hello World! Server is working.');
+});
+
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is responding', timestamp: new Date().toISOString() });
+});
+
+/* COMMENTED OUT - Testing basic connectivity first
 if (DEVELOPMENT) {
   console.log('Starting development server');
   const viteDevServer = await import('vite').then(vite =>
@@ -43,6 +53,7 @@ else {
   app.use(express.static('build/client', { maxAge: '1h' }));
   app.use(await import(BUILD_PATH).then(mod => mod.app));
 }
+*/
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

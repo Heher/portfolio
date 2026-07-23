@@ -16,3 +16,11 @@ app.use(
     },
   }),
 );
+
+// Error handling middleware
+app.use((error: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('Unhandled error:', error);
+  if (!res.headersSent) {
+    res.status(500).send('Internal Server Error');
+  }
+});
