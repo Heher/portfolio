@@ -59,9 +59,6 @@ importers:
       framer-motion:
         specifier: ^12.40.0
         version: 12.40.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      framer-motion-3d:
-        specifier: ^12.4.13
-        version: 12.4.13(@emotion/is-prop-valid@1.2.2)(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.182.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.182.0)
       isbot:
         specifier: ^5.1.14
         version: 5.1.14
@@ -3274,15 +3271,6 @@ packages:
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
-
-  framer-motion-3d@12.4.13:
-    resolution: {integrity: sha512-QE5JTZHE+bguGNLsnu3raLJP5QR8PVKiB0GXXWLg1paxa0GF8QDJx2G13J8TevAzZ+8HI7O5ishk1VnDd2jzTQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      '@react-three/fiber': 8.2.2
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      three: '>=0.133'
 
   framer-motion@12.40.0:
     resolution: {integrity: sha512-uaBd3qC1v3KQqBEjwTUd183K6PbS+j0yR9w9VmEOLWA/tnUcSn8Xa3uck7t4dgpDoUss8xQTcj8W2L07lrnLFg==}
@@ -8806,17 +8794,6 @@ snapshots:
   format@0.2.2: {}
 
   forwarded@0.2.0: {}
-
-  framer-motion-3d@12.4.13(@emotion/is-prop-valid@1.2.2)(@react-three/fiber@9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.182.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.182.0):
-    dependencies:
-      '@react-three/fiber': 9.6.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(three@0.182.0)
-      framer-motion: 12.40.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-merge-refs: 2.1.1
-      three: 0.182.0
-    transitivePeerDependencies:
-      - '@emotion/is-prop-valid'
 
   framer-motion@12.40.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
