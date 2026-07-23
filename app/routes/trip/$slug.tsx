@@ -33,7 +33,8 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     })
     .from(OlympiadTable)
     .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
-    .where(and(eq(CityTable.slug, params.slug), eq(OlympiadTable.realOlympiad, true)));
+    .where(and(eq(CityTable.slug, params.slug), eq(OlympiadTable.realOlympiad, true)))
+    .orderBy(OlympiadTable.year);
 
   // if (!result[0]) {
   //   return json({ city: null });
