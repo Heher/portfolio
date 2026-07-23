@@ -6,7 +6,7 @@ export const journey = [
     date: '2022-11-02',
     temperature: 70,
     link: '/trip/amsterdam',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'Belgium',
@@ -15,7 +15,7 @@ export const journey = [
     date: '2022-11-11',
     temperature: 70,
     link: '/trip/antwerp',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Belgium',
@@ -23,7 +23,7 @@ export const journey = [
     name: 'Ghent',
     date: '2022-11-14',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Belgium',
@@ -31,7 +31,7 @@ export const journey = [
     name: 'Ipres',
     date: '2022-11-17',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Luxembourg',
@@ -39,7 +39,7 @@ export const journey = [
     name: 'Luxembourg',
     date: '2022-11-19',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }]
+    transport: [{ type: 'train', amount: 2 }],
   },
   {
     country: 'France',
@@ -48,7 +48,7 @@ export const journey = [
     date: '2022-11-21',
     temperature: 70,
     link: '/trip/paris',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'United States of America',
@@ -56,7 +56,7 @@ export const journey = [
     name: 'Austin, TX',
     date: '2022-11-22',
     temperature: 90,
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'France',
@@ -65,7 +65,7 @@ export const journey = [
     date: '2022-11-28',
     temperature: 70,
     link: '/trip/paris',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'Norway',
@@ -74,7 +74,7 @@ export const journey = [
     date: '2022-12-02',
     temperature: 70,
     link: '/trip/oslo',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Norway',
@@ -83,7 +83,7 @@ export const journey = [
     date: '2022-12-05',
     temperature: 70,
     link: '/trip/lillehammer',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Norway',
@@ -92,7 +92,7 @@ export const journey = [
     date: '2022-12-07',
     temperature: 70,
     link: '/trip/oslo',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Sweden',
@@ -101,7 +101,7 @@ export const journey = [
     date: '2022-12-08',
     temperature: 70,
     link: '/trip/stockholm',
-    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }],
   },
   {
     country: 'Estonia',
@@ -109,7 +109,7 @@ export const journey = [
     name: 'Tallinn',
     date: '2022-12-13',
     temperature: 70,
-    transport: [{ type: 'ferry' }]
+    transport: [{ type: 'ferry' }],
   },
   {
     country: 'Latvia',
@@ -117,7 +117,7 @@ export const journey = [
     name: 'Riga',
     date: '2022-12-13',
     temperature: 70,
-    transport: [{ type: 'bus' }]
+    transport: [{ type: 'bus' }],
   },
   {
     country: 'Estonia',
@@ -125,7 +125,7 @@ export const journey = [
     name: 'Tallinn',
     date: '2022-12-15',
     temperature: 70,
-    transport: [{ type: 'bus' }]
+    transport: [{ type: 'bus' }],
   },
   {
     country: 'Finland',
@@ -134,7 +134,7 @@ export const journey = [
     date: '2022-12-19',
     temperature: 70,
     link: '/trip/helsinki',
-    transport: [{ type: 'ferry' }]
+    transport: [{ type: 'ferry' }],
   },
   {
     country: 'United States of America',
@@ -143,7 +143,7 @@ export const journey = [
     date: '2022-12-23',
     temperature: 90,
     link: '/trip/los-angeles',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Germany',
@@ -152,7 +152,7 @@ export const journey = [
     date: '2022-12-28',
     temperature: 70,
     link: '/trip/berlin',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'Germany',
@@ -160,7 +160,7 @@ export const journey = [
     name: 'Leipzig',
     date: '2023-01-02',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Germany',
@@ -168,7 +168,7 @@ export const journey = [
     name: 'Dresden',
     date: '2023-01-03',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Germany',
@@ -176,7 +176,7 @@ export const journey = [
     name: 'Nuremberg',
     date: '2023-01-04',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Germany',
@@ -185,7 +185,7 @@ export const journey = [
     date: '2023-01-06',
     temperature: 70,
     link: '/trip/munich',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Germany',
@@ -194,7 +194,7 @@ export const journey = [
     date: '2023-01-09',
     temperature: 70,
     link: '/trip/garmisch-partenkirchen',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Austria',
@@ -203,16 +203,16 @@ export const journey = [
     date: '2023-01-09',
     temperature: 70,
     link: '/trip/innsbruck',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Italy',
     flagSlug: 'italy',
-    name: "Cortina d'Ampezzo",
+    name: 'Cortina d\'Ampezzo',
     date: '2023-01-11',
     temperature: 70,
     link: '/trip/cortina-dampezzo',
-    transport: [{ type: 'train' }, { type: 'bus' }]
+    transport: [{ type: 'train' }, { type: 'bus' }],
   },
   {
     country: 'Italy',
@@ -221,7 +221,7 @@ export const journey = [
     date: '2023-01-13',
     temperature: 70,
     link: '/trip/torino',
-    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }],
   },
   {
     country: 'Italy',
@@ -230,7 +230,7 @@ export const journey = [
     date: '2023-01-14',
     temperature: 70,
     link: '/trip/torino',
-    transport: [{ type: 'train' }, { type: 'bus' }]
+    transport: [{ type: 'train' }, { type: 'bus' }],
   },
   {
     country: 'France',
@@ -239,7 +239,7 @@ export const journey = [
     date: '2023-01-15',
     temperature: 70,
     link: '/trip/grenoble',
-    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }]
+    transport: [{ type: 'bus' }, { type: 'train', amount: 2 }],
   },
   {
     country: 'France',
@@ -248,7 +248,7 @@ export const journey = [
     date: '2023-01-17',
     temperature: 70,
     link: '/trip/albertville',
-    transport: [{ type: 'train', amount: 2 }]
+    transport: [{ type: 'train', amount: 2 }],
   },
   {
     country: 'France',
@@ -257,7 +257,7 @@ export const journey = [
     date: '2023-01-19',
     temperature: 70,
     link: '/trip/chamonix',
-    transport: [{ type: 'bus', amount: 2 }]
+    transport: [{ type: 'bus', amount: 2 }],
   },
   {
     country: 'Switzerland',
@@ -266,7 +266,7 @@ export const journey = [
     date: '2023-01-21',
     temperature: 70,
     link: '/trip/st-moritz',
-    transport: [{ type: 'bus' }, { type: 'train', amount: 3 }]
+    transport: [{ type: 'bus' }, { type: 'train', amount: 3 }],
   },
   {
     country: 'Liechtenstein',
@@ -274,7 +274,7 @@ export const journey = [
     name: 'Vaduz',
     date: '2023-01-23',
     temperature: 70,
-    transport: [{ type: 'train' }, { type: 'bus' }]
+    transport: [{ type: 'train' }, { type: 'bus' }],
   },
   {
     country: 'Switzerland',
@@ -282,7 +282,7 @@ export const journey = [
     name: 'Zurich',
     date: '2023-01-24',
     temperature: 70,
-    transport: [{ type: 'bus' }, { type: 'train' }]
+    transport: [{ type: 'bus' }, { type: 'train' }],
   },
   {
     country: 'Bosnia-Herzegovina',
@@ -291,7 +291,7 @@ export const journey = [
     date: '2023-01-25',
     temperature: 70,
     link: '/trip/sarajevo',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'Great Britain',
@@ -300,7 +300,7 @@ export const journey = [
     date: '2023-01-29',
     temperature: 70,
     link: '/trip/london',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'United States of America',
@@ -308,7 +308,7 @@ export const journey = [
     name: 'Austin, TX',
     date: '2023-03-08',
     temperature: 90,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'New Zealand',
@@ -316,7 +316,7 @@ export const journey = [
     name: 'Auckland',
     date: '2023-03-17',
     temperature: 70,
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'New Zealand',
@@ -324,7 +324,7 @@ export const journey = [
     name: 'Rotorua',
     date: '2023-03-20',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'New Zealand',
@@ -332,7 +332,7 @@ export const journey = [
     name: 'Taupo',
     date: '2023-03-22',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'New Zealand',
@@ -340,7 +340,7 @@ export const journey = [
     name: 'Tauranga',
     date: '2023-03-24',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'New Zealand',
@@ -348,7 +348,7 @@ export const journey = [
     name: 'Napier',
     date: '2023-03-26',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'New Zealand',
@@ -356,7 +356,7 @@ export const journey = [
     name: 'Wellington',
     date: '2023-03-27',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'Australia',
@@ -365,7 +365,7 @@ export const journey = [
     date: '2023-03-29',
     temperature: 70,
     link: '/trip/melbourne',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Australia',
@@ -374,7 +374,7 @@ export const journey = [
     date: '2023-04-03',
     temperature: 70,
     link: '/trip/sydney',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Indonesia',
@@ -382,7 +382,7 @@ export const journey = [
     name: 'Bali',
     date: '2023-04-09',
     temperature: 70,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Singapore',
@@ -390,7 +390,7 @@ export const journey = [
     name: 'Singapore',
     date: '2023-04-14',
     temperature: 70,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Great Britain',
@@ -399,7 +399,7 @@ export const journey = [
     date: '2023-04-18',
     temperature: 70,
     link: '/trip/london',
-    transport: [{ type: 'plane', amount: 2 }]
+    transport: [{ type: 'plane', amount: 2 }],
   },
   {
     country: 'France',
@@ -408,7 +408,7 @@ export const journey = [
     date: '2023-04-27',
     temperature: 70,
     link: '/trip/paris',
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'France',
@@ -416,7 +416,7 @@ export const journey = [
     name: 'Toulouse',
     date: '2023-05-01',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Andorra',
@@ -424,7 +424,7 @@ export const journey = [
     name: 'Andorra la Vella',
     date: '2023-05-03',
     temperature: 70,
-    transport: [{ type: 'bus' }]
+    transport: [{ type: 'bus' }],
   },
   {
     country: 'Spain',
@@ -433,7 +433,7 @@ export const journey = [
     date: '2023-05-05',
     temperature: 70,
     link: '/trip/barcelona',
-    transport: [{ type: 'bus' }]
+    transport: [{ type: 'bus' }],
   },
   {
     country: 'France',
@@ -441,7 +441,7 @@ export const journey = [
     name: 'Marseille',
     date: '2023-06-01',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Monaco',
@@ -449,7 +449,7 @@ export const journey = [
     name: 'Monaco',
     date: '2023-05-10',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }]
+    transport: [{ type: 'train', amount: 2 }],
   },
   {
     country: 'Italy',
@@ -457,7 +457,7 @@ export const journey = [
     name: 'Pisa',
     date: '2023-05-12',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }]
+    transport: [{ type: 'train', amount: 2 }],
   },
   {
     country: 'San Marino',
@@ -465,7 +465,7 @@ export const journey = [
     name: 'San Marino',
     date: '2023-05-14',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }, { type: 'bus' }]
+    transport: [{ type: 'train', amount: 2 }, { type: 'bus' }],
   },
   {
     country: 'Italy',
@@ -473,15 +473,15 @@ export const journey = [
     name: 'Florence',
     date: '2023-05-16',
     temperature: 70,
-    transport: [{ type: 'bus', amount: 2 }, { type: 'train' }]
+    transport: [{ type: 'bus', amount: 2 }, { type: 'train' }],
   },
   {
     country: 'Italy',
     flagSlug: 'italy',
-    name: "Castiglione d'Orcia",
+    name: 'Castiglione d\'Orcia',
     date: '2023-05-19',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }, { type: 'car' }]
+    transport: [{ type: 'train', amount: 2 }, { type: 'car' }],
   },
   {
     country: 'Italy',
@@ -490,7 +490,7 @@ export const journey = [
     date: '2023-05-22',
     temperature: 70,
     link: '/trip/rome',
-    transport: [{ type: 'car' }, { type: 'train', amount: 2 }]
+    transport: [{ type: 'car' }, { type: 'train', amount: 2 }],
   },
   {
     country: 'Vatican City',
@@ -498,7 +498,7 @@ export const journey = [
     name: 'Vatican City',
     date: '2023-05-23',
     temperature: 70,
-    transport: [{ type: 'walk' }]
+    transport: [{ type: 'walk' }],
   },
   {
     country: 'Italy',
@@ -507,7 +507,7 @@ export const journey = [
     date: '2023-05-23',
     temperature: 70,
     link: '/trip/rome',
-    transport: [{ type: 'walk' }]
+    transport: [{ type: 'walk' }],
   },
   {
     country: 'Italy',
@@ -515,7 +515,7 @@ export const journey = [
     name: 'Naples',
     date: '2023-05-26',
     temperature: 70,
-    transport: [{ type: 'train' }]
+    transport: [{ type: 'train' }],
   },
   {
     country: 'Italy',
@@ -523,7 +523,7 @@ export const journey = [
     name: 'Bari',
     date: '2023-05-27',
     temperature: 70,
-    transport: [{ type: 'train', amount: 2 }]
+    transport: [{ type: 'train', amount: 2 }],
   },
   {
     country: 'Greece',
@@ -532,7 +532,7 @@ export const journey = [
     date: '2023-05-29',
     temperature: 70,
     link: '/trip/athens',
-    transport: [{ type: 'ferry' }, { type: 'bus' }]
+    transport: [{ type: 'ferry' }, { type: 'bus' }],
   },
   {
     country: 'Greece',
@@ -540,7 +540,7 @@ export const journey = [
     name: 'Olympia',
     date: '2023-06-03',
     temperature: 70,
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'Greece',
@@ -549,7 +549,7 @@ export const journey = [
     date: '2023-06-05',
     temperature: 70,
     link: '/trip/athens',
-    transport: [{ type: 'car' }]
+    transport: [{ type: 'car' }],
   },
   {
     country: 'Great Britain',
@@ -558,7 +558,7 @@ export const journey = [
     date: '2023-06-06',
     temperature: 70,
     link: '/trip/london',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Denmark',
@@ -566,7 +566,7 @@ export const journey = [
     name: 'Copenhagen',
     date: '2023-06-20',
     temperature: 70,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Faroe Islands',
@@ -574,7 +574,7 @@ export const journey = [
     name: 'Tórshavn',
     date: '2023-06-22',
     temperature: 70,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Iceland',
@@ -582,7 +582,7 @@ export const journey = [
     name: 'Reykjavik',
     date: '2023-06-26',
     temperature: 60,
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'Canada',
@@ -591,7 +591,7 @@ export const journey = [
     date: '2023-07-01',
     temperature: 80,
     link: '/trip/montreal',
-    transport: [{ type: 'plane' }]
+    transport: [{ type: 'plane' }],
   },
   {
     country: 'United States of America',
@@ -599,6 +599,6 @@ export const journey = [
     name: 'Austin, TX',
     date: '2023-07-03',
     temperature: 90,
-    transport: [{ type: 'plane', amount: 2 }]
-  }
+    transport: [{ type: 'plane', amount: 2 }],
+  },
 ];

@@ -39,7 +39,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function RouteNumPage() {
-  const { dispatch, width } = use(TripPageContext);
+  const { dispatch } = use(TripPageContext);
   const params = useParams();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function RouteNumPage() {
       <meta property="og:description" content="John Heher\'s Olympic trip route." />
       <meta property="og:image" content="/olympic-cities-og.jpg" />
       <NewBackButton />
-      <Selector width={width} />
+      <Selector />
       {/* <Outlet context={{ dispatch }} /> */}
     </div>
   );

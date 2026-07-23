@@ -13,9 +13,6 @@ import { TripPageContext } from '~/utils/context';
 
 import type { Route } from './+types';
 
-// Skip SSR for this route - uses motion/react which is client-only
-export const ssr = false;
-
 function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
   return (
     <motion.svg

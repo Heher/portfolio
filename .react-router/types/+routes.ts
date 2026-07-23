@@ -27,12 +27,15 @@ type Pages = {
       "num": string;
     };
   };
+  "/aggro": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/trip" | "/trip/:slug" | "/trip/route/:num";
+    page: "/" | "/trip" | "/trip/:slug" | "/trip/route/:num" | "/aggro";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -54,6 +57,10 @@ type RouteFiles = {
     id: "routes/trip/route.$num";
     page: "/trip/route/:num";
   };
+  "routes/aggro.tsx": {
+    id: "routes/aggro";
+    page: "/aggro";
+  };
 };
 
 type RouteModules = {
@@ -63,4 +70,5 @@ type RouteModules = {
   "routes/trip/index": typeof import("./app/routes/trip/index.tsx");
   "routes/trip/$slug": typeof import("./app/routes/trip/$slug.tsx");
   "routes/trip/route.$num": typeof import("./app/routes/trip/route.$num.tsx");
+  "routes/aggro": typeof import("./app/routes/aggro.tsx");
 };

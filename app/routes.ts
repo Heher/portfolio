@@ -11,4 +11,5 @@ export default [
       route('route/:num', 'routes/trip/route.$num.tsx'),
     ]),
   ]),
+  route('aggro', 'routes/aggro.tsx'),
 ] satisfies RouteConfig;
