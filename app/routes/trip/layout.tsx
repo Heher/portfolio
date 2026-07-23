@@ -15,6 +15,9 @@ import CitySlider from '~/components/olympiad-city/CitySlider';
 import visits from '~/data/visits';
 import { TripPageContext } from '~/utils/context';
 
+// Skip SSR for this route - uses Three.js which is client-only
+export const ssr = false;
+
 export type OutletContextType = {
   handleImageModal: (img: string | null) => void;
   width: number;

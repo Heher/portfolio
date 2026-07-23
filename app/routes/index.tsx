@@ -24,6 +24,9 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
+// Skip SSR for this route - uses motion/react which is client-only
+export const ssr = false;
+
 const MotionArrow = motion.create(IndexArrow);
 
 function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {

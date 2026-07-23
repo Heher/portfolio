@@ -1,6 +1,9 @@
 import { motion } from 'motion/react';
 import useMeasure from 'react-use-measure';
 
+// Skip SSR for this route - uses motion/react which is client-only
+export const ssr = false;
+
 export default function USDZPage() {
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
