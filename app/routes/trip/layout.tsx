@@ -1,14 +1,16 @@
 import type { Dispatch } from 'react';
 
-// import { AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { useEffect, useReducer } from 'react';
-import { useLocation } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import useMeasure from 'react-use-measure';
 
 import type { SelectedCity } from 'types/city';
 import type { Visit } from 'types/globe';
 import type { TripPageState } from 'types/trip';
 
+import { ImageModal } from '~/components/modal/ImageModal';
+import CitySlider from '~/components/olympiad-city/CitySlider';
 // import GlobeContainer from '~/components/globe/GlobeContainer';
 // import { ImageModal } from '~/components/modal/ImageModal';
 // import CitySlider from '~/components/olympiad-city/CitySlider';
@@ -72,7 +74,7 @@ export default function TripPage() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // const { selectedImage, selectedCity, selectedCityData } = state;
+  const { selectedImage, selectedCity, selectedCityData } = state;
 
   const [pageContainerRef, { width }] = useMeasure({ debounce: 300 });
 
@@ -103,7 +105,7 @@ export default function TripPage() {
             <GlobeContainer />
           </div> */}
 
-          {/* <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait">
             <Outlet />
           </AnimatePresence>
           <AnimatePresence>
@@ -116,7 +118,7 @@ export default function TripPage() {
                 handleImageModal(null);
               }}
             />
-          )} */}
+          )}
         </div>
       </TripPageContext>
     </main>
