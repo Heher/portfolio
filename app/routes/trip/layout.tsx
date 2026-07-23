@@ -9,7 +9,7 @@ import type { SelectedCity } from 'types/city';
 import type { Visit } from 'types/globe';
 import type { TripPageState } from 'types/trip';
 
-import GlobeContainer from '~/components/globe/GlobeContainer';
+// import GlobeContainer from '~/components/globe/GlobeContainer';
 // import { ImageModal } from '~/components/modal/ImageModal';
 // import CitySlider from '~/components/olympiad-city/CitySlider';
 import visits from '~/data/visits';
@@ -99,9 +99,9 @@ export default function TripPage() {
       <div className="fixed top-0 left-0 -z-1 size-full min-h-dvh bg-linear-to-b from-globe-background to-nav-background to-50%"></div>
       <TripPageContext value={{ ...state, width, visits, dispatch, handleImageModal, toggleBodyBackground }}>
         <div className="mx-auto h-dvh max-w-(--max-width)">
-          <div className="fixed inset-0 z-0 size-full">
+          {/* <div className="fixed inset-0 z-0 size-full">
             <GlobeContainer />
-          </div>
+          </div> */}
 
           {/* <AnimatePresence mode="wait">
             <Outlet />
