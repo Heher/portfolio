@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 
 import { white } from './colors';
-// import FullGlobe from './FullGlobe';
+import FullGlobe from './FullGlobe';
 
 export default function GlobeContainer() {
   return (
@@ -23,11 +23,7 @@ export default function GlobeContainer() {
         shadow-camera-far={10}
       />
       <Suspense fallback={null}>
-        {/* <FullGlobe /> */}
-        <mesh>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color={0xFF0000} />
-        </mesh>
+        <FullGlobe />
       </Suspense>
     </Canvas>
   );
