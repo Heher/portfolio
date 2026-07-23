@@ -3,7 +3,7 @@ import type { RouteConfig } from '@react-router/dev/routes';
 import { index, layout, prefix, route } from '@react-router/dev/routes';
 
 export default [
-  // index('routes/index.tsx'),
+  index('routes/index.tsx'),
   // ...prefix('trip', [
   //   layout('routes/trip/layout.tsx', [
   //     index('routes/trip/index.tsx'),
@@ -13,5 +13,5 @@ export default [
   // ]),
   // route('aggro', 'routes/aggro.tsx'),
 
-  index('routes/testIndex.tsx'),
+  // index('routes/testIndex.tsx'),
 ] satisfies RouteConfig;
