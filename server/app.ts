@@ -1,6 +1,6 @@
 import express from 'express';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -20,6 +20,6 @@ app.use(express.static(path.join(__dirname, '../build/client'), { maxAge: '1h' }
 
 // SPA catchall: serve index.html for all routes
 // React Router will handle routing on the client
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, '../build/client/index.html'));
 });
