@@ -8,7 +8,7 @@ export default defineConfig({
       build: {
         rollupOptions: {
           input: './server/app.ts',
-          external: ['pg', 'drizzle-orm/node-postgres'], // Exclude node dependencies
+          external: ['pg', 'drizzle-orm/node-postgres'],
         },
       },
     },
@@ -16,9 +16,5 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter()],
   resolve: {
     tsconfigPaths: true,
-  },
-  ssr: {
-    // Mark packages that can't be externalized
-    noExternal: [],
   },
 });
