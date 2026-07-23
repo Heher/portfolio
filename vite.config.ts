@@ -8,7 +8,7 @@ export default defineConfig({
       build: {
         rollupOptions: {
           input: './server/app.ts',
-          external: ['pg', 'drizzle-orm/node-postgres'],
+          // external: ['pg', 'drizzle-orm/node-postgres'],
         },
       },
     },
