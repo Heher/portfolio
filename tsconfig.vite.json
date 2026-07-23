@@ -20,6 +20,8 @@
     "esModuleInterop": true
   },
   "include": [
+    "**/*.ts",
+    "**/*.tsx",
     ".react-router/types/**/*",
     "app/**/*",
     "app/**/.server/**/*",
