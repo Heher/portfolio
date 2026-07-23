@@ -10,7 +10,7 @@ import { TripPageContext } from '~/utils/context';
 import { summerColor, winterColor } from './colors';
 import { cities } from './coordinates';
 import { Marker } from './markers/Marker';
-// import PointSphere from './PointSphere';
+import PointSphere from './PointSphere';
 import { Route } from './Route';
 import { myRoute } from './routeCoordinates';
 import { convertToRadians, formatCitiesWithVisits, getCityStatusColor } from './utils';
@@ -224,7 +224,7 @@ export function Globe() {
       ref={groupRef}
       rotation={[0, 0, 0.5, 'ZXY']}
     >
-      {/* <PointSphere /> */}
+      <PointSphere />
       {selectedRouteLeg && <Route />}
       {citiesWithVisits.map((city) => {
         const isSelected = selectedCity === city.name;
