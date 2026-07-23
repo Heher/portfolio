@@ -1,9 +1,9 @@
-import { Preload } from '@react-three/drei';
+// import { Preload } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 
 import { white } from './colors';
-import FullGlobe from './FullGlobe';
+// import FullGlobe from './FullGlobe';
 
 export default function GlobeContainer() {
   return (
@@ -23,8 +23,11 @@ export default function GlobeContainer() {
         shadow-camera-far={10}
       />
       <Suspense fallback={null}>
-        <FullGlobe />
-        <Preload all />
+        {/* <FullGlobe /> */}
+        <mesh>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color={0xFF0000} />
+        </mesh>
       </Suspense>
     </Canvas>
   );
