@@ -73,7 +73,7 @@ export function Marker({ position, rotation, color, statusColor, isSelected, has
           <pointLight
             position={[0, 0.05, 0]}
             color={getLightColor(statusColor)}
-            intensity={2}
+            intensity={4}
             distance={0.1}
             decay={2}
           />
