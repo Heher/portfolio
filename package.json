@@ -11,7 +11,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "cross-env NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NODE_ENV=development node --conditions development server.js",
-    "start": "node server.js",
+    "start": "HOST=0.0.0.0 node server.js",
     "test": "cypress run",
     "caddy": "caddy run",
     "typecheck": "react-router typegen && tsc -b"
