@@ -2,7 +2,7 @@ import type { Line2 } from 'three-stdlib';
 
 import { CatmullRomLine } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { CatmullRomCurve3, Vector3 } from 'three';
 
 import type { RouteInfo } from 'types/globe';
@@ -31,34 +31,38 @@ const uniforms = {
 export function RouteTrip({ coords, type, lineWidth, lineSpeed, dashSize, dashGap }: RouteInfo) {
   const lineRef = useRef<Line2>(null);
 
-  useFrame(({ clock }, delta) => {
+  useFrame(({ clock }) => {
     if (!lineRef.current?.material?.uniforms?.time)
       return;
 
     lineRef.current.material.uniforms.time.value = (clock.getElapsedTime() / (lineSpeed || 100)) * -1;
   });
 
-  const cityVectors = coords.map((coord) => {
-    return getPositionVector(coord, globeRadius);
-  });
+  const path = useMemo(() => {
+    const cityVectors = coords.map((coord) => {
+      return getPositionVector(coord, globeRadius);
+    });
 
-  let points = [];
+    const points = [];
 
-  for (let i = 0; i < coords.length - 1; i++) {
-    for (let j = 0; j <= sectionsPerCity; j++) {
-      if (j === sectionsPerCity) {
-        points.push(cityVectors[i + 1]);
-        break;
+    for (let i = 0; i < coords.length - 1; i++) {
+      for (let j = 0; j <= sectionsPerCity; j++) {
+        if (j === sectionsPerCity) {
+          points.push(cityVectors[i + 1]);
+          break;
+        }
+
+        const p = new Vector3().lerpVectors(cityVectors[i], cityVectors[i + 1], j / sectionsPerCity);
+        p.normalize();
+        p.multiplyScalar(type === 'flight' ? flightScale(j, sectionsPerCity) : globeRadius);
+        points.push(p);
       }
-
-      let p = new Vector3().lerpVectors(cityVectors[i], cityVectors[i + 1], j / sectionsPerCity);
-      p.normalize();
-      p.multiplyScalar(type === 'flight' ? flightScale(j, sectionsPerCity) : globeRadius);
-      points.push(p);
     }
-  }
 
-  let path = new CatmullRomCurve3(points);
+    const path = new CatmullRomCurve3(points);
+
+    return path;
+  }, [coords, type]);
 
   return (
     <CatmullRomLine
