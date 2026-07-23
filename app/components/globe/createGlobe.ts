@@ -1,8 +1,6 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export function createGlobe() {
-  const dummyObject = new THREE.Object3D();
   const vector = new THREE.Vector3();
   const sphere = new THREE.Spherical();
 
@@ -12,7 +10,8 @@ export function createGlobe() {
 
   const pointAmount = 100000;
   // const pointAmount = 100;
-  const geometries = [];
+  const positions = new Float32Array(pointAmount * 3);
+  const baseUvs = new Float32Array(pointAmount * 2);
 
   let radialDistance = 0;
   const changeInLongitude = Math.PI * (3 - Math.sqrt(5));
@@ -22,7 +21,6 @@ export function createGlobe() {
   let height = 1 - changeInHeight / 2;
 
   for (let i = 0; i < pointAmount; i++) {
-    const circleGeometry = new THREE.PlaneGeometry(0.2, 0.2);
     radialDistance = Math.sqrt(1 - height * height);
 
     vector
@@ -34,35 +32,20 @@ export function createGlobe() {
 
     sphere.setFromVector3(vector);
 
-    dummyObject.lookAt(vector);
-    dummyObject.updateMatrix();
+    const i3 = i * 3;
+    positions[i3] = vector.x;
+    positions[i3 + 1] = vector.y;
+    positions[i3 + 2] = vector.z;
 
-    circleGeometry.applyMatrix4(dummyObject.matrix);
-    circleGeometry.translate(vector.x, vector.y, vector.z);
-
-    const centers = [
-      vector.x,
-      vector.y,
-      vector.z,
-      vector.x,
-      vector.y,
-      vector.z,
-      vector.x,
-      vector.y,
-      vector.z,
-      vector.x,
-      vector.y,
-      vector.z
-    ];
     const uv = new THREE.Vector2((sphere.theta + Math.PI) / (Math.PI * 2), 1 - sphere.phi / Math.PI);
-    const uvs = [uv.x, uv.y, uv.x, uv.y, uv.x, uv.y, uv.x, uv.y];
-    circleGeometry.setAttribute('center', new THREE.Float32BufferAttribute(centers, 3));
-    circleGeometry.setAttribute('baseUv', new THREE.Float32BufferAttribute(uvs, 2));
-
-    geometries.push(circleGeometry);
+    const i2 = i * 2;
+    baseUvs[i2] = uv.x;
+    baseUvs[i2 + 1] = uv.y;
   }
 
-  const globeGeometry = mergeGeometries(geometries);
+  const globeGeometry = new THREE.BufferGeometry();
+  globeGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  globeGeometry.setAttribute('baseUv', new THREE.BufferAttribute(baseUvs, 2));
 
   return globeGeometry;
 }

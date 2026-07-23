@@ -1,0 +1,141 @@
+import { eq } from 'drizzle-orm';
+import { AnimatePresence, motion } from 'motion/react';
+import { Fragment, use, useEffect } from 'react';
+import { useLoaderData } from 'react-router';
+
+import type { AnimationVariants } from 'types/globe';
+
+import { getDB } from '@drizzle/db';
+import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
+import { CitiesList } from '~/components/CitiesList';
+import MainCopy from '~/components/home/MainCopy';
+import { TripPageContext } from '~/utils/context';
+
+import type { Route } from './+types';
+
+function ExpandIcon({ className, delay }: { className?: string; delay: number }) {
+  return (
+    <motion.svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 300 100"
+      className={className}
+      initial={{ y: '-30%' }}
+      animate={{ y: '30%' }}
+      transition={{
+        duration: 1,
+        repeat: Infinity,
+        ease: 'easeOut',
+        repeatType: 'reverse',
+        delay,
+      }}
+    >
+      <g>
+        <polygon points="0,69 150,0 300,69 300,100 150,40 0,100" />
+      </g>
+    </motion.svg>
+  );
+}
+
+export async function loader() {
+  const db = getDB();
+
+  if (!db) {
+    return { olympiads: [], cities: [] };
+  }
+
+  const response = await db
+    .select({
+      id: OlympiadTable.id,
+      year: OlympiadTable.year,
+      olympiadType: OlympiadTable.olympiadType,
+      city: { id: CityTable.id, slug: CityTable.slug, name: CityTable.name, countryName: CountryTable.name },
+    })
+    .from(OlympiadTable)
+    .innerJoin(CityTable, eq(OlympiadTable.cityId, CityTable.id))
+    .innerJoin(CountryTable, eq(CityTable.countryId, CountryTable.id))
+    .where(eq(OlympiadTable.realOlympiad, true))
+    .orderBy(OlympiadTable.year);
+
+  if (!response.length) {
+    return { olympiads: [], cities: [] };
+  }
+
+  const cities = response.reduce<Record<string, typeof response[0]['city']>>((acc, olympiad) => {
+    if (!acc[olympiad.city.id]) {
+      acc[olympiad.city.id] = olympiad.city;
+    }
+
+    return acc;
+  }, {});
+
+  return { olympiads: response, cities: Object.values(cities) };
+}
+
+export type TripLoader = typeof loader;
+
+const animationVariants: AnimationVariants = {
+  hidden: { opacity: 0, x: '-150px', transition: { duration: 0.3 } },
+  visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } },
+};
+
+function TripIndexInner({ width }: { width: number }) {
+  const { olympiads, cities } = useLoaderData<typeof loader>();
+
+  if (!olympiads.length || !cities.length) {
+    return null;
+  }
+
+  return (
+    <Fragment key="trip-index-inner">
+      <MainCopy variants={animationVariants} />
+      <div className="mt-10 h-4">
+        <AnimatePresence>
+          {width < 768 && (
+            <motion.div
+              className="flex w-full rotate-180 flex-col items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {[0, 1].map((num, i) => (
+                <ExpandIcon key={num} className="h-2 fill-[#e0e0e0]" delay={i * 0.2} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <CitiesList />
+    </Fragment>
+  );
+}
+
+export default function TripIndex({ loaderData }: Route.ComponentProps) {
+  const { width, loaded, dispatch } = use(TripPageContext);
+
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove('bg-index-background');
+    body.classList.add('bg-globe-background');
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) {
+      dispatch({ type: 'LOADED', loaded: true });
+    }
+  }, [loaded, dispatch]);
+
+  if (!loaderData.olympiads || !loaderData.cities) {
+    return null;
+  }
+
+  return (
+    <div className="relative z-10">
+      <title>Olympic Trip | John Heher</title>
+      <meta name="description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
+      <meta property="og:title" content="Olympic Trip | John Heher" />
+      <meta property="og:description" content="John Heher's Olympic trip: visiting every city that has hosted the Olympic Games." />
+      <meta property="og:image" content="/olympic-cities-og.jpg" />
+      <TripIndexInner width={width} />
+    </div>
+  );
+}

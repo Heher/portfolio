@@ -1,17 +1,20 @@
-import { useTripContext } from '~/routes/trip';
+import { use } from 'react';
+import { useLoaderData } from 'react-router';
+
+import type { TripLoader } from '~/routes/trip';
+
+import { TripPageContext } from '~/utils/context';
+
 import CityInList from './CityInList';
 import { cityStatus } from './utils';
-import { TripLoader } from '~/routes/trip._index';
-import { useLoaderData } from '@remix-run/react';
 
 type OlympiadCityProps = {
   city: any;
-  firstRef: React.RefObject<HTMLDivElement> | null;
 };
 
-export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
+export default function OlympiadCity({ city }: OlympiadCityProps) {
   const { olympiads } = useLoaderData<TripLoader>();
-  const { visits } = useTripContext();
+  const { visits } = use(TripPageContext);
 
   if (!city.name) {
     return null;
@@ -19,7 +22,7 @@ export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
 
   // const filteredOlympiads = filterOutNonOlympiadsForCity(city.name, city.olympiads.nodes);
 
-  const cityOlympiads = olympiads.filter((olympiad) => olympiad.city.id === city.id);
+  const cityOlympiads = olympiads.filter(olympiad => olympiad.city.id === city.id);
 
   const { amountCompleted, totalOlympiads } = cityStatus(cityOlympiads, visits);
 
@@ -28,7 +31,6 @@ export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
 
   return (
     <CityInList
-      firstRef={firstRef}
       city={city}
       amountCompleted={amountCompleted}
       totalOlympiads={totalOlympiads}

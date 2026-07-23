@@ -1,10 +1,17 @@
-import { useMemo, useRef } from 'react';
-import * as THREE from 'three';
-// import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import type * as THREE from 'three';
 
-import earth from '~/data/map/point-earth.jpg';
 import { useTexture } from '@react-three/drei';
+// import { useFrame } from '@react-three/fiber';
+// import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+
+// import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import earth from '~/data/map/point-earth.jpg';
+
+// import { cities } from './coordinates';
 import { createGlobe } from './createGlobe';
+// import { findClosestTileCenter } from './findClosestTile';
+// import { getPositionVector } from './utils';
 
 type UniformType = {
   maxSize: {
@@ -18,95 +25,35 @@ type UniformType = {
   };
 };
 
-// const dummyObject = new THREE.Object3D();
-// const vector = new THREE.Vector3();
-// const sphere = new THREE.Spherical();
-// const radius = 1;
-
-// const pointAmount = 100000;
-// // const pointAmount = 100;
-// const geometries = [];
-
-// let radialDistance = 0;
-// const changeInLongitude = Math.PI * (3 - Math.sqrt(5));
-// const changeInHeight = 2 / pointAmount;
-
-// let longitude = 0;
-// let height = 1 - changeInHeight / 2;
-
-// for (let i = 0; i < pointAmount; i++) {
-//   const circleGeometry = new THREE.PlaneGeometry(0.2, 0.2);
-
-//   radialDistance = Math.sqrt(1 - height * height);
-
-//   vector
-//     .set(Math.cos(longitude) * radialDistance, height, -Math.sin(longitude) * radialDistance)
-//     .multiplyScalar(radius);
-
-//   height = height - changeInHeight;
-//   longitude = longitude + changeInLongitude;
-
-//   sphere.setFromVector3(vector);
-
-//   dummyObject.lookAt(vector);
-//   dummyObject.updateMatrix();
-
-//   circleGeometry.applyMatrix4(dummyObject.matrix);
-//   circleGeometry.translate(vector.x, vector.y, vector.z);
-
-//   const centers = [
-//     vector.x,
-//     vector.y,
-//     vector.z,
-//     vector.x,
-//     vector.y,
-//     vector.z,
-//     vector.x,
-//     vector.y,
-//     vector.z,
-//     vector.x,
-//     vector.y,
-//     vector.z
-//   ];
-//   const uv = new THREE.Vector2((sphere.theta + Math.PI) / (Math.PI * 2), 1 - sphere.phi / Math.PI);
-//   const uvs = [uv.x, uv.y, uv.x, uv.y, uv.x, uv.y, uv.x, uv.y];
-//   circleGeometry.setAttribute('center', new THREE.Float32BufferAttribute(centers, 3));
-//   circleGeometry.setAttribute('baseUv', new THREE.Float32BufferAttribute(uvs, 2));
-
-//   geometries.push(circleGeometry);
-// }
-
-// const globeGeometry = mergeGeometries(geometries);
-
-// const jsonGeometry = globeGeometry.toJSON();
-
-function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: THREE.Texture) {
+function beforeCompile(shader: any, uniforms: UniformType, eTexture: THREE.Texture) {
   shader.uniforms.maxSize = uniforms.maxSize;
   shader.uniforms.minSize = uniforms.minSize;
   shader.uniforms.uTexture = { value: eTexture };
+
   shader.vertexShader = /* glsl */ `
       uniform sampler2D uTexture;
       uniform float maxSize;
       uniform float minSize;
 
-      attribute vec3 center;
       attribute vec2 baseUv;
 
       varying float vFinalStep;
       varying float vMapColorGreen;
 
       ${shader.vertexShader}
-    `.replace(
-    `#include <begin_vertex>`,
-    /* glsl */ `#include <begin_vertex>
+    `
+    .replace(
+      `#include <begin_vertex>`,
+      /* glsl */ `#include <begin_vertex>
 
       float mapColorGreen = texture(uTexture, baseUv).g;
       vMapColorGreen = mapColorGreen;
-      float pointSize = mapColorGreen < 0.5 ? maxSize : minSize;
-
-      transformed = (position - center) * pointSize + center;
-      `
-  );
+      `,
+    )
+    .replace(
+      `gl_PointSize = size;`,
+      /* glsl */ `gl_PointSize = (vMapColorGreen < 0.5 ? maxSize : minSize);`,
+    );
   shader.fragmentShader = /* glsl */ `
       uniform vec3 gradientInner;
       uniform vec3 gradientOuter;
@@ -114,10 +61,10 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
       varying float vMapColorGreen;
       ${shader.fragmentShader}
       `.replace(
-    `vec4 diffuseColor = vec4( diffuse, opacity );`,
-    /* glsl */ `
+          `vec4 diffuseColor = vec4( diffuse, opacity );`,
+          /* glsl */ `
       // shaping the point, pretty much from The Book of Shaders
-      vec2 hUv = (vUv - 0.5);
+          vec2 hUv = (gl_PointCoord - 0.5);
       int numberOfSegments = 8;
       float angle = atan(hUv.x, hUv.y);
       float r = PI2 / float(numberOfSegments);
@@ -127,43 +74,46 @@ function beforeCompile(shader: THREE.Shader, uniforms: UniformType, eTexture: TH
 
       vec3 gradient = mix(gradientInner, gradientOuter, clamp( d / f, 0., 1.));
       vec3 diffuseMap = diffuse * ((vMapColorGreen > 0.5) ? 0.5 : 1.);
-      vec4 diffuseColor = vec4( diffuseMap , opacity );
-      `
-  );
+
+      // Normal tile coloring without animation
+      vec3 finalColor = diffuseMap;
+
+      vec4 diffuseColor = vec4( finalColor , opacity );
+      `,
+        );
 }
 
 const globeGeometry = createGlobe();
 
 export default function PointSphere() {
-  const mesh = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Points>(null);
+  const materialRef = useRef<THREE.PointsMaterial>(null);
+  const shaderRef = useRef<any>(null);
   const eTexture = useTexture(earth);
 
-  const uniforms = useMemo(
-    () => ({
-      maxSize: {
-        value: 0.05
-      },
-      minSize: {
-        value: 0.02
-      },
-      uTexture: {
-        value: eTexture
-      }
-    }),
-    [eTexture]
-  );
+  // Create stable uniforms object that won't change reference
+  const uniformsRef = useRef({
+    maxSize: { value: 0.23 },
+    minSize: { value: 0.05 },
+    uTexture: { value: eTexture },
+  });
 
   return (
-    <mesh ref={mesh} rotation-y={Math.PI / 2} receiveShadow castShadow>
-      {/* <mesh ref={mesh} rotation-y={Math.PI / 2}> */}
+    <points ref={meshRef} rotation-y={Math.PI / 2}>
       <bufferGeometry {...globeGeometry} />
-      <meshStandardMaterial
-        color={0x8fa1b3}
+      <pointsMaterial
+        ref={materialRef}
+        color={0x8FA1B3}
         onBeforeCompile={(shader) => {
-          beforeCompile(shader, uniforms, eTexture);
+          shaderRef.current = shader;
+          beforeCompile(shader, uniformsRef.current, eTexture);
         }}
-        defines={{ USE_UV: '' }}
+        customProgramCacheKey={() => 'pointsphere'}
+        size={4}
+        sizeAttenuation
+        transparent
+        alphaTest={0.1}
       />
-    </mesh>
+    </points>
   );
 }

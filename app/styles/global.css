@@ -11,7 +11,6 @@
   --negative: #ff5a5a;
   --incomplete: #ffa566;
   --link-hover: #eaf3ff;
-  --nav-background: #4d6f85;
   --nav-text: #f2f5f8;
   --nav-link: #cbd8e1;
   --nav-border: #7d9fb5;
@@ -113,16 +112,6 @@
 
 .flags-container:hover .flags-overlay-full {
   width: 0;
-}
-
-.city-status.positive {
-  border-color: var(--positive);
-}
-.city-status.negative {
-  border-color: var(--negative);
-}
-.city-status.incomplete {
-  border-color: var(--incomplete);
 }
 
 #color-input {

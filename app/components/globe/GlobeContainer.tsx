@@ -1,159 +1,33 @@
-import { Globe } from './Globe';
+// import { Preload } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { Suspense, use } from 'react';
+
+import { TripPageContext } from '~/utils/context';
+
 import { white } from './colors';
-import { useContext } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { TripPageContext } from '~/routes/trip';
-import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
-// import { PerformanceMonitor, Stats } from '@react-three/drei';
-// import { Bloom, EffectComposer } from '@react-three/postprocessing';
-// import { KernelSize, Resolution } from 'postprocessing';
-import { motion } from 'framer-motion-3d';
-import { myRoute } from './routeCoordinates';
-import { getGlobeVariant, getGlobeX, getGlobeZoom, getRouteY, getZoom } from './utils';
-import { GradientTexture, GradientType } from '@react-three/drei';
-// import { OrbitControls } from '@react-three/drei';
-
-export function ErrorBoundary() {
-  const error = useRouteError();
-
-  // when true, this is what used to go to `CatchBoundary`
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>Oops</h1>
-        <p>Status: {error.status}</p>
-        <p>{error.data.message}</p>
-      </div>
-    );
-  }
-
-  // Don't forget to typecheck with your own logic.
-  // Any value can be thrown, not just errors!
-  // let errorMessage = 'Unknown error';
-  // if (isDefinitelyAnError(error)) {
-  //   errorMessage = error.message;
-  // }
-
-  return (
-    <div
-      className={`absolute bottom-[20%] left-1/2 flex size-[250px] -translate-x-1/2 items-center justify-center rounded-full bg-slate-400 md:right-[400px] md:top-[100px] md:size-[500px]`}
-    >
-      <p>Could not load globe. Please reload.</p>
-    </div>
-  );
-}
-
-const variants = {
-  selectedCity: ({ height }: { height: number }) => ({
-    x: 0,
-    y: height / -4,
-    z: 10,
-    transition: {
-      duration: 0.7,
-      ease: 'easeInOut'
-    }
-  }),
-  route: ({ zoom, screenWidth, routeY }: { zoom: number; screenWidth: number; routeY: number }) => ({
-    x: 0,
-    y: routeY,
-    z: getGlobeZoom(screenWidth, zoom),
-    transition: {
-      duration: 0.9,
-      ease: 'easeInOut'
-    }
-  }),
-  show: ({ width, screenWidth }: { width: number; screenWidth: number }) => ({
-    opacity: 1,
-    x: getGlobeX(width, screenWidth),
-    y: 0,
-    z: screenWidth < 768 ? 0 : -10 / width,
-    transition: {
-      duration: 0.7,
-      ease: 'easeInOut'
-    }
-  })
-};
-
-function GlobeBackdrop() {
-  const tripContext = useContext(TripPageContext);
-  const { viewport } = useThree();
-
-  const routeSelected = tripContext?.selectedRouteLeg && tripContext.selectedRouteLeg !== null;
-
-  let routeY = 0;
-
-  if (routeSelected) {
-    const leg = myRoute[tripContext.selectedRouteLeg - 1];
-    routeY = getRouteY(leg);
-  }
-
-  return (
-    <motion.mesh
-      rotation={[0, 0, 0.5, 'ZXY']}
-      variants={variants}
-      initial={{ opacity: 0 }}
-      animate={getGlobeVariant(routeSelected, tripContext?.selectedCity)}
-      custom={{
-        screenWidth: window.innerWidth,
-        screenHeight: window.innerHeight,
-        width: viewport.width,
-        height: viewport.height,
-        zoom: getZoom(tripContext?.selectedRouteLeg, window.innerWidth),
-        routeY
-      }}
-      receiveShadow
-    >
-      <circleGeometry args={[1, 64]} />
-      <meshBasicMaterial>
-        <GradientTexture
-          stops={[0.6, 0.9, 1]} // As many stops as you want
-          colors={['#004953', '#317873', '#008080']} // Colors need to match the number of stops
-          size={1024} // Size (height) is optional, default = 1024
-          width={1024} // Width of the canvas producing the texture, default = 16
-          type={GradientType.Radial} // The type of the gradient, default = GradientType.Linear
-          innerCircleRadius={0} // Optional, the radius of the inner circle of the gradient, default = 0
-          outerCircleRadius={'auto'} // Optional, the radius of the outer circle of the gradient, default = auto
-        />
-      </meshBasicMaterial>
-    </motion.mesh>
-  );
-}
+import FullGlobe from './FullGlobe';
 
 export default function GlobeContainer() {
-  // const tripContext = useContext(TripPageContext);
-
-  // console.log('tripContext', tripContext);
-
-  // if (!tripContext) {
-  //   return null;
-  // }
-
-  // const { selectedCity, visits, selectedRouteLeg } = tripContext;
-
-  // console.log('selectedCity', tripContext?.selectedCity);
-
+  const { selectedCity, selectedRouteLeg } = use(TripPageContext);
   return (
-    // <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
-    <Canvas camera={{ position: [0, 0, 18], fov: 8 }}>
+    <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       <ambientLight intensity={0.1} />
-      <directionalLight position={[0, 1, 1]} intensity={3} color={white} castShadow shadow-mapSize={[3072, 3072]} />
-      {/* <directionalLight position={[0, 1, 1]} intensity={3} color={white} /> */}
-      <Globe />
-      <GlobeBackdrop />
-      {/* <EffectComposer>
-        <Bloom
-          intensity={1.0} // The bloom intensity.
-          blurPass={undefined} // A blur pass.
-          kernelSize={KernelSize.LARGE} // blur kernel size
-          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
-          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
-          mipmapBlur={false} // Enables or disables mipmap blur.
-          resolutionX={Resolution.AUTO_SIZE} // The horizontal resolution.
-          resolutionY={Resolution.AUTO_SIZE} // The vertical resolution.
-        />
-      </EffectComposer> */}
-      {/* <Stats /> */}
-      {/* <OrbitControls /> */}
+      <directionalLight
+        position={[0, 1, 1]}
+        intensity={selectedCity || selectedRouteLeg ? 2 : 5}
+        color={white}
+        castShadow
+        shadow-mapSize={[3072, 3072]}
+        shadow-camera-left={-2}
+        shadow-camera-right={2}
+        shadow-camera-top={2}
+        shadow-camera-bottom={-2}
+        shadow-camera-near={0.1}
+        shadow-camera-far={10}
+      />
+      <Suspense fallback={null}>
+        <FullGlobe />
+      </Suspense>
     </Canvas>
   );
 }

@@ -3,12 +3,13 @@
 This is the code for my portfolio which contains all pages
 of johnheher.com.
 
-### Made with:
+## Made with:
 
 General
 
 - TypeScript
-- Remix
+- React Router
+- Vite
 
 Front-end
 
@@ -23,7 +24,6 @@ Back-end
 Animation
 
 - React Three Fiber
-- Framer Motion
 
 Hosting
 
