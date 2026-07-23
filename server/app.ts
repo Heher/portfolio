@@ -9,17 +9,17 @@ export const app = express();
 // Serve static assets with long cache
 app.use(
   '/assets',
-  express.static(path.join(__dirname, '../build/client/assets'), {
+  express.static(path.join(__dirname, '../../build/client/assets'), {
     immutable: true,
     maxAge: '1y',
   }),
 );
 
 // Serve other static files
-app.use(express.static(path.join(__dirname, '../build/client'), { maxAge: '1h' }));
+app.use(express.static(path.join(__dirname, '../../build/client'), { maxAge: '1h' }));
 
 // SPA catchall: serve index.html for all routes
 // React Router will handle routing on the client
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../build/client/index.html'));
+  res.sendFile(path.join(__dirname, '../../build/client/index.html'));
 });
