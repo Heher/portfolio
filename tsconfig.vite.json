@@ -1,0 +1,32 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "rootDirs": [".", "./.react-router/types"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "paths": {
+      "~/*": ["./app/*"],
+      "@drizzle/*": ["./drizzle/*"],
+      "@tests/*": ["./__tests__/*"],
+      "*": ["./*"]
+    },
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    ".react-router/types/**/*",
+    "app/**/*",
+    "app/**/.server/**/*",
+    "app/**/.client/**/*",
+    "server/**/*",
+    "tailwind.config.ts",
+    "drizzle/**/*",
+    "types/**/*"
+  ]
+}
