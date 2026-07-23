@@ -1,5 +1,3 @@
-import type { RefObject } from 'react';
-
 import { motion } from 'motion/react';
 import { use } from 'react';
 import { Link } from 'react-router';
@@ -16,10 +14,9 @@ type CityInListProps = {
   amountCompleted: number;
   totalOlympiads: number;
   olympiads: (any | null)[];
-  firstRef: RefObject<HTMLAnchorElement | null> | null;
 };
 
-function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef }: CityInListProps) {
+export default function CityInList({ city, amountCompleted, totalOlympiads, olympiads }: CityInListProps) {
   const { visits, selectedCity } = use(TripPageContext);
 
   if (!city.slug) {
@@ -28,7 +25,6 @@ function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef
 
   return (
     <MotionLink
-      ref={firstRef || undefined}
       className="
         mb-5 flex cursor-pointer rounded-[6px] bg-[#e0e0e0]
         hover:bg-[#f5f5f5]
@@ -78,5 +74,3 @@ function CityInList({ city, amountCompleted, totalOlympiads, olympiads, firstRef
     </MotionLink>
   );
 }
-
-export default CityInList;

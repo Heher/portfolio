@@ -1,5 +1,3 @@
-import type { RefObject } from 'react';
-
 import { use } from 'react';
 import { useLoaderData } from 'react-router';
 
@@ -12,10 +10,9 @@ import { cityStatus } from './utils';
 
 type OlympiadCityProps = {
   city: any;
-  firstRef: RefObject<HTMLAnchorElement | null> | null;
 };
 
-export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
+export default function OlympiadCity({ city }: OlympiadCityProps) {
   const { olympiads } = useLoaderData<TripLoader>();
   const { visits } = use(TripPageContext);
 
@@ -34,7 +31,6 @@ export function OlympiadCity({ city, firstRef }: OlympiadCityProps) {
 
   return (
     <CityInList
-      firstRef={firstRef}
       city={city}
       amountCompleted={amountCompleted}
       totalOlympiads={totalOlympiads}

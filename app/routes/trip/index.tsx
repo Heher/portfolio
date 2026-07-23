@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { AnimatePresence, motion } from 'motion/react';
-import { Fragment, use, useEffect, useRef, useState } from 'react';
+import { Fragment, use, useEffect } from 'react';
 import { useLoaderData } from 'react-router';
 
 import type { AnimationVariants } from 'types/globe';
@@ -78,40 +78,8 @@ const animationVariants: AnimationVariants = {
   visible: { opacity: 1, x: '0px', transition: { duration: 0.3 } },
 };
 
-function observerCallback(entries: IntersectionObserverEntry[], setCitiesSeen: (seen: boolean) => void) {
-  entries.forEach((entry) => {
-    setCitiesSeen(entry.isIntersecting);
-  });
-}
-
 function TripIndexInner({ width }: { width: number }) {
   const { olympiads, cities } = useLoaderData<typeof loader>();
-  const [citiesSeen, setCitiesSeen] = useState(false);
-  const firstRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        observerCallback(entries, setCitiesSeen);
-      },
-      {
-        rootMargin: '0px',
-        threshold: 0.5,
-      },
-    );
-
-    const observedRef = firstRef.current;
-
-    if (observedRef) {
-      observer.observe(observedRef);
-    }
-
-    return () => {
-      if (observedRef) {
-        observer.unobserve(observedRef);
-      }
-    };
-  }, []);
 
   if (!olympiads.length || !cities.length) {
     return null;
@@ -122,7 +90,7 @@ function TripIndexInner({ width }: { width: number }) {
       <MainCopy variants={animationVariants} />
       <div className="mt-10 h-4">
         <AnimatePresence>
-          {width < 768 && !citiesSeen && (
+          {width < 768 && (
             <motion.div
               className="flex w-full rotate-180 flex-col items-center"
               initial={{ opacity: 0 }}
@@ -136,7 +104,7 @@ function TripIndexInner({ width }: { width: number }) {
           )}
         </AnimatePresence>
       </div>
-      <CitiesList firstRef={firstRef} />
+      <CitiesList />
     </Fragment>
   );
 }
