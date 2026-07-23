@@ -8,6 +8,7 @@ export const app = express();
 
 // Pre-load the server build on startup
 let serverBuild: any = null;
+let buildLoadError: any = null;
 
 async function loadServerBuild() {
   if (serverBuild)
@@ -16,7 +17,7 @@ async function loadServerBuild() {
   try {
     console.log('Pre-loading React Router server build...');
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Server build import timeout (10s)')), 10000),
+      setTimeout(() => reject(new Error('Server build import timeout (5s)')), 5000),
     );
 
     serverBuild = await Promise.race([
@@ -29,15 +30,13 @@ async function loadServerBuild() {
   }
   catch (error) {
     console.error('✗ Failed to load server build:', error);
-    throw error;
+    buildLoadError = error;
+    return null;
   }
 }
 
-// Load build immediately on startup
-loadServerBuild().catch((err) => {
-  console.error('Fatal: Could not load server build on startup:', err);
-  process.exit(1);
-});
+// Load build immediately on startup but don't block
+const buildLoadPromise = loadServerBuild();
 
 // Request timeout middleware - 30 second timeout for all requests
 app.use((req, res, next) => {
@@ -56,7 +55,9 @@ app.use((req, res, next) => {
 
 const requestHandler = createRequestHandler({
   build: () => {
-    console.log('Using pre-loaded server build...');
+    if (buildLoadError) {
+      throw buildLoadError;
+    }
     if (!serverBuild) {
       throw new Error('Server build not loaded');
     }
@@ -70,6 +71,17 @@ const requestHandler = createRequestHandler({
 });
 
 app.use(async (req, res, next) => {
+  // Wait for build to load, but only on first request
+  if (!serverBuild && !buildLoadError) {
+    try {
+      console.log('Waiting for server build to load...');
+      await buildLoadPromise;
+    }
+    catch {
+      // buildLoadPromise already handled this
+    }
+  }
+
   try {
     console.log(`→ ${req.method} ${req.url}`);
     await requestHandler(req, res, next);
