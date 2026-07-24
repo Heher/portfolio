@@ -1,8 +1,8 @@
+import type { Coordinate } from 'types/globe';
+
 import { useFrame } from '@react-three/fiber';
 import { use, useRef } from 'react';
 import * as THREE from 'three';
-
-import type { Coordinate } from 'types/globe';
 
 import { TripPageContext } from '~/utils/context';
 

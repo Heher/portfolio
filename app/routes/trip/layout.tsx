@@ -1,13 +1,14 @@
 import type { Dispatch } from 'react';
-
-import { AnimatePresence } from 'motion/react';
-import { useEffect, useReducer } from 'react';
-import { Outlet, useLocation } from 'react-router';
-import useMeasure from 'react-use-measure';
-
 import type { SelectedCity } from 'types/city';
 import type { Visit } from 'types/globe';
 import type { TripPageState } from 'types/trip';
+
+import { useHelper } from '@react-three/drei';
+import { AnimatePresence } from 'motion/react';
+import { useEffect, useReducer, useRef } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import useMeasure from 'react-use-measure';
+import * as THREE from 'three';
 
 import GlobeContainer from '~/components/globe/GlobeContainer';
 import { ImageModal } from '~/components/modal/ImageModal';
@@ -89,6 +90,17 @@ export default function TripPage() {
     body.classList.toggle('bg-slate-200');
     dispatch({ type: 'IMAGE', selectedImage: img });
   }
+
+  // return (
+  //   <main ref={pageContainerRef} className="relative mx-auto min-h-dvh w-full max-w-max-width">
+  //     <div className="fixed top-0 left-0 -z-1 size-full min-h-dvh bg-linear-to-b from-globe-background to-nav-background to-50%"></div>
+  //     <div className="mx-auto h-dvh max-w-(--max-width)">
+  //       <div className="fixed inset-0 z-0 size-full">
+  //         <GlobeContainer />
+  //       </div>
+  //     </div>
+  //   </main>
+  // );
 
   return (
     <main ref={pageContainerRef} className="relative mx-auto min-h-dvh w-full max-w-max-width">

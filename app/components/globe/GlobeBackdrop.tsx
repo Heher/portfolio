@@ -2,11 +2,9 @@ import { GradientTexture, GradientType } from '@react-three/drei';
 
 export default function GlobeBackdrop() {
   return (
-    <mesh
-      rotation={[0, 0, 0.5, 'ZXY']}
-      receiveShadow
-    >
+    <mesh position={[0, 0, 0]}>
       <circleGeometry args={[1, 64]} />
+      {/* <meshBasicMaterial color="#ffffff" /> */}
       <meshBasicMaterial>
         <GradientTexture
           stops={[0.6, 0.9, 1]} // As many stops as you want
