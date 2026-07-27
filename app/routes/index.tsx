@@ -1,17 +1,17 @@
 import type { RectReadOnly } from 'react-use-measure';
 
-import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router';
+// import { motion } from 'motion/react';
+import { useEffect, useRef } from 'react';
+// import { Link, useLocation } from 'react-router';
 import useMeasure from 'react-use-measure';
 
 import logo from '~/assets/images/logo8.png?url';
 import rings from '~/assets/images/rings.png?url';
-import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
-import { Itenerary } from '~/components/Itenerary';
+// import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
+// import { Itenerary } from '~/components/Itenerary';
 import EmailIcon from '~/icons/Email';
 import GitHubIcon from '~/icons/Github';
-import IndexArrow from '~/icons/IndexArrow';
+// import IndexArrow from '~/icons/IndexArrow';
 import LinkedInIcon from '~/icons/LinkedIn';
 import ResumeIcon from '~/icons/Resume';
 import DrizzleIcon from '~/icons/stack/Drizzle';
@@ -24,7 +24,7 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
-const MotionArrow = motion.create(IndexArrow);
+// const MotionArrow = motion.create(IndexArrow);
 
 function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
   return (
@@ -58,12 +58,12 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
 }
 
 function IndexContent({ size }: { size: RectReadOnly }) {
-  const [expand, setExpand] = useState(false);
-  const [travelLinkHovered, setTravelLinkHovered] = useState(false);
+  // const [expand, setExpand] = useState(false);
+  // const [travelLinkHovered, setTravelLinkHovered] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const location = useLocation();
+  // const location = useLocation();
 
   // function handleItineraryClick() {
   //   // gtag.event({
@@ -91,17 +91,21 @@ function IndexContent({ size }: { size: RectReadOnly }) {
     return null;
 
   return (
-    <motion.div
+    // <motion.div
+    //   className="m-0 mx-auto max-w-lg"
+    //   ref={containerRef}
+    //   key={location.key}
+    //   initial={{ opacity: 0 }}
+    //   animate={{ opacity: 1 }}
+    //   exit={{ opacity: 0 }}
+    // >
+    <div
       className="m-0 mx-auto max-w-lg"
       ref={containerRef}
-      key={location.key}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
     >
       <title>John Heher | Web Developer</title>
       <meta name="description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
-      <motion.div
+      {/* <motion.div
         className="pb-5"
         initial={{ x: 0, opacity: 1 }}
         animate={{ x: expand ? -150 : 0, opacity: expand ? 0 : 1 }}
@@ -110,7 +114,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           ease: 'easeOut',
         }}
         style={{ visibility: expand ? 'hidden' : 'visible' }}
-      >
+      > */}
+      <div className="pb-5">
         <img
           src="/images/me.jpg"
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
@@ -312,7 +317,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </div>
           </div>
         </div>
-        <div className="
+        {/* <div className="
           mt-20 mb-10 grid justify-items-start
           md:mt-32
         "
@@ -330,11 +335,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           >
             <h2
               className={`
-                text-xl font-semibold uppercase
-                ${
-    travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'
-    }
-                transition-colors
+                text-xl font-semibold uppercase transition-colors
+                ${travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'}
               `}
             >
               Travels
@@ -377,13 +379,15 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             {' '}
             buttons and and spinning globes.
           </p>
-        </div>
-        <Itenerary setExpand={setExpand} />
-      </motion.div>
-      <AnimatePresence mode="wait">
+        </div> */}
+        {/* <Itenerary setExpand={setExpand} /> */}
+      </div>
+      {/* </motion.div> */}
+      {/* <AnimatePresence mode="wait">
         {expand && <ExpandedFlagContainer setExpand={setExpand} />}
-      </AnimatePresence>
-    </motion.div>
+      </AnimatePresence> */}
+    </div>
+    // </motion.div>
   );
 }
 
