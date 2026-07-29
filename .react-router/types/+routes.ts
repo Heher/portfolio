@@ -17,12 +17,15 @@ type Pages = {
   "/ui/tables": {
     params: {};
   };
+  "/ui/onboarding": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/ui/tables";
+    page: "/" | "/ui/tables" | "/ui/onboarding";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -30,11 +33,15 @@ type RouteFiles = {
   };
   "routes/ui/layout.tsx": {
     id: "routes/ui/layout";
-    page: "/ui/tables";
+    page: "/ui/tables" | "/ui/onboarding";
   };
   "routes/ui/tables.tsx": {
     id: "routes/ui/tables";
     page: "/ui/tables";
+  };
+  "routes/ui/onboarding.tsx": {
+    id: "routes/ui/onboarding";
+    page: "/ui/onboarding";
   };
 };
 
@@ -43,4 +50,5 @@ type RouteModules = {
   "routes/index": typeof import("./app/routes/index.tsx");
   "routes/ui/layout": typeof import("./app/routes/ui/layout.tsx");
   "routes/ui/tables": typeof import("./app/routes/ui/tables.tsx");
+  "routes/ui/onboarding": typeof import("./app/routes/ui/onboarding.tsx");
 };

@@ -1,6 +1,6 @@
 import ECommerceUI from './uis/ECommerce';
 import EmailTemplate from './uis/EmailTemplate';
-import MarketingUI from './uis/Marketing';
+import OnboardingUI from './uis/Onboarding';
 import TablesUI from './uis/Tables';
 import TemplatingUI from './uis/Templating';
 import TVGuideUI from './uis/TVGuide';
@@ -18,9 +18,9 @@ export default function UISection() {
       </p>
       <div className="mt-10 flex gap-5 overflow-scroll">
         <TablesUI />
+        <OnboardingUI />
         <ECommerceUI />
         <EmailTemplate />
-        <MarketingUI />
         <TVGuideUI />
         <TemplatingUI />
       </div>

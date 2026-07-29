@@ -7,6 +7,7 @@ export default [
   ...prefix('ui', [
     layout('routes/ui/layout.tsx', [
       route('tables', 'routes/ui/tables.tsx'),
+      route('onboarding', 'routes/ui/onboarding.tsx'),
     ]),
   ]),
   // ...prefix('trip', [
