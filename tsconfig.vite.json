@@ -9,10 +9,11 @@
     "module": "ES2022",
     "moduleResolution": "bundler",
     "paths": {
+      "@/*": ["./*"],
       "~/*": ["./app/*"],
       "@drizzle/*": ["./drizzle/*"],
       "@tests/*": ["./__tests__/*"],
-      "*": ["./*"]
+      "@components/*": ["./components/*"]
     },
     "resolveJsonModule": true,
     "types": ["vite/client"],
@@ -29,6 +30,7 @@
     "server/**/*",
     "tailwind.config.ts",
     "drizzle/**/*",
-    "types/**/*"
+    "types/**/*",
+    "components/**/*"
   ]
 }

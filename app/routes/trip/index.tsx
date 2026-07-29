@@ -1,12 +1,12 @@
+import type { AnimationVariants } from 'types/globe';
+
+import { getDB } from '@drizzle/db';
+import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, use, useEffect } from 'react';
 import { useLoaderData } from 'react-router';
 
-import type { AnimationVariants } from 'types/globe';
-
-import { getDB } from '@drizzle/db';
-import { city as CityTable, country as CountryTable, olympiad as OlympiadTable } from '@drizzle/schema';
 import { CitiesList } from '~/components/CitiesList';
 import MainCopy from '~/components/home/MainCopy';
 import { TripPageContext } from '~/utils/context';

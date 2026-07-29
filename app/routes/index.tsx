@@ -5,8 +5,9 @@ import { useEffect, useRef } from 'react';
 // import { Link, useLocation } from 'react-router';
 import useMeasure from 'react-use-measure';
 
-import logo from '~/assets/images/logo8.png?url';
-import rings from '~/assets/images/rings.png?url';
+import RecentProjects from '~/components/home/RecentProjects';
+import StackSection from '~/components/home/StackSection';
+import UISection from '~/components/home/UISection';
 // import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
 // import { Itenerary } from '~/components/Itenerary';
 import EmailIcon from '~/icons/Email';
@@ -14,15 +15,6 @@ import GitHubIcon from '~/icons/Github';
 // import IndexArrow from '~/icons/IndexArrow';
 import LinkedInIcon from '~/icons/LinkedIn';
 import ResumeIcon from '~/icons/Resume';
-import DrizzleIcon from '~/icons/stack/Drizzle';
-import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
-import ReactIcon from '~/icons/stack/React';
-import ReactRouterIcon from '~/icons/stack/ReactRouter';
-import SentryIcon from '~/icons/stack/Sentry';
-// import SSTIcon from '~/icons/stack/SST';
-import TailwindIcon from '~/icons/stack/Tailwind';
-import TypeScriptIcon from '~/icons/stack/TypeScript';
-import ViteIcon from '~/icons/stack/Vite';
 
 // const MotionArrow = motion.create(IndexArrow);
 
@@ -37,23 +29,6 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
     >
       {children}
     </a>
-  );
-}
-
-function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
-  return (
-    <li className="">
-      <a
-        href={link}
-        className="
-          grid w-50 grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-white/40 py-4 pr-5 pl-3 text-index-link transition-colors
-          hover:bg-white/80
-        "
-      >
-        {icon}
-        {name}
-      </a>
-    </li>
   );
 }
 
@@ -201,122 +176,9 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             </p>
           </div>
         </div>
-        <div className="
-          mt-20
-          md:mt-32
-        "
-        >
-          <h2 className="mb-5 text-xl font-semibold uppercase">Recent projects</h2>
-          <a href="https://www.globedraft.com" className="group">
-            <div className="
-              flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] bg-gd-background px-2 py-5
-              group-hover:bg-gd-background/90
-              md:px-4
-            "
-            >
-              <img
-                src={logo}
-                className="
-                  h-7 self-center
-                  md:mt-[-4px] md:h-8
-                "
-              />
-              <h3
-                className="
-                  relative mt-[4px] font-logo text-[20px] leading-none font-semibold tracking-tight text-(--nav-link) no-underline
-                  md:mt-0
-                "
-              >
-                GlobeDraft
-              </h3>
-            </div>
-            <div className="
-              rounded-b-xl border-2 border-t-0 border-[#3d5061] bg-gd-page-background px-3 py-5
-              group-hover:bg-gd-page-background/60
-              md:px-5
-            "
-            >
-              <div className="flex items-center justify-center gap-2">
-                <p className="
-                  text-[14px] text-[#282B27]
-                  md:text-base
-                "
-                >
-                  Fantasy Olympics
-                </p>
-                <img
-                  src={rings}
-                  className="
-                    h-5 self-center
-                    md:h-5
-                  "
-                />
-              </div>
-              <p className="mt-7 max-w-md text-base text-[#282B27]">
-                Draft a team of countries to compete against your friends for the most medals.
-              </p>
-            </div>
-          </a>
-        </div>
-        <div className="
-          mt-20
-          md:mt-32
-        "
-        >
-          <h2 className="mb-5 text-xl font-semibold uppercase">Stack</h2>
-          <p className="mt-3 max-w-md text-base text-[#282B27]">
-            Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
-            stack (and the one that built this site) has been these.
-          </p>
-          <div className="mt-10 flex gap-5">
-            <div className="flex w-full justify-around">
-              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-                <StackTech
-                  name="React Router"
-                  link="https://reactrouter.com/"
-                  icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="React"
-                  link="https://react.dev/"
-                  icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Tailwind"
-                  link="https://tailwindcss.com/"
-                  icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="TypeScript"
-                  link="https://www.typescriptlang.org/"
-                  icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
-                />
-              </ul>
-              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-                <StackTech
-                  name="Vite"
-                  link="https://vitejs.dev/"
-                  icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Sentry"
-                  link="https://www.sentry.io/"
-                  icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Drizzle"
-                  link="https://orm.drizzle.team/"
-                  icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="PostgreSQL"
-                  link="https://www.postgresql.org/"
-                  icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
-                />
-              </ul>
-            </div>
-          </div>
-        </div>
+        <UISection />
+        <RecentProjects />
+        <StackSection />
         {/* <div className="
           mt-20 mb-10 grid justify-items-start
           md:mt-32
