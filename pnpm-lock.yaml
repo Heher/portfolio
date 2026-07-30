@@ -67,7 +67,7 @@ importers:
         version: 4.4.0
       drizzle-orm:
         specifier: 1.0.0-beta.22
-        version: 1.0.0-beta.22(@neondatabase/serverless@1.1.0)(@types/pg@8.11.6)(pg@8.12.0)(valibot@1.4.2(typescript@6.0.3))(zod@3.25.76)
+        version: 1.0.0-beta.22(@neondatabase/serverless@1.1.0)(@types/pg@8.11.6)(pg@8.12.0)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -137,6 +137,9 @@ importers:
       three-stdlib:
         specifier: ^2.36.1
         version: 2.36.1(three@0.185.1)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^9.2.0
@@ -8764,13 +8767,13 @@ snapshots:
       get-tsconfig: 4.14.0
       jiti: 2.7.0
 
-  drizzle-orm@1.0.0-beta.22(@neondatabase/serverless@1.1.0)(@types/pg@8.11.6)(pg@8.12.0)(valibot@1.4.2(typescript@6.0.3))(zod@3.25.76):
+  drizzle-orm@1.0.0-beta.22(@neondatabase/serverless@1.1.0)(@types/pg@8.11.6)(pg@8.12.0)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3):
     optionalDependencies:
       '@neondatabase/serverless': 1.1.0
       '@types/pg': 8.11.6
       pg: 8.12.0
       valibot: 1.4.2(typescript@6.0.3)
-      zod: 3.25.76
+      zod: 4.4.3
 
   dunder-proto@1.0.1:
     dependencies:
