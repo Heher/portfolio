@@ -115,6 +115,16 @@
   --color-summer-background: var(--summer-background);
   --color-winter-background: var(--winter-background);
 
+  --color-tables: var(--tables);
+  --color-product-page: var(--product-page);
+  --color-product-page-soft: var(--product-page-soft);
+
+  --color-email: var(--email);
+  --color-email-soft: var(--email-soft);
+
+  --color-templating: var(--templating);
+  --color-templating-soft: var(--templating-soft);
+
   --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-hide: hide 100ms ease-in;
@@ -351,6 +361,29 @@
     --subtitle: oklch(0.4452 0.0149 137.82);
     --main-description: oklch(0.3451 0.0137 136.65);
     --back-button: oklch(0.8975 0 0);
+    --tables: oklch(0.8 0.05 22.1);
+    --product-page: oklch(0.572594 0.233752 265.2836);
+    /* lighter + less saturated */
+    --product-page-soft: oklch(
+      from var(--product-page)
+      calc(l + 0.2)
+      calc(c * 0.3)
+      h
+    );
+    --email: oklch(0.2831 0.0421 306.78);
+    --email-soft: oklch(
+      from var(--email)
+      calc(l + 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --templating: oklch(0.6645 0.2164 36.86);
+    --templating-soft: oklch(
+      from var(--templating)
+      calc(l + 0.6)
+      calc(c * 0.3)
+      h
+    );
   }
 }
 

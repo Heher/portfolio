@@ -1,7 +1,7 @@
-export default function EmailTemplate() {
+import UILink from './UILink';
+
+export default function EmailTemplateUI() {
   return (
-    <section className="w-100 shrink-0 rounded-2xl bg-white p-5">
-      <h2 className="mb-5 text-2xl font-semibold">Email Template</h2>
-    </section>
+    <UILink url="/ui/email-template" title="Email templates" className="bg-email-soft/80" />
   );
 }
