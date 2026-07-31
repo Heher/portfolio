@@ -25,7 +25,7 @@ export default function UILink({ url, title, image, className }: UILinkProps) {
       >
         {title}
       </h2>
-      <div className="flex justify-center rounded-b-2xl bg-header-bottom/20 py-5">
+      <div className="flex justify-center rounded-b-2xl bg-subtitle/10 py-5">
         <img src={`./uis/${image}`} className="h-30" />
       </div>
     </Link>

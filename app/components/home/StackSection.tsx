@@ -36,48 +36,58 @@ export default function StackSection() {
         Being a programmer for almost two decades allows you to work with a variety of technologies, but lately my go-to
         stack (and the one that built this site) has been these.
       </p>
-      <div className="mt-10 flex gap-5">
-        <div className="grid grid-cols-2 gap-3 text-base text-[#282B27]">
-          <StackTech
-            name="React Router"
-            link="https://reactrouter.com/"
-            icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="Vite"
-            link="https://vitejs.dev/"
-            icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="React"
-            link="https://react.dev/"
-            icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="Sentry"
-            link="https://www.sentry.io/"
-            icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="Tailwind"
-            link="https://tailwindcss.com/"
-            icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="Drizzle"
-            link="https://orm.drizzle.team/"
-            icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="TypeScript"
-            link="https://www.typescriptlang.org/"
-            icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
-          />
-          <StackTech
-            name="PostgreSQL"
-            link="https://www.postgresql.org/"
-            icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
-          />
+      <div className="mt-10">
+        <div className="flex gap-6 text-base text-[#282B27]">
+          <div>
+            <h3 className="mb-3 text-sm text-[oklch(0.45_0.0324_251.81)] uppercase">Front-end</h3>
+            <div className="grid grid-cols-1 gap-3">
+              <StackTech
+                name="React Router"
+                link="https://reactrouter.com/"
+                icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="React"
+                link="https://react.dev/"
+                icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="Tailwind"
+                link="https://tailwindcss.com/"
+                icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="TypeScript"
+                link="https://www.typescriptlang.org/"
+                icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
+              />
+            </div>
+          </div>
+          <div>
+            <h3 className="mb-3 text-sm text-[oklch(0.45_0.0324_251.81)] uppercase">Back-end / DevOps</h3>
+            <div className="grid grid-cols-1 gap-3">
+              <StackTech
+                name="Vite"
+                link="https://vitejs.dev/"
+                icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="Sentry"
+                link="https://www.sentry.io/"
+                icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="Drizzle"
+                link="https://orm.drizzle.team/"
+                icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
+              />
+              <StackTech
+                name="PostgreSQL"
+                link="https://www.postgresql.org/"
+                icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

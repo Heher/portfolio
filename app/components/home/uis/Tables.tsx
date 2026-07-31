@@ -2,6 +2,6 @@ import UILink from './UILink';
 
 export default function TablesUI() {
   return (
-    <UILink url="/ui/tables" title="Tables" className="" image="table.png" />
+    <UILink url="/ui/tables" title="Tables" className="" image="table-2.png" />
   );
 }
