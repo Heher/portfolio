@@ -22,8 +22,8 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
   return (
     <a
       className="
-        grid grid-cols-[40px_1fr] items-center text-sm leading-none font-semibold text-(--index-link) uppercase transition-colors
-        hover:text-(--index-link-hover)
+        grid w-40 grid-cols-[40px_1fr] items-center rounded-lg bg-better-white/70 px-3 py-2 text-sm leading-none font-semibold text-index-link uppercase transition-colors
+        hover:bg-better-white
       "
       {...rest}
     >
@@ -75,7 +75,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
     //   exit={{ opacity: 0 }}
     // >
     <div
-      className="m-0 mx-auto max-w-lg"
+      className="m-0 mx-auto"
       ref={containerRef}
     >
       <title>John Heher | Web Developer</title>
@@ -91,95 +91,114 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         style={{ visibility: expand ? 'hidden' : 'visible' }}
       > */}
       <div className="pb-5">
-        <img
+        {/* <img
           src="/images/me.jpg"
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
           className="w-32 rounded-xl"
-        />
-        <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
-        <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2>
-        <div className="
-          mt-10 flex flex-col-reverse gap-8
-          md:flex-row
-        "
-        >
-          <div className="
-            mt-5 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-5
-            md:mt-0
-          "
-          >
-            <SocialLink
-              href="https://github.com/Heher"
-              aria-label="My GitHub"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'GitHub'
-              //   });
-              // }}
-            >
-              <GitHubIcon className="h-6 fill-current" />
-              <span className="text-xs">GitHub</span>
-            </SocialLink>
-            <SocialLink
-              href="https://www.linkedin.com/in/johnheher/"
-              aria-label="My LinkedIn"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'LinkedIn'
-              //   });
-              // }}
-            >
-              <LinkedInIcon className="h-6 fill-current" />
-              <span className="text-xs">LinkedIn</span>
-            </SocialLink>
-            <SocialLink
-              href="/cv.pdf"
-              aria-label="My Résumé"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'Resume'
-              //   });
-              // }}
-            >
-              <ResumeIcon className="h-6 fill-current" />
-              <span className="text-xs">Resume</span>
-            </SocialLink>
-            <SocialLink
-              href="mailto:johnheher@gmail.com"
-              aria-label="Email me"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'Email'
-              //   });
-              // }}
-            >
-              <EmailIcon className="w-5 fill-current" />
-              <span className="text-xs">Email</span>
-            </SocialLink>
-          </div>
-          <div>
-            <p className="text-lg text-subtitle">
-              Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
-              projects from small start-ups to large agencies with
-              {' '}
-              <span className="whitespace-nowrap">Fortune 500</span>
-              {' '}
-              clients.
-            </p>
+        /> */}
+        <div className="mx-auto max-w-[1100px] rounded-b-3xl bg-linear-to-b from-header-top to-header-bottom">
+          <div className="relative flex items-center rounded-bl-3xl pt-20">
+            <div className="max-w-[770px] self-end">
+              <img
+                src="/images/header.png"
+                alt=""
+                className="w-full rounded-bl-3xl"
+              />
+              {/* <img
+                src="/images/me-faroe-sm.png"
+                alt="Me looking absolutely stunning in the Faroe Islands."
+                className="absolute -right-20 bottom-0 z-2 w-80"
+              /> */}
+            </div>
+            <div className="relative z-3 ml-15">
+              <h1 className="text-4xl leading-none font-semibold text-name">John Heher</h1>
+              <h2 className="mt-1 text-base font-semibold text-subtitle uppercase">Web Developer</h2>
+              <div className="mt-9 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-3">
+                <SocialLink
+                  href="https://github.com/Heher"
+                  aria-label="My GitHub"
+                  // onClick={() => {
+                  //   gtag.event({
+                  //     action: 'click_contact',
+                  //     category: 'Contact Link',
+                  //     label: 'GitHub'
+                  //   });
+                  // }}
+                >
+                  <GitHubIcon className="h-6 fill-current" />
+                  <span className="text-xs">GitHub</span>
+                </SocialLink>
+                <SocialLink
+                  href="https://www.linkedin.com/in/johnheher/"
+                  aria-label="My LinkedIn"
+                  // onClick={() => {
+                  //   gtag.event({
+                  //     action: 'click_contact',
+                  //     category: 'Contact Link',
+                  //     label: 'LinkedIn'
+                  //   });
+                  // }}
+                >
+                  <LinkedInIcon className="h-6 fill-current" />
+                  <span className="text-xs">LinkedIn</span>
+                </SocialLink>
+                <SocialLink
+                  href="/cv.pdf"
+                  aria-label="My Résumé"
+                  // onClick={() => {
+                  //   gtag.event({
+                  //     action: 'click_contact',
+                  //     category: 'Contact Link',
+                  //     label: 'Resume'
+                  //   });
+                  // }}
+                >
+                  <ResumeIcon className="h-6 fill-current" />
+                  <span className="text-xs">Resume</span>
+                </SocialLink>
+                <SocialLink
+                  href="mailto:johnheher@gmail.com"
+                  aria-label="Email me"
+                  // onClick={() => {
+                  //   gtag.event({
+                  //     action: 'click_contact',
+                  //     category: 'Contact Link',
+                  //     label: 'Email'
+                  //   });
+                  // }}
+                >
+                  <EmailIcon className="w-5 fill-current" />
+                  <span className="text-xs">Email</span>
+                </SocialLink>
+              </div>
+            </div>
+            {/* <div className="absolute right-0 bottom-0 z-1 h-45 w-1/2 bg-[rgb(160,174,185)]" /> */}
           </div>
         </div>
-        <UISection />
-        <RecentProjects />
-        <StackSection />
-        {/* <div className="
+        <div className="mx-auto max-w-[800px]">
+          {/* <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
+          <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2> */}
+          {/* <div className="
+            mt-10 flex flex-col-reverse gap-8
+            md:flex-row
+          "
+          >
+
+            <div>
+              <p className="text-lg text-name">
+                Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
+                projects from small start-ups to large agencies with
+                {' '}
+                <span className="whitespace-nowrap">Fortune 500</span>
+                {' '}
+                clients.
+              </p>
+            </div>
+          </div> */}
+          <StackSection />
+          <UISection />
+          <RecentProjects />
+          {/* <div className="
           mt-20 mb-10 grid justify-items-start
           md:mt-32
         "
@@ -242,7 +261,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             buttons and and spinning globes.
           </p>
         </div> */}
-        {/* <Itenerary setExpand={setExpand} /> */}
+          {/* <Itenerary setExpand={setExpand} /> */}
+        </div>
       </div>
       {/* </motion.div> */}
       {/* <AnimatePresence mode="wait">
@@ -262,7 +282,7 @@ export default function Index() {
   // console.log('dimensions', dimensions);
 
   return (
-    <main className="w-screen bg-index-background px-5 py-10 font-figtree text-lg" ref={pageContainerRef}>
+    <main className="w-screen bg-index-background px-5 pb-10 font-figtree text-lg" ref={pageContainerRef}>
       <IndexContent size={size} />
     </main>
   );

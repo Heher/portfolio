@@ -5,25 +5,29 @@ import { cn } from '@/lib/utils';
 type UILinkProps = {
   url: string;
   title: string;
+  image: string;
   className?: string;
 };
 
-export default function UILink({ url, title, className }: UILinkProps) {
+export default function UILink({ url, title, image, className }: UILinkProps) {
   return (
     <Link
       to={url}
       className={cn(`
-        w-100 shrink-0 rounded-2xl border-2 border-white bg-white p-5
-        sm:w-60 sm:py-3
+        w-100 shrink-0 rounded-2xl border-2 border-better-white
+        sm:w-60
       `, className)}
     >
       <h2 className="
-        mb-5 text-2xl font-semibold
+        rounded-t-2xl bg-header-bottom py-3 text-2xl font-semibold text-name
         sm:text-center sm:text-lg
       "
       >
         {title}
       </h2>
+      <div className="flex justify-center rounded-b-2xl bg-header-bottom/20 py-5">
+        <img src={`./uis/${image}`} className="h-30" />
+      </div>
     </Link>
   );
 }

@@ -2,6 +2,6 @@ import UILink from './UILink';
 
 export default function TemplatingUI() {
   return (
-    <UILink url="/ui/templating" title="Templates" className="bg-templating-soft/40" />
+    <UILink url="/ui/templating" title="Templates" className="" />
   );
 }

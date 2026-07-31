@@ -10,81 +10,76 @@ import ViteIcon from '~/icons/stack/Vite';
 
 function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
   return (
-    <li className="">
-      <a
-        href={link}
-        className="
-          grid w-50 grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-white/40 py-4 pr-5 pl-3 text-index-link transition-colors
-          hover:bg-white/80
-        "
-      >
-        {icon}
-        {name}
-      </a>
-    </li>
+    <a
+      href={link}
+      className="
+        grid w-50 grid-cols-[35px_1fr] items-center gap-2 rounded-lg bg-better-white/70 py-4 pl-5 text-index-link transition-colors
+        hover:bg-better-white
+      "
+    >
+      {icon}
+      {name}
+    </a>
   );
 }
 
 export default function StackSection() {
   return (
-    <div className="
-      mt-20
-      md:mt-32
-    "
+    <section
+      className="
+        mt-10
+        md:mt-15
+      "
     >
-      <h2 className="mb-5 text-xl font-semibold uppercase">Stack</h2>
-      <p className="mt-3 max-w-md text-base text-[#282B27]">
-        Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
+      <h2 className="mb-5 text-3xl font-semibold">Stack</h2>
+      <p className="mt-3 max-w-xl text-lg text-name">
+        Being a programmer for almost two decades allows you to work with a variety of technologies, but lately my go-to
         stack (and the one that built this site) has been these.
       </p>
       <div className="mt-10 flex gap-5">
-        <div className="flex w-full justify-around">
-          <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-            <StackTech
-              name="React Router"
-              link="https://reactrouter.com/"
-              icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="React"
-              link="https://react.dev/"
-              icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="Tailwind"
-              link="https://tailwindcss.com/"
-              icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="TypeScript"
-              link="https://www.typescriptlang.org/"
-              icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
-            />
-          </ul>
-          <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-            <StackTech
-              name="Vite"
-              link="https://vitejs.dev/"
-              icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="Sentry"
-              link="https://www.sentry.io/"
-              icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="Drizzle"
-              link="https://orm.drizzle.team/"
-              icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
-            />
-            <StackTech
-              name="PostgreSQL"
-              link="https://www.postgresql.org/"
-              icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
-            />
-          </ul>
+        <div className="grid grid-cols-2 gap-3 text-base text-[#282B27]">
+          <StackTech
+            name="React Router"
+            link="https://reactrouter.com/"
+            icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="Vite"
+            link="https://vitejs.dev/"
+            icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="React"
+            link="https://react.dev/"
+            icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="Sentry"
+            link="https://www.sentry.io/"
+            icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="Tailwind"
+            link="https://tailwindcss.com/"
+            icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="Drizzle"
+            link="https://orm.drizzle.team/"
+            icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="TypeScript"
+            link="https://www.typescriptlang.org/"
+            icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
+          />
+          <StackTech
+            name="PostgreSQL"
+            link="https://www.postgresql.org/"
+            icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

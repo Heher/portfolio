@@ -109,6 +109,7 @@
   --color-main-description: var(--main-description);
 
   --color-index-link: var(--index-link);
+  --color-index-link-hover: var(--index-link-hover);
 
   --color-back-button: var(--back-button);
 
@@ -124,6 +125,9 @@
 
   --color-templating: var(--templating);
   --color-templating-soft: var(--templating-soft);
+
+  --color-header-top: var(--header-top);
+  --color-header-bottom: var(--header-bottom);
 
   --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -352,13 +356,14 @@
     --text: #13171a;
     --index-background: oklch(0.9021 0.0022 197.12);
     --index-link: oklch(0.5436 0.0572 146.38);
-    --index-link-hover: #8ba18c;
+    --index-link-hover: oklch(0.6858 0.0392 146.36);
     --body-background: #4d6f85;
     --trip-background: #4d6f85;
     --gd-background: oklch(0.5245 0.0523 237.45);
     --gd-page-background: oklch(0.9073 0.0144 238.02);
-    --name: oklch(0.2846 0.0083 137.81);
-    --subtitle: oklch(0.4452 0.0149 137.82);
+    --name: oklch(0.2269 0.0507 251.81);
+    /* --subtitle: oklch(0.4452 0.0149 137.82); */
+    --subtitle: oklch(0.5165 0.0839 45.09);
     --main-description: oklch(0.3451 0.0137 136.65);
     --back-button: oklch(0.8975 0 0);
     --tables: oklch(0.8 0.05 22.1);
@@ -384,6 +389,8 @@
       calc(c * 0.3)
       h
     );
+    --header-top: oklch(1 0.0193 240.73);
+    --header-bottom: oklch(0.86 0.02 240.73);
   }
 }
 
