@@ -16,11 +16,10 @@ export default function Rock() {
     <group dispose={null}>
       <mesh
         castShadow
-        receiveShadow
         geometry={nodes.Rock.geometry}
         position={[47.104, 57.336, 23.957]}
       >
-        <meshStandardMaterial transparent color={0x56913A} emissive={0x56913A} emissiveIntensity={1.5} />
+        <meshBasicMaterial color={[0.34 * 2.24, 0.57 * 2.24, 0.23 * 2.24]} />
       </mesh>
     </group>
   );

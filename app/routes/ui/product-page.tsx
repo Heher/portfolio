@@ -36,7 +36,7 @@ export default function ProductPage() {
         <div className="mx-auto w-full max-w-4xl bg-better-white p-3">
           <div className="w-full p-7.5">
             <div className="relative flex h-full gap-10 rounded-lg">
-              <div className="size-100 bg-slate-200">
+              <div className="size-100 bg-slate-700">
                 <AggroCragContainer />
               </div>
               <div className="flex max-w-87.5 flex-col justify-between py-5">
@@ -44,7 +44,7 @@ export default function ProductPage() {
                   <h2 className="font-fraunces text-5xl font-semibold text-better-black">
                     Aggro Crag
                   </h2>
-                  <p className="mt-8 text-base text-gray-700">
+                  <p className="mt-8 text-base/relaxed text-gray-700">
                     Never got a chance to test your skills at Slam Dunk, Moon Race, or the always frustrating Boogie Down? No need to go to Mo for a score update when this incredible, priceless, and of course glowing piece of the radical
                     rock is just a click away.
                   </p>

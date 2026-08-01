@@ -10,27 +10,10 @@ import StackSection from '~/components/home/StackSection';
 import UISection from '~/components/home/UISection';
 // import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
 // import { Itenerary } from '~/components/Itenerary';
-import EmailIcon from '~/icons/Email';
-import GitHubIcon from '~/icons/Github';
-// import IndexArrow from '~/icons/IndexArrow';
-import LinkedInIcon from '~/icons/LinkedIn';
-import ResumeIcon from '~/icons/Resume';
+
+import Socials from '../components/home/Socials';
 
 // const MotionArrow = motion.create(IndexArrow);
-
-function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
-  return (
-    <a
-      className="
-        grid w-40 grid-cols-[40px_1fr] items-center rounded-lg bg-better-white/70 px-3 py-2 text-sm leading-none font-semibold text-index-link uppercase transition-colors
-        hover:bg-better-white
-      "
-      {...rest}
-    >
-      {children}
-    </a>
-  );
-}
 
 function IndexContent({ size }: { size: RectReadOnly }) {
   // const [expand, setExpand] = useState(false);
@@ -62,8 +45,9 @@ function IndexContent({ size }: { size: RectReadOnly }) {
   //   }
   // }, [expand]);
 
-  if (!size.width)
+  if (!size.width) {
     return null;
+  }
 
   return (
     // <motion.div
@@ -96,13 +80,24 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
           className="w-32 rounded-xl"
         /> */}
-        <div className="mx-auto max-w-[1100px] rounded-b-3xl bg-linear-to-b from-header-top to-header-bottom">
-          <div className="relative flex items-center rounded-bl-3xl pt-20">
-            <div className="max-w-[770px] self-end">
+        <div className="
+          mx-auto max-w-275 bg-linear-to-b from-header-top to-header-bottom
+          sm:rounded-b-3xl
+        "
+        >
+          <div className="
+            relative flex flex-col-reverse pt-10
+            sm:flex-row sm:items-center sm:rounded-bl-3xl sm:pt-20
+          "
+          >
+            <div className="max-w-192.5 self-end">
               <img
                 src="/images/header.png"
                 alt=""
-                className="w-full rounded-bl-3xl"
+                className="
+                  w-full
+                  sm:rounded-bl-3xl
+                "
               />
               {/* <img
                 src="/images/me-faroe-sm.png"
@@ -110,72 +105,35 @@ function IndexContent({ size }: { size: RectReadOnly }) {
                 className="absolute -right-20 bottom-0 z-2 w-80"
               /> */}
             </div>
-            <div className="relative z-3 ml-15">
-              <h1 className="text-4xl leading-none font-semibold text-name">John Heher</h1>
-              <h2 className="mt-1 text-base font-semibold text-subtitle uppercase">Web Developer</h2>
-              <div className="mt-9 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-3">
-                <SocialLink
-                  href="https://github.com/Heher"
-                  aria-label="My GitHub"
-                  // onClick={() => {
-                  //   gtag.event({
-                  //     action: 'click_contact',
-                  //     category: 'Contact Link',
-                  //     label: 'GitHub'
-                  //   });
-                  // }}
-                >
-                  <GitHubIcon className="h-6 fill-current" />
-                  <span className="text-xs">GitHub</span>
-                </SocialLink>
-                <SocialLink
-                  href="https://www.linkedin.com/in/johnheher/"
-                  aria-label="My LinkedIn"
-                  // onClick={() => {
-                  //   gtag.event({
-                  //     action: 'click_contact',
-                  //     category: 'Contact Link',
-                  //     label: 'LinkedIn'
-                  //   });
-                  // }}
-                >
-                  <LinkedInIcon className="h-6 fill-current" />
-                  <span className="text-xs">LinkedIn</span>
-                </SocialLink>
-                <SocialLink
-                  href="/cv.pdf"
-                  aria-label="My Résumé"
-                  // onClick={() => {
-                  //   gtag.event({
-                  //     action: 'click_contact',
-                  //     category: 'Contact Link',
-                  //     label: 'Resume'
-                  //   });
-                  // }}
-                >
-                  <ResumeIcon className="h-6 fill-current" />
-                  <span className="text-xs">Resume</span>
-                </SocialLink>
-                <SocialLink
-                  href="mailto:johnheher@gmail.com"
-                  aria-label="Email me"
-                  // onClick={() => {
-                  //   gtag.event({
-                  //     action: 'click_contact',
-                  //     category: 'Contact Link',
-                  //     label: 'Email'
-                  //   });
-                  // }}
-                >
-                  <EmailIcon className="w-5 fill-current" />
-                  <span className="text-xs">Email</span>
-                </SocialLink>
-              </div>
+            <div className="
+              relative z-3 mb-5 ml-10
+              sm:mb-0 sm:ml-15
+            "
+            >
+              <h1 className="
+                text-3xl leading-none font-semibold text-name
+                sm:text-4xl
+              "
+              >
+                John Heher
+              </h1>
+              <h2 className="
+                mt-1 text-base font-semibold text-subtitle uppercase
+                sm:text-base
+              "
+              >
+                Web Developer
+              </h2>
+              {size.width > 650 && <Socials />}
             </div>
             {/* <div className="absolute right-0 bottom-0 z-1 h-45 w-1/2 bg-[rgb(160,174,185)]" /> */}
           </div>
         </div>
-        <div className="mx-auto max-w-[800px]">
+        <div className="
+          mx-auto max-w-200 px-5
+          sm:px-0
+        "
+        >
           {/* <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
           <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2> */}
           {/* <div className="
@@ -195,6 +153,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               </p>
             </div>
           </div> */}
+          {size.width <= 650 && <Socials />}
           <UISection />
           <StackSection />
           <RecentProjects />
@@ -282,7 +241,13 @@ export default function Index() {
   // console.log('dimensions', dimensions);
 
   return (
-    <main className="w-screen bg-index-background px-5 pb-10 font-figtree text-lg" ref={pageContainerRef}>
+    <main
+      className="
+        w-screen bg-index-background pb-10 font-figtree text-lg
+        sm:px-5
+      "
+      ref={pageContainerRef}
+    >
       <IndexContent size={size} />
     </main>
   );

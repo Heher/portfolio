@@ -1,5 +1,6 @@
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { Suspense } from 'react';
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 
@@ -48,8 +49,12 @@ export function AggroCragContainer() {
   return (
     <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       {/* <Environment preset="forest" background blur={0.5} /> */}
+      {/* <color attach="background" args={['#1d293d']} /> */}
+      <EffectComposer>
+        <Bloom mipmapBlur luminanceThreshold={1.1} />
+      </EffectComposer>
       <ambientLight intensity={0.1} />
-      <directionalLight position={[1, 1, 5]} color={white} castShadow shadow-mapSize={[3072, 3072]} />
+      <directionalLight position={[1, 1, 0]} color={white} castShadow />
       <group scale={1} rotation={[0, 1.5, 0.15, 'ZXY']} position={[0, -0.7, 0]}>
         <Suspense fallback={null}>
           <AggroCrag />
