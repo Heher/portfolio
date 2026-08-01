@@ -20,12 +20,15 @@ type Pages = {
   "/ui/onboarding": {
     params: {};
   };
+  "/ui/product-page": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/ui/tables" | "/ui/onboarding";
+    page: "/" | "/ui/tables" | "/ui/onboarding" | "/ui/product-page";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -33,7 +36,7 @@ type RouteFiles = {
   };
   "routes/ui/layout.tsx": {
     id: "routes/ui/layout";
-    page: "/ui/tables" | "/ui/onboarding";
+    page: "/ui/tables" | "/ui/onboarding" | "/ui/product-page";
   };
   "routes/ui/tables.tsx": {
     id: "routes/ui/tables";
@@ -43,6 +46,10 @@ type RouteFiles = {
     id: "routes/ui/onboarding";
     page: "/ui/onboarding";
   };
+  "routes/ui/product-page.tsx": {
+    id: "routes/ui/product-page";
+    page: "/ui/product-page";
+  };
 };
 
 type RouteModules = {
@@ -51,4 +58,5 @@ type RouteModules = {
   "routes/ui/layout": typeof import("./app/routes/ui/layout.tsx");
   "routes/ui/tables": typeof import("./app/routes/ui/tables.tsx");
   "routes/ui/onboarding": typeof import("./app/routes/ui/onboarding.tsx");
+  "routes/ui/product-page": typeof import("./app/routes/ui/product-page.tsx");
 };

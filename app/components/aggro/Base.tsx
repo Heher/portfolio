@@ -10,7 +10,7 @@ type BaseGLTF = GLTF & {
 };
 
 export default function Base() {
-  const { nodes } = useGLTF('./gltf/aggro/base.gltf') as unknown as BaseGLTF;
+  const { nodes } = useGLTF('/gltf/aggro/base.gltf') as unknown as BaseGLTF;
 
   return (
     <group dispose={null}>

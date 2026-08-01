@@ -37,7 +37,7 @@ export default function StackSection() {
         stack (and the one that built this site) has been these.
       </p>
       <div className="mt-10">
-        <div className="flex gap-6 text-base text-[#282B27]">
+        <div className="flex gap-8 text-base text-[#282B27]">
           <div>
             <h3 className="mb-3 text-sm text-[oklch(0.45_0.0324_251.81)] uppercase">Front-end</h3>
             <div className="grid grid-cols-1 gap-3">

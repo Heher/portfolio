@@ -21,6 +21,8 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-figtree: 'Figtree', 'Almarai', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
+  --font-serif: 'Cormorant Garamond', ui-serif, system-ui, serif;
+  --font-fraunces: 'Fraunces', ui-serif, system-ui, serif;
 
   --grid-template-columns-group-page: minmax(300px, 450px) minmax(350px, 400px);
 
@@ -120,6 +122,7 @@
   --color-tables-bottom: var(--tables-bottom);
   --color-product-page: var(--product-page);
   --color-product-page-soft: var(--product-page-soft);
+  --color-product-page-dark: var(--product-page-dark);
 
   --color-email: var(--email);
   --color-email-soft: var(--email-soft);
@@ -377,6 +380,7 @@
       calc(c * 0.3)
       h
     );
+    --product-page-dark: oklch(0.3328 0.0572 265.2836);
     --email: oklch(0.2831 0.0421 306.78);
     --email-soft: oklch(
       from var(--email)

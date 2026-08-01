@@ -16,7 +16,7 @@ export default function UISection() {
       <h2 className="mb-5 text-3xl font-semibold text-name">User Interfaces</h2>
       <p className="mt-3 max-w-xl text-lg text-name">
         I've built a wide variety of UIs, from simple landing pages to complex
-        dashboards. Here are a few examples of my work.
+        dashboards. Take a look at some samples of my work.
       </p>
       <div
         className="

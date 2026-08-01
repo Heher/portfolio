@@ -10,7 +10,7 @@ type RockGLTF = GLTF & {
 };
 
 export default function Rock() {
-  const { nodes } = useGLTF('./gltf/aggro/rock.gltf') as unknown as RockGLTF;
+  const { nodes } = useGLTF('/gltf/aggro/rock.gltf') as unknown as RockGLTF;
 
   return (
     <group dispose={null}>

@@ -58,8 +58,7 @@ export function AggroCragContainer() {
       <OrbitControls
         minPolarAngle={Math.PI / 2}
         maxPolarAngle={Math.PI / 2}
-        maxDistance={45}
-        minDistance={5}
+        enableZoom={false}
         enablePan={false}
         rotateSpeed={0.5}
         target={[0, 0, 0]}

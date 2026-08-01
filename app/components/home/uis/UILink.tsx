@@ -27,8 +27,8 @@ export default function UILink({ url, title, image, className }: UILinkProps) {
         {title}
       </h2>
       <div className="
-        flex h-45 items-center justify-center rounded-b-2xl bg-subtitle/20 transition-colors
-        group-hover:bg-subtitle/10
+        flex h-45 items-center justify-center rounded-b-2xl bg-better-white/60 transition-colors
+        group-hover:bg-better-white
       "
       >
         <img src={`./uis/${image}`} className="h-30" />
