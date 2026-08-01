@@ -1,5 +1,6 @@
+import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useFetcher } from 'react-router';
+import { Link, useFetcher } from 'react-router';
 
 import type { Plans } from '@/types/uis/onboarding';
 
@@ -64,11 +65,23 @@ export default function OnboardingPage() {
     <div className="flex h-full min-h-full flex-col">
       <title>Onboarding | UIs | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
-      <div className="mx-auto w-full max-w-xl py-8">
-        <h1 className="text-3xl font-semibold">Onboarding</h1>
-        <p className="my-5 text-lg text-[#282B27]">
-          An example of an onboarding marketing landing page with signup.
-        </p>
+      <div className="mx-auto flex w-full max-w-xl flex-col pb-8">
+        <Link
+          to="/"
+          className="
+            flex w-max items-center gap-2 text-base font-semibold text-[#282B27]
+            hover:opacity-80
+          "
+        >
+          <ArrowLeft className="size-4.5" />
+          <span className="block">Back</span>
+        </Link>
+        <div className="mt-10">
+          <h1 className="text-3xl font-semibold">Onboarding</h1>
+          <p className="my-5 text-lg text-[#282B27]">
+            An example of an onboarding marketing landing page with signup.
+          </p>
+        </div>
       </div>
       <div className="h-full bg-linear-to-b from-blue-950 to-mist-700 pt-30 pb-60">
         <h2 className="text-center text-2xl font-semibold text-better-white">Choose a plan</h2>

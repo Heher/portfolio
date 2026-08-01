@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 import { columns } from './columns';
 
@@ -29,14 +30,21 @@ export default function BasicTable({ data }: BasicTableProps) {
   });
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border border-better-white">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="
+                      h-12 bg-gray-400
+                      first-of-type:pl-6
+                      last-of-type:pr-6
+                    "
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -58,7 +66,14 @@ export default function BasicTable({ data }: BasicTableProps) {
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     {row.getVisibleCells().map(cell => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        className="
+                          h-16 bg-gray-200
+                          first-of-type:pl-6
+                          last-of-type:pr-6
+                        "
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}

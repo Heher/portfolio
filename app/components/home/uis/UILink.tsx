@@ -14,18 +14,23 @@ export default function UILink({ url, title, image, className }: UILinkProps) {
     <Link
       to={url}
       className={cn(`
-        w-100 shrink-0 rounded-2xl border-2 border-better-white
+        group w-100 shrink-0 rounded-2xl border-2 border-better-white
         sm:w-60
       `, className)}
     >
       <h2 className="
-        rounded-t-2xl bg-header-bottom py-3 text-2xl font-semibold text-name
+        rounded-t-2xl bg-header-bottom py-3 text-2xl font-semibold text-name transition-colors
+        group-hover:bg-header-bottom/60
         sm:text-center sm:text-lg
       "
       >
         {title}
       </h2>
-      <div className="flex justify-center rounded-b-2xl bg-subtitle/10 py-5">
+      <div className="
+        flex h-45 items-center justify-center rounded-b-2xl bg-subtitle/20 transition-colors
+        group-hover:bg-subtitle/10
+      "
+      >
         <img src={`./uis/${image}`} className="h-30" />
       </div>
     </Link>

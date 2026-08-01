@@ -195,8 +195,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               </p>
             </div>
           </div> */}
-          <StackSection />
           <UISection />
+          <StackSection />
           <RecentProjects />
           {/* <div className="
           mt-20 mb-10 grid justify-items-start

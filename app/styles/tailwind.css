@@ -117,6 +117,7 @@
   --color-winter-background: var(--winter-background);
 
   --color-tables: var(--tables);
+  --color-tables-bottom: var(--tables-bottom);
   --color-product-page: var(--product-page);
   --color-product-page-soft: var(--product-page-soft);
 
@@ -367,6 +368,7 @@
     --main-description: oklch(0.3451 0.0137 136.65);
     --back-button: oklch(0.8975 0 0);
     --tables: oklch(0.8 0.05 22.1);
+    --tables-bottom: oklch(0.4283 0.0359 22.1);
     --product-page: oklch(0.572594 0.233752 265.2836);
     /* lighter + less saturated */
     --product-page-soft: oklch(

@@ -13,7 +13,7 @@ export default function UISection() {
         md:mt-20
       "
     >
-      <h2 className="mb-5 text-3xl font-semibold">UIs</h2>
+      <h2 className="mb-5 text-3xl font-semibold text-name">User Interfaces</h2>
       <p className="mt-3 max-w-xl text-lg text-name">
         I've built a wide variety of UIs, from simple landing pages to complex
         dashboards. Here are a few examples of my work.

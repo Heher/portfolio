@@ -28,7 +28,7 @@ export default function StackSection() {
     <section
       className="
         mt-10
-        md:mt-15
+        md:mt-20
       "
     >
       <h2 className="mb-5 text-3xl font-semibold">Stack</h2>
