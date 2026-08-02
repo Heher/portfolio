@@ -125,7 +125,8 @@
   --color-product-page-dark: var(--product-page-dark);
 
   --color-email: var(--email);
-  --color-email-soft: var(--email-soft);
+  --color-email-light: var(--email-light);
+  --color-email-dark: var(--email-dark);
 
   --color-templating: var(--templating);
   --color-templating-soft: var(--templating-soft);
@@ -382,9 +383,15 @@
     );
     --product-page-dark: oklch(0.3328 0.0572 265.2836);
     --email: oklch(0.2831 0.0421 306.78);
-    --email-soft: oklch(
+    --email-light: oklch(
       from var(--email)
       calc(l + 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --email-dark: oklch(
+      from var(--email)
+      calc(l - 0.6)
       calc(c * 0.7)
       h
     );

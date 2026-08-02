@@ -31,7 +31,9 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">Tables</h1>
           <p className="my-5 text-lg text-[#282B27]">
-            I've found if it's an internal tool, it's gonna be a table.
+            I've found if I'm being asked to build an internal tool,
+            {' '}
+            <span className="whitespace-nowrap">it's gonna be a table.</span>
           </p>
         </div>
       </div>

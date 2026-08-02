@@ -18,7 +18,8 @@ export default function Base() {
         castShadow
         receiveShadow
         geometry={nodes.Base.geometry}
-        position={[-38.136, 0, 0]}
+        position={[-16, 69, 10]}
+        scale={0.18}
       >
         <meshStandardMaterial color={0x333333} />
       </mesh>

@@ -17,8 +17,10 @@ export default function Rock() {
       <mesh
         castShadow
         geometry={nodes.Rock.geometry}
-        position={[47.104, 57.336, 23.957]}
+        position={[0, 80, 15]}
+        scale={0.2}
       >
+        {/* <meshBasicMaterial color={[0.34 * 1, 0.57 * 1, 0.23 * 1]} /> */}
         <meshBasicMaterial color={[0.34 * 2.24, 0.57 * 2.24, 0.23 * 2.24]} />
       </mesh>
     </group>

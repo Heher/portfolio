@@ -21,7 +21,7 @@ export default function UISection() {
       <div
         className="
           mt-10 flex gap-5 overflow-scroll
-          sm:grid sm:grid-cols-3
+          sm:grid sm:w-fit sm:grid-cols-3 sm:gap-7
         "
       >
         <TablesUI />

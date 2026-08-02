@@ -36,7 +36,7 @@ export default function ProductPage() {
         <div className="mx-auto w-full max-w-4xl bg-better-white p-3">
           <div className="w-full p-7.5">
             <div className="relative flex h-full gap-10 rounded-lg">
-              <div className="size-100 bg-slate-700">
+              <div className="size-100 bg-slate-500">
                 <AggroCragContainer />
               </div>
               <div className="flex max-w-87.5 flex-col justify-between py-5">

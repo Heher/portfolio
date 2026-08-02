@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 // import { MeshStandardMaterial } from 'three';
 
 import Base from './Base';
+import Logo from './Logo';
 import Rock from './Rock';
 
 type DonutProps = {
@@ -50,6 +51,7 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
     <group ref={ref} scale={scale}>
       <Base />
       <Rock />
+      <Logo />
     </group>
   );
 }
