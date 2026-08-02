@@ -1,7 +1,21 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { formatScheduleData, getScheduleData } from '@/app/components/uis/tv-guide/utils';
 import TVGuide from '~/components/uis/tv-guide/TVGuide';
+
+// import type { Route } from './+types/tv-guide';
+
+export async function loader() {
+  // const networks = await getNetworkData();
+  const schedule = await getScheduleData();
+
+  const { networks } = formatScheduleData(schedule);
+
+  return { networks };
+}
+
+export type LoaderData = typeof loader;
 
 export default function TVGuidePage() {
   return (

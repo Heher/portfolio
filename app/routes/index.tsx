@@ -124,16 +124,12 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               >
                 Web Developer
               </h2>
-              {size.width > 650 && <Socials />}
+              {size.width > 640 && <Socials />}
             </div>
             {/* <div className="absolute right-0 bottom-0 z-1 h-45 w-1/2 bg-[rgb(160,174,185)]" /> */}
           </div>
         </div>
-        <div className="
-          mx-auto max-w-200 px-5
-          sm:px-0
-        "
-        >
+        <div className="mx-auto max-w-200">
           {/* <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
           <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2> */}
           {/* <div className="
@@ -153,8 +149,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               </p>
             </div>
           </div> */}
-          {size.width <= 650 && <Socials />}
-          <UISection />
+          {size.width <= 640 && <Socials />}
+          <UISection width={size.width} />
           <StackSection />
           <RecentProjects />
           {/* <div className="
