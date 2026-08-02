@@ -7,9 +7,11 @@ type UILinkProps = {
   title: string;
   image: string;
   className?: string;
+  headerClassName?: string;
+  bodyClassName?: string;
 };
 
-export default function UILink({ url, title, image, className }: UILinkProps) {
+export default function UILink({ url, title, image, className, headerClassName, bodyClassName }: UILinkProps) {
   return (
     <Link
       to={url}
@@ -18,18 +20,18 @@ export default function UILink({ url, title, image, className }: UILinkProps) {
         sm:w-60
       `, className)}
     >
-      <h2 className="
-        rounded-t-2xl bg-header-bottom/60 py-3 text-2xl font-semibold text-name transition-colors
-        group-hover:bg-header-bottom/20
+      <h2 className={cn(`
+        rounded-t-2xl bg-tables-light/40 py-3 text-2xl font-semibold text-tables-dark transition-colors
+        group-hover:bg-tables-light/10
         sm:text-center sm:text-lg
-      "
+      `, headerClassName)}
       >
         {title}
       </h2>
-      <div className="
-        flex h-50 items-center justify-center rounded-b-2xl bg-better-white/60 transition-colors
+      <div className={cn(`
+        flex h-50 items-center justify-center bg-better-white/60 transition-colors
         group-hover:bg-better-white
-      "
+      `, bodyClassName)}
       >
         <img src={`./uis/${image}`} className="h-30" />
       </div>

@@ -10,6 +10,7 @@ export default [
       route('onboarding', 'routes/ui/onboarding.tsx'),
       route('product-page', 'routes/ui/product-page.tsx'),
       route('email-template', 'routes/ui/email-template.tsx'),
+      route('tv-guide', 'routes/ui/tv-guide.tsx'),
     ]),
   ]),
   // ...prefix('trip', [

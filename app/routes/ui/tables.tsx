@@ -37,7 +37,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
           </p>
         </div>
       </div>
-      <div className="h-full bg-linear-to-b from-tables to-tables-bottom pt-30 pb-60">
+      <div className="h-full bg-linear-to-b from-tables to-tables-dark pt-30 pb-60">
         <div className="mx-auto w-full max-w-4xl">
           <BasicTable data={loaderData.data} />
         </div>

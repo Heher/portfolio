@@ -92,7 +92,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
           >
             <div className="max-w-192.5 self-end">
               <img
-                src="/images/header.png"
+                src="/images/header.webp"
                 alt=""
                 className="
                   w-full
