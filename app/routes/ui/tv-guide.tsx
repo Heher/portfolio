@@ -1,10 +1,13 @@
-import { ArrowLeft } from 'lucide-react';
+import { TZDate } from '@date-fns/tz';
+import { differenceInMinutes, format, set } from 'date-fns';
+import { useSetAtom } from 'jotai';
+import { ArrowLeft, InfoIcon } from 'lucide-react';
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 
-import { getFakeScheduleData } from '@/app/components/uis/tv-guide/utils';
+import { currentTimeState } from '@/app/atoms/currentTimeAtom';
+import { getFakeScheduleData, hourWidth } from '@/app/components/uis/tv-guide/utils';
 import TVGuide from '~/components/uis/tv-guide/TVGuide';
-
-// import type { Route } from './+types/tv-guide';
 
 export async function loader() {
   // const schedule = await getScheduleData();
@@ -19,11 +22,33 @@ export async function loader() {
 export type LoaderData = typeof loader;
 
 export default function TVGuidePage() {
+  const setCurrentTime = useSetAtom(currentTimeState);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const currentTime = TZDate.tz('America/New_York');
+      const todayMidnight = set(currentTime, { hours: 0, minutes: 0, seconds: 0 });
+
+      const diffInMinutes = differenceInMinutes(
+        currentTime,
+        todayMidnight,
+      );
+
+      const left = ((hourWidth / 60) * diffInMinutes) + 150;
+
+      setCurrentTime({ time: format(currentTime, 'HH:mm:ss'), left });
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [setCurrentTime]);
+
   return (
     <div className="">
       <title>TV Guide | UIs | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
-      <div className="mx-auto flex w-full max-w-xl flex-col pb-8">
+      <div className="mx-auto flex w-full max-w-xl flex-col">
         <Link
           to="/"
           className="
@@ -41,9 +66,10 @@ export default function TVGuidePage() {
           </p>
         </div>
       </div>
-      <div className="h-full bg-linear-to-b from-tv-guide-light to-tv-guide pt-10 pb-60">
-        <div className="mx-auto mb-10 max-w-4xl rounded-lg border border-tv-guide/70 bg-white/50 px-7 py-5">
-          <p className="max-w-xl text-sm">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
+      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-10 pb-60">
+        <div className="mx-auto mb-10 flex max-w-4xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5">
+          <InfoIcon className="size-7 text-tv-guide-dark" />
+          <p className="max-w-xl text-sm text-tv-guide-dark">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
         </div>
         <div className="mx-auto w-full max-w-4xl">
           <TVGuide />

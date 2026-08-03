@@ -5,10 +5,6 @@ import { hourWidth } from './utils';
 function createHours() {
   const hours = [];
 
-  // hours.push(
-  //   <div key="spacer" className="w-[220px] shrink-0 bg-gray-400" />,
-  // );
-
   for (let i = 0; i < 48; i++) {
     const startOfHour = i === 0 || i % 2 === 0;
 
@@ -37,7 +33,7 @@ export default function Hours() {
   }, []);
 
   return (
-    <div className="sticky top-0 z-3">
+    <div className="sticky top-0 z-4">
       <div className="bg-gray-800 pl-37.5">
         <div className="flex h-14">{hours}</div>
       </div>
