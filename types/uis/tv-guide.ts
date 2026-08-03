@@ -103,6 +103,7 @@ export type FormattedShow = z.infer<typeof ZFormattedShow>;
 
 const ZFormattedNetwork = z.object({
   id: z.string(),
+  slug: z.string(),
   name: z.string().nullable().optional(),
   shows: z.array(ZFormattedShow),
 });

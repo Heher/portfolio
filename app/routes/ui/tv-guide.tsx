@@ -66,12 +66,12 @@ export default function TVGuidePage() {
           </p>
         </div>
       </div>
-      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-10 pb-60">
+      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-10">
         <div className="mx-auto mb-10 flex max-w-4xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5">
           <InfoIcon className="size-7 text-tv-guide-dark" />
           <p className="max-w-xl text-sm text-tv-guide-dark">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
         </div>
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto w-full max-w-4xl pb-20">
           <TVGuide />
         </div>
       </div>

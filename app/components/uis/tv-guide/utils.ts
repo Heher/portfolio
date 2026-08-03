@@ -74,46 +74,55 @@ export function getFakeScheduleData(): FormattedNetwork[] {
     {
       id: '1',
       name: 'Fox',
+      slug: 'fox',
       shows: loadNetwork(),
     },
     {
       id: '2',
       name: 'ABC',
+      slug: 'abc',
       shows: loadNetwork(),
     },
     {
       id: '3',
       name: 'NBC',
+      slug: 'nbc',
       shows: loadNetwork(),
     },
     {
       id: '4',
       name: 'CBS',
+      slug: 'cbs',
       shows: loadNetwork(),
     },
     {
       id: '5',
       name: 'PBS',
+      slug: 'pbs',
       shows: loadNetwork(),
     },
     {
       id: '6',
       name: 'Telemundo',
+      slug: 'telemundo',
       shows: loadNetwork(),
     },
     {
       id: '7',
       name: 'ESPN',
+      slug: 'espn',
       shows: loadNetwork(),
     },
     {
       id: '8',
       name: 'Nickelodeon',
+      slug: 'nickelodeon',
       shows: loadNetwork(),
     },
     {
       id: '9',
       name: 'Bravo',
+      slug: 'bravo',
       shows: loadNetwork(),
     },
   ];
