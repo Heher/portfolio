@@ -37,8 +37,10 @@ export default function Hours() {
   }, []);
 
   return (
-    <div className="bg-gray-800 pl-37.5">
-      <div className="flex h-14">{hours}</div>
+    <div className="sticky top-0 z-3">
+      <div className="bg-gray-800 pl-37.5">
+        <div className="flex h-14">{hours}</div>
+      </div>
     </div>
   );
 }

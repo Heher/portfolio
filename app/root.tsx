@@ -6,6 +6,7 @@ import {
   ScrollRestoration,
 } from 'react-router';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
 import globalStyles from '~/styles/global.css?url';
 import stylesheet from '~/styles/tailwind.css?url';
 
@@ -29,7 +30,9 @@ function App() {
         <Links />
       </head>
       <body className="min-h-full bg-index-background">
-        <Outlet />
+        <TooltipProvider>
+          <Outlet />
+        </TooltipProvider>
         <ScrollRestoration
           getKey={(location) => {
             return location.pathname;
