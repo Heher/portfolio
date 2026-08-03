@@ -44,7 +44,7 @@
     "react-router-dom": "^6.16.0",
     "react-use-measure": "^2.1.1",
     "source-map-support": "^0.5.21",
-    "strava-v3": "^2.1.0",
+    "strava-v3": "^4.0.1",
     "styled-components": "^6.1.0",
     "three": "~0.156.1",
     "three-stdlib": "^2.26.6"
