@@ -19,7 +19,7 @@
     "@react-three/fiber": "^8.14.3",
     "@react-three/postprocessing": "^2.15.1",
     "@remix-run/css-bundle": "^2.0.1",
-    "@remix-run/express": "^2.0.1",
+    "@remix-run/express": "^2.17.5",
     "@remix-run/node": "^2.0.1",
     "@remix-run/react": "^2.1.0",
     "@remix-run/serve": "^2.0.1",
