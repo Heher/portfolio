@@ -28,7 +28,7 @@ export default function ProductPage() {
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">Product page</h1>
           <p className="my-5 text-lg text-[#282B27]">
-            For all my fellow Millenials out there. Or simply anyone who is a fan of Nickelodeon's GUTS.
+            For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS.
           </p>
         </div>
       </div>

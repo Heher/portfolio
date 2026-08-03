@@ -30,7 +30,7 @@ export default function StackSection() {
       className="
         mx-5 mt-18
         sm:mx-0
-        md:mt-20
+        md:mt-40
       "
     >
       <h2 className="

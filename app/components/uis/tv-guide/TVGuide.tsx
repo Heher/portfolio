@@ -12,8 +12,7 @@ export default function TVGuide() {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 z-10 h-14 w-[150px] bg-gray-400" />
-      <div className="h-[800px] overflow-scroll overscroll-x-none rounded-sm bg-gray-900">
+      <div className="h-[800px] overflow-scroll overscroll-x-none rounded-sm bg-gray-800">
         <div className="sticky top-0 z-3">
           <Hours />
         </div>
@@ -23,7 +22,7 @@ export default function TVGuide() {
               <div className="sticky left-0 z-2">
                 <NetworkTitle network={network} />
               </div>
-              <div key={network.id} className="relative h-[150px] w-full bg-gray-100">
+              <div key={network.id} className="relative h-37.5 w-full bg-gray-800">
                 {network.shows.map((show) => {
                   return (
                     <Show key={show.id} show={show} />

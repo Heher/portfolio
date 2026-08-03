@@ -1,16 +1,17 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { formatScheduleData, getScheduleData } from '@/app/components/uis/tv-guide/utils';
+import { getFakeScheduleData } from '@/app/components/uis/tv-guide/utils';
 import TVGuide from '~/components/uis/tv-guide/TVGuide';
 
 // import type { Route } from './+types/tv-guide';
 
 export async function loader() {
-  // const networks = await getNetworkData();
-  const schedule = await getScheduleData();
+  // const schedule = await getScheduleData();
 
-  const { networks } = formatScheduleData(schedule);
+  // const networks = formatScheduleData(schedule);
+
+  const networks = getFakeScheduleData();
 
   return { networks };
 }
@@ -40,7 +41,10 @@ export default function TVGuidePage() {
           </p>
         </div>
       </div>
-      <div className="h-full bg-linear-to-b from-tv-guide-light to-tv-guide pt-30 pb-60">
+      <div className="h-full bg-linear-to-b from-tv-guide-light to-tv-guide pt-10 pb-60">
+        <div className="mx-auto mb-10 max-w-4xl rounded-lg border border-tv-guide/70 bg-white/50 px-7 py-5">
+          <p className="max-w-xl text-sm">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
+        </div>
         <div className="mx-auto w-full max-w-4xl">
           <TVGuide />
         </div>

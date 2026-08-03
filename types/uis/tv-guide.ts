@@ -96,6 +96,7 @@ const ZFormattedShow = z.object({
   id: z.number(),
   name: z.string(),
   startTime: z.string(),
+  endTime: z.string(),
   duration: z.number(),
 });
 export type FormattedShow = z.infer<typeof ZFormattedShow>;
