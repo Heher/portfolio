@@ -1,8 +1,8 @@
+import DashboardUI from './uis/Dashboard';
 import EmailTemplateUI from './uis/EmailTemplate';
 import OnboardingUI from './uis/Onboarding';
 import ProductPageUI from './uis/ProductPage';
 import TablesUI from './uis/Tables';
-import TemplatingUI from './uis/Templating';
 import TVGuideUI from './uis/TVGuide';
 
 type UISectionProps = {
@@ -60,7 +60,7 @@ export default function UISection({ width }: UISectionProps) {
           <ProductPageUI />
           <EmailTemplateUI />
           <TVGuideUI />
-          <TemplatingUI />
+          <DashboardUI />
         </div>
       </div>
     </section>

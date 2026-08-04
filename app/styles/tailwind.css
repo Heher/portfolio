@@ -135,7 +135,8 @@
   --color-tv-guide-dark: var(--tv-guide-dark);
 
   --color-templating: var(--templating);
-  --color-templating-soft: var(--templating-soft);
+  --color-templating-light: var(--templating-light);
+  --color-templating-dark: var(--templating-dark);
 
   --color-header-top: var(--header-top);
   --color-header-bottom: var(--header-bottom);
@@ -431,10 +432,16 @@
       calc(c * 0.7)
       h
     );
-    --templating-soft: oklch(
+    --templating-light: oklch(
       from var(--templating)
       calc(l + 0.6)
       calc(c * 0.3)
+      h
+    );
+    --templating-dark: oklch(
+      from var(--templating)
+      calc(l - 0.6)
+      calc(c * 0.7)
       h
     );
     --header-top: oklch(1 0.0193 240.73);

@@ -29,12 +29,15 @@ type Pages = {
   "/ui/tv-guide": {
     params: {};
   };
+  "/ui/dashboard": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide";
+    page: "/" | "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -42,7 +45,7 @@ type RouteFiles = {
   };
   "routes/ui/layout.tsx": {
     id: "routes/ui/layout";
-    page: "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide";
+    page: "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
   };
   "routes/ui/tables.tsx": {
     id: "routes/ui/tables";
@@ -64,6 +67,10 @@ type RouteFiles = {
     id: "routes/ui/tv-guide";
     page: "/ui/tv-guide";
   };
+  "routes/ui/dashboard.tsx": {
+    id: "routes/ui/dashboard";
+    page: "/ui/dashboard";
+  };
 };
 
 type RouteModules = {
@@ -75,4 +82,5 @@ type RouteModules = {
   "routes/ui/product-page": typeof import("./app/routes/ui/product-page.tsx");
   "routes/ui/email-template": typeof import("./app/routes/ui/email-template.tsx");
   "routes/ui/tv-guide": typeof import("./app/routes/ui/tv-guide.tsx");
+  "routes/ui/dashboard": typeof import("./app/routes/ui/dashboard.tsx");
 };

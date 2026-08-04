@@ -11,6 +11,7 @@ export default [
       route('product-page', 'routes/ui/product-page.tsx'),
       route('email-template', 'routes/ui/email-template.tsx'),
       route('tv-guide', 'routes/ui/tv-guide.tsx'),
+      route('dashboard', 'routes/ui/dashboard.tsx'),
     ]),
   ]),
   // ...prefix('trip', [
