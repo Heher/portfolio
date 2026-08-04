@@ -1,9 +1,15 @@
 import { Outlet } from 'react-router';
+import useMeasure from 'react-use-measure';
 
 export default function UILayout() {
+  const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+
   return (
-    <div className="m-0 mx-auto min-h-full w-screen pt-10">
-      <Outlet />
+    <div
+      ref={pageContainerRef}
+      className="m-0 mx-auto min-h-dvh w-screen"
+    >
+      <Outlet context={{ size }} />
     </div>
   );
 }
