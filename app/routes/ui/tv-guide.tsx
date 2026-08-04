@@ -61,17 +61,17 @@ export default function TVGuidePage() {
         </Link>
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">TV Guide</h1>
-          <p className="my-5 text-lg text-[#282B27]">
+          <p className="mt-5 mb-10 text-lg text-[#282B27]">
             No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can scroll.
           </p>
         </div>
       </div>
-      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-10">
-        <div className="mx-auto mb-10 flex max-w-4xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5">
-          <InfoIcon className="size-7 text-tv-guide-dark" />
+      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-5">
+        <div className="mx-auto mb-10 flex max-w-2xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5">
+          <InfoIcon size={30} className="shrink-0 text-tv-guide-dark" />
           <p className="max-w-xl text-sm text-tv-guide-dark">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
         </div>
-        <div className="mx-auto w-full max-w-4xl pb-20">
+        <div className="mx-auto w-full max-w-[1000px] pb-20">
           <TVGuide />
         </div>
       </div>

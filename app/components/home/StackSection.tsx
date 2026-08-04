@@ -41,8 +41,8 @@ export default function StackSection() {
         Stack
       </h2>
       <p className="
-        max-w-xl text-base text-name
-        sm:text-lg
+        max-w-xl font-zilla text-base text-name
+        sm:text-xl
       "
       >
         Being a programmer for almost two decades allows you to work with a variety of technologies, but lately my go-to

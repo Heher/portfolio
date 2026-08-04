@@ -30,8 +30,8 @@ export default function UISection({ width }: UISectionProps) {
           User Interfaces
         </h2>
         <p className="
-          max-w-xl text-base text-name
-          sm:text-lg
+          max-w-2xl font-zilla text-base text-name
+          sm:text-xl
         "
         >
           I've built a wide variety of UIs, from simple landing pages to complex

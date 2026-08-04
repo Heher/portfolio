@@ -1,6 +1,7 @@
 import LinkButton from './LinkButton';
 
 type CreditCardProps = {
+  ccColor: string;
   ccName: string;
   balance: string;
   availableCredit: string;
@@ -8,11 +9,15 @@ type CreditCardProps = {
   minimumAmount: string;
 };
 
-export default function CreditCard({ ccName, balance, availableCredit, lastStatement, minimumAmount }: CreditCardProps) {
+export default function CreditCard({ ccName, ccColor, balance, availableCredit, lastStatement, minimumAmount }: CreditCardProps) {
   return (
     <div className="w-full border border-gray-300 bg-better-white">
       <div className="flex items-center gap-5 border-b border-gray-300 p-6">
-        <div className="h-[60px] w-[96px] rounded-sm bg-black" />
+        <div className={`
+          h-[60px] w-[96px] rounded-sm
+          ${ccColor}
+        `}
+        />
         <h2 className="font-semibold">{ccName}</h2>
       </div>
       <div className="flex px-6 py-8">

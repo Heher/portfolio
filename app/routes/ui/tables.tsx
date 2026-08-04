@@ -7,7 +7,7 @@ import { createTableData } from '~/components/uis/tables/utils';
 import type { Route } from './+types/tables';
 
 export async function loader() {
-  const tableData = createTableData(10);
+  const tableData = createTableData(300);
 
   return { data: tableData };
 }
@@ -30,7 +30,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
         </Link>
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">Tables</h1>
-          <p className="my-5 text-lg text-[#282B27]">
+          <p className="my-5 font-zilla text-xl text-[#282B27]">
             I've found if I'm being asked to build an internal tool,
             {' '}
             <span className="whitespace-nowrap">it's gonna be a table.</span>

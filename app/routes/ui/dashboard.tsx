@@ -45,8 +45,8 @@ export default function DashboardPage() {
           <div className="h-200 bg-gray-300">
             <div className="flex w-full gap-5 p-5">
               <div className="flex w-full flex-col gap-10">
-                <CreditCard ccName="Heher Platinum® Reserve Card" balance="$1,606.38" availableCredit="$48,393.62" lastStatement="$2,119.44" minimumAmount="$50.00" />
-                <CreditCard ccName="Heher Emerald® Preferred Card" balance="$609.10" availableCredit="$9,390.90" lastStatement="$804.70" minimumAmount="$35.00" />
+                <CreditCard ccName="Heher Platinum® Reserve Card" ccColor="bg-black" balance="$1,606.38" availableCredit="$48,393.62" lastStatement="$2,119.44" minimumAmount="$50.00" />
+                <CreditCard ccName="Heher Emerald® Preferred Card" ccColor="bg-emerald-800" balance="$609.10" availableCredit="$9,390.90" lastStatement="$804.70" minimumAmount="$35.00" />
               </div>
               <div className="flex w-full max-w-75 flex-col gap-5">
                 <SidebarCard header="Rewards points" infoBox={{ header: 'Total Available Points', data: '1,337' }} links={['Points Summary', 'Redeem Points']} />

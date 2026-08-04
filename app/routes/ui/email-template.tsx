@@ -4,7 +4,6 @@ import { Form, Link } from 'react-router';
 import { sendSampleEmail } from '@/app/utils/email';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { createTableData } from '~/components/uis/tables/utils';
 
 import type { Route } from './+types/email-template';
 
@@ -17,11 +16,11 @@ export async function action({ request }: Route.ActionArgs) {
   return result;
 }
 
-export async function loader() {
-  const tableData = createTableData(10);
+// export async function loader() {
+//   const tableData = createTableData(10);
 
-  return { data: tableData };
-}
+//   return { data: tableData };
+// }
 
 export default function EmailTemplatePage() {
   return (
@@ -42,16 +41,16 @@ export default function EmailTemplatePage() {
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">Email templates</h1>
           <p className="mt-5 text-lg text-[#282B27]">
-            My first job was creating marketing emails. It certainly isn't the most groundbreaking work since you have to step back to the 90s and use tables and sometimes tables within tables.
+            My first job was creating marketing emails. It certainly isn't the most groundbreaking work having to use 90s web technologies.
           </p>
-          <p className="mt-3 text-lg text-[#282B27]">
-            But that's what you have to do for those Yahoo mail users still on Windows 2000.
+          <p className="mt-3 mb-10 text-lg text-[#282B27]">
+            But that's what you have to do for those Yahoo! Mail users still on Windows 2000.
           </p>
         </div>
       </div>
       <div className="h-full bg-linear-to-b from-email-light to-email pt-30 pb-60">
-        <div className="mx-auto flex h-[300px] w-full max-w-4xl items-center justify-center">
-          <div className="w-[400px] rounded-2xl bg-better-white p-5 shadow-lg">
+        <div className="mx-auto flex h-75 w-full max-w-4xl items-center justify-center">
+          <div className="w-100 rounded-2xl bg-better-white p-5 shadow-lg">
             <Form className="flex flex-col" method="post" action="/ui/email-template" navigate={false} fetcherKey="email-form">
               <h2 className="text-lg font-semibold text-better-black">Get a sample</h2>
               <p className="mt-3 text-sm text-gray-500">

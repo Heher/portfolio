@@ -1,8 +1,13 @@
+import type { PaginationState } from '@tanstack/react-table';
+
 import {
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+
   useReactTable,
 } from '@tanstack/react-table';
+import { useState } from 'react';
 
 import type { TableData } from '@/types/uis/table';
 
@@ -14,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
 
 import { columns } from './columns';
 
@@ -23,10 +27,21 @@ type BasicTableProps = {
 };
 
 export default function BasicTable({ data }: BasicTableProps) {
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    // no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
+    state: {
+      pagination,
+    },
   });
 
   return (
@@ -89,6 +104,46 @@ export default function BasicTable({ data }: BasicTableProps) {
               )}
         </TableBody>
       </Table>
+      <div className="flex items-center gap-2">
+        <button
+          className="rounded-sm border p-1"
+          onClick={() => table.firstPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="rounded-sm border p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="rounded-sm border p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="rounded-sm border p-1"
+          onClick={() => table.lastPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1}
+            {' '}
+            of
+            {' '}
+            {table.getPageCount().toLocaleString()}
+          </strong>
+        </span>
+      </div>
     </div>
   );
 }

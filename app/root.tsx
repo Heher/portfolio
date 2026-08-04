@@ -17,7 +17,7 @@ export const links: Route.LinksFunction = () => [
   { rel: 'stylesheet', href: globalStyles },
   { rel: 'stylesheet', href: stylesheet },
   // { href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:opsz,wght@9..144,600&display=swap', rel: 'stylesheet' },
-  { href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:opsz,wght@9..144,600&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap', rel: 'stylesheet' },
+  { href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:opsz,wght@9..144,600&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap', rel: 'stylesheet' },
 ];
 
 function App() {

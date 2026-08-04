@@ -7,7 +7,6 @@ import type { Plans } from '@/types/uis/onboarding';
 import { toast, Toaster } from '@/components/ui/toast';
 import { ZOnboardingFormData } from '@/types/uis/onboarding';
 import SignUpDialog from '~/components/uis/onboarding/SignUpDialog';
-import { createTableData } from '~/components/uis/tables/utils';
 
 import type { Route } from './+types/onboarding';
 
@@ -26,11 +25,11 @@ export async function action({ request }: Route.ActionArgs) {
   return { ok: true, data: validatedData.data };
 }
 
-export async function loader() {
-  const tableData = createTableData(20);
+// export async function loader() {
+//   const tableData = createTableData(20);
 
-  return { data: tableData };
-}
+//   return { data: tableData };
+// }
 
 export default function OnboardingPage() {
   const [selectedPlan, setSelectedPlan] = useState<Plans>('basic');

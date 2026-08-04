@@ -7,10 +7,10 @@ export function createTableData(amount: number): TableData[] {
 
   for (let i = 0; i < amount; i++) {
     data.push({
-      id: `ID00${faker.string.numeric(3)}`,
-      title: faker.commerce.productName(),
-      startTime: faker.date.past().toISOString(),
-      endTime: faker.date.past().toISOString(),
+      id: `JH00${faker.string.numeric(3)}`,
+      name: faker.commerce.productName(),
+      dateTime: faker.date.past().toISOString(),
+      total: faker.commerce.price({ min: 10, max: 500 }),
     });
   }
 
