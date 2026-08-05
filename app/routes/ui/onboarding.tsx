@@ -92,7 +92,7 @@ export default function OnboardingPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Onboarding | UIs | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
-      <Header heading="Onboarding" subhead="An example of an onboarding marketing landing page with signup." />
+      <Header heading="Onboarding / Signup" subhead="An example of an onboarding marketing landing page with signup." />
       <div className="
         h-full flex-1 bg-linear-to-b from-blue-950 to-mist-700 px-2.5 pt-5 pb-10
         sm:px-0 sm:pt-30 sm:pb-0
@@ -106,7 +106,7 @@ export default function OnboardingPage() {
           Choose a plan
         </h2>
         <OnboardingInner width={size?.width} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={() => setShowSignUpDialog(true)} />
-        <SignUpDialog show={showSignUpDialog} close={() => setShowSignUpDialog(false)} />
+        <SignUpDialog show={showSignUpDialog} selectedPlan={selectedPlan} close={() => setShowSignUpDialog(false)} />
       </div>
       <Toaster />
     </div>

@@ -1,29 +1,47 @@
 import { Form } from 'react-router';
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import type { Plans } from '@/types/uis/onboarding';
+
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 type SignUpDialogProps = {
   show: boolean;
+  selectedPlan: Plans;
   close: () => void;
 };
 
-export default function SignUpDialog({ show, close }: SignUpDialogProps) {
+const plansCopy: Record<Plans, { header: string }> = {
+  basic: {
+    header: 'Heher+ with ads',
+  },
+  premium: {
+    header: 'Heher+',
+  },
+  bundle: {
+    header: 'Heher+ Bundle',
+  },
+};
+
+export default function SignUpDialog({ show, selectedPlan, close }: SignUpDialogProps) {
+  const copy = plansCopy[selectedPlan];
+
   return (
     <Dialog open={show} onOpenChange={close}>
       <DialogContent className="
-        bg-mist-200
+        bg-better-white
         sm:max-w-100
       "
       >
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold text-better-black">Great pick!</DialogTitle>
-          <DialogDescription className="mt-1 text-sm text-gray-500">
-            Enter your email below to create your account.
-          </DialogDescription>
         </DialogHeader>
-        <Form className="mt-2 flex flex-col" method="post" action="/ui/onboarding" navigate={false} fetcherKey="onboarding-form">
+        <div className="mt-0 border border-gray-400 bg-gray-200/90 p-3">
+          <p>{copy.header}</p>
+        </div>
+        <p className="mt-3 text-sm text-gray-700">Enter your email below to create your account.</p>
+        <Form className="mt-0 flex flex-col" method="post" action="/ui/onboarding" navigate={false} fetcherKey="onboarding-form">
           <div className="relative">
             <Input
               id="email"
@@ -40,7 +58,7 @@ export default function SignUpDialog({ show, close }: SignUpDialogProps) {
             <Label
               htmlFor="email"
               className="
-                absolute top-0 left-1.5 -translate-y-1/2 bg-mist-200 px-1 py-0.5 text-sm text-blue-950
+                absolute top-0 left-1.5 -translate-y-1/2 bg-better-white px-1 py-0.5 text-sm text-blue-950
                 peer-focus-visible:text-blue-700
               "
             >

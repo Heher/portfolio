@@ -30,12 +30,12 @@ export default function UISection({ width }: UISectionProps) {
           User Interfaces
         </h2>
         <p className="
-          max-w-2xl font-zilla text-base text-name
+          max-w-xl font-zilla text-base text-name
           sm:text-xl
         "
         >
           I've built a wide variety of UIs, from simple landing pages to complex
-          dashboards. Take a look at these links to some samples of my work.
+          dashboards. Here are some demos I created from work I've done over the years.
         </p>
       </div>
       <div className="

@@ -18,7 +18,7 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
         sm:flex-row sm:gap-3
       "
       >
-        <Card planName="basic" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog}>
+        <Card planName="basic" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}>
           <div className="
             relative z-2 m-2 flex flex-col justify-between rounded-sm bg-mist-50 p-4 transition-all
             sm:h-80 sm:w-60 sm:bg-mist-400
@@ -44,13 +44,16 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
                 $4.99/mo
               </span>
             </div>
-            <span className="
-              flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
-              sm:hidden
-            "
+            <button
+              type="button"
+              className="
+                flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
+                sm:hidden
+              "
+              onClick={showDialog}
             >
               Select
-            </span>
+            </button>
           </div>
           <div className="
             absolute top-0 left-0 z-1 size-full rounded-lg bg-emerald-100/70 transition-all
@@ -59,7 +62,7 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
           "
           />
         </Card>
-        <Card planName="premium" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog}>
+        <Card planName="premium" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}>
           <div className="
             relative z-2 m-2 flex flex-col justify-between rounded-sm bg-mist-50 p-4 transition-all
             sm:h-80 sm:w-60 sm:bg-mist-400
@@ -85,13 +88,16 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
                 $9.99/mo
               </span>
             </div>
-            <span className="
-              flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
-              sm:hidden
-            "
+            <button
+              type="button"
+              className="
+                flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
+                sm:hidden
+              "
+              onClick={showDialog}
             >
               Select
-            </span>
+            </button>
           </div>
           <div className="
             absolute top-0 left-0 z-1 size-full rounded-lg bg-emerald-400 transition-all
@@ -101,7 +107,7 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
           "
           />
         </Card>
-        <Card planName="bundle" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog}>
+        <Card planName="bundle" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}>
           <div className="
             relative z-2 m-2 flex flex-col justify-between rounded-sm bg-mist-50 p-4 transition-all
             sm:h-80 sm:w-60 sm:bg-mist-400
@@ -131,13 +137,16 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
                 $14.99/mo
               </span>
             </div>
-            <span className="
-              flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
-              sm:hidden
-            "
+            <button
+              type="button"
+              className="
+                flex h-10 w-full items-center justify-center rounded-sm bg-blue-950 font-semibold text-better-white
+                sm:hidden
+              "
+              onClick={showDialog}
             >
               Select
-            </span>
+            </button>
           </div>
           <div className="
             absolute top-0 left-0 z-1 size-full rounded-lg bg-linear-to-br from-emerald-400 to-fuchsia-400 transition-all

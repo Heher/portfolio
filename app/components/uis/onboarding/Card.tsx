@@ -9,28 +9,22 @@ type CardProps = {
   planName: Plans;
   selectedPlan: string;
   setSelectedPlan: Dispatch<SetStateAction<Plans>>;
-  showDialog: () => void;
   children: ReactNode;
 };
 
-function handleClick(selectPlan: () => void, showDialog: () => void, width?: number) {
-  if (!width) {
+function handleClick(selectPlan: () => void, width?: number) {
+  if (!width || width < 640) {
     return;
   }
 
-  if (width >= 640) {
-    selectPlan();
-  }
-  else {
-    showDialog();
-  }
+  selectPlan();
 }
 
-export default function Card({ planName, selectedPlan, setSelectedPlan, showDialog, children }: CardProps) {
+export default function Card({ planName, selectedPlan, setSelectedPlan, children }: CardProps) {
   const { size } = useOutletContext<UIContext>();
 
   return (
-    <div className="group relative cursor-pointer text-better-black" onClick={() => handleClick(() => setSelectedPlan(planName), showDialog, size?.width)} data-selected={selectedPlan === planName}>
+    <div className="group relative cursor-pointer text-better-black" onClick={() => handleClick(() => setSelectedPlan(planName), size?.width)} data-selected={selectedPlan === planName}>
       {children}
     </div>
   );
