@@ -1,5 +1,11 @@
+import type { RectReadOnly } from 'react-use-measure';
+
 import { Outlet } from 'react-router';
 import useMeasure from 'react-use-measure';
+
+export type UIContext = {
+  size: RectReadOnly;
+};
 
 export default function UILayout() {
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
