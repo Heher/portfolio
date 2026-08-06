@@ -411,7 +411,7 @@
     );
     --email-light: oklch(
       from var(--email)
-      calc(l + 0.6)
+      calc(l + 0.5)
       calc(c * 0.7)
       h
     );

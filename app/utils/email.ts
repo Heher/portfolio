@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
 
+import config from '@/config';
+
 import { sampleEmail } from '../emails/sampleEmail';
 
 const isDev = import.meta.env.VITE_DEPLOY_ENV === 'dev';
@@ -10,12 +12,12 @@ let transporter: nodemailer.Transporter | null = null;
 export function getEmailSender() {
   if (!transporter) {
     transporter = nodemailer.createTransport({
-      host: 'smtp.fastmail.com',
+      host: config.EMAIL_SENDER_HOST,
       port: 465,
       secure: true,
       auth: {
-        user: 'support@globedraft.com',
-        pass: 'r3vtksbwpgpc5945',
+        user: config.EMAIL_SENDER_USER,
+        pass: config.EMAIL_SENDER_PASS,
       },
     });
   }
