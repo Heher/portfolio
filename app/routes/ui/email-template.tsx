@@ -1,9 +1,13 @@
-import { Form } from 'react-router';
+import { useEffect } from 'react';
+import { Form, useFetcher } from 'react-router';
+import { toast } from 'sonner';
 
 import Header from '@/app/components/uis/Header';
 import { sendSampleEmail } from '@/app/utils/email';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Toaster } from '@/components/ui/sonner';
+import { ZEmailFormData } from '@/types/uis/email';
 
 import type { Route } from './+types/email-template';
 
@@ -11,9 +15,19 @@ export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const values = Object.fromEntries(formData.entries());
 
+  const validatedData = ZEmailFormData.safeParse(values);
+
+  if (!validatedData.success) {
+    return { ok: false };
+  }
+
   const result = await sendSampleEmail({ email: values.email as string });
 
-  return result;
+  if (!result?.ok) {
+    return { ok: false };
+  }
+
+  return { ok: true };
 }
 
 // export async function loader() {
@@ -23,6 +37,24 @@ export async function action({ request }: Route.ActionArgs) {
 // }
 
 export default function EmailTemplatePage() {
+  const formFetcher = useFetcher({ key: 'email-form' });
+
+  useEffect(() => {
+    if (formFetcher.data) {
+      console.log(formFetcher.data);
+      if (formFetcher.data.ok) {
+        toast.success('Email sent!');
+      }
+      else {
+        toast.error('Whoops', {
+          description: 'Something went wrong. Please try again.',
+        });
+      }
+
+      formFetcher.reset();
+    }
+  }, [formFetcher]);
+
   return (
     <div className="flex min-h-dvh flex-col">
       <title>Email Templates | UIs | John Heher</title>
@@ -74,6 +106,7 @@ export default function EmailTemplatePage() {
           </div>
         </div>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 }

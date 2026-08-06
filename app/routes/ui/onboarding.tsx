@@ -2,13 +2,13 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { useEffect, useState } from 'react';
 import { useFetcher, useOutletContext } from 'react-router';
+import { toast } from 'sonner';
 
 import type { Plans } from '@/types/uis/onboarding';
 
 import Header from '@/app/components/uis/Header';
 import HorizontalPlans from '@/app/components/uis/onboarding/HorizontalPlans';
-import VerticalPlans from '@/app/components/uis/onboarding/VerticalPlans';
-import { toast, Toaster } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/sonner';
 import { ZOnboardingFormData } from '@/types/uis/onboarding';
 import SignUpDialog from '~/components/uis/onboarding/SignUpDialog';
 
@@ -70,17 +70,11 @@ export default function OnboardingPage() {
       setShowSignUpDialog(false);
 
       if (formFetcher.data.ok) {
-        toast.add({
-          title: 'Email sent!',
-          description: 'Check your email to verify your account.',
-          type: 'success',
-        });
+        toast.success('Email sent!');
       }
       else {
-        toast.add({
-          title: 'Whoops',
+        toast.error('Whoops', {
           description: 'Something went wrong. Please try again.',
-          type: 'error',
         });
       }
 
@@ -108,7 +102,7 @@ export default function OnboardingPage() {
         <OnboardingInner width={size?.width} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={() => setShowSignUpDialog(true)} />
         <SignUpDialog show={showSignUpDialog} selectedPlan={selectedPlan} close={() => setShowSignUpDialog(false)} />
       </div>
-      <Toaster />
+      <Toaster position="top-center" />
     </div>
   );
 }
