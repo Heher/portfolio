@@ -1,4 +1,4 @@
-import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer';
+import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer.client';
 import { MainHeader } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 

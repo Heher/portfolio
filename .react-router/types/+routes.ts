@@ -14,20 +14,73 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/ui/tables": {
+    params: {};
+  };
+  "/ui/onboarding": {
+    params: {};
+  };
+  "/ui/product-page": {
+    params: {};
+  };
+  "/ui/email-template": {
+    params: {};
+  };
+  "/ui/tv-guide": {
+    params: {};
+  };
+  "/ui/dashboard": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/";
+    page: "/" | "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
   };
   "routes/index.tsx": {
     id: "routes/index";
     page: "/";
+  };
+  "routes/ui/layout.tsx": {
+    id: "routes/ui/layout";
+    page: "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
+  };
+  "routes/ui/tables.tsx": {
+    id: "routes/ui/tables";
+    page: "/ui/tables";
+  };
+  "routes/ui/onboarding.tsx": {
+    id: "routes/ui/onboarding";
+    page: "/ui/onboarding";
+  };
+  "routes/ui/product-page.tsx": {
+    id: "routes/ui/product-page";
+    page: "/ui/product-page";
+  };
+  "routes/ui/email-template.tsx": {
+    id: "routes/ui/email-template";
+    page: "/ui/email-template";
+  };
+  "routes/ui/tv-guide.tsx": {
+    id: "routes/ui/tv-guide";
+    page: "/ui/tv-guide";
+  };
+  "routes/ui/dashboard.tsx": {
+    id: "routes/ui/dashboard";
+    page: "/ui/dashboard";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "routes/index": typeof import("./app/routes/index.tsx");
+  "routes/ui/layout": typeof import("./app/routes/ui/layout.tsx");
+  "routes/ui/tables": typeof import("./app/routes/ui/tables.tsx");
+  "routes/ui/onboarding": typeof import("./app/routes/ui/onboarding.tsx");
+  "routes/ui/product-page": typeof import("./app/routes/ui/product-page.tsx");
+  "routes/ui/email-template": typeof import("./app/routes/ui/email-template.tsx");
+  "routes/ui/tv-guide": typeof import("./app/routes/ui/tv-guide.tsx");
+  "routes/ui/dashboard": typeof import("./app/routes/ui/dashboard.tsx");
 };
