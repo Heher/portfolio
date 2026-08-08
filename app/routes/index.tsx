@@ -3,13 +3,13 @@ import type { RectReadOnly } from 'react-use-measure';
 import { useEffect, useRef } from 'react';
 import useMeasure from 'react-use-measure';
 
-import RecentProjects from '~/components/home/RecentProjects';
-import StackSection from '~/components/home/StackSection';
-import UISection from '~/components/home/UISection';
+// import RecentProjects from '~/components/home/RecentProjects';
+// import StackSection from '~/components/home/StackSection';
+// import UISection from '~/components/home/UISection';
 // import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
 // import { Itenerary } from '~/components/Itenerary';
 
-import Socials from '../components/home/Socials';
+// import Socials from '../components/home/Socials';
 
 function IndexContent({ size }: { size: RectReadOnly }) {
   const containerRef = useRef<HTMLDivElement>(null);
