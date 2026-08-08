@@ -9,5 +9,5 @@
     "types": ["node"],
     "strict": true
   },
-  "include": ["server.js", "vite.config.ts"]
+  "include": ["server.mjs", "vite.config.ts"]
 }

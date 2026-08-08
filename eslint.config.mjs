@@ -29,7 +29,7 @@ const config = antfu(
           },
         },
       ],
-      'unicorn/filename-case': ['error', {
+      'unicorn/filename-case': ['warn', {
         cases: {
           camelCase: true,
           pascalCase: true,

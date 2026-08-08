@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
 
 @plugin 'tailwindcss-animate';
 /*
@@ -18,6 +21,11 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-figtree: 'Figtree', 'Almarai', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
+  --font-serif: 'Cormorant Garamond', ui-serif, system-ui, serif;
+  --font-fraunces: 'Fraunces', ui-serif, system-ui, serif;
+  --font-montserrat: 'Montserrat', ui-sans-serif, system-ui, serif;
+  --font-zilla: 'Zilla Slab', ui-serif, system-ui, serif;
+  --font-courier-prime: 'Courier Prime', monospace;
 
   --grid-template-columns-group-page: minmax(300px, 450px) minmax(350px, 400px);
 
@@ -106,11 +114,34 @@
   --color-main-description: var(--main-description);
 
   --color-index-link: var(--index-link);
+  --color-index-link-hover: var(--index-link-hover);
 
   --color-back-button: var(--back-button);
 
   --color-summer-background: var(--summer-background);
   --color-winter-background: var(--winter-background);
+
+  --color-tables: var(--tables);
+  --color-tables-light: var(--tables-light);
+  --color-tables-dark: var(--tables-dark);
+  --color-product-page: var(--product-page);
+  --color-product-page-light: var(--product-page-light);
+  --color-product-page-dark: var(--product-page-dark);
+
+  --color-email: var(--email);
+  --color-email-light: var(--email-light);
+  --color-email-dark: var(--email-dark);
+
+  --color-tv-guide: var(--tv-guide);
+  --color-tv-guide-light: var(--tv-guide-light);
+  --color-tv-guide-dark: var(--tv-guide-dark);
+
+  --color-templating: var(--templating);
+  --color-templating-light: var(--templating-light);
+  --color-templating-dark: var(--templating-dark);
+
+  --color-header-top: var(--header-top);
+  --color-header-bottom: var(--header-bottom);
 
   --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -214,6 +245,15 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
@@ -330,15 +370,84 @@
     --text: #13171a;
     --index-background: oklch(0.9021 0.0022 197.12);
     --index-link: oklch(0.5436 0.0572 146.38);
-    --index-link-hover: #8ba18c;
+    --index-link-hover: oklch(0.6858 0.0392 146.36);
     --body-background: #4d6f85;
     --trip-background: #4d6f85;
     --gd-background: oklch(0.5245 0.0523 237.45);
     --gd-page-background: oklch(0.9073 0.0144 238.02);
-    --name: oklch(0.2846 0.0083 137.81);
-    --subtitle: oklch(0.4452 0.0149 137.82);
+    --name: oklch(0.2269 0.0507 251.81);
+    --subtitle: oklch(0.505 0.1173 45.81);
     --main-description: oklch(0.3451 0.0137 136.65);
     --back-button: oklch(0.8975 0 0);
+
+    --tables: oklch(0.5528 0.0769 1.71);
+    --product-page: oklch(0.572594 0.233752 265.2836);
+    --email: oklch(0.4294 0.0444 287.77);
+    --tv-guide: oklch(0.7096 0.1276 82.8);
+    --templating: oklch(0.6645 0.2164 36.86);
+
+    --tables-light: oklch(
+      from var(--tables)
+      calc(l + 0.2)
+      calc(c * 0.3)
+      h
+    );
+    --tables-dark: oklch(
+      from var(--tables)
+      calc(l - 0.2)
+      calc(c * 0.7)
+      h
+    );
+    --product-page-light: oklch(
+      from var(--product-page)
+      calc(l + 0.3)
+      calc(c * 0.15)
+      h
+    );
+    --product-page-dark: oklch(
+      from var(--product-page)
+      calc(l - 0.2)
+      calc(c * 0.7)
+      h
+    );
+    --email-light: oklch(
+      from var(--email)
+      calc(l + 0.5)
+      calc(c * 0.7)
+      h
+    );
+    --email-dark: oklch(
+      from var(--email)
+      calc(l - 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --tv-guide-light: oklch(
+      from var(--tv-guide)
+      calc(l + 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --tv-guide-dark: oklch(
+      from var(--tv-guide)
+      calc(l - 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --templating-light: oklch(
+      from var(--templating)
+      calc(l + 0.6)
+      calc(c * 0.3)
+      h
+    );
+    --templating-dark: oklch(
+      from var(--templating)
+      calc(l - 0.6)
+      calc(c * 0.7)
+      h
+    );
+    --header-top: oklch(1 0.0193 240.73);
+    --header-bottom: oklch(0.86 0.02 240.73);
   }
 }
 
@@ -347,7 +456,8 @@
 */
 
 :root {
-  --radius: 0.625rem;
+  --radius:
+    0.625rem;
   --background:
     oklch(1 0 0);
   --foreground:
@@ -385,15 +495,15 @@
   --ring:
     oklch(0.708 0 0);
   --chart-1:
-    oklch(0.646 0.222 41.116);
+    oklch(0.87 0 0);
   --chart-2:
-    oklch(0.6 0.118 184.704);
+    oklch(0.556 0 0);
   --chart-3:
-    oklch(0.398 0.07 227.392);
+    oklch(0.439 0 0);
   --chart-4:
-    oklch(0.828 0.189 84.429);
+    oklch(0.371 0 0);
   --chart-5:
-    oklch(0.769 0.188 70.08);
+    oklch(0.269 0 0);
   --sidebar:
     oklch(0.985 0 0);
   --sidebar-foreground:
@@ -456,15 +566,15 @@
   --ring:
     oklch(0.556 0 0);
   --chart-1:
-    oklch(0.488 0.243 264.376);
+    oklch(0.87 0 0);
   --chart-2:
-    oklch(0.696 0.17 162.48);
+    oklch(0.556 0 0);
   --chart-3:
-    oklch(0.769 0.188 70.08);
+    oklch(0.439 0 0);
   --chart-4:
-    oklch(0.627 0.265 303.9);
+    oklch(0.371 0 0);
   --chart-5:
-    oklch(0.645 0.246 16.439);
+    oklch(0.269 0 0);
   --sidebar:
     oklch(0.205 0 0);
   --sidebar-foreground:
@@ -526,6 +636,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --font-heading:
+    var(--font-sans);
+  --font-sans:
+    'Inter Variable', sans-serif;
 }
 
 /*

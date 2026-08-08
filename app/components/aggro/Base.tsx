@@ -10,7 +10,7 @@ type BaseGLTF = GLTF & {
 };
 
 export default function Base() {
-  const { nodes } = useGLTF('./gltf/aggro/base.gltf') as unknown as BaseGLTF;
+  const { nodes } = useGLTF('/gltf/aggro/base.gltf') as unknown as BaseGLTF;
 
   return (
     <group dispose={null}>
@@ -18,7 +18,8 @@ export default function Base() {
         castShadow
         receiveShadow
         geometry={nodes.Base.geometry}
-        position={[-38.136, 0, 0]}
+        position={[-16, 69, 10]}
+        scale={0.18}
       >
         <meshStandardMaterial color={0x333333} />
       </mesh>

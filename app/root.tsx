@@ -6,6 +6,7 @@ import {
   ScrollRestoration,
 } from 'react-router';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
 import globalStyles from '~/styles/global.css?url';
 import stylesheet from '~/styles/tailwind.css?url';
 
@@ -15,7 +16,8 @@ export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
   { rel: 'stylesheet', href: globalStyles },
   { rel: 'stylesheet', href: stylesheet },
-  { href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap', rel: 'stylesheet' },
+  // { href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:opsz,wght@9..144,600&display=swap', rel: 'stylesheet' },
+  { href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:opsz,wght@9..144,600&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap', rel: 'stylesheet' },
 ];
 
 function App() {
@@ -28,7 +30,9 @@ function App() {
         <Links />
       </head>
       <body className="min-h-full bg-index-background">
-        <Outlet />
+        <TooltipProvider>
+          <Outlet />
+        </TooltipProvider>
         <ScrollRestoration
           getKey={(location) => {
             return location.pathname;

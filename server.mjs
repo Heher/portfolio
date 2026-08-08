@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env */
 import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
