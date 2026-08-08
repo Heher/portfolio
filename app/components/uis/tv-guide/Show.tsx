@@ -55,9 +55,10 @@ export default function Show({ show }: ShowProps) {
         <div
           className={cn(
             `
-              absolute top-0 flex h-37.5 cursor-pointer flex-col overflow-hidden rounded-lg border-2 border-white bg-gray-200/70 p-3 text-tv-guide-dark transition-colors
+              absolute top-0 flex h-[100px] cursor-pointer flex-col overflow-hidden rounded-lg border-2 border-white bg-gray-200/70 p-3 text-tv-guide-dark transition-colors
               group-hover:bg-gray-200/80
               hover:bg-gray-200
+              sm:h-37.5
             `,
             goesOver && 'rounded-r-none',
           )}

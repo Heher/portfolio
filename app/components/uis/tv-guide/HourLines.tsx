@@ -1,8 +1,11 @@
 import { useMemo } from 'react';
+import { useOutletContext } from 'react-router';
+
+import type { UIContext } from '@/app/routes/ui/layout';
 
 import { hourWidth } from './utils';
 
-function createLines() {
+function createLines(width?: number) {
   const lines = [];
 
   for (let i = 0; i < 48; i++) {
@@ -10,7 +13,7 @@ function createLines() {
       <div
         key={i}
         className="absolute top-0 h-full w-px bg-gray-300/40"
-        style={{ left: `${((hourWidth / 2) * i) + 150}px` }}
+        style={{ left: `${((hourWidth / 2) * i) + (width && width >= 640 ? 150 : 100)}px` }}
       >
       </div>,
     );
@@ -20,12 +23,14 @@ function createLines() {
 }
 
 export default function HourLines() {
+  const { size } = useOutletContext<UIContext>();
+
   const lines = useMemo(() => {
-    return createLines();
+    return createLines(size?.width);
   }, []);
 
   return (
-    <div className="size-full bg-red-200">
+    <div className="size-full">
       {lines}
     </div>
   );

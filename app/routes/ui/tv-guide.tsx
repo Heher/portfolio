@@ -1,11 +1,11 @@
 import { TZDate } from '@date-fns/tz';
 import { differenceInMinutes, format, set } from 'date-fns';
 import { useSetAtom } from 'jotai';
-import { ArrowLeft, InfoIcon } from 'lucide-react';
+import { InfoIcon } from 'lucide-react';
 import { useEffect } from 'react';
-import { Link } from 'react-router';
 
 import { currentTimeState } from '@/app/atoms/currentTimeAtom';
+import Header from '@/app/components/uis/Header';
 import { getFakeScheduleData, hourWidth } from '@/app/components/uis/tv-guide/utils';
 import TVGuide from '~/components/uis/tv-guide/TVGuide';
 
@@ -45,33 +45,25 @@ export default function TVGuidePage() {
   }, [setCurrentTime]);
 
   return (
-    <div className="">
+    <div className="flex h-dvh flex-col overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
       <title>TV Guide | UIs | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
-      <div className="mx-auto flex w-full max-w-xl flex-col">
-        <Link
-          to="/"
-          className="
-            flex w-max items-center gap-2 text-base font-semibold text-[#282B27]
-            hover:opacity-80
-          "
+      <Header heading="TV Guide" subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
+      <div className="
+        min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
+        sm:px-0 sm:pt-5 sm:pb-0
+      "
+      >
+        <div className="
+          mx-auto mb-10 hidden max-w-2xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5
+          sm:flex
+        "
         >
-          <ArrowLeft className="size-4.5" />
-          <span className="block">Back</span>
-        </Link>
-        <div className="mt-10">
-          <h1 className="text-3xl font-semibold">TV Guide</h1>
-          <p className="mt-5 mb-10 text-lg text-[#282B27]">
-            No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can scroll.
-          </p>
-        </div>
-      </div>
-      <div className="h-full bg-linear-to-b from-gray-400 to-gray-900 pt-5">
-        <div className="mx-auto mb-10 flex max-w-2xl items-center gap-5 rounded-lg border border-tv-guide/70 bg-tv-guide-light/50 px-7 py-5">
           <InfoIcon size={30} className="shrink-0 text-tv-guide-dark" />
           <p className="max-w-xl text-sm text-tv-guide-dark">Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
         </div>
-        <div className="mx-auto w-full max-w-[1000px] pb-20">
+        <div className="mx-auto size-full min-h-0 max-w-250">
           <TVGuide />
         </div>
       </div>

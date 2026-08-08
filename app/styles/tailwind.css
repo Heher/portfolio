@@ -25,6 +25,7 @@
   --font-fraunces: 'Fraunces', ui-serif, system-ui, serif;
   --font-montserrat: 'Montserrat', ui-sans-serif, system-ui, serif;
   --font-zilla: 'Zilla Slab', ui-serif, system-ui, serif;
+  --font-courier-prime: 'Courier Prime', monospace;
 
   --grid-template-columns-group-page: minmax(300px, 450px) minmax(350px, 400px);
 

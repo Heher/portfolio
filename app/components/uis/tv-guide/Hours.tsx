@@ -34,8 +34,18 @@ export default function Hours() {
 
   return (
     <div className="sticky top-0 z-4">
-      <div className="bg-gray-800 pl-37.5">
-        <div className="flex h-14">{hours}</div>
+      <div className="
+        bg-gray-800 pl-[100px]
+        sm:pl-37.5
+      "
+      >
+        <div className="
+          flex h-8
+          sm:h-14
+        "
+        >
+          {hours}
+        </div>
       </div>
     </div>
   );

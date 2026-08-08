@@ -9,8 +9,7 @@ import {
 
   useReactTable,
 } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
-import { useOutletContext } from 'react-router';
+import { useState } from 'react';
 
 import type { TableData } from '@/types/uis/table';
 
