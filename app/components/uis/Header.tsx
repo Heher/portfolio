@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
 
 type HeaderProps = {
-  heading: string;
+  heading: ReactNode;
   subhead: ReactNode;
 };
 
@@ -31,13 +31,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
         sm:mt-10
       "
       >
-        <h1 className="
-          text-2xl font-semibold
-          sm:text-3xl
-        "
-        >
-          {heading}
-        </h1>
+        {heading}
         <p className="
           my-3 font-zilla text-lg text-[#282B27]
           sm:my-5 sm:text-xl

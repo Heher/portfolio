@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 import type { Plans } from '@/types/uis/onboarding';
 
+import { MainHeader } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import HorizontalPlans from '@/app/components/uis/onboarding/HorizontalPlans';
 import { Toaster } from '@/components/ui/sonner';
@@ -86,7 +87,7 @@ export default function OnboardingPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Onboarding | UIs | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
-      <Header heading="Onboarding / Signup" subhead="An example of an onboarding marketing landing page with signup." />
+      <Header heading={<MainHeader>Onboarding / Signup</MainHeader>} subhead="An example of an onboarding marketing landing page with signup." />
       <div className="
         h-full flex-1 bg-linear-to-b from-blue-950 to-mist-700 px-2.5 pt-5 pb-10
         sm:px-0 sm:pt-30 sm:pb-0
