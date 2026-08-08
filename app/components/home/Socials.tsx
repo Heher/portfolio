@@ -21,7 +21,7 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
 export default function Socials() {
   return (
     <div className="
-      w-full bg-header-top/20 py-3
+      w-full bg-index-link/30 py-3
       sm:bg-transparent sm:py-0
     "
     >

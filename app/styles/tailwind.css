@@ -199,6 +199,12 @@
 }
 
 @layer components {
+  :root::view-transition-group(*),
+  :root::view-transition-old(*),
+  :root::view-transition-new(*) {
+    animation-timing-function: ease-in-out;
+  }
+
   .main-status {
     background: linear-gradient(
       90deg,
@@ -228,6 +234,7 @@
       rgba(125, 159, 181, 0.4) 67%
     );
   }
+
 }
 
 /*

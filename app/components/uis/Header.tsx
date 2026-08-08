@@ -22,6 +22,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
           hover:opacity-80
           sm:text-base
         "
+        viewTransition
       >
         <ArrowLeft className="size-4.5" />
         <span className="block">Back</span>

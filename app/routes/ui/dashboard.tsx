@@ -1,7 +1,7 @@
 import { ArrowLeft, ChevronRight, InfoIcon } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { MainHeader } from '@/app/components/uis/components';
+import { MainHeader, UIPageBody } from '@/app/components/uis/components';
 import CreditCard from '@/app/components/uis/dashboard/CreditCard';
 import SidebarCard from '@/app/components/uis/dashboard/SidebarCard';
 import Header from '@/app/components/uis/Header';
@@ -24,11 +24,13 @@ export default function DashboardPage() {
     <div className="flex h-dvh flex-col">
       <title>Dashboard | UIs | John Heher</title>
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
-      <Header heading={<MainHeader>Dashboard</MainHeader>} subhead="An example of a totally original dashboard that isn't almost exactly like what I worked on for two years." />
-      <div className="
-        flex-1 bg-linear-to-b from-templating-light/60 to-templating-dark/50 px-2.5 py-5
-        sm:px-0 sm:pt-10 sm:pb-0
-      "
+      <Header heading={<MainHeader transitionPath="/ui/dashboard">Dashboard</MainHeader>} subhead="An example of a totally original dashboard that isn't almost exactly like what I worked on for two years." />
+      <UIPageBody
+        transitionPath="/ui/dashboard"
+        className="
+          flex-1 bg-linear-to-b from-templating-light/60 to-templating-dark/50 px-2.5 py-5
+          sm:px-0 sm:pt-10 sm:pb-0
+        "
       >
         <div className="mx-auto w-full max-w-250">
           <div className="bg-gray-300">
@@ -56,7 +58,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-      </div>
+      </UIPageBody>
     </div>
   );
 }

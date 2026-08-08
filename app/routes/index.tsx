@@ -1,7 +1,4 @@
-import type { RectReadOnly } from 'react-use-measure';
-
 import { useEffect, useRef } from 'react';
-import useMeasure from 'react-use-measure';
 
 import RecentProjects from '~/components/home/RecentProjects';
 import StackSection from '~/components/home/StackSection';
@@ -9,7 +6,7 @@ import UISection from '~/components/home/UISection';
 
 import Socials from '../components/home/Socials';
 
-function IndexContent({ size }: { size: RectReadOnly }) {
+function IndexContent() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,10 +14,6 @@ function IndexContent({ size }: { size: RectReadOnly }) {
     body.classList.remove('bg-index-background');
     body.classList.add('bg-header-top');
   }, []);
-
-  if (!size.width) {
-    return null;
-  }
 
   return (
     <div
@@ -69,12 +62,20 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               >
                 Web Developer
               </h2>
-              {size.width > 640 && <Socials />}
+              <div className="
+                hidden
+                sm:block
+              "
+              >
+                <Socials />
+              </div>
             </div>
           </div>
         </div>
         <div className="mx-auto max-w-200">
-          {size.width <= 640 && <Socials />}
+          <div className="sm:hidden">
+            <Socials />
+          </div>
           <UISection />
           <StackSection />
           <RecentProjects />
@@ -85,17 +86,14 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 }
 
 export default function Index() {
-  const [pageContainerRef, size] = useMeasure({ debounce: 300 });
-
   return (
     <main
       className="
         w-screen bg-index-background pb-10 font-figtree text-lg
         sm:px-5
       "
-      ref={pageContainerRef}
     >
-      <IndexContent size={size} />
+      <IndexContent />
     </main>
   );
 }
