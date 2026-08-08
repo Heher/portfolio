@@ -52,17 +52,18 @@ export default function ProductPage() {
                   </h2>
                   <p className="
                     mt-5 font-zilla text-base/relaxed text-gray-700
-                    sm:mt-8
+                    sm:mt-8 sm:text-lg
                   "
                   >
                     Never got a chance to test your skills at Slam Dunk, Moon Race, or the always frustrating Boogie Down? No need to go to Mo for a score update when this incredible, priceless, and of course glowing piece of the radical
                     rock is just a click away.
                   </p>
                 </div>
+                <p className="mt-5 text-xl font-medium">$99,999.99</p>
                 <button
                   type="button"
                   className="
-                    mt-15 w-full cursor-pointer rounded-lg bg-product-page px-5 py-3 text-base font-semibold text-better-white transition-colors
+                    mt-8 w-full cursor-pointer rounded-lg bg-product-page px-5 py-3 text-base font-semibold text-better-white transition-colors
                     hover:bg-product-page-dark
                     sm:text-lg
                   "
