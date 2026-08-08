@@ -30,10 +30,8 @@ function TVGuideHeader() {
         TV Guide
       </MainHeader>
       <Tooltip>
-        <TooltipTrigger render={(
+        <TooltipTrigger asChild>
           <InfoIcon size={20} className="text-tv-guide-dark" />
-        )}
-        >
         </TooltipTrigger>
         <TooltipContent className="flex-col items-start px-4 py-3">
           <p>Please excuse the fake lorem ipsum shows.</p>

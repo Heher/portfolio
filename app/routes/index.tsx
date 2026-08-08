@@ -14,8 +14,8 @@ function IndexContent({ size }: { size: RectReadOnly }) {
 
   useEffect(() => {
     const body = document.body;
-    body.classList.remove('bg-globe-background');
-    body.classList.add('bg-index-background');
+    body.classList.remove('bg-index-background');
+    body.classList.add('bg-header-top');
   }, []);
 
   if (!size.width) {
@@ -36,7 +36,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         "
         >
           <div className="
-            relative flex flex-col-reverse pt-10
+            relative flex flex-col-reverse pt-8
             sm:flex-row sm:items-center sm:rounded-bl-3xl sm:pt-20
           "
           >
@@ -51,19 +51,19 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               />
             </div>
             <div className="
-              relative z-3 mb-5 ml-10
+              relative z-3 mb-1 ml-8
               sm:mb-0 sm:ml-15
             "
             >
               <h1 className="
-                text-3xl leading-none font-semibold text-name
+                text-2xl leading-none font-semibold text-name
                 sm:text-4xl
               "
               >
                 John Heher
               </h1>
               <h2 className="
-                mt-1 text-base font-semibold text-subtitle uppercase
+                mt-1 text-sm font-semibold text-subtitle uppercase
                 sm:text-base
               "
               >
@@ -75,7 +75,7 @@ function IndexContent({ size }: { size: RectReadOnly }) {
         </div>
         <div className="mx-auto max-w-200">
           {size.width <= 640 && <Socials />}
-          <UISection width={size.width} />
+          <UISection />
           <StackSection />
           <RecentProjects />
         </div>

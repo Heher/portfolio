@@ -51,7 +51,7 @@ export default function Show({ show }: ShowProps) {
 
   return (
     <Tooltip>
-      <TooltipTrigger render={(
+      <TooltipTrigger asChild>
         <div
           className={cn(
             `
@@ -67,8 +67,6 @@ export default function Show({ show }: ShowProps) {
           <span className="mb-2 block text-xs">{truncatedTime}</span>
           <span className="block truncate text-lg font-semibold uppercase">{show.name}</span>
         </div>
-      )}
-      >
       </TooltipTrigger>
       <TooltipContent className="px-4 py-2">
         <div className="flex flex-col gap-1">

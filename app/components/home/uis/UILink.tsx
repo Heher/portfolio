@@ -16,7 +16,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
     <Link
       to={url}
       className={cn(`
-        group w-50 shrink-0 rounded-xl border-4 border-better-white
+        group shrink-0 rounded-xl border-4 border-better-white
         sm:w-60
       `, className)}
     >
@@ -29,7 +29,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
         {title}
       </h2>
       <div className={cn(`
-        flex h-40 items-center justify-center bg-better-white/60 transition-colors
+        flex h-34 items-center justify-center bg-better-white/60 transition-colors
         group-hover:bg-better-white
         sm:h-50
       `, bodyClassName)}
