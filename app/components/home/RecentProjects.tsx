@@ -8,7 +8,7 @@ export default function RecentProjects() {
       "
     >
       <h2 className="
-        mb-5 text-xl font-semibold text-name
+        mb-5 text-2xl font-semibold text-name
         sm:mb-7 sm:text-3xl
       "
       >

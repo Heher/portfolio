@@ -21,7 +21,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
       `, className)}
     >
       <h2 className={cn(`
-        rounded-t-xl bg-tables-light/40 py-2 text-center font-zilla text-base font-semibold text-tables-dark transition-colors
+        rounded-t-xl bg-tables-light/40 py-2 text-center font-zilla text-lg font-semibold text-tables-dark transition-colors
         group-hover:bg-tables-light/10
         sm:py-3 sm:text-lg
       `, headerClassName)}

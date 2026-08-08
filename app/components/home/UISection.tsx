@@ -19,14 +19,14 @@ export default function UISection() {
       "
       >
         <h2 className="
-          mb-3 text-xl font-semibold text-name
+          mb-3 text-2xl font-semibold text-name
           sm:mb-5 sm:text-3xl
         "
         >
           User Interfaces
         </h2>
         <p className="
-          max-w-xl font-zilla text-base text-name
+          max-w-xl font-zilla text-lg text-name
           sm:text-xl
         "
         >
