@@ -7,7 +7,7 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
   return (
     <a
       className="
-        grid w-30 grid-cols-[26px_1fr] items-center rounded-md bg-better-white/70 px-2 py-3 text-sm leading-none font-semibold text-index-link uppercase transition-colors
+        grid w-30 grid-cols-[26px_1fr] items-center rounded-md bg-better-white/70 p-3 text-sm leading-none font-semibold text-index-link uppercase transition-colors
         hover:bg-better-white
         sm:w-40 sm:grid-cols-[40px_1fr] sm:rounded-lg sm:px-3 sm:py-2
       "
@@ -21,12 +21,12 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
 export default function Socials() {
   return (
     <div className="
-      w-full bg-header-top/20 py-5
+      w-full bg-header-top/20 py-3
       sm:bg-transparent sm:py-0
     "
     >
       <div className="
-        mx-auto grid w-fit grid-cols-2 grid-rows-2 justify-items-start gap-5
+        mx-auto grid w-fit grid-cols-2 grid-rows-2 justify-items-start gap-2
         sm:mx-0 sm:mt-9 sm:w-full sm:grid-cols-1 sm:grid-rows-4 sm:gap-3 sm:bg-none
       "
       >

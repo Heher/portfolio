@@ -13,9 +13,9 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
     <a
       href={link}
       className="
-        grid w-50 grid-cols-[35px_1fr] items-center gap-2 rounded-md bg-better-white/70 py-4 pl-5 text-sm text-index-link transition-colors
+        grid w-38 grid-cols-[30px_1fr] items-center gap-1 rounded-md bg-better-white/70 py-3 pl-3 text-xs text-index-link transition-colors
         hover:bg-better-white
-        sm:rounded-lg sm:text-base
+        sm:w-50 sm:grid-cols-[35px_1fr] sm:gap-2 sm:rounded-lg sm:py-4 sm:pl-5 sm:text-base
       "
     >
       {icon}
@@ -54,8 +54,8 @@ export default function StackSection() {
       "
       >
         <div className="
-          flex flex-col gap-10 text-base text-[#282B27]
-          sm:flex-row sm:gap-8
+          flex gap-5 text-base text-[#282B27]
+          sm:gap-8
         "
         >
           <div>

@@ -29,7 +29,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
         {title}
       </h2>
       <div className={cn(`
-        flex h-34 items-center justify-center bg-better-white/60 transition-colors
+        flex h-40 items-center justify-center bg-better-white/60 transition-colors
         group-hover:bg-better-white
         sm:h-50
       `, bodyClassName)}
@@ -37,7 +37,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
         <img
           src={`./uis/${image}`}
           className="
-            h-20
+            h-22
             sm:h-30
           "
         />

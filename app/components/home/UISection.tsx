@@ -39,14 +39,14 @@ export default function UISection({ width }: UISectionProps) {
         </p>
       </div>
       <div className="
-        relative mt-7 h-46 overflow-hidden
+        relative mt-7 h-52 overflow-hidden
         sm:h-auto
       "
       >
         {width < 640 && (
           <>
-            <div className="absolute top-0 left-0 z-2 h-[184px] w-5 bg-linear-to-r from-index-background" />
-            <div className="absolute top-0 right-0 z-2 h-[184px] w-5 bg-linear-to-l from-index-background" />
+            <div className="absolute top-0 left-0 z-2 h-46 w-9 bg-linear-to-r from-index-background" />
+            <div className="absolute top-0 right-0 z-2 h-46 w-9 bg-linear-to-l from-index-background" />
           </>
         )}
         <div
