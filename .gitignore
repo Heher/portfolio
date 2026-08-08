@@ -1,15 +1,14 @@
-node_modules
+/node_modules/
 
 /.cache
-/build/
-/public/build
-.env
 
 # dotenv environment variable files
 .env*
 
 # Mac files
 .DS_Store
+
+*.tsbuildinfo
 
 /test-results/
 /playwright-report/
@@ -18,24 +17,12 @@ node_modules
 ## PEM-encoded certificate data
 *.pem
 
-.netlify
-
-# Sentry Config File
-.sentryclirc
-
-# sst
-.sst
-
-# partykit
-.partykit
-
 # Sentry Config File
 .sentryclirc
 
 # Sentry Config File
-.env.sentry-build-plugin
+.sentryclirc
 
-# Sentry Config File
-.env.sentry-build-plugin
-
+# React Router
 /.react-router/
+/build/
