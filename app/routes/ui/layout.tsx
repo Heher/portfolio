@@ -1,5 +1,6 @@
 import type { RectReadOnly } from 'react-use-measure';
 
+import { useEffect } from 'react';
 import { Outlet } from 'react-router';
 import useMeasure from 'react-use-measure';
 
@@ -9,6 +10,12 @@ export type UIContext = {
 
 export default function UILayout() {
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove('bg-header-top');
+    body.classList.add('bg-index-background');
+  }, []);
 
   return (
     <div

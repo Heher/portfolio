@@ -5,11 +5,7 @@ import ProductPageUI from './uis/ProductPage';
 import TablesUI from './uis/Tables';
 import TVGuideUI from './uis/TVGuide';
 
-type UISectionProps = {
-  width: number;
-};
-
-export default function UISection({ width }: UISectionProps) {
+export default function UISection() {
   return (
     <section
       className="
@@ -38,30 +34,24 @@ export default function UISection({ width }: UISectionProps) {
           dashboards. Here are some demos I created from work I've done over the years.
         </p>
       </div>
-      <div className="
-        relative mt-7 h-52 overflow-hidden
-        sm:h-auto
-      "
-      >
-        {width < 640 && (
+      {/* {width < 640 && (
           <>
             <div className="absolute top-0 left-0 z-2 h-46 w-9 bg-linear-to-r from-index-background" />
             <div className="absolute top-0 right-0 z-2 h-46 w-9 bg-linear-to-l from-index-background" />
           </>
-        )}
-        <div
-          className="
-            flex gap-3 overflow-scroll overscroll-x-none px-5 pb-10
-            sm:mt-10 sm:grid sm:w-fit sm:grid-cols-3 sm:gap-7 sm:px-0 sm:pb-0
-          "
-        >
-          <TablesUI />
-          <OnboardingUI />
-          <ProductPageUI />
-          <EmailTemplateUI />
-          <TVGuideUI />
-          <DashboardUI />
-        </div>
+        )} */}
+      <div
+        className="
+          mt-10 grid grid-cols-2 gap-3 px-5
+          sm:w-fit sm:grid-cols-3 sm:gap-7 sm:px-0
+        "
+      >
+        <TablesUI />
+        <OnboardingUI />
+        <ProductPageUI />
+        <EmailTemplateUI />
+        <TVGuideUI />
+        <DashboardUI />
       </div>
     </section>
   );
