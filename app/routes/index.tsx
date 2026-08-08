@@ -3,13 +3,11 @@ import type { RectReadOnly } from 'react-use-measure';
 import { useEffect, useRef } from 'react';
 import useMeasure from 'react-use-measure';
 
-// import RecentProjects from '~/components/home/RecentProjects';
-// import StackSection from '~/components/home/StackSection';
-// import UISection from '~/components/home/UISection';
-// import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
-// import { Itenerary } from '~/components/Itenerary';
+import RecentProjects from '~/components/home/RecentProjects';
+import StackSection from '~/components/home/StackSection';
+import UISection from '~/components/home/UISection';
 
-// import Socials from '../components/home/Socials';
+import Socials from '../components/home/Socials';
 
 function IndexContent({ size }: { size: RectReadOnly }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,16 +69,16 @@ function IndexContent({ size }: { size: RectReadOnly }) {
               >
                 Web Developer
               </h2>
-              {/* {size.width > 640 && <Socials />} */}
+              {size.width > 640 && <Socials />}
             </div>
           </div>
         </div>
-        {/* <div className="mx-auto max-w-200">
+        <div className="mx-auto max-w-200">
           {size.width <= 640 && <Socials />}
           <UISection width={size.width} />
           <StackSection />
           <RecentProjects />
-        </div> */}
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing';
-import { ToneMappingMode } from 'postprocessing';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
+// import { ToneMappingMode } from 'postprocessing';
 import { Suspense } from 'react';
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 

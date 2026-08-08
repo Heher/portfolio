@@ -9,7 +9,7 @@ import type { Plans } from '@/types/uis/onboarding';
 import { MainHeader } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import HorizontalPlans from '@/app/components/uis/onboarding/HorizontalPlans';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui/sonner.client';
 import { ZOnboardingFormData } from '@/types/uis/onboarding';
 import SignUpDialog from '~/components/uis/onboarding/SignUpDialog';
 
