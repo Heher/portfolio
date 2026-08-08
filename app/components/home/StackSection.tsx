@@ -13,7 +13,7 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
     <a
       href={link}
       className="
-        grid w-38 grid-cols-[30px_1fr] items-center gap-1 rounded-md bg-better-white/70 py-3 pl-3 text-xs text-index-link transition-colors
+        grid w-38 grid-cols-[30px_1fr] items-center gap-1 rounded-md bg-better-white/70 py-3 pl-3 text-sm text-index-link transition-colors
         hover:bg-better-white
         sm:w-50 sm:grid-cols-[35px_1fr] sm:gap-2 sm:rounded-lg sm:py-4 sm:pl-5 sm:text-base
       "
@@ -34,14 +34,14 @@ export default function StackSection() {
       "
     >
       <h2 className="
-        mb-3 text-xl font-semibold text-name
+        mb-3 text-2xl font-semibold text-name
         sm:mb-5 sm:text-3xl
       "
       >
         Stack
       </h2>
       <p className="
-        max-w-xl font-zilla text-base text-name
+        max-w-xl font-zilla text-lg text-name
         sm:text-xl
       "
       >
@@ -60,7 +60,7 @@ export default function StackSection() {
         >
           <div>
             <h3 className="
-              mb-3 text-xs text-[oklch(0.45_0.0324_251.81)] uppercase
+              mb-3 text-sm text-[oklch(0.45_0.0324_251.81)] uppercase
               sm:text-sm
             "
             >
@@ -91,7 +91,7 @@ export default function StackSection() {
           </div>
           <div>
             <h3 className="
-              mb-3 text-xs text-[oklch(0.45_0.0324_251.81)] uppercase
+              mb-3 text-sm text-[oklch(0.45_0.0324_251.81)] uppercase
               sm:text-sm
             "
             >

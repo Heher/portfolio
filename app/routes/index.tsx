@@ -56,14 +56,14 @@ function IndexContent({ size }: { size: RectReadOnly }) {
             "
             >
               <h1 className="
-                text-2xl leading-none font-semibold text-name
+                text-3xl leading-none font-semibold text-name
                 sm:text-4xl
               "
               >
                 John Heher
               </h1>
               <h2 className="
-                mt-1 text-sm font-semibold text-subtitle uppercase
+                mt-1 text-base font-semibold text-subtitle uppercase
                 sm:text-base
               "
               >
