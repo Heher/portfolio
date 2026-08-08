@@ -67,6 +67,7 @@ const config = antfu(
       // or configure rules individually
       'better-tailwindcss/enforce-consistent-line-wrapping': ['warn', { printWidth: 180 }],
       'better-tailwindcss/enforce-consistent-class-order': ['warn'],
+      'better-tailwindcss/no-unknown-classes': ['error', { detectComponentClasses: true }],
     },
     settings: {
       'better-tailwindcss': {

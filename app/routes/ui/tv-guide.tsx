@@ -5,7 +5,7 @@ import { InfoIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { currentTimeState } from '@/app/atoms/currentTimeAtom';
-import { MainHeader } from '@/app/components/uis/components';
+import { MainHeader, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import { getFakeScheduleData, hourWidth } from '@/app/components/uis/tv-guide/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -26,7 +26,7 @@ export type LoaderData = typeof loader;
 function TVGuideHeader() {
   return (
     <div className="flex items-center gap-3">
-      <MainHeader>
+      <MainHeader transitionPath="/ui/tv-guide">
         TV Guide
       </MainHeader>
       <Tooltip>
@@ -71,15 +71,17 @@ export default function TVGuidePage() {
       <title>TV Guide | UIs | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
       <Header heading={<TVGuideHeader />} subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
-      <div className="
-        min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
-        sm:px-0 sm:pt-5 sm:pb-0
-      "
+      <UIPageBody
+        transitionPath="/ui/tv-guide"
+        className="
+          min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
+          sm:px-0 sm:pt-5 sm:pb-0
+        "
       >
         <div className="mx-auto size-full min-h-0 max-w-250">
           <TVGuide />
         </div>
-      </div>
+      </UIPageBody>
     </div>
   );
 }

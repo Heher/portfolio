@@ -1,4 +1,4 @@
-import { MainHeader } from '@/app/components/uis/components';
+import { MainHeader, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import BasicTable from '~/components/uis/tables/BasicTable';
 import { createTableData } from '~/components/uis/tables/utils';
@@ -17,7 +17,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
       <title>Tables | UIs | John Heher</title>
       <meta name="description" content="A simple table component created by John Heher." />
       <Header
-        heading={<MainHeader>Tables</MainHeader>}
+        heading={<MainHeader transitionPath="/ui/tables">Tables</MainHeader>}
         subhead={(
           <span>
             I've found if I'm being asked to build an internal tool,
@@ -26,15 +26,17 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
           </span>
         )}
       />
-      <div className="
-        h-full flex-1 bg-linear-to-b from-tables to-tables-dark px-2.5 py-5
-        sm:px-0 sm:pt-30 sm:pb-0
-      "
+      <UIPageBody
+        transitionPath="/ui/tables"
+        className="
+          h-full flex-1 bg-linear-to-b from-tables to-tables-dark px-2.5 py-5
+          sm:px-0 sm:pt-30 sm:pb-0
+        "
       >
         <div className="mx-auto w-full max-w-4xl">
           <BasicTable data={loaderData.data} />
         </div>
-      </div>
+      </UIPageBody>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 import type { Plans } from '@/types/uis/onboarding';
 
-import { MainHeader } from '@/app/components/uis/components';
+import { MainHeader, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import HorizontalPlans from '@/app/components/uis/onboarding/HorizontalPlans';
 import { Toaster } from '@/components/ui/sonner.client';
@@ -87,11 +87,13 @@ export default function OnboardingPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Onboarding | UIs | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
-      <Header heading={<MainHeader>Onboarding / Signup</MainHeader>} subhead="An example of an onboarding marketing landing page with signup." />
-      <div className="
-        h-full flex-1 bg-linear-to-b from-blue-950 to-mist-700 px-2.5 pt-5 pb-10
-        sm:px-0 sm:pt-30 sm:pb-0
-      "
+      <Header heading={<MainHeader transitionPath="/ui/onboarding">Onboarding / Signup</MainHeader>} subhead="An example of an onboarding marketing landing page with signup." />
+      <UIPageBody
+        transitionPath="/ui/onboarding"
+        className="
+          h-full flex-1 bg-linear-to-b from-blue-950 to-mist-700 px-2.5 pt-5 pb-10
+          sm:px-0 sm:pt-30 sm:pb-0
+        "
       >
         <h2 className="
           mt-5 text-center text-xl font-semibold text-better-white
@@ -102,7 +104,7 @@ export default function OnboardingPage() {
         </h2>
         <OnboardingInner width={size?.width} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={() => setShowSignUpDialog(true)} />
         <SignUpDialog show={showSignUpDialog} selectedPlan={selectedPlan} close={() => setShowSignUpDialog(false)} />
-      </div>
+      </UIPageBody>
       <Toaster position="top-center" />
     </div>
   );

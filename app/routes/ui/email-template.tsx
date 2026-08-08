@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, useFetcher } from 'react-router';
 import { toast } from 'sonner';
 
-import { MainHeader } from '@/app/components/uis/components';
+import { MainHeader, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import { sendSampleEmail } from '@/app/utils/email';
 import { Input } from '@/components/ui/input';
@@ -60,11 +60,13 @@ export default function EmailTemplatePage() {
     <div className="flex min-h-dvh flex-col">
       <title>Email Templates | UIs | John Heher</title>
       <meta name="description" content="A simple link to send an email template created by John Heher." />
-      <Header heading={<MainHeader>Email templates</MainHeader>} subhead="My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000." />
-      <div className="
-        h-full flex-1 bg-linear-to-b from-email-light to-email px-2.5 py-10
-        sm:px-0 sm:pt-30 sm:pb-0
-      "
+      <Header heading={<MainHeader transitionPath="/ui/email-template">Email templates</MainHeader>} subhead="My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000." />
+      <UIPageBody
+        transitionPath="/ui/email-template"
+        className="
+          h-full flex-1 bg-linear-to-b from-email-light to-email px-2.5 py-10
+          sm:px-0 sm:pt-30 sm:pb-0
+        "
       >
         <div className="mx-auto flex w-full max-w-4xl items-center justify-center">
           <div className="w-100 rounded-2xl bg-better-white p-5 shadow-lg">
@@ -106,7 +108,7 @@ export default function EmailTemplatePage() {
             </Form>
           </div>
         </div>
-      </div>
+      </UIPageBody>
       <Toaster position="top-center" />
     </div>
   );
