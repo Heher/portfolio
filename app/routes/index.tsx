@@ -33,35 +33,45 @@ function IndexContent() {
             sm:flex-row sm:items-center sm:rounded-bl-3xl sm:pt-20
           "
           >
-            <div className="max-w-192.5 self-end">
+            <div className="
+              -mt-3 max-w-192.5 self-end
+              sm:mt-0
+            "
+            >
               <img
                 src="/images/header.webp"
                 alt=""
                 className="
-                  w-full
-                  sm:rounded-bl-3xl
+                  -ml-26 w-full
+                  sm:ml-0 sm:rounded-bl-3xl
                 "
               />
             </div>
             <div className="
-              relative z-3 mb-1 ml-8
-              sm:mb-0 sm:ml-15
+              relative z-3 mb-1 flex justify-center
+              sm:mb-0 sm:ml-15 sm:flex-col sm:pr-0
             "
             >
-              <h1 className="
-                text-3xl leading-none font-semibold text-name
-                sm:text-4xl
+              <div className="
+                flex flex-col items-center
+                sm:items-start
               "
               >
-                John Heher
-              </h1>
-              <h2 className="
-                mt-1 text-base font-semibold text-subtitle uppercase
-                sm:text-base
-              "
-              >
-                Web Developer
-              </h2>
+                <h1 className="
+                  text-3xl leading-none font-semibold text-name
+                  sm:text-4xl
+                "
+                >
+                  John Heher
+                </h1>
+                <h2 className="
+                  mt-1 text-base font-semibold text-subtitle uppercase
+                  sm:text-base
+                "
+                >
+                  Web Developer
+                </h2>
+              </div>
               <div className="
                 hidden
                 sm:block
