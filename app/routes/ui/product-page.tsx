@@ -17,7 +17,7 @@ export default function ProductPage() {
       <UIPageBody
         transitionPath="/ui/product-page"
         className="
-          h-full flex-1 bg-linear-to-b from-product-page to-product-page-dark px-2.5 pt-5 pb-10
+          h-full flex-1 bg-linear-to-b from-stellar-top to-stellar-bottom px-2.5 pt-5 pb-10
           sm:px-0 sm:pt-30 sm:pb-0
         "
       >

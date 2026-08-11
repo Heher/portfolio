@@ -73,8 +73,12 @@ export default function TVGuidePage() {
       <Header heading={<TVGuideHeader />} subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
       <UIPageBody
         transitionPath="/ui/tv-guide"
+        // className="
+        //   min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
+        //   sm:px-0 sm:pt-5 sm:pb-0
+        // "
         className="
-          min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
+          min-h-0 flex-1 bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
           sm:px-0 sm:pt-5 sm:pb-0
         "
       >

@@ -30,8 +30,8 @@ export default function UILink({ url, title, image, className, headerClassName, 
     >
       <h2
         className={cn(`
-          flex items-center justify-center gap-1 rounded-t-xl bg-tables-light/40 py-2 font-zilla text-lg font-semibold text-tables-dark transition-colors
-          group-hover:bg-tables-light/10
+          flex items-center justify-center gap-1 rounded-t-xl bg-tables-light/50 py-2 font-zilla text-lg font-semibold text-tables-dark transition-colors
+          group-hover:bg-tables-light/40
           sm:py-3 sm:text-lg
         `, headerClassName)}
       >

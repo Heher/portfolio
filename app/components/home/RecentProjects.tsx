@@ -15,7 +15,7 @@ export default function RecentProjects() {
         Recent projects
       </h2>
       <a href="https://www.globedraft.com">
-        <img src="./images/globedraft.jpg" className="rounded-lg" />
+        <img src="./images/globedraft.jpg" srcSet="./images/globedraft-mobile.jpg 640w" sizes="(max-width: 640px) 640px" className="rounded-lg" />
       </a>
     </section>
   );

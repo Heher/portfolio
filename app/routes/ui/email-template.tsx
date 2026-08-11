@@ -64,7 +64,7 @@ export default function EmailTemplatePage() {
       <UIPageBody
         transitionPath="/ui/email-template"
         className="
-          h-full flex-1 bg-linear-to-b from-email-light to-email px-2.5 py-10
+          h-full flex-1 bg-linear-to-b from-blue-slate-top to-blue-slate-bottom px-2.5 py-10
           sm:px-0 sm:pt-30 sm:pb-0
         "
       >

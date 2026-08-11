@@ -28,7 +28,7 @@ export default function DashboardPage() {
       <UIPageBody
         transitionPath="/ui/dashboard"
         className="
-          flex-1 bg-linear-to-b from-templating-light/60 to-templating-dark/50 px-2.5 py-5
+          flex-1 bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
           sm:px-0 sm:pt-10 sm:pb-0
         "
       >
