@@ -7,7 +7,7 @@ import Header from '@/app/components/uis/Header';
 import { sendSampleEmail } from '@/app/utils/email';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Toaster } from '@/components/ui/sonner.client';
+import { Toaster } from '@/components/ui/sonner';
 import { ZEmailFormData } from '@/types/uis/email';
 
 import type { Route } from './+types/email-template';

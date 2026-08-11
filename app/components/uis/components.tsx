@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { useViewTransitionState } from 'react-router';
 
-import { getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
+import { getUIBodyTransitionName } from '@/lib/utils';
 
 type MainHeaderProps = {
   children: ReactNode;
@@ -16,16 +16,12 @@ type UIPageBodyProps = {
 };
 
 export function MainHeader({ children, transitionPath }: MainHeaderProps) {
-  const isTransitioning = useViewTransitionState(transitionPath ?? '/');
-  const transitionName = transitionPath && isTransitioning ? getUIHeadingTransitionName(transitionPath) : 'none';
-
   return (
     <h1
       className="
         text-2xl font-semibold
         sm:text-3xl
       "
-      style={{ viewTransitionName: transitionName }}
     >
       {children}
     </h1>

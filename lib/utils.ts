@@ -22,3 +22,11 @@ export function getUIBodyTransitionName(path: string) {
 
   return `ui-body-${slug}`;
 }
+
+export function getUIArrowTransitionName(path: string) {
+  const slug = path
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/[^a-z0-9]+/gi, '-');
+
+  return `ui-arrow-${slug}`;
+}
