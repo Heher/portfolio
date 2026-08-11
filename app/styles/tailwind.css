@@ -202,7 +202,7 @@
   :root::view-transition-group(*),
   :root::view-transition-old(*),
   :root::view-transition-new(*) {
-    animation-timing-function: ease-in-out;
+    animation-timing-function: ease-out;
   }
 
   .main-status {

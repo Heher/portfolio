@@ -23,7 +23,7 @@ export default function UISection() {
           sm:mb-5 sm:text-3xl
         "
         >
-          User Interfaces
+          Demos
         </h2>
         <p className="
           max-w-xl font-zilla text-lg text-name
@@ -31,7 +31,7 @@ export default function UISection() {
         "
         >
           I've built a wide variety of UIs, from simple landing pages to complex
-          dashboards. Here are some demos I created from work I've done over the years.
+          dashboards. Here are some examples I created from work I've done over the years.
         </p>
       </div>
       {/* {width < 640 && (

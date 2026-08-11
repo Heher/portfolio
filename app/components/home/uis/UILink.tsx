@@ -1,6 +1,7 @@
+import { ArrowLeft } from 'lucide-react';
 import { Link, useViewTransitionState } from 'react-router';
 
-import { cn, getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
+import { cn, getUIArrowTransitionName, getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
 
 type UILinkProps = {
   url: string;
@@ -15,6 +16,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
   const isTransitioning = useViewTransitionState(url);
   const headingTransitionName = isTransitioning ? getUIHeadingTransitionName(url) : 'none';
   const bodyTransitionName = isTransitioning ? getUIBodyTransitionName(url) : 'none';
+  const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(url) : 'none';
 
   return (
     <Link
@@ -24,16 +26,17 @@ export default function UILink({ url, title, image, className, headerClassName, 
         sm:w-60
       `, className)}
       viewTransition
+      style={{ viewTransitionName: headingTransitionName }}
     >
       <h2
         className={cn(`
-          rounded-t-xl bg-tables-light/40 py-2 text-center font-zilla text-lg font-semibold text-tables-dark transition-colors
+          flex items-center justify-center gap-1 rounded-t-xl bg-tables-light/40 py-2 font-zilla text-lg font-semibold text-tables-dark transition-colors
           group-hover:bg-tables-light/10
           sm:py-3 sm:text-lg
         `, headerClassName)}
-        style={{ viewTransitionName: headingTransitionName }}
       >
         {title}
+        <ArrowLeft className="size-4.5 rotate-180" style={{ viewTransitionName: arrowTransitionName }} />
       </h2>
       <div
         className={cn(`
