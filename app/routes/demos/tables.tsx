@@ -1,0 +1,46 @@
+import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/demos/components';
+import Header from '@/app/components/demos/Header';
+import BasicTable from '@/app/components/demos/tables/BasicTable';
+import { createTableData } from '@/app/components/demos/tables/utils';
+
+import type { Route } from './+types/tables';
+
+export async function loader() {
+  const tableData = createTableData(300);
+
+  return { data: tableData };
+}
+
+export default function TablesPage({ loaderData }: Route.ComponentProps) {
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <title>Tables | Demos | John Heher</title>
+      <meta name="description" content="A simple table component created by John Heher." />
+      <Header
+        heading={(
+          <MainHeaderContainer>
+            <MainHeader>Tables</MainHeader>
+          </MainHeaderContainer>
+        )}
+        subhead={(
+          <span>
+            I've found if I'm being asked to build an internal tool,
+            {' '}
+            <span className="whitespace-nowrap">it's gonna be a table.</span>
+          </span>
+        )}
+      />
+      <UIPageBody
+        transitionPath="/demos/tables"
+        className="
+          h-full flex-1 bg-linear-to-b from-mello-top/80 to-mello-bottom/80 px-2.5 py-5
+          sm:px-0 sm:pt-30 sm:pb-0
+        "
+      >
+        <div className="mx-auto w-full max-w-4xl">
+          <BasicTable data={loaderData.data} />
+        </div>
+      </UIPageBody>
+    </div>
+  );
+}

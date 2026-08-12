@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
+import DemoSection from '@/app/components/home/DemoSection';
 import RecentProjects from '~/components/home/RecentProjects';
 import StackSection from '~/components/home/StackSection';
-import UISection from '~/components/home/UISection';
 
 import Socials from '../components/home/Socials';
 
@@ -12,7 +12,7 @@ function IndexContent() {
   useEffect(() => {
     const body = document.body;
     body.classList.remove('bg-index-background');
-    body.classList.add('bg-header-top');
+    body.classList.add('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
   }, []);
 
   return (
@@ -86,7 +86,7 @@ function IndexContent() {
           <div className="sm:hidden">
             <Socials />
           </div>
-          <UISection />
+          <DemoSection />
           <StackSection />
           <RecentProjects />
         </div>
