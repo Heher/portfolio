@@ -29,7 +29,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
       <UIPageBody
         transitionPath="/ui/tables"
         className="
-          h-full flex-1 bg-linear-to-b from-tables to-tables-dark px-2.5 py-5
+          h-full flex-1 bg-linear-to-b from-mello-top/80 to-mello-bottom/80 px-2.5 py-5
           sm:px-0 sm:pt-30 sm:pb-0
         "
       >

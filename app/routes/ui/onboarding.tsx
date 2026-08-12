@@ -91,7 +91,7 @@ export default function OnboardingPage() {
       <UIPageBody
         transitionPath="/ui/onboarding"
         className="
-          h-full flex-1 bg-linear-to-b from-blue-950 to-mist-700 px-2.5 pt-5 pb-10
+          h-full flex-1 bg-linear-to-b from-purple-bliss-top to-purple-bliss-bottom px-2.5 pt-5 pb-10
           sm:px-0 sm:pt-30 sm:pb-0
         "
       >
