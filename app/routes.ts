@@ -4,14 +4,14 @@ import { index, layout, prefix, route } from '@react-router/dev/routes';
 
 export default [
   index('routes/index.tsx'),
-  ...prefix('ui', [
-    layout('routes/ui/layout.tsx', [
-      route('tables', 'routes/ui/tables.tsx'),
-      route('onboarding', 'routes/ui/onboarding.tsx'),
-      route('product-page', 'routes/ui/product-page.tsx'),
-      route('email-template', 'routes/ui/email-template.tsx'),
-      route('tv-guide', 'routes/ui/tv-guide.tsx'),
-      route('dashboard', 'routes/ui/dashboard.tsx'),
+  ...prefix('demos', [
+    layout('routes/demos/layout.tsx', [
+      route('tables', 'routes/demos/tables.tsx'),
+      route('onboarding', 'routes/demos/onboarding.tsx'),
+      route('product-page', 'routes/demos/product-page.tsx'),
+      route('email-template', 'routes/demos/email-template.tsx'),
+      route('tv-guide', 'routes/demos/tv-guide.tsx'),
+      route('dashboard', 'routes/demos/dashboard.tsx'),
     ]),
   ]),
   // ...prefix('trip', [

@@ -14,22 +14,22 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/ui/tables": {
+  "/demos/tables": {
     params: {};
   };
-  "/ui/onboarding": {
+  "/demos/onboarding": {
     params: {};
   };
-  "/ui/product-page": {
+  "/demos/product-page": {
     params: {};
   };
-  "/ui/email-template": {
+  "/demos/email-template": {
     params: {};
   };
-  "/ui/tv-guide": {
+  "/demos/tv-guide": {
     params: {};
   };
-  "/ui/dashboard": {
+  "/demos/dashboard": {
     params: {};
   };
 };
@@ -37,50 +37,50 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
+    page: "/" | "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard";
   };
   "routes/index.tsx": {
     id: "routes/index";
     page: "/";
   };
-  "routes/ui/layout.tsx": {
-    id: "routes/ui/layout";
-    page: "/ui/tables" | "/ui/onboarding" | "/ui/product-page" | "/ui/email-template" | "/ui/tv-guide" | "/ui/dashboard";
+  "routes/demos/layout.tsx": {
+    id: "routes/demos/layout";
+    page: "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard";
   };
-  "routes/ui/tables.tsx": {
-    id: "routes/ui/tables";
-    page: "/ui/tables";
+  "routes/demos/tables.tsx": {
+    id: "routes/demos/tables";
+    page: "/demos/tables";
   };
-  "routes/ui/onboarding.tsx": {
-    id: "routes/ui/onboarding";
-    page: "/ui/onboarding";
+  "routes/demos/onboarding.tsx": {
+    id: "routes/demos/onboarding";
+    page: "/demos/onboarding";
   };
-  "routes/ui/product-page.tsx": {
-    id: "routes/ui/product-page";
-    page: "/ui/product-page";
+  "routes/demos/product-page.tsx": {
+    id: "routes/demos/product-page";
+    page: "/demos/product-page";
   };
-  "routes/ui/email-template.tsx": {
-    id: "routes/ui/email-template";
-    page: "/ui/email-template";
+  "routes/demos/email-template.tsx": {
+    id: "routes/demos/email-template";
+    page: "/demos/email-template";
   };
-  "routes/ui/tv-guide.tsx": {
-    id: "routes/ui/tv-guide";
-    page: "/ui/tv-guide";
+  "routes/demos/tv-guide.tsx": {
+    id: "routes/demos/tv-guide";
+    page: "/demos/tv-guide";
   };
-  "routes/ui/dashboard.tsx": {
-    id: "routes/ui/dashboard";
-    page: "/ui/dashboard";
+  "routes/demos/dashboard.tsx": {
+    id: "routes/demos/dashboard";
+    page: "/demos/dashboard";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "routes/index": typeof import("./app/routes/index.tsx");
-  "routes/ui/layout": typeof import("./app/routes/ui/layout.tsx");
-  "routes/ui/tables": typeof import("./app/routes/ui/tables.tsx");
-  "routes/ui/onboarding": typeof import("./app/routes/ui/onboarding.tsx");
-  "routes/ui/product-page": typeof import("./app/routes/ui/product-page.tsx");
-  "routes/ui/email-template": typeof import("./app/routes/ui/email-template.tsx");
-  "routes/ui/tv-guide": typeof import("./app/routes/ui/tv-guide.tsx");
-  "routes/ui/dashboard": typeof import("./app/routes/ui/dashboard.tsx");
+  "routes/demos/layout": typeof import("./app/routes/demos/layout.tsx");
+  "routes/demos/tables": typeof import("./app/routes/demos/tables.tsx");
+  "routes/demos/onboarding": typeof import("./app/routes/demos/onboarding.tsx");
+  "routes/demos/product-page": typeof import("./app/routes/demos/product-page.tsx");
+  "routes/demos/email-template": typeof import("./app/routes/demos/email-template.tsx");
+  "routes/demos/tv-guide": typeof import("./app/routes/demos/tv-guide.tsx");
+  "routes/demos/dashboard": typeof import("./app/routes/demos/dashboard.tsx");
 };
