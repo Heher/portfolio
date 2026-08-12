@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, useFetcher } from 'react-router';
 import { toast } from 'sonner';
 
-import { MainHeader, UIPageBody } from '@/app/components/uis/components';
+import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 import { sendSampleEmail } from '@/app/utils/email';
 import { Input } from '@/components/ui/input';
@@ -60,7 +60,14 @@ export default function EmailTemplatePage() {
     <div className="flex min-h-dvh flex-col">
       <title>Email Templates | UIs | John Heher</title>
       <meta name="description" content="A simple link to send an email template created by John Heher." />
-      <Header heading={<MainHeader transitionPath="/ui/email-template">Email templates</MainHeader>} subhead="My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000." />
+      <Header
+        heading={(
+          <MainHeaderContainer>
+            <MainHeader>Email templates</MainHeader>
+          </MainHeaderContainer>
+        )}
+        subhead="My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000."
+      />
       <UIPageBody
         transitionPath="/ui/email-template"
         className="

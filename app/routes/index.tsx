@@ -12,7 +12,7 @@ function IndexContent() {
   useEffect(() => {
     const body = document.body;
     body.classList.remove('bg-index-background');
-    body.classList.add('bg-header-top');
+    body.classList.add('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
   }, []);
 
   return (

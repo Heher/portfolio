@@ -5,8 +5,9 @@ import { InfoIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { currentTimeState } from '@/app/atoms/currentTimeAtom';
-import { MainHeader, UIPageBody } from '@/app/components/uis/components';
+import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
+import Tip from '@/app/components/uis/tv-guide/Tip';
 import { getFakeScheduleData, hourWidth } from '@/app/components/uis/tv-guide/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import TVGuide from '~/components/uis/tv-guide/TVGuide';
@@ -25,20 +26,12 @@ export type LoaderData = typeof loader;
 
 function TVGuideHeader() {
   return (
-    <div className="flex items-center gap-3">
-      <MainHeader transitionPath="/ui/tv-guide">
+    <MainHeaderContainer>
+      <MainHeader>
         TV Guide
       </MainHeader>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <InfoIcon size={20} className="text-tv-guide-dark" />
-        </TooltipTrigger>
-        <TooltipContent className="flex-col items-start px-4 py-3">
-          <p>Please excuse the fake lorem ipsum shows.</p>
-          <p>The only TV schedule API I could find was woefully inaccurate. Just imagine you're watching TV in Ancient Rome.</p>
-        </TooltipContent>
-      </Tooltip>
-    </div>
+      <Tip />
+    </MainHeaderContainer>
   );
 }
 

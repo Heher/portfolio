@@ -13,7 +13,7 @@ export default function UILayout() {
 
   useEffect(() => {
     const body = document.body;
-    body.classList.remove('bg-header-top');
+    body.classList.remove('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
     body.classList.add('bg-index-background');
   }, []);
 

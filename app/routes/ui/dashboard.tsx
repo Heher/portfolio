@@ -1,7 +1,7 @@
 import { ArrowLeft, ChevronRight, InfoIcon } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { MainHeader, UIPageBody } from '@/app/components/uis/components';
+import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/uis/components';
 import CreditCard from '@/app/components/uis/dashboard/CreditCard';
 import SidebarCard from '@/app/components/uis/dashboard/SidebarCard';
 import Header from '@/app/components/uis/Header';
@@ -24,7 +24,14 @@ export default function DashboardPage() {
     <div className="flex h-dvh flex-col">
       <title>Dashboard | UIs | John Heher</title>
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
-      <Header heading={<MainHeader transitionPath="/ui/dashboard">Dashboard</MainHeader>} subhead="An example of a totally original dashboard that isn't almost exactly like what I worked on for two years." />
+      <Header
+        heading={(
+          <MainHeaderContainer>
+            <MainHeader>Dashboard</MainHeader>
+          </MainHeaderContainer>
+        )}
+        subhead="An example of a totally original dashboard that isn't almost exactly like what I worked on for two years."
+      />
       <UIPageBody
         transitionPath="/ui/dashboard"
         className="

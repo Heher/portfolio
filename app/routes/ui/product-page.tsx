@@ -1,5 +1,5 @@
 import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer.client';
-import { MainHeader, UIPageBody } from '@/app/components/uis/components';
+import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/uis/components';
 import Header from '@/app/components/uis/Header';
 
 // export async function loader() {
@@ -13,7 +13,14 @@ export default function ProductPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Product page | UIs | John Heher</title>
       <meta name="description" content="A product page for an incredible piece of the Aggro Crag created by John Heher." />
-      <Header heading={<MainHeader transitionPath="/ui/product-page">Product page</MainHeader>} subhead="For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS." />
+      <Header
+        heading={(
+          <MainHeaderContainer>
+            <MainHeader>Product page</MainHeader>
+          </MainHeaderContainer>
+        )}
+        subhead="For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS."
+      />
       <UIPageBody
         transitionPath="/ui/product-page"
         className="
