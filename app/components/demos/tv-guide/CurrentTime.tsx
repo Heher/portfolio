@@ -5,6 +5,10 @@ import { currentTimeState } from '@/app/atoms/currentTimeAtom';
 export default function CurrentTime() {
   const currentTime = useAtomValue(currentTimeState);
 
+  if (!currentTime?.time) {
+    return null;
+  }
+
   return (
     <div className="
       absolute top-4 left-0 z-6 flex w-25 -translate-y-1/2 items-baseline justify-center gap-2 text-gray-50
