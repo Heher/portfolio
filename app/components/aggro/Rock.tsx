@@ -10,17 +10,18 @@ type RockGLTF = GLTF & {
 };
 
 export default function Rock() {
-  const { nodes } = useGLTF('./gltf/aggro/rock.gltf') as unknown as RockGLTF;
+  const { nodes } = useGLTF('/gltf/aggro/rock.gltf') as unknown as RockGLTF;
 
   return (
     <group dispose={null}>
       <mesh
         castShadow
-        receiveShadow
         geometry={nodes.Rock.geometry}
-        position={[47.104, 57.336, 23.957]}
+        position={[0, 80, 15]}
+        scale={0.2}
       >
-        <meshStandardMaterial transparent color={0x56913A} emissive={0x56913A} emissiveIntensity={1.5} />
+        {/* <meshBasicMaterial color={[0.34 * 1, 0.57 * 1, 0.23 * 1]} /> */}
+        <meshBasicMaterial color={[0.34 * 2.24, 0.57 * 2.24, 0.23 * 2.24]} />
       </mesh>
     </group>
   );

@@ -1,4 +1,4 @@
-import { AggroCragContainer } from '~/components/aggro/AggroCragContainer';
+import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer.client';
 
 export default function AggroIndex() {
   return (

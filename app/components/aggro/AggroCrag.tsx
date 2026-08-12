@@ -1,11 +1,12 @@
 import type { Group } from 'three';
 
-import { useGLTF } from '@react-three/drei';
+// import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { MeshStandardMaterial } from 'three';
+// import { MeshStandardMaterial } from 'three';
 
 import Base from './Base';
+import Logo from './Logo';
 import Rock from './Rock';
 
 type DonutProps = {
@@ -25,18 +26,18 @@ type DonutProps = {
 
 export default function AggroCrag({ scale = 0.008 }: DonutProps) {
   const ref = useRef<Group | null>(null);
-  const base = useGLTF('./gltf/aggro/base.gltf');
+  // const base = useGLTF('./gltf/aggro/base.gltf');
 
-  useEffect(() => {
-    // Apply materials to base
-    base.scene.traverse((child) => {
-      if ('material' in child && child.material) {
-        child.material = new MeshStandardMaterial({
-          color: 0x333333,
-        });
-      }
-    });
-  }, [base]);
+  // useEffect(() => {
+  //   // Apply materials to base
+  //   base.scene.traverse((child) => {
+  //     if ('material' in child && child.material) {
+  //       child.material = new MeshStandardMaterial({
+  //         color: 0x333333,
+  //       });
+  //     }
+  //   });
+  // }, [base]);
 
   useFrame((state) => {
     if (!ref.current) {
@@ -50,6 +51,7 @@ export default function AggroCrag({ scale = 0.008 }: DonutProps) {
     <group ref={ref} scale={scale}>
       <Base />
       <Rock />
+      <Logo />
     </group>
   );
 }

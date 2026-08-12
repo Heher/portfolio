@@ -1,407 +1,109 @@
-import type { RectReadOnly } from 'react-use-measure';
-
-// import { motion } from 'motion/react';
 import { useEffect, useRef } from 'react';
-// import { Link, useLocation } from 'react-router';
-import useMeasure from 'react-use-measure';
 
-import logo from '~/assets/images/logo8.png?url';
-import rings from '~/assets/images/rings.png?url';
-// import ExpandedFlagContainer from '~/components/ExpandedFlagContainer';
-// import { Itenerary } from '~/components/Itenerary';
-import EmailIcon from '~/icons/Email';
-import GitHubIcon from '~/icons/Github';
-// import IndexArrow from '~/icons/IndexArrow';
-import LinkedInIcon from '~/icons/LinkedIn';
-import ResumeIcon from '~/icons/Resume';
-import DrizzleIcon from '~/icons/stack/Drizzle';
-import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
-import ReactIcon from '~/icons/stack/React';
-import ReactRouterIcon from '~/icons/stack/ReactRouter';
-import SentryIcon from '~/icons/stack/Sentry';
-// import SSTIcon from '~/icons/stack/SST';
-import TailwindIcon from '~/icons/stack/Tailwind';
-import TypeScriptIcon from '~/icons/stack/TypeScript';
-import ViteIcon from '~/icons/stack/Vite';
+import DemoSection from '@/app/components/home/DemoSection';
+import RecentProjects from '~/components/home/RecentProjects';
+import StackSection from '~/components/home/StackSection';
 
-// const MotionArrow = motion.create(IndexArrow);
+import Socials from '../components/home/Socials';
 
-function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: string]: any }) {
-  return (
-    <a
-      className="
-        grid grid-cols-[40px_1fr] items-center text-sm leading-none font-semibold text-(--index-link) uppercase transition-colors
-        hover:text-(--index-link-hover)
-      "
-      {...rest}
-    >
-      {children}
-    </a>
-  );
-}
-
-function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
-  return (
-    <li className="">
-      <a
-        href={link}
-        className="
-          grid w-50 grid-cols-[30px_1fr] items-center gap-3 rounded-sm bg-white/40 py-4 pr-5 pl-3 text-index-link transition-colors
-          hover:bg-white/80
-        "
-      >
-        {icon}
-        {name}
-      </a>
-    </li>
-  );
-}
-
-function IndexContent({ size }: { size: RectReadOnly }) {
-  // const [expand, setExpand] = useState(false);
-  // const [travelLinkHovered, setTravelLinkHovered] = useState(false);
-
+function IndexContent() {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // const location = useLocation();
-
-  // function handleItineraryClick() {
-  //   // gtag.event({
-  //   //   action: 'click_itinerary',
-  //   //   category: 'Itinerary Click',
-  //   //   label: expand ? 'Close' : 'Open'
-  //   // });
-
-  //   setExpand(!expand);
-  // }
 
   useEffect(() => {
     const body = document.body;
-    body.classList.remove('bg-globe-background');
-    body.classList.add('bg-index-background');
+    body.classList.remove('bg-index-background');
+    body.classList.add('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
   }, []);
 
-  // useEffect(() => {
-  //   if (expand) {
-  //     window.scrollTo({ top: 0, behavior: 'smooth' });
-  //   }
-  // }, [expand]);
-
-  if (!size.width)
-    return null;
-
   return (
-    // <motion.div
-    //   className="m-0 mx-auto max-w-lg"
-    //   ref={containerRef}
-    //   key={location.key}
-    //   initial={{ opacity: 0 }}
-    //   animate={{ opacity: 1 }}
-    //   exit={{ opacity: 0 }}
-    // >
     <div
-      className="m-0 mx-auto max-w-lg"
+      className="m-0 mx-auto"
       ref={containerRef}
     >
       <title>John Heher | Web Developer</title>
       <meta name="description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
-      {/* <motion.div
-        className="pb-5"
-        initial={{ x: 0, opacity: 1 }}
-        animate={{ x: expand ? -150 : 0, opacity: expand ? 0 : 1 }}
-        transition={{
-          duration: 0.3,
-          ease: 'easeOut',
-        }}
-        style={{ visibility: expand ? 'hidden' : 'visible' }}
-      > */}
       <div className="pb-5">
-        <img
-          src="/images/me.jpg"
-          alt="Me looking absolutely stunning while freezing in Cortina d'Ampezzo"
-          className="w-32 rounded-xl"
-        />
-        <h1 className="mt-10 text-4xl leading-none font-semibold text-name">John Heher</h1>
-        <h2 className="mt-2 text-base text-subtitle uppercase">Web Developer</h2>
         <div className="
-          mt-10 flex flex-col-reverse gap-8
-          md:flex-row
+          mx-auto max-w-275 bg-linear-to-b from-header-top to-header-bottom
+          sm:rounded-b-3xl
         "
         >
           <div className="
-            mt-5 grid w-full grid-cols-1 grid-rows-4 justify-items-start gap-5
-            md:mt-0
+            relative flex flex-col-reverse pt-8
+            sm:flex-row sm:items-center sm:rounded-bl-3xl sm:pt-20
           "
           >
-            <SocialLink
-              href="https://github.com/Heher"
-              aria-label="My GitHub"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'GitHub'
-              //   });
-              // }}
-            >
-              <GitHubIcon className="h-6 fill-current" />
-              <span className="text-xs">GitHub</span>
-            </SocialLink>
-            <SocialLink
-              href="https://www.linkedin.com/in/johnheher/"
-              aria-label="My LinkedIn"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'LinkedIn'
-              //   });
-              // }}
-            >
-              <LinkedInIcon className="h-6 fill-current" />
-              <span className="text-xs">LinkedIn</span>
-            </SocialLink>
-            <SocialLink
-              href="/cv.pdf"
-              aria-label="My Résumé"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'Resume'
-              //   });
-              // }}
-            >
-              <ResumeIcon className="h-6 fill-current" />
-              <span className="text-xs">Resume</span>
-            </SocialLink>
-            <SocialLink
-              href="mailto:johnheher@gmail.com"
-              aria-label="Email me"
-              // onClick={() => {
-              //   gtag.event({
-              //     action: 'click_contact',
-              //     category: 'Contact Link',
-              //     label: 'Email'
-              //   });
-              // }}
-            >
-              <EmailIcon className="w-5 fill-current" />
-              <span className="text-xs">Email</span>
-            </SocialLink>
-          </div>
-          <div>
-            <p className="text-lg text-subtitle">
-              Experienced and adaptable full-stack web developer with a front-end focus. I've worked on a variety of
-              projects from small start-ups to large agencies with
-              {' '}
-              <span className="whitespace-nowrap">Fortune 500</span>
-              {' '}
-              clients.
-            </p>
-          </div>
-        </div>
-        <div className="
-          mt-20
-          md:mt-32
-        "
-        >
-          <h2 className="mb-5 text-xl font-semibold uppercase">Recent projects</h2>
-          <a href="https://www.globedraft.com" className="group">
             <div className="
-              flex items-center gap-3 rounded-t-xl border-2 border-b-0 border-[#3d5061] bg-gd-background px-2 py-5
-              group-hover:bg-gd-background/90
-              md:px-4
+              -mt-3 max-w-192.5 self-end
+              sm:mt-0
             "
             >
               <img
-                src={logo}
+                src="/images/header.webp"
+                alt=""
                 className="
-                  h-7 self-center
-                  md:mt-[-4px] md:h-8
+                  -ml-26 w-full
+                  sm:ml-0 sm:rounded-bl-3xl
                 "
               />
-              <h3
-                className="
-                  relative mt-[4px] font-logo text-[20px] leading-none font-semibold tracking-tight text-(--nav-link) no-underline
-                  md:mt-0
-                "
-              >
-                GlobeDraft
-              </h3>
             </div>
             <div className="
-              rounded-b-xl border-2 border-t-0 border-[#3d5061] bg-gd-page-background px-3 py-5
-              group-hover:bg-gd-page-background/60
-              md:px-5
+              relative z-3 mb-1 flex justify-center
+              sm:mb-0 sm:ml-15 sm:flex-col sm:pr-0
             "
             >
-              <div className="flex items-center justify-center gap-2">
-                <p className="
-                  text-[14px] text-[#282B27]
-                  md:text-base
+              <div className="
+                flex flex-col items-center
+                sm:items-start
+              "
+              >
+                <h1 className="
+                  text-3xl leading-none font-semibold text-name
+                  sm:text-4xl
                 "
                 >
-                  Fantasy Olympics
-                </p>
-                <img
-                  src={rings}
-                  className="
-                    h-5 self-center
-                    md:h-5
-                  "
-                />
+                  John Heher
+                </h1>
+                <h2 className="
+                  mt-1 text-base font-semibold text-subtitle uppercase
+                  sm:text-base
+                "
+                >
+                  Web Developer
+                </h2>
               </div>
-              <p className="mt-7 max-w-md text-base text-[#282B27]">
-                Draft a team of countries to compete against your friends for the most medals.
-              </p>
-            </div>
-          </a>
-        </div>
-        <div className="
-          mt-20
-          md:mt-32
-        "
-        >
-          <h2 className="mb-5 text-xl font-semibold uppercase">Stack</h2>
-          <p className="mt-3 max-w-md text-base text-[#282B27]">
-            Being a programmer for over a decade allows you to work with a variety of technologies, but lately my go-to
-            stack (and the one that built this site) has been these.
-          </p>
-          <div className="mt-10 flex gap-5">
-            <div className="flex w-full justify-around">
-              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-                <StackTech
-                  name="React Router"
-                  link="https://reactrouter.com/"
-                  icon={<ReactRouterIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="React"
-                  link="https://react.dev/"
-                  icon={<ReactIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Tailwind"
-                  link="https://tailwindcss.com/"
-                  icon={<TailwindIcon className="h-3.75 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="TypeScript"
-                  link="https://www.typescriptlang.org/"
-                  icon={<TypeScriptIcon className="h-5 justify-self-center fill-current" />}
-                />
-              </ul>
-              <ul className="mt-5 flex flex-col gap-1 text-base text-[#282B27]">
-                <StackTech
-                  name="Vite"
-                  link="https://vitejs.dev/"
-                  icon={<ViteIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Sentry"
-                  link="https://www.sentry.io/"
-                  icon={<SentryIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="Drizzle"
-                  link="https://orm.drizzle.team/"
-                  icon={<DrizzleIcon className="h-5 justify-self-center fill-current" />}
-                />
-                <StackTech
-                  name="PostgreSQL"
-                  link="https://www.postgresql.org/"
-                  icon={<PostgreSQLIcon className="h-5 justify-self-center fill-current" />}
-                />
-              </ul>
+              <div className="
+                hidden
+                sm:block
+              "
+              >
+                <Socials />
+              </div>
             </div>
           </div>
         </div>
-        {/* <div className="
-          mt-20 mb-10 grid justify-items-start
-          md:mt-32
-        "
-        >
-          <Link
-            to="/trip"
-            className="grid grid-cols-[1fr_40px] items-center"
-            onMouseEnter={() => {
-              setTravelLinkHovered(true);
-            }}
-            onMouseLeave={() => {
-              setTravelLinkHovered(false);
-            }}
-            aria-label="My travels to the Olympic cities"
-          >
-            <h2
-              className={`
-                text-xl font-semibold uppercase transition-colors
-                ${travelLinkHovered ? 'text-[#686A67]' : 'text-[#282B27]'}
-              `}
-            >
-              Travels
-            </h2>
-            <MotionArrow
-              className="ml-3 h-3"
-              animate={{
-                x: travelLinkHovered ? 4 : 0,
-                fill: travelLinkHovered ? 'var(--index-link-hover)' : 'var(--index-link)',
-              }}
-            />
-          </Link>
-          <p className="mt-3 max-w-md text-base text-[#282B27]">
-            In November 2022, I decided to put all my stuff in storage and go travel for a bit. Made it to 29 countries
-            in that time (Vatican City counts).
-          </p>
-          <p className="mt-3 max-w-md text-base text-[#282B27]">
-            Check out my itinerary below or
-            {' '}
-            <Link
-              to="/trip"
-              className="
-                font-semibold underline transition-colors
-                hover:text-[#282B27]/60
-              "
-            >
-              head over
-            </Link>
-            {' '}
-            to my very cool, fun, and most importantly educational site with
-            {' '}
-            <motion.span
-              className="bg-linear-to-r from-red-700 via-blue-500 to-red-700 bg-size-[200%_100%] bg-clip-text font-semibold text-transparent"
-              initial={{ backgroundPosition: '0% 0%' }}
-              animate={{ backgroundPosition: '200% 0%' }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'loop' }}
-            >
-              interactive
-            </motion.span>
-            {' '}
-            buttons and and spinning globes.
-          </p>
-        </div> */}
-        {/* <Itenerary setExpand={setExpand} /> */}
+        <div className="mx-auto max-w-200">
+          <div className="sm:hidden">
+            <Socials />
+          </div>
+          <DemoSection />
+          <StackSection />
+          <RecentProjects />
+        </div>
       </div>
-      {/* </motion.div> */}
-      {/* <AnimatePresence mode="wait">
-        {expand && <ExpandedFlagContainer setExpand={setExpand} />}
-      </AnimatePresence> */}
     </div>
-    // </motion.div>
   );
 }
 
 export default function Index() {
-  const [pageContainerRef, size] = useMeasure({ debounce: 300 });
-  // const pageContainerRef = useRef<HTMLDivElement>(null);
-
-  // const dimensions = useResizeObserver(pageContainerRef);
-
-  // console.log('dimensions', dimensions);
-
   return (
-    <main className="w-screen bg-index-background px-5 py-10 font-figtree text-lg" ref={pageContainerRef}>
-      <IndexContent size={size} />
+    <main
+      className="
+        w-screen bg-index-background pb-10 font-figtree text-lg
+        sm:px-5
+      "
+    >
+      <IndexContent />
     </main>
   );
 }
