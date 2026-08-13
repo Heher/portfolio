@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, useFetcher } from 'react-router';
 import { toast } from 'sonner';
 
@@ -38,13 +38,14 @@ export async function action({ request }: Route.ActionArgs) {
 // }
 
 export default function EmailTemplatePage() {
+  const [value, setValue] = useState('');
   const formFetcher = useFetcher({ key: 'email-form' });
 
   useEffect(() => {
     if (formFetcher.data) {
-      console.log(formFetcher.data);
       if (formFetcher.data.ok) {
         toast.success('Email sent!');
+        setValue('');
       }
       else {
         toast.error('Whoops', {
@@ -88,6 +89,8 @@ export default function EmailTemplatePage() {
                   type="email"
                   name="email"
                   placeholder="Enter your email"
+                  value={value}
+                  onChange={e => setValue(e.target.value)}
                   className="
                     peer h-12 rounded-sm border border-blue-950
                     focus-visible:border-blue-700 focus-visible:ring-0
