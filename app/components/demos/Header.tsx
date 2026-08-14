@@ -18,7 +18,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
   const transitionName = isTransitioning ? getUIHeadingTransitionName(pathname) : 'none';
 
   return (
-    <div className="">
+    <div className="absolute top-0 left-0 z-10 w-full bg-better-white/70 backdrop-blur-xs">
       <div
         className="
           relative mx-auto flex w-full max-w-xl flex-col p-5
@@ -26,11 +26,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
         "
         style={{ viewTransitionName: transitionName }}
       >
-        <div className="
-          mb-5 flex
-          sm:mb-0 sm:flex-col sm:gap-5
-        "
-        >
+        <div className="flex justify-between">
           <Link
             to="/"
             className="
@@ -44,6 +40,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
             <span className="block">Back</span>
           </Link>
           {heading}
+          <button type="button">Details</button>
         </div>
         <p className="
           font-zilla text-lg text-[#282B27]

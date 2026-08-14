@@ -30,8 +30,8 @@ export function MainHeader({ children }: MainHeaderProps) {
   return (
     <h1
       className="
-        text-sm font-semibold
-        sm:text-3xl
+        text-sm font-semibold uppercase
+        sm:text-base
       "
     >
       {children}

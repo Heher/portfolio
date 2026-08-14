@@ -21,36 +21,34 @@ export default function UILink({ url, title, image, className, headerClassName, 
   return (
     <Link
       to={url}
-      className={cn(`
-        group shrink-0 rounded-xl border-4 border-better-white
-        sm:w-60
-      `, className)}
+      className={cn(`group shrink-0 rounded-xl border-4 border-better-white`, className)}
       viewTransition
       style={{ viewTransitionName: headingTransitionName }}
     >
-      <h2
-        className={cn(`
-          flex items-center justify-center gap-1 rounded-t-xl bg-tables-light/50 py-2 font-zilla text-lg font-semibold text-tables-dark transition-colors
-          group-hover:bg-tables-light/40
-          sm:py-3 sm:text-lg
-        `, headerClassName)}
-      >
-        {title}
-        <ArrowLeft className="size-4.5 rotate-180" style={{ viewTransitionName: arrowTransitionName }} />
-      </h2>
+
       <div
         className={cn(`
-          flex h-34 items-center justify-center bg-better-white/60 transition-colors
+          relative flex h-34 w-70 flex-col items-center justify-center bg-better-white/60 transition-colors
           group-hover:bg-better-white
-          sm:h-50
+          sm:h-80
         `, bodyClassName)}
         style={{ viewTransitionName: bodyTransitionName }}
       >
+        <div className="absolute top-0 left-0 z-2 h-15 w-full rounded-t-xl bg-better-white/60 backdrop-blur-xs" />
+        <h2
+          className={cn(`
+            absolute top-0 left-0 z-3 flex h-15 w-full items-center gap-1 self-start pl-5 font-zilla text-lg font-semibold text-tables-dark transition-colors
+            sm:text-lg
+          `, headerClassName)}
+        >
+          {title}
+          <ArrowLeft className="size-4.5 rotate-180" style={{ viewTransitionName: arrowTransitionName }} />
+        </h2>
         <img
           src={`./demos/${image}`}
           className="
-            h-22
-            sm:h-30
+            h-22 justify-self-center opacity-50
+            sm:h-34
           "
         />
       </div>

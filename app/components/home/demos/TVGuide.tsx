@@ -3,6 +3,6 @@ import UILink from './UILink';
 export default function TVGuideUI() {
   return (
     // <UILink url="/ui/tv-guide" title="TV Guide" image="tv-guide.png" className="" headerClassName="" bodyClassName="bg-linear-to-b from-better-white/40 from-80% to-tables-dark/30 rounded-b-xl" />
-    <UILink url="/demos/tv-guide" title="TV Guide" image="tv-guide.png" className="" />
+    <UILink url="/demos/tv-guide" title="TV Guide" image="tv-guide.png" className="border-0" bodyClassName="bg-linear-to-b from-compass-top/10 to-compass-bottom/10 rounded-xl" />
   );
 }
