@@ -49,7 +49,7 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
 function Skill({ text, selected }: { text: string; selected: SelectedSkill | undefined }) {
   return (
     <span className={cn(`block rounded-full border border-name px-2 py-1 text-sm font-semibold`, selected ? 'bg-better-white' : 'bg-transparent', selected?.using && `
-      bg-subtitle/40
+      bg-[oklch(0.8_0.08_45.81)]/50
     `, selected?.new && `bg-emerald-200`)}
     >
       {text}
@@ -227,7 +227,10 @@ export default function SkillsSection() {
 
   return (
     <section
-      className="py-40"
+      className="
+        mx-5 bg-index-background py-40
+        sm:mx-0
+      "
     >
       <div className="mx-auto max-w-250">
         <div className="

@@ -23,7 +23,7 @@ function IndexContent() {
     >
       <title>John Heher | Web Developer</title>
       <meta name="description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
-      <div className="pb-5">
+      <div className="">
         {/* <div className="
           mx-auto max-w-275 bg-linear-[160deg] from-header-top to-header-bottom
           sm:rounded-b-3xl
@@ -121,7 +121,7 @@ function IndexContent() {
 export default function Index() {
   return (
     <main
-      className="w-screen bg-index-background pb-10 font-figtree text-lg"
+      className="w-screen bg-header-top font-figtree text-lg"
     >
       <IndexContent />
     </main>
