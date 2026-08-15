@@ -18,13 +18,13 @@ export default function DemoSection() {
         >
           <h2 className="
             mb-3 text-2xl leading-none font-semibold text-name
-            sm:mb-0 sm:text-[80px]
+            sm:mb-0 sm:text-[70px]
           "
           >
             Demos
           </h2>
           <p className="
-            mt-5 max-w-xl font-zilla text-lg text-name
+            mt-4 max-w-xl font-zilla text-lg text-name
             sm:max-w-[400px] sm:text-xl
           "
           >
