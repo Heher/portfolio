@@ -2,19 +2,19 @@ export default function RecentProjects() {
   return (
     <section
       className="
-        mx-5 bg-header-top py-40
-        sm:mx-0
+        bg-header-top px-5 py-20
+        sm:px-0 sm:py-40
       "
     >
       <div className="mx-auto max-w-250">
         <div className="
-          mx-5 mb-30 flex gap-20
-          sm:mx-0
+          mb-10 flex flex-col gap-3
+          sm:mb-30 sm:flex-row sm:gap-20
         "
         >
           <h2 className="
-            mb-3 max-w-[300px] text-2xl leading-none font-semibold text-name
-            sm:mb-0 sm:text-[80px]
+            mb-0 text-[30px] leading-none font-semibold text-name
+            sm:mb-0 sm:text-[70px]
           "
           >
             Recent projects

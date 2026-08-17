@@ -60,14 +60,24 @@ function Company({
       "
       data-company={info.slug}
     >
-      <div className="relative w-[400px] rounded-sm bg-better-white px-7 py-5">
+      <div className="
+        relative w-[260px] rounded-sm bg-better-white px-7 py-5
+        sm:w-[400px]
+      "
+      >
         <div className={cn(`absolute top-1/2 -left-8 z-1 size-6 -translate-y-1/2 rounded-full border border-better-black bg-better-white`, selected && `
           bg-[oklch(0.86_0.1002_121.51)]
         `)}
         >
           <span className="absolute top-1/2 left-1/2 z-2 size-3 -translate-1/2 rounded-full bg-better-black" />
         </div>
-        <h3 className="text-2xl font-semibold">{info.name}</h3>
+        <h3 className="
+          text-xl font-semibold
+          sm:text-2xl
+        "
+        >
+          {info.name}
+        </h3>
         <p className="mt-1 max-w-[300px] text-base">{info.location}</p>
         <p className="mt-6 max-w-[300px] text-base">{info.title}</p>
       </div>
@@ -100,7 +110,7 @@ export default function SkillsSection() {
 
     const observeCompanies = () => {
       const skillsSection = sentinel.getBoundingClientRect();
-      const rootMargin = `${-skillsSection.top}px 0px ${skillsSection.bottom - window.innerHeight}px`;
+      const rootMargin = `${-skillsSection.bottom}px 0px -100px`;
 
       observerRef?.disconnect();
       observerRef = new IntersectionObserver(
@@ -143,33 +153,43 @@ export default function SkillsSection() {
   return (
     <section
       className="
-        mx-5 bg-index-background py-40
-        sm:mx-0
+        bg-index-background py-20
+        sm:py-40
       "
     >
       <div className="mx-auto max-w-250">
         <div className="
-          mx-5 mb-30 flex gap-20
-          sm:mx-0
+          mx-5 mb-10 flex flex-col gap-3
+          sm:mx-0 sm:mb-30 sm:flex-row sm:gap-20
         "
         >
           <h2 className="
-            mb-3 max-w-[300px] text-2xl leading-none font-semibold text-name
-            sm:mb-0 sm:text-[80px]
+            mb-0 text-[30px] leading-none font-semibold text-name
+            sm:mb-0 sm:text-[70px]
           "
           >
             Skills Timeline
           </h2>
           <p className="
-            mt-5 max-w-xl font-zilla text-lg text-name
-            sm:max-w-[450px] sm:text-xl
+            mt-4 max-w-xl font-zilla text-lg text-name
+            sm:max-w-[400px] sm:text-xl
           "
           >
             Being a programmer for almost two decades allows you to work with a variety of technologies. This is a broad overview of how I developed the motley crew of skills I have today.
           </p>
         </div>
-        <div className="flex items-start gap-20">
-          <div ref={sentinelRef} className="sticky top-20 flex w-full max-w-[300px] flex-wrap gap-2">
+        <div className="
+          flex flex-col items-start gap-0
+          sm:flex-row sm:gap-20
+        "
+        >
+          <div
+            ref={sentinelRef}
+            className="
+              sticky top-0 z-2 flex w-full flex-wrap gap-2 bg-index-background p-5
+              sm:top-20 sm:z-1 sm:max-w-[300px] sm:p-0
+            "
+          >
             {skills.map((skill) => {
               let selected;
 
@@ -180,7 +200,11 @@ export default function SkillsSection() {
               return <Skill key={skill} text={skill} selected={selected} />;
             })}
           </div>
-          <div className="flex w-full flex-col items-start border-l border-better-black pt-100 pb-30 pl-5">
+          <div className="
+            ml-10 flex flex-col items-start border-l border-better-black pt-100 pl-5
+            sm:ml-0 sm:w-full sm:pb-30
+          "
+          >
             {companies.map((company, index) => (
               <Company
                 key={company.slug}
@@ -191,7 +215,11 @@ export default function SkillsSection() {
             ))}
           </div>
         </div>
-        <div className="mt-30 flex flex-col items-center gap-12">
+        <div className="
+          mt-10 flex flex-col items-center gap-12 px-5
+          sm:mt-30 sm:px-0
+        "
+        >
           <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site) is:</p>
           <div className="
             flex gap-5 text-base text-[#282B27]

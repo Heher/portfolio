@@ -10,11 +10,11 @@ import Socials from '../components/home/Socials';
 function IndexContent() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const body = document.body;
-    body.classList.remove('bg-index-background');
-    body.classList.add('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
-  }, []);
+  // useEffect(() => {
+  //   const body = document.body;
+  //   body.classList.remove('bg-index-background');
+  //   body.classList.add('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
+  // }, []);
 
   return (
     <div
@@ -50,19 +50,11 @@ function IndexContent() {
                 sm:mt-0
               "
               >
-                {/* <img
-                  src="/images/header.webp"
-                  alt=""
-                  className="
-                    relative z-0 -ml-26 w-full mask-[linear-gradient(270deg,black_50%,transparent)]
-                    sm:ml-0
-                  "
-                /> */}
                 <motion.img
                   src="/images/header.webp"
                   alt=""
                   className="
-                    relative z-0 -ml-26 w-full
+                    relative z-0 -ml-5 w-full
                     sm:ml-0
                   "
                 />

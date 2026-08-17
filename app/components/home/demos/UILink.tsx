@@ -28,19 +28,18 @@ export default function UILink({ url, title, image, className, headerClassName, 
 
       <div
         className={cn(`
-          relative flex h-34 w-70 flex-col items-center justify-center bg-better-white/60
+          relative flex h-60 w-50 flex-col items-center justify-center bg-better-white/60
           group-hover:bg-better-white
-          sm:h-80
+          sm:h-80 sm:w-70
         `, bodyClassName)}
         style={{ viewTransitionName: bodyTransitionName }}
       >
-        {/* <div className="absolute top-0 left-0 z-2 h-15 w-full rounded-t-xl bg-better-white/60 backdrop-blur-xs" /> */}
         <h2
           className={cn(`
-            absolute top-0 left-0 z-3 flex h-15 w-full items-center gap-1 self-start rounded-t-xl bg-better-white/60 pl-5 font-zilla text-lg font-semibold text-tables-dark
+            absolute top-0 left-0 z-3 flex h-13 w-full items-center gap-1 self-start rounded-t-xl bg-better-white/60 pl-5 font-zilla text-base font-semibold text-tables-dark
             backdrop-blur-xs
             group-hover:bg-better-white/40
-            sm:text-lg
+            sm:h-15 sm:text-lg
           `, headerClassName)}
         >
           {title}
