@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useViewTransitionState } from 'react-router';
 
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { getUIArrowTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
 
 type HeaderProps = {
@@ -40,15 +41,17 @@ export default function Header({ heading, subhead }: HeaderProps) {
             <span className="block">Back</span>
           </Link>
           {heading}
-          <button type="button">Details</button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button type="button" className="rounded-sm border border-better-black bg-better-white px-3 py-2 text-sm font-medium text-better-black uppercase">Details</button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="font-zilla text-base text-[#282B27]">
+                {subhead}
+              </p>
+            </PopoverContent>
+          </Popover>
         </div>
-        <p className="
-          font-zilla text-lg text-[#282B27]
-          sm:mt-7 sm:text-xl
-        "
-        >
-          {subhead}
-        </p>
       </div>
     </div>
   );

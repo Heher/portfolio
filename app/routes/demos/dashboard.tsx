@@ -32,11 +32,11 @@ export default function DashboardPage() {
       <UIPageBody
         transitionPath="/demos/dashboard"
         className="
-          flex-1 bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
-          sm:px-0 sm:pt-10 sm:pb-0
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
+          sm:p-0
         "
       >
-        <div className="mx-auto w-full max-w-250">
+        <div className="mx-auto flex w-full max-w-250 flex-1 flex-col justify-center">
           <div className="bg-gray-300">
             <div className="
               flex w-full flex-col gap-5 p-3

@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import type { CompanyInfo, SelectedSkill } from '@/types/skills';
 
 import { cn } from '@/lib/utils';
 import DrizzleIcon from '~/icons/stack/Drizzle';
@@ -11,24 +13,7 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
-type SelectedSkill = {
-  name: string;
-  using: boolean;
-  new: boolean;
-};
-
-type CompanyData = {
-  total: string[];
-  skills: string[];
-  new: string[];
-};
-
-type CompanyInfo = {
-  name: string;
-  slug: string;
-  location: string;
-  title: string;
-};
+import { companies, companySkills, skills } from '../skills/data';
 
 function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
   return (
@@ -48,9 +33,9 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
 
 function Skill({ text, selected }: { text: string; selected: SelectedSkill | undefined }) {
   return (
-    <span className={cn(`block rounded-full border border-name px-2 py-1 text-sm font-semibold`, selected ? 'bg-better-white' : 'bg-transparent', selected?.using && `
-      bg-[oklch(0.8_0.08_45.81)]/50
-    `, selected?.new && `bg-emerald-200`)}
+    <span className={cn(`block rounded-full border px-2 py-1 text-sm font-semibold`, selected
+      ? 'border-name bg-white text-name'
+      : `border-name/40 bg-transparent text-name/40`, selected?.using && `bg-[oklch(0.8_0.08_45.81)]/50`, selected?.new && `bg-[oklch(0.86_0.1002_121.51)]`)}
     >
       {text}
     </span>
@@ -60,117 +45,49 @@ function Skill({ text, selected }: { text: string; selected: SelectedSkill | und
 function Company({
   companyRef,
   info,
+  selected,
 }: {
   companyRef: React.Ref<HTMLDivElement>;
   info: CompanyInfo;
+  selected: boolean;
 }) {
   return (
-    <div ref={companyRef} className="relative w-[400px] bg-better-white px-7 py-5" data-company={info.slug}>
-      <div className="absolute top-1/2 -left-8 z-1 size-6 -translate-y-1/2 rounded-full border border-better-black bg-better-white">
-        <span className="absolute top-1/2 left-1/2 z-2 size-3 -translate-1/2 rounded-full bg-better-black" />
+    <div
+      ref={companyRef}
+      className="
+        pb-100
+        last-of-type:pb-50
+      "
+      data-company={info.slug}
+    >
+      <div className="relative w-[400px] rounded-sm bg-better-white px-7 py-5">
+        <div className={cn(`absolute top-1/2 -left-8 z-1 size-6 -translate-y-1/2 rounded-full border border-better-black bg-better-white`, selected && `
+          bg-[oklch(0.86_0.1002_121.51)]
+        `)}
+        >
+          <span className="absolute top-1/2 left-1/2 z-2 size-3 -translate-1/2 rounded-full bg-better-black" />
+        </div>
+        <h3 className="text-2xl font-semibold">{info.name}</h3>
+        <p className="mt-1 max-w-[300px] text-base">{info.location}</p>
+        <p className="mt-6 max-w-[300px] text-base">{info.title}</p>
       </div>
-      <h3 className="text-3xl font-semibold">{info.name}</h3>
-      <p className="mt-6 max-w-[300px] text-base">{info.location}</p>
-      <p className="mt-2 max-w-[300px] text-base">{info.title}</p>
     </div>
   );
 }
-
-const skills = ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook', 'TypeScript', 'Ant Design', 'Jest', 'React Router', 'Tailwind', 'Drizzle ORM', 'PostgreSQL', 'Vite'];
-
-const companySkills: Record<string, CompanyData> = {
-  'traction': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop'],
-    skills: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop'],
-    new: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop'],
-  },
-  'greenling': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass'],
-    skills: ['Ruby on Rails', 'jQuery', 'CoffeeScript', 'JavaScript', 'Sass'],
-    new: ['Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass'],
-  },
-  'razorfish': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React'],
-    skills: ['Jira', 'JavaScript', 'Jade', 'Sass', 'jQuery', 'Node', 'React'],
-    new: ['Jira', 'Jade', 'Node', 'React'],
-  },
-  'phlur': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook'],
-    skills: ['React', 'JavaScript', 'GraphQL', 'Ruby on Rails', 'HTML', 'CSS', 'Storybook'],
-    new: ['GraphQL', 'Storybook'],
-  },
-  'palo-alto-networks': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook', 'TypeScript', 'Ant Design'],
-    skills: ['Jira', 'React', 'JavaScript', 'TypeScript', 'Storybook', 'Ant Design'],
-    new: ['TypeScript', 'Ant Design'],
-  },
-  'disney': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook', 'TypeScript', 'Ant Design', 'Jest'],
-    skills: ['React', 'JavaScript', 'TypeScript', 'Jira', 'Jest'],
-    new: ['Jest'],
-  },
-  'globedraft': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook', 'TypeScript', 'Ant Design', 'Jest', 'React Router', 'Tailwind', 'Drizzle ORM', 'PostgreSQL', 'Vite'],
-    skills: ['React', 'React Router', 'TypeScript', 'Tailwind', 'Node', 'Drizzle ORM', 'PostgreSQL', 'Vite'],
-    new: ['React Router', 'Tailwind', 'Drizzle ORM', 'PostgreSQL', 'Vite'],
-  },
-  'warner-bros-discovery': {
-    total: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'Photoshop', 'Ruby on Rails', 'jQuery', 'CoffeeScript', 'Sass', 'Jira', 'Jade', 'Node', 'React', 'GraphQL', 'Storybook', 'TypeScript', 'Ant Design', 'Jest', 'React Router', 'Tailwind', 'Drizzle ORM', 'PostgreSQL', 'Vite'],
-    skills: ['React', 'JavaScript', 'TypeScript', 'Tailwind', 'Jira', 'Vite'],
-    new: [],
-  },
-};
-
-const companies: CompanyInfo[] = [
-  {
-    name: 'Traction',
-    slug: 'traction',
-    location: 'San Francisco, CA',
-    title: 'Senior Front-End Developer',
-  },
-  {
-    name: 'Greenling',
-    slug: 'greenling',
-    location: 'Austin, TX',
-    title: 'Lead Front-End Developer',
-  },
-  {
-    name: 'Razorfish',
-    slug: 'razorfish',
-    location: 'Austin, TX',
-    title: 'Presentation Layer Engineer',
-  },
-  {
-    name: 'PHLUR',
-    slug: 'phlur',
-    location: 'Austin, TX',
-    title: 'Director, Front-end development',
-  },
-  {
-    name: 'Palo Alto Networks',
-    slug: 'palo-alto-networks',
-    location: 'Remote',
-    title: 'Senior Front-end Developer',
-  },
-  {
-    name: 'Disney Streaming',
-    slug: 'disney',
-    location: 'Remote',
-    title: 'Senior Front-end Developer',
-  },
-  {
-    name: 'Warner Bros. Discovery',
-    slug: 'warner-bros-discovery',
-    location: 'Remote',
-    title: 'Senior Front-end Developer',
-  },
-];
 
 export default function SkillsSection() {
   const sentinelRef = useRef<HTMLDivElement>(null);
   const companyElementsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  const [selectedSkills, setSelectedSkills] = useState<SelectedSkill[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+
+  const selectedCompanySkills = useMemo(() => {
+    if (!selectedCompany) {
+      return null;
+    }
+
+    return companySkills[selectedCompany];
+  }, [selectedCompany]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -182,26 +99,24 @@ export default function SkillsSection() {
     let observerRef: IntersectionObserver | undefined;
 
     const observeCompanies = () => {
-      const skillsBottom = sentinel.getBoundingClientRect().bottom;
-      const rootMargin = `${-skillsBottom}px 0px ${skillsBottom + 1 - window.innerHeight}px`;
+      const skillsSection = sentinel.getBoundingClientRect();
+      const rootMargin = `${-skillsSection.top}px 0px ${skillsSection.bottom - window.innerHeight}px`;
 
       observerRef?.disconnect();
       observerRef = new IntersectionObserver(
         (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              const companySlug = entry.target.getAttribute('data-company');
+          if (entries.some(entry => entry.isIntersecting)) {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                const companySlug = entry.target.getAttribute('data-company');
 
-              const companySkillsData = companySkills[companySlug as keyof typeof companySkills];
-
-              const currentSelectedSkills = companySkillsData.total.map(skill => ({
-                name: skill,
-                using: companySkillsData.skills.includes(skill),
-                new: companySkillsData.new.includes(skill),
-              }));
-
-              setSelectedSkills(currentSelectedSkills);
+                setSelectedCompany(companySlug);
+              }
             }
+          }
+          else {
+            // setSelectedSkills([]);
+            setSelectedCompany(null);
           }
         },
         { rootMargin, threshold: 0 },
@@ -256,26 +171,28 @@ export default function SkillsSection() {
         <div className="flex items-start gap-20">
           <div ref={sentinelRef} className="sticky top-20 flex w-full max-w-[300px] flex-wrap gap-2">
             {skills.map((skill) => {
-              const selected = selectedSkills.find(selectedSkill => selectedSkill.name === skill);
+              let selected;
+
+              if (selectedCompanySkills) {
+                selected = selectedCompanySkills[skill];
+              }
 
               return <Skill key={skill} text={skill} selected={selected} />;
             })}
           </div>
-          <div className="flex w-full flex-col items-start gap-100 border-l border-better-black pt-100 pb-30 pl-5">
+          <div className="flex w-full flex-col items-start border-l border-better-black pt-100 pb-30 pl-5">
             {companies.map((company, index) => (
               <Company
                 key={company.slug}
                 companyRef={(element) => { companyElementsRef.current[index] = element; }}
                 info={company}
+                selected={selectedCompany === company.slug}
               />
             ))}
           </div>
         </div>
-        <div className="
-          mt-10
-          sm:mt-10
-        "
-        >
+        <div className="mt-30 flex flex-col items-center gap-12">
+          <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site) is:</p>
           <div className="
             flex gap-5 text-base text-[#282B27]
             sm:gap-8

@@ -24,9 +24,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
         )}
         subhead={(
           <span>
-            I've found if I'm being asked to build an internal tool,
-            {' '}
-            <span className="whitespace-nowrap">it's gonna be a table.</span>
+            I've found if I'm being asked to build an internal tool, it's gonna be a table.
           </span>
         )}
       />
