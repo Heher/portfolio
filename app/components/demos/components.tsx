@@ -17,8 +17,8 @@ type UIPageBodyProps = {
 export function MainHeaderContainer({ children }: { children: ReactNode }) {
   return (
     <div className="
-      absolute top-5 left-1/2 flex -translate-x-1/2 items-center gap-3
-      sm:static sm:translate-x-0
+      absolute top-1/2 left-1/2 flex -translate-1/2 items-center gap-3
+      sm:static sm:translate-0
     "
     >
       {children}
@@ -30,8 +30,8 @@ export function MainHeader({ children }: MainHeaderProps) {
   return (
     <h1
       className="
-        text-sm font-semibold
-        sm:text-3xl
+        text-sm font-semibold uppercase
+        sm:text-base
       "
     >
       {children}

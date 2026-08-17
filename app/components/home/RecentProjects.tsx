@@ -2,24 +2,31 @@ export default function RecentProjects() {
   return (
     <section
       className="
-        mx-5 mt-18
-        sm:mx-0
-        md:mt-40
+        bg-header-top px-5 py-20
+        sm:px-0 sm:py-40
       "
     >
-      <h2 className="
-        mb-5 text-2xl font-semibold text-name
-        sm:mb-7 sm:text-3xl
-      "
-      >
-        Recent projects
-      </h2>
-      <a href="https://www.globedraft.com">
-        <picture>
-          <source media="(max-width: 640px)" srcSet="/images/globedraft-mobile.jpg" />
-          <img src="/images/globedraft.jpg" className="rounded-lg" />
-        </picture>
-      </a>
+      <div className="mx-auto max-w-250">
+        <div className="
+          mb-10 flex flex-col gap-3
+          sm:mb-30 sm:flex-row sm:gap-20
+        "
+        >
+          <h2 className="
+            mb-0 text-[30px] leading-none font-semibold text-name
+            sm:mb-0 sm:text-[70px]
+          "
+          >
+            Recent projects
+          </h2>
+        </div>
+        <a href="https://www.globedraft.com">
+          <picture>
+            <source media="(max-width: 640px)" srcSet="/images/globedraft-mobile.jpg" />
+            <img src="/images/globedraft.jpg" className="rounded-lg" />
+          </picture>
+        </a>
+      </div>
     </section>
   );
 }

@@ -71,13 +71,11 @@ export default function TVGuidePage() {
         //   sm:px-0 sm:pt-5 sm:pb-0
         // "
         className="
-          min-h-0 flex-1 bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
-          sm:px-0 sm:pt-5 sm:pb-0
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
+          sm:p-0
         "
       >
-        <div className="mx-auto size-full min-h-0 max-w-250">
-          <TVGuide />
-        </div>
+        <TVGuide />
       </UIPageBody>
     </div>
   );

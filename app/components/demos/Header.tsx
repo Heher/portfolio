@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useViewTransitionState } from 'react-router';
 
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { getUIArrowTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
 
 type HeaderProps = {
@@ -18,7 +19,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
   const transitionName = isTransitioning ? getUIHeadingTransitionName(pathname) : 'none';
 
   return (
-    <div className="">
+    <div className="absolute top-0 left-0 z-10 w-full bg-better-white/70 backdrop-blur-xs">
       <div
         className="
           relative mx-auto flex w-full max-w-xl flex-col p-5
@@ -26,11 +27,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
         "
         style={{ viewTransitionName: transitionName }}
       >
-        <div className="
-          mb-5 flex
-          sm:mb-0 sm:flex-col sm:gap-5
-        "
-        >
+        <div className="flex justify-between">
           <Link
             to="/"
             className="
@@ -44,14 +41,25 @@ export default function Header({ heading, subhead }: HeaderProps) {
             <span className="block">Back</span>
           </Link>
           {heading}
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="
+                  rounded-sm border border-better-black bg-[#282B27] p-2 text-xs font-medium text-better-white uppercase
+                  sm:px-3 sm:py-2 sm:text-sm
+                "
+              >
+                Details
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="font-zilla text-base text-[#282B27]">
+                {subhead}
+              </p>
+            </PopoverContent>
+          </Popover>
         </div>
-        <p className="
-          font-zilla text-lg text-[#282B27]
-          sm:mt-7 sm:text-xl
-        "
-        >
-          {subhead}
-        </p>
       </div>
     </div>
   );

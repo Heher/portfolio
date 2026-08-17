@@ -13,7 +13,7 @@ export async function loader() {
 
 export default function TablesPage({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="relative flex min-h-dvh flex-col">
       <title>Tables | Demos | John Heher</title>
       <meta name="description" content="A simple table component created by John Heher." />
       <Header
@@ -24,20 +24,18 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
         )}
         subhead={(
           <span>
-            I've found if I'm being asked to build an internal tool,
-            {' '}
-            <span className="whitespace-nowrap">it's gonna be a table.</span>
+            I've found if I'm being asked to build an internal tool, it's gonna be a table.
           </span>
         )}
       />
       <UIPageBody
         transitionPath="/demos/tables"
         className="
-          h-full flex-1 bg-linear-to-b from-mello-top/80 to-mello-bottom/80 px-2.5 py-5
-          sm:px-0 sm:pt-30 sm:pb-0
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-mello-top/80 to-mello-bottom/80 px-2.5 py-5
+          sm:p-0
         "
       >
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
           <BasicTable data={loaderData.data} />
         </div>
       </UIPageBody>

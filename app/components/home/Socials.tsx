@@ -27,7 +27,7 @@ export default function Socials() {
     >
       <div className="
         mx-auto grid w-fit grid-cols-2 grid-rows-2 justify-items-start gap-2
-        sm:mx-0 sm:mt-9 sm:w-full sm:grid-cols-1 sm:grid-rows-4 sm:gap-3 sm:bg-none
+        sm:mx-0 sm:w-full sm:grid-cols-1 sm:grid-rows-4 sm:gap-3 sm:bg-none
       "
       >
         <SocialLink
