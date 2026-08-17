@@ -110,7 +110,8 @@ export default function SkillsSection() {
 
     const observeCompanies = () => {
       const skillsSection = sentinel.getBoundingClientRect();
-      const rootMargin = `${-skillsSection.bottom}px 0px -100px`;
+      const mobileRootMargin = `${-skillsSection.bottom}px 0px -100px`;
+      const rootMargin = `${-skillsSection.top}px 0px ${skillsSection.bottom - window.innerHeight}px`;
 
       observerRef?.disconnect();
       observerRef = new IntersectionObserver(
@@ -129,7 +130,7 @@ export default function SkillsSection() {
             setSelectedCompany(null);
           }
         },
-        { rootMargin, threshold: 0 },
+        { rootMargin: window.innerWidth < 640 ? mobileRootMargin : rootMargin, threshold: 0 },
       );
 
       for (const company of companyElementsRef.current) {
