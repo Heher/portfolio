@@ -43,7 +43,15 @@ export default function Header({ heading, subhead }: HeaderProps) {
           {heading}
           <Popover>
             <PopoverTrigger asChild>
-              <button type="button" className="rounded-sm border border-better-black bg-better-white px-3 py-2 text-sm font-medium text-better-black uppercase">Details</button>
+              <button
+                type="button"
+                className="
+                  rounded-sm border border-better-black bg-[#282B27] p-2 text-xs font-medium text-better-white uppercase
+                  sm:px-3 sm:py-2 sm:text-sm
+                "
+              >
+                Details
+              </button>
             </PopoverTrigger>
             <PopoverContent>
               <p className="font-zilla text-base text-[#282B27]">
