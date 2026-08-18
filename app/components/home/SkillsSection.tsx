@@ -221,7 +221,7 @@ export default function SkillsSection() {
           sm:mt-30 sm:px-0
         "
         >
-          <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site) is:</p>
+          <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site):</p>
           <div className="
             flex gap-5 text-base text-[#282B27]
             sm:gap-8
