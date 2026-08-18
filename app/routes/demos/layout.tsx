@@ -11,11 +11,11 @@ export type UIContext = {
 export default function UILayout() {
   const [pageContainerRef, size] = useMeasure({ debounce: 300 });
 
-  useEffect(() => {
-    const body = document.body;
-    body.classList.remove('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
-    body.classList.add('bg-index-background');
-  }, []);
+  // useEffect(() => {
+  //   const body = document.body;
+  //   body.classList.remove('bg-linear-to-b', 'from-header-top', 'to-index-background', 'from-49%', 'to-51%');
+  //   body.classList.add('bg-index-background');
+  // }, []);
 
   return (
     <div

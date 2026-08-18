@@ -29,7 +29,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-full">
+      <body className="min-h-full bg-header-top">
         <TooltipProvider>
           <Outlet />
         </TooltipProvider>
