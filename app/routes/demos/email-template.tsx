@@ -62,7 +62,6 @@ export default function EmailTemplatePage() {
       <title>Email Templates | Demos | John Heher</title>
       <meta name="description" content="A simple link to send an email template created by John Heher." />
       <Header
-        demoName="email"
         heading={(
           <MainHeaderContainer>
             <MainHeader>Email templates</MainHeader>

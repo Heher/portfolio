@@ -50,12 +50,6 @@ function OnboardingInner({ width, selectedPlan, setSelectedPlan, showDialog }: O
   }
 
   return <HorizontalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog} />;
-
-  // if (width >= 640) {
-  //   return <HorizontalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog} />;
-  // }
-
-  // return <VerticalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />;
 }
 
 export default function OnboardingPage() {
@@ -88,7 +82,6 @@ export default function OnboardingPage() {
       <title>Onboarding | Demos | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
       <Header
-        demoName="onboarding"
         heading={(
           <MainHeaderContainer>
             <MainHeader>Onboarding / Signup</MainHeader>

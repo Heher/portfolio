@@ -14,7 +14,6 @@ export default function ProductPage() {
       <title>Product page | Demos | John Heher</title>
       <meta name="description" content="A product page for an incredible piece of the Aggro Crag created by John Heher." />
       <Header
-        demoName="product-page"
         heading={(
           <MainHeaderContainer>
             <MainHeader>Product page</MainHeader>

@@ -17,7 +17,6 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
       <title>Tables | Demos | John Heher</title>
       <meta name="description" content="A simple table component created by John Heher." />
       <Header
-        demoName="tables"
         heading={(
           <MainHeaderContainer>
             <MainHeader>Tables</MainHeader>

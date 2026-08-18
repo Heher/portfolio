@@ -22,7 +22,6 @@ export default function DashboardPage() {
       <title>Dashboard | Demos | John Heher</title>
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
       <Header
-        demoName="dashboard"
         heading={(
           <MainHeaderContainer>
             <MainHeader>Dashboard</MainHeader>
