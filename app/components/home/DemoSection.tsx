@@ -1,5 +1,8 @@
+import { useAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router';
+// import { useLocation } from 'react-router';
+
+import { demoScrollState } from '@/app/atoms/demoScrollAtom';
 
 import DashboardUI from './demos/Dashboard';
 import EmailTemplateUI from './demos/EmailTemplate';
@@ -10,26 +13,16 @@ import TVGuideUI from './demos/TVGuide';
 
 export default function DemoSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const referral = params.get('refer');
+
+  const [demoScroll, setDemoScroll] = useAtom(demoScrollState);
 
   useEffect(() => {
-    if (referral && scrollContainerRef.current) {
-      const scrollContainer = scrollContainerRef.current;
-      const demoElement = scrollContainer.querySelector(`[data-demo="${referral}"]`);
-
-      if (demoElement) {
-        const demoRect = demoElement.getBoundingClientRect();
-        const containerRect = scrollContainer.getBoundingClientRect();
-        const scrollLeft = demoRect.left - containerRect.left + scrollContainer.scrollLeft;
-
-        scrollContainer.scrollTo({
-          left: scrollLeft,
-        });
-      }
+    if (demoScroll && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: demoScroll,
+      });
     }
-  }, [referral]);
+  }, [demoScroll]);
 
   return (
     <section
@@ -72,6 +65,7 @@ export default function DemoSection() {
             flex gap-5 overflow-scroll px-[20px] pr-[40px]
             sm:px-[50px] sm:pr-[100px]
           "
+          onScroll={() => setDemoScroll(scrollContainerRef.current?.scrollLeft || 0)}
         >
           <TablesUI />
           <OnboardingUI />

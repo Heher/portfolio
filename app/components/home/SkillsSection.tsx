@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { CompanyInfo, SelectedSkill } from '@/types/skills';
+import type { CompanyInfo } from '@/types/skills';
 
 import { cn } from '@/lib/utils';
 import DrizzleIcon from '~/icons/stack/Drizzle';
@@ -14,6 +14,7 @@ import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
 import { companies, companySkills, skills } from '../skills/data';
+import Skill from '../skills/Skill';
 
 function StackTech({ name, link, icon }: { name: string; link?: string; icon?: React.ReactNode }) {
   return (
@@ -28,17 +29,6 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
       {icon}
       {name}
     </a>
-  );
-}
-
-function Skill({ text, selected }: { text: string; selected: SelectedSkill | undefined }) {
-  return (
-    <span className={cn(`block rounded-full border px-2 py-1 text-sm font-semibold`, selected
-      ? 'border-name bg-white text-name'
-      : `border-name/40 bg-transparent text-name/40`, selected?.using && `bg-[oklch(0.8_0.08_45.81)]/50`, selected?.new && `bg-[oklch(0.86_0.1002_121.51)]`)}
-    >
-      {text}
-    </span>
   );
 }
 
