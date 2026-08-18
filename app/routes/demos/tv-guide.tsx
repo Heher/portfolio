@@ -63,7 +63,7 @@ export default function TVGuidePage() {
       <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
       <title>TV Guide | Demos | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
-      <Header heading={<TVGuideHeader />} subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
+      <Header demoName="tv" heading={<TVGuideHeader />} subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
       <UIPageBody
         transitionPath="/demos/tv-guide"
         // className="

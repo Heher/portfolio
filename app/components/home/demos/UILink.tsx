@@ -10,9 +10,10 @@ type UILinkProps = {
   className?: string;
   headerClassName?: string;
   bodyClassName?: string;
+  demoName?: string;
 };
 
-export default function UILink({ url, title, image, className, headerClassName, bodyClassName }: UILinkProps) {
+export default function UILink({ url, title, image, className, headerClassName, bodyClassName, demoName }: UILinkProps) {
   const isTransitioning = useViewTransitionState(url);
   const headingTransitionName = isTransitioning ? getUIHeadingTransitionName(url) : 'none';
   const bodyTransitionName = isTransitioning ? getUIBodyTransitionName(url) : 'none';
@@ -24,6 +25,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
       className={cn(`group shrink-0 rounded-xl border-4 border-better-white`, className)}
       viewTransition
       style={{ viewTransitionName: headingTransitionName }}
+      data-demo={demoName}
     >
 
       <div

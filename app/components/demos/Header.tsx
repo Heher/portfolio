@@ -9,9 +9,10 @@ import { getUIArrowTransitionName, getUIHeadingTransitionName } from '@/lib/util
 type HeaderProps = {
   heading: ReactNode;
   subhead: ReactNode;
+  demoName: string;
 };
 
-export default function Header({ heading, subhead }: HeaderProps) {
+export default function Header({ heading, subhead, demoName }: HeaderProps) {
   const { pathname } = useLocation();
   const isTransitioning = useViewTransitionState(pathname);
   const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(pathname) : 'none';
@@ -29,7 +30,7 @@ export default function Header({ heading, subhead }: HeaderProps) {
       >
         <div className="flex justify-between">
           <Link
-            to="/"
+            to={`/?refer=${demoName}`}
             className="
               flex w-max items-center gap-2 text-sm font-semibold text-[#282B27]
               hover:opacity-80
