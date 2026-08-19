@@ -1,4 +1,4 @@
-import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/demos/components';
+import { MainHeader, UIPageBody } from '@/app/components/demos/components';
 import Header from '@/app/components/demos/Header';
 import BasicTable from '@/app/components/demos/tables/BasicTable';
 import { createTableData } from '@/app/components/demos/tables/utils';
@@ -16,9 +16,11 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
     <div className="relative flex min-h-dvh flex-col">
       <title>Tables | Demos | John Heher</title>
       <meta name="description" content="A simple table component created by John Heher." />
+      <meta property="og:title" content="Tables | Demos | John Heher" />
+      <meta property="og:description" content="A simple table component created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/tables">
             Tables
           </MainHeader>
         )}

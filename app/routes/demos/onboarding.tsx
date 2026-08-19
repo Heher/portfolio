@@ -81,9 +81,11 @@ export default function OnboardingPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Onboarding | Demos | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
+      <meta property="og:title" content="Onboarding | Demos | John Heher" />
+      <meta property="og:description" content="A simple onboarding page created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/onboarding">
             Signup
           </MainHeader>
         )}

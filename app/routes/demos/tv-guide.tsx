@@ -60,9 +60,11 @@ export default function TVGuidePage() {
       <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
       <title>TV Guide | Demos | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
+      <meta property="og:title" content="TV Guide | Demos | John Heher" />
+      <meta property="og:description" content="A simple TV guide component created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/tv-guide">
             TV Guide
           </MainHeader>
         )}
@@ -82,7 +84,7 @@ export default function TVGuidePage() {
           </div>
         )}
         imgSrc="/demos/tv-guide.png"
-        madeWith={['React', 'Tailwind', 'date-fns', 'shadcn']}
+        madeWith={['React', 'Tailwind', 'date-fns', 'shadcn', 'Faker']}
         headerBgColor="bg-compass-header"
       />
       <UIPageBody

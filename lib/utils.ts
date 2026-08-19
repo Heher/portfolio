@@ -30,3 +30,11 @@ export function getUIArrowTransitionName(path: string) {
 
   return `ui-arrow-${slug}`;
 }
+
+export function getUIWireframeTransitionName(path: string) {
+  const slug = path
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/[^a-z0-9]+/gi, '-');
+
+  return `ui-wireframe-${slug}`;
+}

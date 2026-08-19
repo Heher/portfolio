@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link, useViewTransitionState } from 'react-router';
 
-import { cn, getUIArrowTransitionName, getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
+import { cn, getUIBodyTransitionName, getUIHeadingTransitionName, getUIWireframeTransitionName } from '@/lib/utils';
 
 type UILinkProps = {
   url: string;
@@ -16,14 +16,14 @@ export default function UILink({ url, title, image, className, headerClassName, 
   const isTransitioning = useViewTransitionState(url);
   const headingTransitionName = isTransitioning ? getUIHeadingTransitionName(url) : 'none';
   const bodyTransitionName = isTransitioning ? getUIBodyTransitionName(url) : 'none';
-  const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(url) : 'none';
+  // const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(url) : 'none';
+  const wireframeTransitionName = isTransitioning ? getUIWireframeTransitionName(url) : 'none';
 
   return (
     <Link
       to={url}
       className={cn(`group shrink-0 rounded-xl border-4 border-better-white`, className)}
       viewTransition
-      style={{ viewTransitionName: headingTransitionName }}
     >
 
       <div
@@ -41,9 +41,10 @@ export default function UILink({ url, title, image, className, headerClassName, 
             group-hover:bg-better-white/40
             sm:h-15 sm:text-lg
           `, headerClassName)}
+          style={{ viewTransitionName: headingTransitionName }}
         >
           {title}
-          <ArrowLeft className="size-4.5 rotate-180" style={{ viewTransitionName: arrowTransitionName }} />
+          <ArrowLeft className="size-4.5 rotate-180" />
         </h2>
         <img
           src={`./demos/${image}`}
@@ -51,6 +52,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
             h-22 justify-self-center opacity-50
             sm:h-34
           "
+          style={{ viewTransitionName: wireframeTransitionName }}
         />
       </div>
     </Link>
