@@ -83,11 +83,18 @@ export default function OnboardingPage() {
       <meta name="description" content="A simple onboarding page created by John Heher." />
       <Header
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Onboarding / Signup</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader>
+            Signup
+          </MainHeader>
         )}
-        subhead="An example of an onboarding marketing landing page with signup."
+        subhead={(
+          <span>
+            An example of an onboarding marketing landing page with signup.
+          </span>
+        )}
+        imgSrc="/demos/onboarding-5.png"
+        madeWith={['React', 'Tailwind', 'shadcn', 'Zod', 'Sonner']}
+        headerBgColor="bg-purple-bliss-header"
       />
       <UIPageBody
         transitionPath="/demos/onboarding"

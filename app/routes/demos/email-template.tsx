@@ -63,11 +63,18 @@ export default function EmailTemplatePage() {
       <meta name="description" content="A simple link to send an email template created by John Heher." />
       <Header
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Email templates</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader>
+            Email templates
+          </MainHeader>
         )}
-        subhead="My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000."
+        subhead={(
+          <span>
+            My first job was creating marketing emails. It certainly isn't the most groundbreaking work, having to use 90s web technologies. But that's what you have to do for those Yahoo! Mail users still on Windows 2000.
+          </span>
+        )}
+        imgSrc="/demos/email-4.png"
+        madeWith={['HTML', 'CSS', 'Zod', 'FastMail']}
+        headerBgColor="bg-blue-slate-header"
       />
       <UIPageBody
         transitionPath="/demos/email-template"

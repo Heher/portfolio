@@ -4,7 +4,7 @@ import Socials from './Socials';
 
 export default function IndexHeader() {
   return (
-    <div className="relative bg-linear-[160deg] from-header-top to-header-bottom">
+    <div className="relative overflow-hidden bg-linear-[160deg] from-header-top to-header-bottom">
       <div className="
         relative mx-auto max-w-275 overflow-hidden
         sm:overflow-visible

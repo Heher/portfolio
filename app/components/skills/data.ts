@@ -353,7 +353,7 @@ export const companySkills: Record<string, CompanyData> = {
       new: false,
     },
     'Photoshop': {
-      using: false,
+      using: true,
       new: false,
     },
     'Ruby on Rails': {
@@ -575,9 +575,26 @@ export const companies: CompanyInfo[] = [
     title: 'Senior Front-end Developer',
   },
   {
+    name: 'GlobeDraft',
+    slug: 'globedraft',
+    location: 'Remote',
+    title: 'Founder',
+  },
+  {
     name: 'Warner Bros. Discovery',
     slug: 'warner-bros-discovery',
     location: 'Remote',
     title: 'Senior Front-end Developer',
   },
 ];
+
+export const companyLogos: Record<typeof companies[number]['slug'], string> = {
+  'traction': '/images/companies/traction.svg',
+  'greenling': '/images/companies/greenling.png',
+  'razorfish': '/images/companies/razorfish.jpeg',
+  'phlur': '/images/companies/phlur.png',
+  'palo-alto-networks': '/images/companies/palo-alto-networks.jpeg',
+  'disney': '/images/companies/disney.jpeg',
+  'globedraft': '/images/companies/globedraft.png',
+  'warner-bros-discovery': '/images/companies/wbd.webp',
+};

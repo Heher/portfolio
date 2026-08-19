@@ -90,7 +90,7 @@ export default function TVGuide() {
         <div
           ref={containerRef}
           className="
-            h-[calc(100%-20px)] overflow-scroll overscroll-x-none rounded-sm bg-gray-800
+            max-h-[calc(100dvh-40px)] overflow-scroll overscroll-x-none rounded-sm bg-gray-800
             sm:max-h-200
           "
         >

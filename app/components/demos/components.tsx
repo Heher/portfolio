@@ -28,11 +28,10 @@ export function MainHeaderContainer({ children }: { children: ReactNode }) {
 
 export function MainHeader({ children }: MainHeaderProps) {
   return (
-    <h1
-      className="
-        text-sm font-semibold uppercase
-        sm:text-base
-      "
+    <h1 className="
+      text-[40px] leading-none font-bold text-name
+      sm:text-[80px]
+    "
     >
       {children}
     </h1>
