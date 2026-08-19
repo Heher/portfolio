@@ -13,6 +13,8 @@ export default function ProductPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Product page | Demos | John Heher</title>
       <meta name="description" content="A product page for an incredible piece of the Aggro Crag created by John Heher." />
+      <meta property="og:title" content="Product page | Demos | John Heher" />
+      <meta property="og:description" content="A product page for an incredible piece of the Aggro Crag created by John Heher." />
       <Header
         headerBgColor="bg-stellar-header"
         heading={(

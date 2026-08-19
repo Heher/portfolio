@@ -26,6 +26,15 @@ export default function Index() {
       >
         <title>John Heher | Web Developer</title>
         <meta name="description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
+        <meta property="og:title" content="John Heher | Web Developer" />
+        <meta property="og:description" content="John Heher is a full-stack web developer from the United States, mostly focused on front-end development." />
+        <meta property="og:image" content="https://www.johnheher.com/images/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:secure_url" content="https://www.johnheher.com/images/og-image.jpg" />
+        <meta property="og:image:alt" content="A picture of John Heher, a full-stack web developer from the United States, mostly focused on front-end development." />
+        <link rel="canonical" href="https://www.johnheher.com/" />
         <div className="">
           <IndexHeader />
           <div className="">

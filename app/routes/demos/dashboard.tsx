@@ -21,6 +21,8 @@ export default function DashboardPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Dashboard | Demos | John Heher</title>
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
+      <meta property="og:title" content="Dashboard | Demos | John Heher" />
+      <meta property="og:description" content="A beautiful, unbelievable dashboard created by John Heher." />
       <Header
         heading={(
           <MainHeader url="/demos/dashboard">

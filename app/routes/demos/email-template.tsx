@@ -61,6 +61,8 @@ export default function EmailTemplatePage() {
     <div className="flex min-h-dvh flex-col">
       <title>Email Templates | Demos | John Heher</title>
       <meta name="description" content="A simple link to send an email template created by John Heher." />
+      <meta property="og:title" content="Email Templates | Demos | John Heher" />
+      <meta property="og:description" content="A simple link to send an email template created by John Heher." />
       <Header
         heading={(
           <MainHeader url="/demos/email-template">
