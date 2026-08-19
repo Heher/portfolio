@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link, useViewTransitionState } from 'react-router';
 
-import { cn, getUIArrowTransitionName, getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
+import { cn, getUIBodyTransitionName, getUIHeadingTransitionName, getUIWireframeTransitionName } from '@/lib/utils';
 
 type UILinkProps = {
   url: string;
@@ -16,42 +16,43 @@ export default function UILink({ url, title, image, className, headerClassName, 
   const isTransitioning = useViewTransitionState(url);
   const headingTransitionName = isTransitioning ? getUIHeadingTransitionName(url) : 'none';
   const bodyTransitionName = isTransitioning ? getUIBodyTransitionName(url) : 'none';
-  const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(url) : 'none';
+  // const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(url) : 'none';
+  const wireframeTransitionName = isTransitioning ? getUIWireframeTransitionName(url) : 'none';
 
   return (
     <Link
       to={url}
-      className={cn(`
-        group shrink-0 rounded-xl border-4 border-better-white
-        sm:w-60
-      `, className)}
+      className={cn(`group shrink-0 rounded-xl border-4 border-better-white`, className)}
       viewTransition
-      style={{ viewTransitionName: headingTransitionName }}
     >
-      <h2
-        className={cn(`
-          flex items-center justify-center gap-1 rounded-t-xl bg-tables-light/50 py-2 font-zilla text-lg font-semibold text-tables-dark transition-colors
-          group-hover:bg-tables-light/40
-          sm:py-3 sm:text-lg
-        `, headerClassName)}
-      >
-        {title}
-        <ArrowLeft className="size-4.5 rotate-180" style={{ viewTransitionName: arrowTransitionName }} />
-      </h2>
+
       <div
         className={cn(`
-          flex h-34 items-center justify-center bg-better-white/60 transition-colors
+          relative flex h-60 w-50 flex-col items-center justify-center bg-better-white/60
           group-hover:bg-better-white
-          sm:h-50
+          sm:h-80 sm:w-70
         `, bodyClassName)}
         style={{ viewTransitionName: bodyTransitionName }}
       >
+        <h2
+          className={cn(`
+            absolute top-0 left-0 z-3 flex h-13 w-full items-center gap-1 self-start rounded-t-xl bg-better-white/60 pl-5 font-zilla text-base font-semibold text-tables-dark
+            backdrop-blur-xs
+            group-hover:bg-better-white/40
+            sm:h-15 sm:text-lg
+          `, headerClassName)}
+          style={{ viewTransitionName: headingTransitionName }}
+        >
+          {title}
+          <ArrowLeft className="size-4.5 rotate-180" />
+        </h2>
         <img
           src={`./demos/${image}`}
           className="
-            h-22
-            sm:h-30
+            h-22 justify-self-center opacity-50
+            sm:h-34
           "
+          style={{ viewTransitionName: wireframeTransitionName }}
         />
       </div>
     </Link>

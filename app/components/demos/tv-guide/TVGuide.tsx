@@ -79,8 +79,8 @@ export default function TVGuide() {
   }, [size?.width, currentTime.left, scrolled]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
-      <div className="relative min-h-0 flex-1">
+    <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
+      <div className="relative min-h-0">
         <div className="
           absolute top-0 left-0 z-5 h-8 w-34 rounded-tl-md bg-linear-to-r from-gray-800 from-70%
           sm:h-14 sm:w-46
@@ -90,7 +90,7 @@ export default function TVGuide() {
         <div
           ref={containerRef}
           className="
-            h-[calc(100%-20px)] overflow-scroll overscroll-x-none rounded-sm bg-gray-800
+            max-h-[calc(100dvh-40px)] overflow-scroll overscroll-x-none rounded-sm bg-gray-800
             sm:max-h-200
           "
         >

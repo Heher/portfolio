@@ -50,12 +50,6 @@ function OnboardingInner({ width, selectedPlan, setSelectedPlan, showDialog }: O
   }
 
   return <HorizontalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog} />;
-
-  // if (width >= 640) {
-  //   return <HorizontalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={showDialog} />;
-  // }
-
-  // return <VerticalPlans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />;
 }
 
 export default function OnboardingPage() {
@@ -87,30 +81,41 @@ export default function OnboardingPage() {
     <div className="flex min-h-dvh flex-col">
       <title>Onboarding | Demos | John Heher</title>
       <meta name="description" content="A simple onboarding page created by John Heher." />
+      <meta property="og:title" content="Onboarding | Demos | John Heher" />
+      <meta property="og:description" content="A simple onboarding page created by John Heher." />
       <Header
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Onboarding / Signup</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader url="/demos/onboarding">
+            Signup
+          </MainHeader>
         )}
-        subhead="An example of an onboarding marketing landing page with signup."
+        subhead={(
+          <span>
+            An example of an onboarding marketing landing page with signup.
+          </span>
+        )}
+        imgSrc="/demos/onboarding-5.png"
+        madeWith={['React', 'Tailwind', 'shadcn', 'Zod', 'Sonner']}
+        headerBgColor="bg-purple-bliss-header"
       />
       <UIPageBody
         transitionPath="/demos/onboarding"
         className="
-          h-full flex-1 bg-linear-to-b from-purple-bliss-top to-purple-bliss-bottom px-2.5 pt-5 pb-10
-          sm:px-0 sm:pt-30 sm:pb-0
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-purple-bliss-top to-purple-bliss-bottom px-2.5 pt-5
+          sm:p-0
         "
       >
-        <h2 className="
-          mt-5 text-center text-xl font-semibold text-better-white
-          sm:mt-0 sm:text-2xl
-        "
-        >
-          Choose a plan
-        </h2>
-        <OnboardingInner width={size?.width} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={() => setShowSignUpDialog(true)} />
-        <SignUpDialog show={showSignUpDialog} selectedPlan={selectedPlan} close={() => setShowSignUpDialog(false)} />
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
+          <h2 className="
+            mt-5 text-center text-xl font-semibold text-better-white
+            sm:mt-0 sm:text-2xl
+          "
+          >
+            Choose a plan
+          </h2>
+          <OnboardingInner width={size?.width} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} showDialog={() => setShowSignUpDialog(true)} />
+          <SignUpDialog show={showSignUpDialog} selectedPlan={selectedPlan} close={() => setShowSignUpDialog(false)} />
+        </div>
       </UIPageBody>
       <Toaster position="top-center" />
     </div>

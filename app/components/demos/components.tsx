@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { useViewTransitionState } from 'react-router';
 
-import { getUIBodyTransitionName } from '@/lib/utils';
+import { getUIBodyTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
 
 type MainHeaderProps = {
   children: ReactNode;
@@ -17,8 +17,8 @@ type UIPageBodyProps = {
 export function MainHeaderContainer({ children }: { children: ReactNode }) {
   return (
     <div className="
-      absolute top-5 left-1/2 flex -translate-x-1/2 items-center gap-3
-      sm:static sm:translate-x-0
+      absolute top-1/2 left-1/2 flex -translate-1/2 items-center gap-3
+      sm:static sm:translate-0
     "
     >
       {children}
@@ -26,13 +26,17 @@ export function MainHeaderContainer({ children }: { children: ReactNode }) {
   );
 }
 
-export function MainHeader({ children }: MainHeaderProps) {
+export function MainHeader({ url, children }: MainHeaderProps & { url: string }) {
+  const isTransitioning = useViewTransitionState(url);
+  const headingTransitionName = isTransitioning ? getUIHeadingTransitionName(url) : 'none';
+
   return (
     <h1
       className="
-        text-sm font-semibold
-        sm:text-3xl
+        text-[40px] leading-none font-bold text-name
+        sm:text-[80px]
       "
+      style={{ viewTransitionName: headingTransitionName }}
     >
       {children}
     </h1>

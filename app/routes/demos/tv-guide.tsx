@@ -1,16 +1,13 @@
 import { TZDate } from '@date-fns/tz';
 import { differenceInMinutes, format, set } from 'date-fns';
 import { useSetAtom } from 'jotai';
-import { InfoIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { currentTimeState } from '@/app/atoms/currentTimeAtom';
-import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/demos/components';
+import { MainHeader, UIPageBody } from '@/app/components/demos/components';
 import Header from '@/app/components/demos/Header';
-import Tip from '@/app/components/demos/tv-guide/Tip';
 import TVGuide from '@/app/components/demos/tv-guide/TVGuide';
 import { getFakeScheduleData, hourWidth } from '@/app/components/demos/tv-guide/utils';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export async function loader() {
   // const schedule = await getScheduleData();
@@ -24,16 +21,16 @@ export async function loader() {
 
 export type LoaderData = typeof loader;
 
-function TVGuideHeader() {
-  return (
-    <MainHeaderContainer>
-      <MainHeader>
-        TV Guide
-      </MainHeader>
-      <Tip />
-    </MainHeaderContainer>
-  );
-}
+// function TVGuideHeader() {
+//   return (
+//     <MainHeaderContainer>
+//       <MainHeader>
+//         TV Guide
+//       </MainHeader>
+//       <Tip />
+//     </MainHeaderContainer>
+//   );
+// }
 
 export default function TVGuidePage() {
   const setCurrentTime = useSetAtom(currentTimeState);
@@ -59,25 +56,45 @@ export default function TVGuidePage() {
   }, [setCurrentTime]);
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden">
+    <div className="flex h-dvh flex-col">
       <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
       <title>TV Guide | Demos | John Heher</title>
       <meta name="description" content="A simple TV guide component created by John Heher." />
-      <Header heading={<TVGuideHeader />} subhead="No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll." />
+      <meta property="og:title" content="TV Guide | Demos | John Heher" />
+      <meta property="og:description" content="A simple TV guide component created by John Heher." />
+      <Header
+        heading={(
+          <MainHeader url="/demos/tv-guide">
+            TV Guide
+          </MainHeader>
+        )}
+        subhead={(
+          <div>
+            <p>
+              No need to wait for your favorite channel to roll around again on the TV Guide channel. Through the magic of computers, you can just scroll.
+            </p>
+            <div className="
+              mt-7 flex flex-col gap-3 rounded-sm border border-name/20 bg-better-white/60 p-3 text-base
+              sm:p-5 sm:text-lg
+            "
+            >
+              <p>Please excuse the fake lorem ipsum shows. The only TV schedule API I could find was woefully inaccurate.</p>
+              <p>Just imagine you're watching TV in Ancient Rome.</p>
+            </div>
+          </div>
+        )}
+        imgSrc="/demos/tv-guide.png"
+        madeWith={['React', 'Tailwind', 'date-fns', 'shadcn', 'Faker']}
+        headerBgColor="bg-compass-header"
+      />
       <UIPageBody
         transitionPath="/demos/tv-guide"
-        // className="
-        //   min-h-0 flex-1 bg-linear-to-b from-gray-400 to-gray-900 px-2.5 py-5
-        //   sm:px-0 sm:pt-5 sm:pb-0
-        // "
         className="
-          min-h-0 flex-1 bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
-          sm:px-0 sm:pt-5 sm:pb-0
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
+          sm:p-0
         "
       >
-        <div className="mx-auto size-full min-h-0 max-w-250">
-          <TVGuide />
-        </div>
+        <TVGuide />
       </UIPageBody>
     </div>
   );

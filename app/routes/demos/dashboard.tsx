@@ -18,25 +18,34 @@ export type LoaderData = typeof loader;
 
 export default function DashboardPage() {
   return (
-    <div className="flex h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col">
       <title>Dashboard | Demos | John Heher</title>
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
+      <meta property="og:title" content="Dashboard | Demos | John Heher" />
+      <meta property="og:description" content="A beautiful, unbelievable dashboard created by John Heher." />
       <Header
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Dashboard</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader url="/demos/dashboard">
+            Dashboard
+          </MainHeader>
         )}
-        subhead="An example of a totally original dashboard that isn't almost exactly like what I worked on for two years."
+        subhead={(
+          <span>
+            An example of a totally original dashboard that isn't almost exactly like what I worked on for two years.
+          </span>
+        )}
+        imgSrc="/demos/dashboard.png"
+        madeWith={['React', 'Tailwind']}
+        headerBgColor="bg-peach-sea-header"
       />
       <UIPageBody
         transitionPath="/demos/dashboard"
         className="
-          flex-1 bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
-          sm:px-0 sm:pt-10 sm:pb-0
+          flex min-h-dvh flex-1 flex-col bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
+          sm:p-0
         "
       >
-        <div className="mx-auto w-full max-w-250">
+        <div className="mx-auto flex w-full max-w-250 flex-1 flex-col justify-center">
           <div className="bg-gray-300">
             <div className="
               flex w-full flex-col gap-5 p-3

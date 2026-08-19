@@ -14,8 +14,8 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
   return (
     <div>
       <div className="
-        mt-10 flex flex-col justify-center gap-5
-        sm:flex-row sm:gap-3
+        my-10 flex flex-col justify-center gap-5
+        sm:mb-0 sm:flex-row sm:gap-3
       "
       >
         <Card planName="basic" selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}>
