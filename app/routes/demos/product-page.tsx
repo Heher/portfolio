@@ -1,5 +1,5 @@
 import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer.client';
-import { MainHeader, MainHeaderContainer, UIPageBody } from '@/app/components/demos/components';
+import { MainHeader, UIPageBody } from '@/app/components/demos/components';
 import Header from '@/app/components/demos/Header';
 
 // export async function loader() {
@@ -14,12 +14,13 @@ export default function ProductPage() {
       <title>Product page | Demos | John Heher</title>
       <meta name="description" content="A product page for an incredible piece of the Aggro Crag created by John Heher." />
       <Header
+        headerBgColor="bg-stellar-header"
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Product page</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader>Product page</MainHeader>
         )}
-        subhead="For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS."
+        subhead={<span>For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS.</span>}
+        imgSrc="/demos/product-page.png"
+        madeWith={['React', 'Tailwind', 'React Three Fiber']}
       />
       <UIPageBody
         transitionPath="/demos/product-page"

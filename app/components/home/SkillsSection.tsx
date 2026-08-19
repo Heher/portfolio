@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { CompanyInfo } from '@/types/skills';
-
-import { cn } from '@/lib/utils';
 import DrizzleIcon from '~/icons/stack/Drizzle';
 import PostgreSQLIcon from '~/icons/stack/PostgreSQL';
 import ReactIcon from '~/icons/stack/React';
@@ -13,6 +10,7 @@ import TailwindIcon from '~/icons/stack/Tailwind';
 import TypeScriptIcon from '~/icons/stack/TypeScript';
 import ViteIcon from '~/icons/stack/Vite';
 
+import Company from '../skills/Company';
 import { companies, companySkills, skills } from '../skills/data';
 import Skill from '../skills/Skill';
 
@@ -29,49 +27,6 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
       {icon}
       {name}
     </a>
-  );
-}
-
-function Company({
-  companyRef,
-  info,
-  selected,
-}: {
-  companyRef: React.Ref<HTMLDivElement>;
-  info: CompanyInfo;
-  selected: boolean;
-}) {
-  return (
-    <div
-      ref={companyRef}
-      className="
-        pb-100
-        last-of-type:pb-50
-      "
-      data-company={info.slug}
-    >
-      <div className="
-        relative w-[260px] rounded-sm bg-better-white px-7 py-5
-        sm:w-[400px]
-      "
-      >
-        <div className={cn(`absolute top-1/2 -left-8 z-1 size-6 -translate-y-1/2 rounded-full border border-better-black bg-better-white`, selected && `
-          bg-[oklch(0.86_0.1002_121.51)]
-        `)}
-        >
-          <span className="absolute top-1/2 left-1/2 z-2 size-3 -translate-1/2 rounded-full bg-better-black" />
-        </div>
-        <h3 className="
-          text-xl font-semibold
-          sm:text-2xl
-        "
-        >
-          {info.name}
-        </h3>
-        <p className="mt-1 max-w-[300px] text-base">{info.location}</p>
-        <p className="mt-6 max-w-[300px] text-base">{info.title}</p>
-      </div>
-    </div>
   );
 }
 
@@ -155,7 +110,7 @@ export default function SkillsSection() {
         "
         >
           <h2 className="
-            mb-0 text-[30px] leading-none font-semibold text-name
+            mb-0 flex max-w-[270px] flex-col text-[30px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
           "
           >

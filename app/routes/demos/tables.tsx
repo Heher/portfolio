@@ -18,15 +18,18 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
       <meta name="description" content="A simple table component created by John Heher." />
       <Header
         heading={(
-          <MainHeaderContainer>
-            <MainHeader>Tables</MainHeader>
-          </MainHeaderContainer>
+          <MainHeader>
+            Tables
+          </MainHeader>
         )}
         subhead={(
           <span>
             I've found if I'm being asked to build an internal tool, it's gonna be a table.
           </span>
         )}
+        imgSrc="/demos/table-3.png"
+        madeWith={['React', 'TanStack Table', 'Tailwind', 'Faker']}
+        headerBgColor="bg-mello-header"
       />
       <UIPageBody
         transitionPath="/demos/tables"

@@ -38,7 +38,7 @@ export default function DemoSection() {
         "
         >
           <h2 className="
-            mb-0 text-[30px] leading-none font-semibold text-name
+            mb-0 w-[270px] text-[30px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
           "
           >

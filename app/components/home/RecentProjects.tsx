@@ -2,7 +2,7 @@ export default function RecentProjects() {
   return (
     <section
       className="
-        bg-header-top px-5 py-20
+        bg-better-white px-5 py-20
         sm:px-0 sm:py-40
       "
     >
@@ -13,7 +13,7 @@ export default function RecentProjects() {
         "
         >
           <h2 className="
-            mb-0 text-[30px] leading-none font-semibold text-name
+            mb-0 max-w-[270px] text-[30px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
           "
           >

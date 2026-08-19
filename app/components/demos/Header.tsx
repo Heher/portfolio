@@ -3,15 +3,17 @@ import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useViewTransitionState } from 'react-router';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { getUIArrowTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
 
 type HeaderProps = {
   heading: ReactNode;
   subhead: ReactNode;
+  headerBgColor: string;
+  imgSrc: string;
+  madeWith: string[];
 };
 
-export default function Header({ heading, subhead }: HeaderProps) {
+export default function Header({ heading, subhead, imgSrc, madeWith, headerBgColor }: HeaderProps) {
   const { pathname } = useLocation();
   const isTransitioning = useViewTransitionState(pathname);
   const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(pathname) : 'none';
@@ -19,11 +21,15 @@ export default function Header({ heading, subhead }: HeaderProps) {
   const transitionName = isTransitioning ? getUIHeadingTransitionName(pathname) : 'none';
 
   return (
-    <div className="absolute top-0 left-0 z-10 w-full bg-better-white/70 backdrop-blur-xs">
+    <div className={`
+      w-full
+      ${headerBgColor}
+    `}
+    >
       <div
         className="
           relative mx-auto flex w-full max-w-xl flex-col p-5
-          sm:px-0 sm:pt-10 sm:pb-8
+          sm:px-0 sm:py-10
         "
         style={{ viewTransitionName: transitionName }}
       >
@@ -31,34 +37,54 @@ export default function Header({ heading, subhead }: HeaderProps) {
           <Link
             to="/"
             className="
-              flex w-max items-center gap-2 text-sm font-semibold text-[#282B27]
+              flex w-[80px] items-center justify-center gap-2 rounded-lg bg-name py-2 text-sm font-semibold text-better-white
               hover:opacity-80
-              sm:text-base
+              sm:w-[90px] sm:text-base
             "
             viewTransition
           >
-            <ArrowLeft className="size-4.5" style={{ viewTransitionName: arrowTransitionName }} />
+            <ArrowLeft
+              className="
+                size-4
+                sm:size-4.5
+              "
+              style={{ viewTransitionName: arrowTransitionName }}
+            />
             <span className="block">Back</span>
           </Link>
+        </div>
+        <div className="
+          my-10 flex w-full items-center gap-7
+          sm:my-15 sm:gap-10
+        "
+        >
+          <img
+            src={imgSrc}
+            className="
+              h-16
+              sm:h-30
+            "
+          />
           {heading}
-          <Popover>
-            <PopoverTrigger asChild>
-              <button
-                type="button"
-                className="
-                  rounded-sm border border-better-black bg-[#282B27] p-2 text-xs font-medium text-better-white uppercase
-                  sm:px-3 sm:py-2 sm:text-sm
-                "
-              >
-                Details
-              </button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <p className="font-zilla text-base text-[#282B27]">
-                {subhead}
-              </p>
-            </PopoverContent>
-          </Popover>
+        </div>
+        <div className="
+          font-zilla text-lg text-name
+          sm:text-2xl
+        "
+        >
+          {subhead}
+        </div>
+        <p className="
+          mt-8 text-xs font-light text-name uppercase
+          sm:mt-10 sm:text-sm
+        "
+        >
+          Made with:
+        </p>
+        <div className="mt-3 flex gap-5 text-name">
+          {madeWith.map(tech => (
+            <span key={tech}>{tech}</span>
+          ))}
         </div>
       </div>
     </div>
