@@ -63,7 +63,7 @@ export default function EmailTemplatePage() {
       <meta name="description" content="A simple link to send an email template created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/email-template">
             Email templates
           </MainHeader>
         )}

@@ -23,7 +23,7 @@ export default function DashboardPage() {
       <meta name="description" content="A beautiful, unbelievable dashboard created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/dashboard">
             Dashboard
           </MainHeader>
         )}

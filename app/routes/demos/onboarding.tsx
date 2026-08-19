@@ -83,7 +83,7 @@ export default function OnboardingPage() {
       <meta name="description" content="A simple onboarding page created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/onboarding">
             Signup
           </MainHeader>
         )}

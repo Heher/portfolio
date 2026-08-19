@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useViewTransitionState } from 'react-router';
 
-import { getUIArrowTransitionName, getUIHeadingTransitionName } from '@/lib/utils';
+import { getUIWireframeTransitionName } from '@/lib/utils';
 
 type HeaderProps = {
   heading: ReactNode;
@@ -13,12 +13,25 @@ type HeaderProps = {
   madeWith: string[];
 };
 
+function HeaderTech({ tech }: { tech: string }) {
+  return (
+    <span className="
+      rounded-full border border-[oklch(0.2736_0.077_45.81)]/60 bg-subtitle/20 px-2 py-1 text-xs font-medium text-[oklch(0.2736_0.077_45.81)]
+      sm:px-3 sm:py-2 sm:text-sm
+    "
+    >
+      {tech}
+    </span>
+  );
+}
+
 export default function Header({ heading, subhead, imgSrc, madeWith, headerBgColor }: HeaderProps) {
   const { pathname } = useLocation();
   const isTransitioning = useViewTransitionState(pathname);
-  const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(pathname) : 'none';
+  // const arrowTransitionName = isTransitioning ? getUIArrowTransitionName(pathname) : 'none';
+  const wireframeTransitionName = isTransitioning ? getUIWireframeTransitionName(pathname) : 'none';
 
-  const transitionName = isTransitioning ? getUIHeadingTransitionName(pathname) : 'none';
+  // const transitionName = isTransitioning ? getUIHeadingTransitionName(pathname) : 'none';
 
   return (
     <div className={`
@@ -31,7 +44,6 @@ export default function Header({ heading, subhead, imgSrc, madeWith, headerBgCol
           relative mx-auto flex w-full max-w-xl flex-col p-5
           sm:px-0 sm:py-10
         "
-        style={{ viewTransitionName: transitionName }}
       >
         <div className="flex justify-between">
           <Link
@@ -48,7 +60,6 @@ export default function Header({ heading, subhead, imgSrc, madeWith, headerBgCol
                 size-4
                 sm:size-4.5
               "
-              style={{ viewTransitionName: arrowTransitionName }}
             />
             <span className="block">Back</span>
           </Link>
@@ -64,6 +75,7 @@ export default function Header({ heading, subhead, imgSrc, madeWith, headerBgCol
               h-16
               sm:h-30
             "
+            style={{ viewTransitionName: wireframeTransitionName }}
           />
           {heading}
         </div>
@@ -81,9 +93,9 @@ export default function Header({ heading, subhead, imgSrc, madeWith, headerBgCol
         >
           Made with:
         </p>
-        <div className="mt-3 flex gap-5 text-name">
+        <div className="mt-3 flex flex-wrap gap-3 text-name">
           {madeWith.map(tech => (
-            <span key={tech}>{tech}</span>
+            <HeaderTech key={tech} tech={tech} />
           ))}
         </div>
       </div>

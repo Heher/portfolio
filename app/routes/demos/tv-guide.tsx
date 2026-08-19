@@ -62,7 +62,7 @@ export default function TVGuidePage() {
       <meta name="description" content="A simple TV guide component created by John Heher." />
       <Header
         heading={(
-          <MainHeader>
+          <MainHeader url="/demos/tv-guide">
             TV Guide
           </MainHeader>
         )}
@@ -82,7 +82,7 @@ export default function TVGuidePage() {
           </div>
         )}
         imgSrc="/demos/tv-guide.png"
-        madeWith={['React', 'Tailwind', 'date-fns', 'shadcn']}
+        madeWith={['React', 'Tailwind', 'date-fns', 'shadcn', 'Faker']}
         headerBgColor="bg-compass-header"
       />
       <UIPageBody

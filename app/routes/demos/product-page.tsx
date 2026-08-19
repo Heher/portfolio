@@ -16,7 +16,7 @@ export default function ProductPage() {
       <Header
         headerBgColor="bg-stellar-header"
         heading={(
-          <MainHeader>Product page</MainHeader>
+          <MainHeader url="/demos/product-page">Product page</MainHeader>
         )}
         subhead={<span>For all my fellow Millennials out there. Or simply anyone who is a fan of Nickelodeon's GUTS.</span>}
         imgSrc="/demos/product-page.png"
