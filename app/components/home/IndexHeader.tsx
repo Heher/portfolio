@@ -46,19 +46,19 @@ export default function IndexHeader() {
             "
             >
               <h1 className="
-                flex flex-col gap-1 text-3xl leading-none text-name uppercase
+                flex flex-col gap-1 text-[34px] leading-none text-name uppercase
                 sm:text-4xl
               "
               >
                 <span className="
-                  mb-[-3px] ml-px leading-none
+                  -mb-0.75 ml-0.5 leading-none
                   sm:ml-0
                 "
                 >
                   John
                 </span>
                 <span className="
-                  text-[41px] leading-none font-bold
+                  text-[47px] leading-none font-bold
                   sm:text-[49px]
                 "
                 >
@@ -66,7 +66,7 @@ export default function IndexHeader() {
                 </span>
               </h1>
               <h2 className="
-                mt-3 mb-8 text-sm font-semibold tracking-[0.12em] text-subtitle uppercase
+                mt-3 mb-8 text-base font-semibold tracking-[0.12em] text-subtitle uppercase
                 sm:mt-4 sm:mb-6 sm:text-base sm:tracking-[0.16em]
               "
               >

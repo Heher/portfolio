@@ -19,7 +19,7 @@ function StackTech({ name, link, icon }: { name: string; link?: string; icon?: R
     <a
       href={link}
       className="
-        grid w-38 grid-cols-[30px_1fr] items-center gap-1 rounded-md bg-better-white/70 py-3 pl-3 text-sm text-index-link transition-colors
+        grid w-42 grid-cols-[30px_1fr] items-center gap-1 rounded-md bg-better-white/70 py-3 pl-3 text-base text-index-link transition-colors
         hover:bg-better-white
         sm:w-50 sm:grid-cols-[35px_1fr] sm:gap-2 sm:rounded-lg sm:py-4 sm:pl-5 sm:text-base
       "
@@ -110,14 +110,14 @@ export default function SkillsSection() {
         "
         >
           <h2 className="
-            mb-0 flex max-w-[270px] flex-col text-[30px] leading-none font-semibold text-name
+            mb-0 flex max-w-[270px] flex-col text-[40px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
           "
           >
             Skills Timeline
           </h2>
           <p className="
-            mt-4 max-w-xl font-zilla text-lg text-name
+            mt-4 max-w-xl font-zilla text-xl text-name
             sm:max-w-[400px] sm:text-xl
           "
           >
@@ -133,7 +133,7 @@ export default function SkillsSection() {
             ref={sentinelRef}
             className="
               sticky top-0 z-2 flex w-full flex-wrap gap-2 bg-index-background p-5
-              sm:top-20 sm:z-1 sm:max-w-[300px] sm:p-0
+              sm:top-20 sm:z-1 sm:max-w-75 sm:p-0
             "
           >
             {skills.map((skill) => {

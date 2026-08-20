@@ -13,7 +13,7 @@ export default function RecentProjects() {
         "
         >
           <h2 className="
-            mb-0 max-w-[270px] text-[30px] leading-none font-semibold text-name
+            mb-0 max-w-[300px] text-[40px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
           "
           >
