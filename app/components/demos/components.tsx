@@ -33,7 +33,7 @@ export function MainHeader({ url, children }: MainHeaderProps & { url: string })
   return (
     <h1
       className="
-        text-[40px] leading-none font-bold text-name
+        text-[47px] leading-none font-bold text-name
         sm:text-[80px]
       "
       style={{ viewTransitionName: headingTransitionName }}

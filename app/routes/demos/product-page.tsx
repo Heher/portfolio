@@ -58,28 +58,33 @@ export default function ProductPage() {
                 >
                   <div>
                     <h2 className="
-                      font-fraunces text-4xl font-semibold text-better-black
-                      sm:text-5xl
+                      mt-3 font-fraunces text-5xl font-semibold text-better-black
+                      sm:mt-0
                     "
                     >
                       Aggro Crag
                     </h2>
                     <p className="
-                      mt-5 font-zilla text-base/relaxed text-gray-700
-                      sm:mt-8 sm:text-lg
+                      mt-8 font-zilla text-lg/relaxed text-gray-700
+                      sm:mt-8
                     "
                     >
                       Never got a chance to test your skills at Slam Dunk, Moon Race, or the always frustrating Boogie Down? No need to go to Mo for a score update when this incredible, priceless, and of course glowing piece of the radical
                       rock is just a click away.
                     </p>
                   </div>
-                  <p className="mt-5 text-xl font-medium">$99,999.99</p>
+                  <p className="
+                    mt-8 text-2xl font-medium
+                    sm:mt-5 sm:text-xl
+                  "
+                  >
+                    $99,999.99
+                  </p>
                   <button
                     type="button"
                     className="
-                      mt-8 w-full cursor-pointer rounded-lg bg-product-page px-5 py-3 text-base font-semibold text-better-white transition-colors
+                      mt-8 w-full cursor-pointer rounded-lg bg-product-page px-5 py-3 text-lg font-semibold text-better-white transition-colors
                       hover:bg-product-page-dark
-                      sm:text-lg
                     "
                   >
                     Add to cart
@@ -93,8 +98,8 @@ export default function ProductPage() {
               "
               >
                 <span className="
-                  relative z-2 -mr-8 block bg-better-white p-3 text-center font-serif text-lg font-semibold
-                  sm:pl-10 sm:text-3xl
+                  relative z-2 -mr-15 block bg-better-white p-3 text-center font-serif text-2xl font-semibold
+                  sm:-mr-8 sm:pl-10 sm:text-3xl
                 "
                 >
                   &ldquo;My life was truly complete once I had the piece of our radical rock in my home.&rdquo;
@@ -103,7 +108,7 @@ export default function ProductPage() {
                   href="/aggro.usdz"
                   rel="ar"
                   className="
-                    w-1/2 shrink-0
+                    w-[60%] shrink-0
                     sm:w-56
                   "
                 >
