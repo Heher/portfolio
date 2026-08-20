@@ -7,7 +7,7 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
   return (
     <a
       className="
-        grid w-30 grid-cols-[26px_1fr] items-center rounded-md bg-better-white/70 p-3 text-sm leading-none font-semibold text-index-link uppercase transition-colors
+        grid w-34 grid-cols-[26px_1fr] items-center rounded-md bg-better-white/70 p-3 text-sm leading-none font-semibold text-index-link uppercase transition-colors
         hover:bg-better-white
         sm:w-40 sm:grid-cols-[40px_1fr] sm:rounded-lg sm:px-3 sm:py-2
       "
@@ -46,7 +46,13 @@ export default function Socials() {
             sm:h-6
           "
           />
-          <span className="text-xs">GitHub</span>
+          <span className="
+            text-sm
+            sm:text-xs
+          "
+          >
+            GitHub
+          </span>
         </SocialLink>
         <SocialLink
           href="https://www.linkedin.com/in/johnheher/"
@@ -64,7 +70,13 @@ export default function Socials() {
             sm:h-6
           "
           />
-          <span className="text-xs">LinkedIn</span>
+          <span className="
+            text-sm
+            sm:text-xs
+          "
+          >
+            LinkedIn
+          </span>
         </SocialLink>
         <SocialLink
           href="/cv.pdf"
@@ -82,7 +94,13 @@ export default function Socials() {
             sm:h-6
           "
           />
-          <span className="text-xs">Resume</span>
+          <span className="
+            text-sm
+            sm:text-xs
+          "
+          >
+            Resume
+          </span>
         </SocialLink>
         <SocialLink
           href="mailto:johnheher@gmail.com"
@@ -100,7 +118,13 @@ export default function Socials() {
             sm:w-5
           "
           />
-          <span className="text-xs">Email</span>
+          <span className="
+            text-sm
+            sm:text-xs
+          "
+          >
+            Email
+          </span>
         </SocialLink>
       </div>
     </div>

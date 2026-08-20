@@ -36,7 +36,7 @@ export default function UILink({ url, title, image, className, headerClassName, 
       >
         <h2
           className={cn(`
-            absolute top-0 left-0 z-3 flex h-13 w-full items-center gap-1 self-start rounded-t-xl bg-better-white/60 pl-5 font-zilla text-base font-semibold text-tables-dark
+            absolute top-0 left-0 z-3 flex h-13 w-full items-center gap-1 self-start rounded-t-xl bg-better-white/60 pl-5 font-zilla text-lg font-semibold text-tables-dark
             backdrop-blur-xs
             group-hover:bg-better-white/40
             sm:h-15 sm:text-lg
