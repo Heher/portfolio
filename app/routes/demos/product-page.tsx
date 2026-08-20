@@ -1,4 +1,5 @@
 import { AggroCragContainer } from '@/app/components/aggro/AggroCragContainer.client';
+import { ClientOnly } from '@/app/components/ClientOnly';
 import { MainHeader, UIPageBody } from '@/app/components/demos/components';
 import Header from '@/app/components/demos/Header';
 
@@ -48,7 +49,7 @@ export default function ProductPage() {
                   sm:size-100
                 "
                 >
-                  <AggroCragContainer />
+                  <ClientOnly>{() => <AggroCragContainer />}</ClientOnly>
                 </div>
                 <div className="
                   flex max-w-87.5 flex-col justify-between
