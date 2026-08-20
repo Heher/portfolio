@@ -48,29 +48,16 @@ export function ErrorBoundary() {
 
 export function AggroCragContainer() {
   return (
-    <Canvas camera={{ position: [0, 0, 4], fov: 8 }} shadows>
-      {/* <Canvas
-      camera={{
-        fov: 45,
-        near: 0.1,
-        far: 200,
-        position: [0, 0, 1],
-      }}
-      shadows
-    > */}
-      {/* <Environment preset="forest" background blur={0.5} /> */}
-      {/* <color attach="background" args={['#1d293d']} /> */}
+    <Canvas camera={{ position: [0, 0, 18], fov: 8 }} shadows>
       <EffectComposer>
         <Bloom mipmapBlur luminanceThreshold={1.1} />
         {/* <ToneMapping mode={ToneMappingMode.ACES_FILMIC} /> */}
       </EffectComposer>
       <ambientLight intensity={1.5} />
-      <directionalLight position={[-16, 80, 20]} color={white} castShadow intensity={4.5} />
-      <group scale={1} rotation={[0, 1.5, 0.15, 'ZXY']} position={[0, -0.7, 0]}>
-        <Suspense fallback={null}>
-          <AggroCrag />
-        </Suspense>
-      </group>
+      <directionalLight position={[1, 1, 1]} color={white} castShadow intensity={4.5} />
+      <Suspense fallback={null}>
+        <AggroCrag />
+      </Suspense>
       <OrbitControls
         minPolarAngle={Math.PI / 2}
         maxPolarAngle={Math.PI / 2}

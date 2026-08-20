@@ -1,57 +1,48 @@
-import type { Group } from 'three';
+import type { Group, Material, Mesh } from 'three';
+import type { GLTF } from 'three-stdlib';
 
+import { useGLTF } from '@react-three/drei';
 // import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
 // import { MeshStandardMaterial } from 'three';
+import { useRef } from 'react';
 
 import Base from './Base';
 import Logo from './Logo';
 import Rock from './Rock';
 
-type DonutProps = {
+type AggroCragProps = {
   scale?: number;
 };
 
-// const rockMaterial = new MeshStandardMaterial({
-//   transparent: true,
-//   color: 0x56913A,
-//   emissive: 0x56913A,
-//   emissiveIntensity: 1.5,
-// });
+type AggroCragGLTF = GLTF & {
+  nodes: {
+    Base: Mesh;
+    Rock: Mesh;
+    Logo: Mesh;
+  };
+  materials: {
+    Material_0: Material;
+  };
+};
 
-// const baseMaterial = new MeshStandardMaterial({
-//   color: 0x333333,
-// });
-
-export default function AggroCrag({ scale = 0.008 }: DonutProps) {
+export default function AggroCrag({ scale = 1 }: AggroCragProps) {
   const ref = useRef<Group | null>(null);
-  // const base = useGLTF('./gltf/aggro/base.gltf');
-
-  // useEffect(() => {
-  //   // Apply materials to base
-  //   base.scene.traverse((child) => {
-  //     if ('material' in child && child.material) {
-  //       child.material = new MeshStandardMaterial({
-  //         color: 0x333333,
-  //       });
-  //     }
-  //   });
-  // }, [base]);
+  const { nodes, materials } = useGLTF('/gltf/aggro2/aggro3.gltf') as unknown as AggroCragGLTF;
 
   useFrame((state) => {
     if (!ref.current) {
       return;
     }
 
-    ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() / 2) / 2;
+    ref.current.rotation.y = (Math.PI / 2) + Math.sin(state.clock.getElapsedTime() / 2) / 2;
   });
 
   return (
-    <group ref={ref} scale={scale}>
-      <Base />
-      <Rock />
-      <Logo />
+    <group ref={ref} scale={scale} rotation={[0, Math.PI / 2, 0.15, 'ZXY']} position-y={-0.44}>
+      <Base geometry={nodes.Base.geometry} />
+      <Rock geometry={nodes.Rock.geometry} />
+      <Logo geometry={nodes.Logo.geometry} material={materials.Material_0} />
     </group>
   );
 }
