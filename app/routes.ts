@@ -14,6 +14,7 @@ export default [
       route('dashboard', 'routes/demos/dashboard.tsx'),
     ]),
   ]),
+  route('board', 'routes/board.tsx'),
   // ...prefix('trip', [
   //   layout('routes/trip/layout.tsx', [
   //     // index('routes/trip/testGlobeIndex.tsx'),
