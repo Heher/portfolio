@@ -1,129 +1,127 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import type { Align, MessageMode } from '@/types/board';
 
-import { FONT_HEIGHT, getGlyph } from './font5x7';
+import FreestylePanel from './FreestylePanel';
+import MatrixCanvas from './MatrixCanvas';
+import TextMessagePanel from './TextMessagePanel';
+import { BOARD_HEIGHT, BOARD_WIDTH, LED_ON, PIXEL_SCALE, snapToPixelGrid } from './utils';
 
-const BOARD_WIDTH = 192;
-const BOARD_HEIGHT = 32;
-const CHAR_WIDTH = 5;
-const CHAR_HEIGHT = 11;
-const CHAR_SPACING = 1;
-const CHAR_ADVANCE = CHAR_WIDTH + CHAR_SPACING;
-const GLYPH_TOP_PAD = Math.floor((CHAR_HEIGHT - FONT_HEIGHT) / 2);
-const PIXEL_SCALE = 6;
+type MessageFormProps = {
+  mode: MessageMode;
+  close: () => void;
+  pixels: (string | null)[];
+  setPixels: React.Dispatch<React.SetStateAction<(string | null)[]>>;
+  clear: () => void;
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+  align: Align;
+  setAlign: React.Dispatch<React.SetStateAction<Align>>;
+};
 
-const LED_ON = '#ff2b2b';
-const LED_OFF = '#2a0d0d';
-const LED_BG = '#0a0303';
+export default function MessageForm({ mode, close, pixels, setPixels, clear, text, setText, align, setAlign }: MessageFormProps) {
+  const [color, setColor] = useState(LED_ON);
 
-type Align = 'left' | 'center' | 'right';
+  const drawText = useCallback(async (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
+    try {
+      if (typeof document !== 'undefined' && 'fonts' in document) {
+        const scientifica = new FontFace('Scientifica', 'url(/fonts/scientifica.ttf) format("truetype")');
+        document.fonts.add(scientifica);
+        await scientifica.load();
+      }
+    }
+    catch {
+    }
 
-function buildBoardMatrix(text: string, align: Align): boolean[][] {
-  const matrix = Array.from({ length: BOARD_HEIGHT }).map(() =>
-    Array.from({ length: BOARD_WIDTH }).fill(false) as boolean[],
-  );
+    ctx.textAlign = align === 'left' ? 'left' : align === 'right' ? 'right' : 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `${snapToPixelGrid(BOARD_HEIGHT * 1.2)}px "Scientifica", monospace`;
+    // ctx.fillStyle = LED_ON;
+    ctx.fillStyle = color;
 
-  const textWidth = text.length > 0 ? text.length * CHAR_ADVANCE - CHAR_SPACING : 0;
-  const startX
-    = align === 'left'
-      ? 0
+    const padding = snapToPixelGrid(BOARD_WIDTH * 0.08);
+    const x = align === 'left'
+      ? padding
       : align === 'right'
-        ? BOARD_WIDTH - textWidth
-        : Math.floor((BOARD_WIDTH - textWidth) / 2);
-  const startY = Math.floor((BOARD_HEIGHT - CHAR_HEIGHT) / 2);
+        ? canvas.width - padding
+        : snapToPixelGrid(canvas.width / 2);
 
-  for (let i = 0; i < text.length; i++) {
-    const glyph = getGlyph(text[i]);
-    const charX = startX + i * CHAR_ADVANCE;
+    ctx.fillText(text || ' ', x, snapToPixelGrid(canvas.height / 2));
+  }, [text, align, color]);
 
-    for (let col = 0; col < CHAR_WIDTH; col++) {
-      const columnBits = glyph[col];
-      for (let row = 0; row < FONT_HEIGHT; row++) {
-        if (!((columnBits >> row) & 1)) {
+  const drawPixels = useCallback((ctx: CanvasRenderingContext2D) => {
+    for (let row = 0; row < BOARD_HEIGHT; row += 1) {
+      for (let column = 0; column < BOARD_WIDTH; column += 1) {
+        const pixelColor = pixels[row * BOARD_WIDTH + column];
+        if (!pixelColor) {
           continue;
         }
-
-        const x = charX + col;
-        const y = startY + GLYPH_TOP_PAD + row;
-        if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT) {
-          continue;
-        }
-        matrix[y][x] = true;
+        ctx.fillStyle = pixelColor;
+        ctx.fillRect(column * PIXEL_SCALE, row * PIXEL_SCALE, PIXEL_SCALE, PIXEL_SCALE);
       }
     }
-  }
+  }, [pixels]);
 
-  return matrix;
-}
-
-export default function MessageForm() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [text, setText] = useState('OLYMPICS');
-  const [align, setAlign] = useState<Align>('center');
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (!canvas || !ctx) {
-      return;
-    }
-
-    const matrix = buildBoardMatrix(text, align);
-
-    ctx.fillStyle = LED_BG;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const dotRadius = PIXEL_SCALE * 0.4;
-    for (let y = 0; y < BOARD_HEIGHT; y++) {
-      for (let x = 0; x < BOARD_WIDTH; x++) {
-        const cx = x * PIXEL_SCALE + PIXEL_SCALE / 2;
-        const cy = y * PIXEL_SCALE + PIXEL_SCALE / 2;
-        ctx.beginPath();
-        ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
-        ctx.fillStyle = matrix[y][x] ? LED_ON : LED_OFF;
-        ctx.fill();
+  const paintPixel = useCallback((column: number, row: number) => {
+    setPixels((prev) => {
+      const index = row * BOARD_WIDTH + column;
+      if (prev[index] === color) {
+        return prev;
       }
-    }
-  }, [text, align]);
+      const next = prev.slice();
+      next[index] = color;
+      return next;
+    });
+  }, [color, setPixels]);
+
+  // x = 0 at the left edge, y = 0 at the top edge, matching the board's physical layout.
+  // const paintedPixels = useMemo(() => {
+  //   return pixels.flatMap((pixelColor, index) => {
+  //     const rgb = pixelColor && hexToRgb(pixelColor);
+  //     if (!rgb) {
+  //       return [];
+  //     }
+  //     return [{ x: index % BOARD_WIDTH, y: Math.floor(index / BOARD_WIDTH), ...rgb }];
+  //   });
+  // }, [pixels]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <canvas
-        ref={canvasRef}
-        width={BOARD_WIDTH * PIXEL_SCALE}
-        height={BOARD_HEIGHT * PIXEL_SCALE}
-        className="w-full max-w-3xl rounded-md bg-black"
-        style={{ aspectRatio: `${BOARD_WIDTH} / ${BOARD_HEIGHT}` }}
-      />
+    <div className="">
+      <div className="
+        mb-3
+        sm:pointer-fine:mb-5
+      "
+      >
+        {mode === 'text' ? <TextMessagePanel text={text} setText={setText} align={align} setAlign={setAlign} color={color} setColor={setColor} /> : <FreestylePanel color={color} setColor={setColor} clear={clear} />}
+      </div>
+      <MatrixCanvas draw={mode === 'text' ? drawText : drawPixels} deps={[text, align, color, pixels]} editable={mode !== 'text'} onPixelPaint={paintPixel} />
+      <div className="
+        mt-3 flex items-center justify-end gap-3
+        sm:pointer-fine:mt-10
+      "
+      >
+        <button
+          type="submit"
+          className="
+            w-[70px] cursor-pointer rounded-sm bg-better-white py-2 font-semibold text-better-black
+            hover:bg-better-white/80
+            sm:pointer-fine:w-[100px] sm:pointer-fine:py-4
+          "
+          onClick={() => close()}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="
+            w-[70px] cursor-pointer rounded-sm bg-better-black py-2 font-semibold text-better-white
+            hover:bg-better-black/80
+            sm:pointer-fine:w-[100px] sm:pointer-fine:py-4
+          "
 
-      <div className="flex items-center gap-2">
-        <Input
-          value={text}
-          onChange={(event) => {
-            setText(event.target.value.toUpperCase());
-          }}
-          placeholder="Type a message"
-          className="max-w-xs"
-        />
-
-        <div className="flex gap-1">
-          {(['left', 'center', 'right'] as const).map((option) => {
-            return (
-              <Button
-                key={option}
-                type="button"
-                variant={align === option ? 'default' : 'outline'}
-                onClick={() => setAlign(option)}
-                className={cn('capitalize')}
-              >
-                {option}
-              </Button>
-            );
-          })}
-        </div>
+        >
+          Send
+        </button>
       </div>
     </div>
   );

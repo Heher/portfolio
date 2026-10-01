@@ -5,6 +5,8 @@ import { Link, useLocation, useViewTransitionState } from 'react-router';
 
 import { getUIWireframeTransitionName } from '@/lib/utils';
 
+import HeaderTech from '../shared/HeaderTech';
+
 type HeaderProps = {
   heading: ReactNode;
   subhead: ReactNode;
@@ -12,18 +14,6 @@ type HeaderProps = {
   imgSrc: string;
   madeWith: string[];
 };
-
-function HeaderTech({ tech }: { tech: string }) {
-  return (
-    <span className="
-      rounded-full border border-[oklch(0.2736_0.077_45.81)]/60 bg-subtitle/20 px-2 py-1 text-sm font-medium text-[oklch(0.2736_0.077_45.81)]
-      sm:px-3 sm:py-2 sm:text-sm
-    "
-    >
-      {tech}
-    </span>
-  );
-}
 
 export default function Header({ heading, subhead, imgSrc, madeWith, headerBgColor }: HeaderProps) {
   const { pathname } = useLocation();

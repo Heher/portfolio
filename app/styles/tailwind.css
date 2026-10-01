@@ -170,6 +170,10 @@
   --color-stellar-top: var(--stellar-top);
   --color-stellar-bottom: var(--stellar-bottom);
   --color-stellar-header: var(--stellar-header);
+  
+  --color-asteroid-top: var(--asteroid-top);
+  --color-asteroid-bottom: var(--asteroid-bottom);
+  --color-asteroid-header: var(--asteroid-header);
 
   --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-content-show: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -544,6 +548,15 @@
       from var(--stellar-top)
       calc(l + 0.3)
       calc(c / 3.8)
+      h
+    );
+
+    --asteroid-top: oklch(0.3132 0.0447 269.59);
+    --asteroid-bottom: oklch(0.6536 0.0178 221.19);
+    --asteroid-header: oklch(
+      from var(--asteroid-top)
+      calc(l + 0.5)
+      calc(c / 2)
       h
     );
   }
