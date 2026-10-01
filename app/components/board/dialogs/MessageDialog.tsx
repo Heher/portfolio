@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFetcher } from 'react-router';
 
 import type { Align, MessageMode } from '@/types/board';
 
@@ -7,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { cn } from '@/lib/utils';
 
 import MessageForm from '../MessageForm';
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../utils';
+import { BOARD_HEIGHT, BOARD_WIDTH, LED_ON } from '../utils';
 
 type MessageDialogProps = {
   show: boolean;
@@ -26,6 +27,9 @@ export default function MessageDialog({ show, close }: MessageDialogProps) {
   );
   const [text, setText] = useState('');
   const [align, setAlign] = useState<Align>('center');
+  const [color, setColor] = useState(LED_ON);
+
+  const fetcher = useFetcher({ key: 'message-dialog' });
 
   function clear() {
     setPixels(Array.from({ length: BOARD_WIDTH * BOARD_HEIGHT }).fill(null) as null[]);
@@ -35,7 +39,23 @@ export default function MessageDialog({ show, close }: MessageDialogProps) {
     clear();
     setText('');
     setAlign('center');
+    // setColor(LED_ON);
     setMode(newMode);
+  }
+
+  function submit() {
+    // console.log('Submitting message with', { mode, pixels, text, align });
+
+    fetcher.submit(
+      { mode, pixels: JSON.stringify(pixels), text, align, textColor: color },
+      { method: 'post', action: '/board' },
+    );
+
+    clear();
+    setText('');
+    setAlign('center');
+    setColor(LED_ON);
+    close();
   }
 
   return (
@@ -93,7 +113,7 @@ export default function MessageDialog({ show, close }: MessageDialogProps) {
             sm:pointer-fine:mt-5
           "
           >
-            <MessageForm mode={mode} close={close} pixels={pixels} setPixels={setPixels} clear={clear} text={text} setText={setText} align={align} setAlign={setAlign} />
+            <MessageForm mode={mode} close={close} pixels={pixels} setPixels={setPixels} clear={clear} text={text} setText={setText} align={align} setAlign={setAlign} submit={submit} color={color} setColor={setColor} />
           </div>
         </div>
       </DialogContent>

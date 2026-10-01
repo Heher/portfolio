@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+// import { Form } from 'react-router';
 
 import type { Align, MessageMode } from '@/types/board';
 
@@ -17,11 +18,12 @@ type MessageFormProps = {
   setText: React.Dispatch<React.SetStateAction<string>>;
   align: Align;
   setAlign: React.Dispatch<React.SetStateAction<Align>>;
+  color: string;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+  submit: () => void;
 };
 
-export default function MessageForm({ mode, close, pixels, setPixels, clear, text, setText, align, setAlign }: MessageFormProps) {
-  const [color, setColor] = useState(LED_ON);
-
+export default function MessageForm({ mode, close, pixels, setPixels, clear, text, setText, align, setAlign, color, setColor, submit }: MessageFormProps) {
   const drawText = useCallback(async (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
     try {
       if (typeof document !== 'undefined' && 'fonts' in document) {
@@ -86,7 +88,7 @@ export default function MessageForm({ mode, close, pixels, setPixels, clear, tex
   // }, [pixels]);
 
   return (
-    <div className="">
+    <div>
       <div className="
         mb-3
         sm:pointer-fine:mb-5
@@ -101,7 +103,7 @@ export default function MessageForm({ mode, close, pixels, setPixels, clear, tex
       "
       >
         <button
-          type="submit"
+          type="button"
           className="
             w-[70px] cursor-pointer rounded-sm bg-better-white py-2 font-semibold text-better-black
             hover:bg-better-white/80
@@ -112,13 +114,13 @@ export default function MessageForm({ mode, close, pixels, setPixels, clear, tex
           Cancel
         </button>
         <button
-          type="submit"
+          type="button"
           className="
             w-[70px] cursor-pointer rounded-sm bg-better-black py-2 font-semibold text-better-white
             hover:bg-better-black/80
             sm:pointer-fine:w-[100px] sm:pointer-fine:py-4
           "
-
+          onClick={() => submit()}
         >
           Send
         </button>

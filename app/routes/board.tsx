@@ -1,51 +1,122 @@
 import { ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
-import { Link, useOutletContext } from 'react-router';
-import useMeasure from 'react-use-measure';
+import { useEffect, useState } from 'react';
+import { Link, useFetcher } from 'react-router';
+import { toast } from 'sonner';
 
+import { Toaster } from '@/components/ui/sonner';
+// import useMeasure from 'react-use-measure';
+import config from '@/config';
+import { ZSubmittedMessageData } from '@/types/board';
+
+import type { RgbColor } from '../components/board/utils';
 import type { Route } from './+types/board';
 
 import MessageDialog from '../components/board/dialogs/MessageDialog';
 import MatrixStatus from '../components/board/MatrixStatus';
-import MessageDrawer from '../components/board/MessageDrawer';
-import MessageForm from '../components/board/MessageForm';
+import { BOARD_HEIGHT, BOARD_WIDTH, hexToRgb } from '../components/board/utils';
 import HeaderTech from '../components/shared/HeaderTech';
+
+type MessageData = {
+  action: 'message';
+  token: string;
+  type?: 'pixel' | 'text';
+  pixels?: ({ x: number; y: number; r: number; g: number; b: number })[];
+  message?: string;
+  messageColor?: RgbColor | null;
+};
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  const mode = formData.get('mode');
+  const values = Object.fromEntries(formData.entries());
+  // console.log('values', values);
 
-  if (mode === 'freestyle') {
-    const pixels = formData.get('pixels');
-    const paintedPixels = typeof pixels === 'string' ? JSON.parse(pixels) : [];
+  const validatedData = ZSubmittedMessageData.safeParse(values);
 
-    const response = await fetch('https://www.heher.casa/board', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ action: 'message', type: 'pixel', pixels: paintedPixels, token: 'se2C7T24BbgfNGKw3oGm' }),
-    });
-
-    // console.log(response);
-    // console.log(await response.json());
-    // console.log(paintedPixels);
-    return null;
+  if (!validatedData.success) {
+    return { ok: false };
   }
 
-  const message = formData.get('message');
-  console.log(message);
-  return null;
+  console.log('formData', formData);
+
+  const messageData: MessageData = {
+    action: 'message',
+    token: config.SERVER_TOKEN as string,
+  };
+
+  if (validatedData.data.mode === 'freestyle') {
+    const pixels = validatedData.data.pixels;
+    const paintedPixels = typeof pixels === 'string' ? JSON.parse(pixels) : [];
+
+    const convertedPixels = [];
+
+    for (let row = 0; row < BOARD_HEIGHT; row += 1) {
+      for (let column = 0; column < BOARD_WIDTH; column += 1) {
+        const matchingPixel = paintedPixels[row * BOARD_WIDTH + column];
+
+        if (!matchingPixel) {
+          continue;
+        }
+
+        const convertedColor = hexToRgb(matchingPixel);
+
+        if (!convertedColor) {
+          continue;
+        }
+
+        convertedPixels.push({ ...convertedColor, x: column, y: row });
+      }
+    }
+
+    messageData.type = 'pixel';
+    messageData.pixels = convertedPixels;
+  }
+  else {
+    const message = validatedData.data.text;
+
+    messageData.type = 'text';
+    messageData.message = message || '';
+    messageData.messageColor = hexToRgb(validatedData.data.textColor) || null;
+  }
+
+  // console.log(messageData);
+
+  const response = await fetch('https://www.heher.casa/board', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(messageData),
+  });
+
+  // console.log(response);
+
+  return { ok: true };
 }
 
 export default function BoardIndex() {
   const [showMessageDialog, setShowMessageDialog] = useState(false);
+  const fetcher = useFetcher({ key: 'message-dialog' });
 
-  const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+  // const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+
+  useEffect(() => {
+    if (fetcher.data) {
+      if (fetcher.data.ok) {
+        toast.success('Message sent!');
+      }
+      else {
+        toast.error('Whoops', {
+          description: 'Something went wrong. Please try again.',
+        });
+      }
+
+      fetcher.reset();
+    }
+  }, [fetcher]);
 
   return (
     <main
-      ref={pageContainerRef}
+      // ref={pageContainerRef}
       className="w-screen bg-header-top font-figtree text-lg"
     >
       <div className="w-full bg-asteroid-header">
@@ -175,6 +246,7 @@ export default function BoardIndex() {
               close={() => setShowMessageDialog(false)}
             />
           )} */}
+      <Toaster position="top-center" />
     </main>
   );
 }
