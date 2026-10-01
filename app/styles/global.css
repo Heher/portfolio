@@ -61,6 +61,14 @@
   src: url('/fonts/anarchaos.otf') format('opentype');
 }
 
+@font-face {
+  font-display: swap;
+  font-family: 'Scientifica';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/scientifica.ttf') format('truetype');
+}
+
 .globe-background {
   background: linear-gradient(180deg, var(--globe-background) 0%, var(--globe-background) 50%, transparent 100%);
 }

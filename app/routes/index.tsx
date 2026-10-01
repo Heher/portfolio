@@ -2,6 +2,7 @@ import { useRef } from 'react';
 
 import DemoSection from '@/app/components/home/DemoSection';
 import SkillsSection from '@/app/components/home/SkillsSection';
+import Footer from '~/components/home/Footer';
 import RecentProjects from '~/components/home/RecentProjects';
 
 import IndexHeader from '../components/home/IndexHeader';
@@ -45,6 +46,7 @@ export default function Index() {
             <SkillsSection />
             <RecentProjects />
           </div>
+          <Footer />
         </div>
       </div>
     </main>

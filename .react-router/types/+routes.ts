@@ -32,12 +32,15 @@ type Pages = {
   "/demos/dashboard": {
     params: {};
   };
+  "/board": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard";
+    page: "/" | "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard" | "/board";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -71,6 +74,10 @@ type RouteFiles = {
     id: "routes/demos/dashboard";
     page: "/demos/dashboard";
   };
+  "routes/board.tsx": {
+    id: "routes/board";
+    page: "/board";
+  };
 };
 
 type RouteModules = {
@@ -83,4 +90,5 @@ type RouteModules = {
   "routes/demos/email-template": typeof import("./app/routes/demos/email-template.tsx");
   "routes/demos/tv-guide": typeof import("./app/routes/demos/tv-guide.tsx");
   "routes/demos/dashboard": typeof import("./app/routes/demos/dashboard.tsx");
+  "routes/board": typeof import("./app/routes/board.tsx");
 };

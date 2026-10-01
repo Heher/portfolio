@@ -19,6 +19,13 @@ export default function RecentProjects() {
           >
             Recent projects
           </h2>
+          <p className="
+            mt-4 max-w-xl font-zilla text-xl text-name
+            sm:max-w-[400px] sm:text-xl
+          "
+          >
+            When I'm not building beautiful and flawless UIs, I somehow find time to build some other stuff on the side.
+          </p>
         </div>
         <a href="https://www.globedraft.com">
           <picture>
