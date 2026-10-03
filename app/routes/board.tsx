@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link, useFetcher } from 'react-router';
 import { toast } from 'sonner';
 
+import type { BoardProgram, MatrixStatus as MatrixStatusType } from '@/types/board';
+
 import { Toaster } from '@/components/ui/sonner';
 // import useMeasure from 'react-use-measure';
 import config from '@/config';
@@ -93,11 +95,72 @@ export async function action({ request }: Route.ActionArgs) {
   return { ok: true };
 }
 
+function isMatrixStatus(value: unknown): value is MatrixStatusType {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const status = value as Partial<MatrixStatusType>;
+  const program = status.program;
+
+  return (
+    typeof status.shown === 'boolean'
+    && typeof status.brightness === 'number'
+    && typeof program === 'object'
+    && program !== null
+    && typeof program.type === 'string'
+    && ['none', 'clock', 'message', 'flights', 'spotify'].includes(program.type as BoardProgram)
+    && (program.message === undefined || typeof program.message === 'string')
+  );
+}
+
 export default function BoardIndex() {
+  const [matrixStatus, setMatrixStatus] = useState<MatrixStatusType | null>(null);
   const [showMessageDialog, setShowMessageDialog] = useState(false);
   const fetcher = useFetcher({ key: 'message-dialog' });
 
-  // const [pageContainerRef, size] = useMeasure({ debounce: 300 });
+  useEffect(() => {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const socket = new WebSocket(`${protocol}//${window.location.host}/ws`);
+
+    // const handleOpen = () => setStatus('open');
+    // const handleClose = () => setStatus('closed');
+    const handleError = (error: Event) => console.error('WebSocket error:', error);
+    const handleMessage = async (event: MessageEvent) => {
+      const message = event.data instanceof Blob ? await event.data.text() : event.data;
+
+      if (typeof message !== 'string') {
+        console.warn('Unexpected WebSocket message:', message);
+        return;
+      }
+
+      try {
+        const parsedMessage: unknown = JSON.parse(message);
+
+        if (isMatrixStatus(parsedMessage)) {
+          setMatrixStatus(parsedMessage);
+          return;
+        }
+      }
+      catch {
+      }
+
+      console.warn('Unexpected WebSocket message:', message);
+    };
+
+    // socket.addEventListener('open', handleOpen);
+    // socket.addEventListener('close', handleClose);
+    socket.addEventListener('error', handleError);
+    socket.addEventListener('message', handleMessage);
+
+    return () => {
+      // socket.removeEventListener('open', handleOpen);
+      // socket.removeEventListener('close', handleClose);
+      socket.removeEventListener('error', handleError);
+      socket.removeEventListener('message', handleMessage);
+      socket.close();
+    };
+  }, []);
 
   useEffect(() => {
     if (fetcher.data) {
@@ -150,7 +213,7 @@ export default function BoardIndex() {
           "
           >
             <img
-              src="/demos/dashboard.png"
+              src="/demos/board.png"
               className="
                 h-auto w-20
                 sm:h-30 sm:w-auto
@@ -170,7 +233,7 @@ export default function BoardIndex() {
             sm:text-2xl
           "
           >
-            <span>A LED matrix mounted above my TV to display information in a harder to read format.</span>
+            <span>An LED matrix mounted above my TV to display information in a harder to read format.</span>
           </div>
           <p className="
             mt-8 text-sm font-light text-name uppercase
@@ -209,7 +272,7 @@ export default function BoardIndex() {
             sm:flex-row sm:gap-6
           "
           >
-            <MatrixStatus />
+            <MatrixStatus status={matrixStatus} />
             <div className="max-w-[500px]">
               <h2 className="text-2xl leading-none font-bold text-better-white">Send a message to The Board</h2>
               <p className="mt-7 font-zilla text-better-white">
@@ -222,7 +285,15 @@ export default function BoardIndex() {
               >
                 <p>I can't promise I'll actually see it. Surprisingly I have better things to do than just stare at some LEDs on a wall all day.</p>
               </div>
-              <button type="button" className="mt-10 cursor-pointer rounded-sm bg-better-white px-4 py-2 font-semibold text-asteroid-top" onClick={() => setShowMessageDialog(true)}>
+              <button
+                type="button"
+                className="
+                  mt-10 cursor-pointer rounded-sm bg-better-white px-4 py-2 font-semibold text-asteroid-top
+                  disabled:cursor-not-allowed disabled:bg-asteroid-bottom/70
+                "
+                onClick={() => setShowMessageDialog(true)}
+                disabled={matrixStatus?.shown !== true}
+              >
                 Send Message
               </button>
             </div>

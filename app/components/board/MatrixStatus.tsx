@@ -1,50 +1,20 @@
-import { useEffect, useState } from 'react';
+import type { MatrixStatus as MatrixStatusType } from '@/types/board';
 
 import { cn } from '@/lib/utils';
 
-type BoardProgram = 'none' | 'clock' | 'message' | 'flights' | 'spotify';
+// function MatrixStatusIndicator({ status }: { status: 'connecting' | 'open' | 'closed' }) {
+//   if (status === 'connecting') {
+//     return <span className="block size-3 rounded-full bg-yellow-700"></span>;
+//   }
 
-type MatrixStatus = {
-  shown: boolean;
-  program: {
-    type: BoardProgram;
-    message?: string;
-  };
-  brightness: number;
-};
+//   if (status === 'closed') {
+//     return <span className="block size-3 rounded-full bg-red-700"></span>;
+//   }
 
-function isMatrixStatus(value: unknown): value is MatrixStatus {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const status = value as Partial<MatrixStatus>;
-  const program = status.program;
-
-  return (
-    typeof status.shown === 'boolean'
-    && typeof status.brightness === 'number'
-    && typeof program === 'object'
-    && program !== null
-    && typeof program.type === 'string'
-    && ['none', 'clock', 'message', 'flights', 'spotify'].includes(program.type as BoardProgram)
-    && (program.message === undefined || typeof program.message === 'string')
-  );
-}
-
-function MatrixStatusIndicator({ status }: { status: 'connecting' | 'open' | 'closed' }) {
-  if (status === 'connecting') {
-    return <span className="block size-3 rounded-full bg-yellow-700"></span>;
-  }
-
-  if (status === 'closed') {
-    return <span className="block size-3 rounded-full bg-red-700"></span>;
-  }
-
-  return (
-    <span className="block size-3 rounded-full bg-green-700"></span>
-  );
-}
+//   return (
+//     <span className="block size-3 rounded-full bg-green-700"></span>
+//   );
+// }
 
 function MatrixDisplayIndicator({ shown }: { shown: boolean }) {
   if (!shown) {
@@ -56,14 +26,15 @@ function MatrixDisplayIndicator({ shown }: { shown: boolean }) {
   );
 }
 
-function ProgramIndicator({ program, selected }: { program: string; selected?: boolean }) {
+function ProgramIndicator({ program, selected, shown }: { program: string; selected?: boolean; shown: boolean }) {
   return (
     <span className={cn(
       `
-        rounded-full border border-asteroid-top/60 bg-asteroid-top/5 px-2 py-1 text-sm font-medium text-asteroid-top
+        rounded-full border border-asteroid-top/60 bg-better-white/30 px-2 py-1 text-sm font-medium text-asteroid-top
         sm:px-3 sm:py-2 sm:text-sm
       `,
-      selected && 'bg-better-white/70',
+      selected && 'bg-better-white',
+      !shown && 'bg-asteroid-top/20',
     )}
     >
       {program}
@@ -71,52 +42,12 @@ function ProgramIndicator({ program, selected }: { program: string; selected?: b
   );
 }
 
-export default function MatrixStatus() {
-  const [status, setStatus] = useState<'connecting' | 'open' | 'closed'>('connecting');
-  const [matrixStatus, setMatrixStatus] = useState<MatrixStatus | null>(null);
+type MatrixStatusProps = {
+  status: MatrixStatusType | null;
+};
 
-  useEffect(() => {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const socket = new WebSocket(`${protocol}//${window.location.host}/ws`);
-
-    const handleOpen = () => setStatus('open');
-    const handleClose = () => setStatus('closed');
-    const handleError = (error: Event) => console.error('WebSocket error:', error);
-    const handleMessage = async (event: MessageEvent) => {
-      const message = event.data instanceof Blob ? await event.data.text() : event.data;
-
-      if (typeof message !== 'string') {
-        console.warn('Unexpected WebSocket message:', message);
-        return;
-      }
-
-      try {
-        const parsedMessage: unknown = JSON.parse(message);
-
-        if (isMatrixStatus(parsedMessage)) {
-          setMatrixStatus(parsedMessage);
-          return;
-        }
-      }
-      catch {
-      }
-
-      console.warn('Unexpected WebSocket message:', message);
-    };
-
-    socket.addEventListener('open', handleOpen);
-    socket.addEventListener('close', handleClose);
-    socket.addEventListener('error', handleError);
-    socket.addEventListener('message', handleMessage);
-
-    return () => {
-      socket.removeEventListener('open', handleOpen);
-      socket.removeEventListener('close', handleClose);
-      socket.removeEventListener('error', handleError);
-      socket.removeEventListener('message', handleMessage);
-      socket.close();
-    };
-  }, []);
+export default function MatrixStatus({ status }: MatrixStatusProps) {
+  // const [status, setStatus] = useState<'connecting' | 'open' | 'closed'>('connecting');
 
   return (
     <div className="max-w-[500px]">
@@ -133,17 +64,17 @@ export default function MatrixStatus() {
         <div className="">
           {/* <p className="text-xs font-semibold text-asteroid-top uppercase">Display</p> */}
           <div className="flex items-center justify-start gap-2 rounded-t-sm bg-gray-200/30 px-5 py-2">
-            <p className="font-semibold text-better-white">{matrixStatus?.shown ? 'On' : 'Off'}</p>
-            <MatrixDisplayIndicator shown={matrixStatus?.shown ?? false} />
+            <p className="font-semibold text-better-white">{status?.shown ? 'On' : 'Off'}</p>
+            <MatrixDisplayIndicator shown={status?.shown ?? false} />
           </div>
         </div>
         <div className="flex flex-col gap-3 px-5 pb-5">
           <p className="text-xs font-semibold text-asteroid-top uppercase">Program</p>
           <div className="flex items-center gap-2">
-            <ProgramIndicator program="Clock" selected={matrixStatus?.program.type === 'clock'} />
-            <ProgramIndicator program="Flights" selected={matrixStatus?.program.type === 'flights'} />
-            <ProgramIndicator program="Spotify" selected={matrixStatus?.program.type === 'spotify'} />
-            <ProgramIndicator program="Messages" selected={matrixStatus?.program.type === 'message'} />
+            <ProgramIndicator program="Clock" selected={status?.program.type === 'clock'} shown={status?.shown ?? false} />
+            <ProgramIndicator program="Flights" selected={status?.program.type === 'flights'} shown={status?.shown ?? false} />
+            <ProgramIndicator program="Spotify" selected={status?.program.type === 'spotify'} shown={status?.shown ?? false} />
+            <ProgramIndicator program="Messages" selected={status?.program.type === 'message'} shown={status?.shown ?? false} />
           </div>
           {/* <p className="font-semibold">{matrixStatus?.program.type ?? 'Waiting for data'}</p> */}
         </div>
