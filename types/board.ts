@@ -14,3 +14,14 @@ export const ZSubmittedMessageData = z.object({
   align: ZAlign,
 });
 export type MessageData = z.infer<typeof ZSubmittedMessageData>;
+
+export type BoardProgram = 'none' | 'clock' | 'message' | 'flights' | 'spotify';
+
+export type MatrixStatus = {
+  shown: boolean;
+  program: {
+    type: BoardProgram;
+    message?: string;
+  };
+  brightness: number;
+};
