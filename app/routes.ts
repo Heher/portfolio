@@ -14,7 +14,15 @@ export default [
       route('dashboard', 'routes/demos/dashboard.tsx'),
     ]),
   ]),
-  route('board', 'routes/board.tsx'),
+  ...prefix('board', [
+    layout('routes/board/layout.tsx', [
+      index('routes/board/index.tsx'),
+      route('clock', 'routes/board/clock.tsx'),
+      route('flights', 'routes/board/flights.tsx'),
+      route('spotify', 'routes/board/spotify.tsx'),
+      route('messages', 'routes/board/messages.tsx'),
+    ]),
+  ]),
   // ...prefix('trip', [
   //   layout('routes/trip/layout.tsx', [
   //     // index('routes/trip/testGlobeIndex.tsx'),
