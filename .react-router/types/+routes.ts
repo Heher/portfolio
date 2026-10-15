@@ -35,12 +35,24 @@ type Pages = {
   "/board": {
     params: {};
   };
+  "/board/clock": {
+    params: {};
+  };
+  "/board/flights": {
+    params: {};
+  };
+  "/board/spotify": {
+    params: {};
+  };
+  "/board/messages": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard" | "/board";
+    page: "/" | "/demos/tables" | "/demos/onboarding" | "/demos/product-page" | "/demos/email-template" | "/demos/tv-guide" | "/demos/dashboard" | "/board" | "/board/clock" | "/board/flights" | "/board/spotify" | "/board/messages";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -74,9 +86,29 @@ type RouteFiles = {
     id: "routes/demos/dashboard";
     page: "/demos/dashboard";
   };
-  "routes/board.tsx": {
-    id: "routes/board";
+  "routes/board/layout.tsx": {
+    id: "routes/board/layout";
+    page: "/board" | "/board/clock" | "/board/flights" | "/board/spotify" | "/board/messages";
+  };
+  "routes/board/index.tsx": {
+    id: "routes/board/index";
     page: "/board";
+  };
+  "routes/board/clock.tsx": {
+    id: "routes/board/clock";
+    page: "/board/clock";
+  };
+  "routes/board/flights.tsx": {
+    id: "routes/board/flights";
+    page: "/board/flights";
+  };
+  "routes/board/spotify.tsx": {
+    id: "routes/board/spotify";
+    page: "/board/spotify";
+  };
+  "routes/board/messages.tsx": {
+    id: "routes/board/messages";
+    page: "/board/messages";
   };
 };
 
@@ -90,5 +122,10 @@ type RouteModules = {
   "routes/demos/email-template": typeof import("./app/routes/demos/email-template.tsx");
   "routes/demos/tv-guide": typeof import("./app/routes/demos/tv-guide.tsx");
   "routes/demos/dashboard": typeof import("./app/routes/demos/dashboard.tsx");
-  "routes/board": typeof import("./app/routes/board.tsx");
+  "routes/board/layout": typeof import("./app/routes/board/layout.tsx");
+  "routes/board/index": typeof import("./app/routes/board/index.tsx");
+  "routes/board/clock": typeof import("./app/routes/board/clock.tsx");
+  "routes/board/flights": typeof import("./app/routes/board/flights.tsx");
+  "routes/board/spotify": typeof import("./app/routes/board/spotify.tsx");
+  "routes/board/messages": typeof import("./app/routes/board/messages.tsx");
 };
