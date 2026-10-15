@@ -203,7 +203,7 @@ export default function BoardIndex() {
             <img
               src="/demos/board.png"
               className="
-                h-auto w-20
+                h-auto w-30
                 sm:h-30 sm:w-auto
               "
             />
