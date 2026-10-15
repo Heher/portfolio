@@ -29,7 +29,11 @@ function ProgramLink({ url, text }: ProgramLinkProps) {
 export default function PagesNav() {
   return (
     <div className="flex justify-center bg-asteroid-header/50">
-      <nav aria-label="Board documentation" className="flex w-full max-w-xl gap-10 py-6 text-base font-semibold text-name">
+      <nav className="
+        flex w-full max-w-xl gap-10 overflow-scroll px-5 py-6 text-base font-semibold text-name
+        sm:px-0
+      "
+      >
         <ProgramLink
           url="/board"
           text="Overview"
