@@ -1,34 +1,34 @@
-import { DocLayout, DocList, DocP, DocSection } from '../../components/board/docs/DocLayout';
-
 export default function BoardSpotify() {
   return (
-    <DocLayout
-      title="Spotify"
-      summary="Whatever I'm listening to, with the album art, on the wall."
-    >
-      <DocSection title="What it shows">
-        <DocList>
-          <li>The album cover, shrunk down to a 28×28 pixel mosaic</li>
-          <li>The song title in large letters, with the album and artist below</li>
-          <li>A green progress bar that fills as the song plays</li>
-          <li>A simple "nothing playing" screen when the music stops</li>
-        </DocList>
-        <DocP>
-          Long titles scroll sideways so they always fit, and each new song starts from the beginning of its title.
-        </DocP>
-      </DocSection>
-
-      <DocSection title="How it works">
-        <DocP>
-          The board checks Spotify once a second to see what's playing, and it only ever sees my own account. It downloads each album cover once, turns it into pixels, and reuses it for the whole song.
-        </DocP>
-      </DocSection>
-
-      <DocSection title="Signing in once">
-        <DocP>
-          Spotify wants a login before it shares anything. The board handles that a single time, then keeps itself signed in in the background. After that it never needs me to touch it again.
-        </DocP>
-      </DocSection>
-    </DocLayout>
+    <div className="mx-auto w-full max-w-[1000px] py-30">
+      <title>Spotify | The Board | John Heher</title>
+      <h3 className="
+        mb-20 font-figtree leading-none font-semibold tracking-wide text-better-white
+        sm:text-[48px]
+      "
+      >
+        Spotify
+      </h3>
+      <h4 className="
+        mx-auto mb-8 max-w-xl font-figtree leading-none font-semibold tracking-wide text-better-white/80
+        sm:text-[30px]
+      "
+      >
+        What it shows
+      </h4>
+      <p className="mx-auto mb-20 max-w-xl font-zilla text-xl/8 text-better-white">
+        It shows whatever I'm currently listening to on Spotify, including the album art, song title, artist, and a progress bar.
+      </p>
+      <h4 className="
+        mx-auto mb-8 max-w-xl font-figtree leading-none font-semibold tracking-wide text-better-white/80
+        sm:text-[30px]
+      "
+      >
+        The details
+      </h4>
+      <p className="mx-auto mb-10 max-w-xl font-zilla text-xl/8 text-better-white">
+        Running in a loop that updates every second, the program will make a request to the Spotify API to check the currently playing track. If a track is playing, it will update the display with the album art, song title, artist, and progress bar. If no track is playing, it will show "Nothing playing".
+      </p>
+    </div>
   );
 }

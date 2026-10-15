@@ -1,54 +1,55 @@
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
+
+import { cn } from '@/lib/utils';
+
+type ProgramLinkProps = {
+  url: string;
+  text: string;
+};
+
+function ProgramLink({ url, text }: ProgramLinkProps) {
+  return (
+    <NavLink
+      to={url}
+      className={({ isActive }) =>
+        cn(`
+          font-semibold text-asteroid-top/60
+          hover:text-asteroid-top/80
+        `, isActive && `
+          text-asteroid-top
+          hover:text-asteroid-top
+        `)}
+      end
+    >
+      {text}
+    </NavLink>
+  );
+}
 
 export default function PagesNav() {
   return (
     <div className="flex justify-center bg-asteroid-header/50">
       <nav aria-label="Board documentation" className="flex w-full max-w-xl gap-10 py-6 text-base font-semibold text-name">
-        <Link
-          to="/board"
-          className="
-            underline underline-offset-4
-            hover:opacity-80
-          "
-        >
-          Overview
-        </Link>
-        <Link
-          to="/board/clock"
-          className="
-            underline underline-offset-4
-            hover:opacity-80
-          "
-        >
-          Clock
-        </Link>
-        <Link
-          to="/board/flights"
-          className="
-            underline underline-offset-4
-            hover:opacity-80
-          "
-        >
-          Flights
-        </Link>
-        <Link
-          to="/board/spotify"
-          className="
-            underline underline-offset-4
-            hover:opacity-80
-          "
-        >
-          Spotify
-        </Link>
-        <Link
-          to="/board/messages"
-          className="
-            underline underline-offset-4
-            hover:opacity-80
-          "
-        >
-          Messages
-        </Link>
+        <ProgramLink
+          url="/board"
+          text="Overview"
+        />
+        <ProgramLink
+          url="/board/clock"
+          text="Clock"
+        />
+        <ProgramLink
+          url="/board/flights"
+          text="Flights"
+        />
+        <ProgramLink
+          url="/board/spotify"
+          text="Spotify"
+        />
+        <ProgramLink
+          url="/board/messages"
+          text="Messages"
+        />
       </nav>
     </div>
   );
