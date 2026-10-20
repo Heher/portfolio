@@ -247,7 +247,7 @@ export default function BoardIndex() {
       <title>The Board | John Heher</title>
       <div
         className="
-          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-asteroid-top to-asteroid-bottom px-2.5 py-5
+          flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-asteroid-top to-asteroid-bottom p-5
           sm:p-0
         "
       >

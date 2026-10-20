@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { BOARD_HEIGHT, BOARD_WIDTH, LED_BG, LED_GRID, PIXEL_SCALE } from './utils';
+import { BOARD_HEIGHT, BOARD_WIDTH, getCellFromEvent, LED_BG, LED_GRID, PIXEL_SCALE } from './utils';
 
 type MatrixCanvasProps = {
   // Called after the background is cleared and before the grid lines are drawn.
@@ -62,27 +62,6 @@ export default function MatrixCanvas({ draw, deps, editable, onPixelPaint, class
     // eslint-disable-next-line react/exhaustive-deps -- `deps` is the intentional, caller-provided dependency list
   }, deps);
 
-  function getCellFromEvent(event: React.PointerEvent<HTMLCanvasElement>) {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return null;
-    }
-
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const x = (event.clientX - rect.left) * scaleX;
-    const y = (event.clientY - rect.top) * scaleY;
-    const column = Math.floor(x / PIXEL_SCALE);
-    const row = Math.floor(y / PIXEL_SCALE);
-
-    // Clamp to the board so a fast drag past the edge still paints the edge cells.
-    return {
-      column: Math.min(Math.max(column, 0), BOARD_WIDTH - 1),
-      row: Math.min(Math.max(row, 0), BOARD_HEIGHT - 1),
-    };
-  }
-
   // Bresenham's line algorithm so fast drags paint every cell in between, not just the endpoints.
   function paintLine(from: { column: number; row: number }, to: { column: number; row: number }) {
     if (!onPixelPaint) {
@@ -118,7 +97,8 @@ export default function MatrixCanvas({ draw, deps, editable, onPixelPaint, class
       return;
     }
 
-    const cell = getCellFromEvent(event);
+    const cell = getCellFromEvent({ canvas: canvasRef.current, event });
+
     if (!cell) {
       return;
     }
