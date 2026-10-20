@@ -1,6 +1,5 @@
 import type { RectReadOnly } from 'react-use-measure';
 
-import { useEffect } from 'react';
 import { Outlet } from 'react-router';
 import useMeasure from 'react-use-measure';
 

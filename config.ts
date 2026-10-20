@@ -17,4 +17,5 @@ export default {
   EMAIL_SENDER_HOST: process.env.EMAIL_SENDER_HOST,
   EMAIL_SENDER_USER: process.env.EMAIL_SENDER_USER,
   EMAIL_SENDER_PASS: process.env.EMAIL_SENDER_PASS,
+  SERVER_TOKEN: process.env.SERVER_TOKEN,
 };

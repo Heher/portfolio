@@ -2,6 +2,8 @@
 import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
+import { createServer } from 'node:http';
+import { WebSocket, WebSocketServer } from 'ws';
 
 const BUILD_PATH = './build/server/index.js';
 const DEVELOPMENT = process.env.NODE_ENV === 'development';
@@ -44,6 +46,65 @@ else {
   app.use(await import(BUILD_PATH).then(mod => mod.app));
 }
 
-app.listen(PORT, () => {
+const websocketServer = new WebSocketServer({ noServer: true });
+
+websocketServer.on('connection', (clientSocket) => {
+  const token = process.env.WEBSOCKET_TOKEN;
+
+  if (!token) {
+    clientSocket.close(1011, 'WebSocket token is not configured');
+    return;
+  }
+
+  const upstreamUrl = new URL('wss://ws.heher.casa/ws');
+  upstreamUrl.searchParams.set('token', token);
+  const upstreamSocket = new WebSocket(upstreamUrl);
+
+  clientSocket.on('message', (message) => {
+    if (upstreamSocket.readyState === WebSocket.OPEN) {
+      upstreamSocket.send(message);
+    }
+  });
+
+  upstreamSocket.on('message', (message) => {
+    if (clientSocket.readyState === WebSocket.OPEN) {
+      clientSocket.send(message);
+    }
+  });
+
+  upstreamSocket.on('error', (error) => {
+    console.error('Upstream WebSocket error:', error);
+    clientSocket.close(1011, 'Upstream WebSocket error');
+  });
+
+  const closeBoth = () => {
+    if (clientSocket.readyState === WebSocket.OPEN) {
+      clientSocket.close();
+    }
+    if (upstreamSocket.readyState === WebSocket.OPEN) {
+      upstreamSocket.close();
+    }
+  };
+
+  clientSocket.on('close', closeBoth);
+  upstreamSocket.on('close', closeBoth);
+});
+
+const server = createServer(app);
+
+server.on('upgrade', (request, socket, head) => {
+  const requestUrl = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
+
+  if (requestUrl.pathname !== '/ws') {
+    socket.destroy();
+    return;
+  }
+
+  websocketServer.handleUpgrade(request, socket, head, (clientSocket) => {
+    websocketServer.emit('connection', clientSocket, request);
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
