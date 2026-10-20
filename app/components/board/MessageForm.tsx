@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 // import { Form } from 'react-router';
 
 import type { Align, MessageMode } from '@/types/board';
@@ -6,7 +6,7 @@ import type { Align, MessageMode } from '@/types/board';
 import FreestylePanel from './FreestylePanel';
 import MatrixCanvas from './MatrixCanvas';
 import TextMessagePanel from './TextMessagePanel';
-import { BOARD_HEIGHT, BOARD_WIDTH, LED_ON, PIXEL_SCALE, snapToPixelGrid } from './utils';
+import { BOARD_HEIGHT, BOARD_WIDTH, PIXEL_SCALE, snapToPixelGrid } from './utils';
 
 type MessageFormProps = {
   mode: MessageMode;
@@ -105,9 +105,9 @@ export default function MessageForm({ mode, close, pixels, setPixels, clear, tex
         <button
           type="button"
           className="
-            w-[70px] cursor-pointer rounded-sm bg-better-white py-2 font-semibold text-better-black
+            w-17.5 cursor-pointer rounded-sm bg-better-white py-2 font-semibold text-better-black
             hover:bg-better-white/80
-            sm:pointer-fine:w-[100px] sm:pointer-fine:py-4
+            sm:pointer-fine:w-25 sm:pointer-fine:py-4
           "
           onClick={() => close()}
         >
@@ -116,9 +116,9 @@ export default function MessageForm({ mode, close, pixels, setPixels, clear, tex
         <button
           type="button"
           className="
-            w-[70px] cursor-pointer rounded-sm bg-better-black py-2 font-semibold text-better-white
+            w-17.5 cursor-pointer rounded-sm bg-better-black py-2 font-semibold text-better-white
             hover:bg-better-black/80
-            sm:pointer-fine:w-[100px] sm:pointer-fine:py-4
+            sm:pointer-fine:w-25 sm:pointer-fine:py-4
           "
           onClick={() => submit()}
         >

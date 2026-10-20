@@ -23,3 +23,28 @@ export function hexToRgb(hex: string): RgbColor | null {
     b: Number.parseInt(match[3], 16),
   };
 }
+
+type GetCellFromEventParams = {
+  canvas: HTMLCanvasElement | null;
+  event: React.PointerEvent<HTMLCanvasElement>;
+};
+
+export function getCellFromEvent({ canvas, event }: GetCellFromEventParams) {
+  if (!canvas) {
+    return null;
+  }
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const x = (event.clientX - rect.left) * scaleX;
+  const y = (event.clientY - rect.top) * scaleY;
+  const column = Math.floor(x / PIXEL_SCALE);
+  const row = Math.floor(y / PIXEL_SCALE);
+
+  // Clamp to the board so a fast drag past the edge still paints the edge cells.
+  return {
+    column: Math.min(Math.max(column, 0), BOARD_WIDTH - 1),
+    row: Math.min(Math.max(row, 0), BOARD_HEIGHT - 1),
+  };
+}
