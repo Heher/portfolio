@@ -1,3 +1,4 @@
+import SpotifyPreview from '@/app/components/board/previews/SpotifyPreview';
 import { BoardHeader, BoardSubhead, BoardText } from '@/app/components/board/shared';
 
 export default function BoardSpotify() {
@@ -11,6 +12,7 @@ export default function BoardSpotify() {
       <BoardHeader>
         Spotify
       </BoardHeader>
+      <SpotifyPreview className="mx-auto mb-20 max-w-xl" />
       <BoardSubhead>
         What it shows
       </BoardSubhead>

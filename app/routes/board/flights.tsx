@@ -1,3 +1,4 @@
+import FlightsPreview from '@/app/components/board/previews/FlightsPreview';
 import { BoardHeader, BoardSubhead, BoardText } from '@/app/components/board/shared';
 
 export default function BoardFlights() {
@@ -11,6 +12,7 @@ export default function BoardFlights() {
       <BoardHeader>
         Flights
       </BoardHeader>
+      <FlightsPreview className="mx-auto mb-20 max-w-xl" />
       <BoardSubhead>
         What it shows
       </BoardSubhead>
