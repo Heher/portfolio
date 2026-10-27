@@ -1,3 +1,4 @@
+import ClockPreview from '@/app/components/board/previews/ClockPreview';
 import { BoardHeader, BoardSubhead, BoardText } from '@/app/components/board/shared';
 
 export default function BoardClock() {
@@ -11,6 +12,7 @@ export default function BoardClock() {
       <BoardHeader>
         Clock
       </BoardHeader>
+      <ClockPreview className="mx-auto mb-20 max-w-xl" />
       <BoardSubhead>
         What it shows
       </BoardSubhead>
