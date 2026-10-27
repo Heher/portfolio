@@ -6,7 +6,7 @@ import type { Align, MessageMode } from '@/types/board';
 import FreestylePanel from './FreestylePanel';
 import MatrixCanvas from './MatrixCanvas';
 import TextMessagePanel from './TextMessagePanel';
-import { BOARD_HEIGHT, BOARD_WIDTH, PIXEL_SCALE, snapToPixelGrid } from './utils';
+import { BOARD_HEIGHT, BOARD_WIDTH, loadScientificaFont, PIXEL_SCALE, snapToPixelGrid } from './utils';
 
 type MessageFormProps = {
   mode: MessageMode;
@@ -25,15 +25,7 @@ type MessageFormProps = {
 
 export default function MessageForm({ mode, close, pixels, setPixels, clear, text, setText, align, setAlign, color, setColor, submit }: MessageFormProps) {
   const drawText = useCallback(async (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-    try {
-      if (typeof document !== 'undefined' && 'fonts' in document) {
-        const scientifica = new FontFace('Scientifica', 'url(/fonts/scientifica.ttf) format("truetype")');
-        document.fonts.add(scientifica);
-        await scientifica.load();
-      }
-    }
-    catch {
-    }
+    await loadScientificaFont();
 
     ctx.textAlign = align === 'left' ? 'left' : align === 'right' ? 'right' : 'center';
     ctx.textBaseline = 'middle';

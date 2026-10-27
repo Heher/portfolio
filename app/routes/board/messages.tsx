@@ -3,6 +3,7 @@ import { useFetcher, useOutletContext } from 'react-router';
 import { toast } from 'sonner';
 
 import MessageDialog from '@/app/components/board/dialogs/MessageDialog';
+import MessagesPreview from '@/app/components/board/previews/MessagesPreview';
 import { BoardHeader, BoardSubhead, BoardText } from '@/app/components/board/shared';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -39,6 +40,7 @@ export default function BoardMessages() {
       <BoardHeader>
         Messages
       </BoardHeader>
+      <MessagesPreview className="mx-auto mb-20 max-w-xl" />
       <div className="mx-auto mb-20 max-w-xl">
         <div className="
           max-w-[500px] rounded-sm bg-better-white/10 p-5
