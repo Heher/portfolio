@@ -118,7 +118,7 @@ export default function SkillsSection() {
           </h2>
           <p className="
             mt-4 max-w-xl font-zilla text-xl text-name
-            sm:max-w-[400px] sm:text-xl
+            sm:max-w-100 sm:text-xl
           "
           >
             Being a programmer for almost two decades allows you to work with a variety of technologies. This is a broad overview of how I developed the motley crew of skills I have today.
@@ -132,19 +132,25 @@ export default function SkillsSection() {
           <div
             ref={sentinelRef}
             className="
-              sticky top-0 z-2 flex w-full flex-wrap gap-2 bg-index-background p-5
-              sm:top-20 sm:z-1 sm:max-w-75 sm:p-0
+              sticky top-0 z-2 w-full
+              sm:top-20 sm:z-1 sm:max-w-75
             "
           >
-            {skills.map((skill) => {
-              let selected;
+            <div className="
+              flex flex-wrap gap-2 bg-index-background p-5
+              sm:p-0
+            "
+            >
+              {skills.map((skill) => {
+                let selected;
 
-              if (selectedCompanySkills) {
-                selected = selectedCompanySkills[skill];
-              }
+                if (selectedCompanySkills) {
+                  selected = selectedCompanySkills[skill];
+                }
 
-              return <Skill key={skill} text={skill} selected={selected} />;
-            })}
+                return <Skill key={skill} text={skill} selected={selected} />;
+              })}
+            </div>
           </div>
           <div className="
             ml-10 flex flex-col items-start border-l border-better-black pt-100 pl-5

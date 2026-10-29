@@ -4,7 +4,7 @@ import Socials from './Socials';
 
 export default function IndexHeader() {
   return (
-    <div className="relative overflow-hidden bg-linear-[160deg] from-header-top to-header-bottom">
+    <div className="relative overflow-hidden bg-linear-180 from-header-top to-header-bottom">
       <div className="
         relative mx-auto max-w-275 overflow-hidden
         sm:overflow-visible
@@ -18,12 +18,14 @@ export default function IndexHeader() {
         />
         <div className="
           relative flex flex-col-reverse pt-8
-          sm:flex-row sm:rounded-bl-3xl sm:pt-45
+          sm:flex-row sm:rounded-bl-3xl sm:pt-14
+          lg:pt-45
         "
         >
           <div className="
             -mt-3 max-w-192.5 self-end
             sm:mt-0
+            sm:max-lg:max-w-3/4
           "
           >
             <img
@@ -31,13 +33,15 @@ export default function IndexHeader() {
               alt=""
               className="
                 relative z-0 -ml-5 w-full
-                sm:ml-0
+                sm:max-lg:-ml-10
+                lg:ml-0
               "
             />
           </div>
           <div className="
             relative z-3 mb-1 flex justify-center
-            sm:mb-0 sm:ml-15 sm:flex-col sm:justify-start sm:pr-0
+            sm:mb-5 sm:flex-col sm:justify-start sm:pr-0
+            lg:mb-0 lg:ml-15
           "
           >
             <div className="
@@ -47,7 +51,8 @@ export default function IndexHeader() {
             >
               <h1 className="
                 flex flex-col gap-1 text-[34px] leading-none text-name uppercase
-                sm:text-4xl
+                sm:max-lg:text-[26px]
+                lg:text-4xl
               "
               >
                 <span className="
@@ -59,7 +64,8 @@ export default function IndexHeader() {
                 </span>
                 <span className="
                   text-[47px] leading-none font-bold
-                  sm:text-[49px]
+                  sm:max-lg:text-[36px]
+                  lg:text-[49px]
                 "
                 >
                   Heher
@@ -67,7 +73,9 @@ export default function IndexHeader() {
               </h1>
               <h2 className="
                 mt-3 mb-8 text-base font-semibold tracking-[0.12em] text-subtitle uppercase
-                sm:mt-4 sm:mb-6 sm:text-base sm:tracking-[0.16em]
+                sm:mb-6 sm:tracking-[0.16em]
+                sm:max-lg:text-[14px] sm:max-lg:tracking-[0.03em]
+                lg:mt-4 lg:text-base
               "
               >
                 Web Developer
