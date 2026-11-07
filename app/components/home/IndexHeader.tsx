@@ -22,10 +22,15 @@ export default function IndexHeader() {
           lg:pt-45
         "
         >
-          <div className="
+          {/* <div className="
             -mt-3 max-w-192.5 self-end
             sm:mt-0
             sm:max-lg:max-w-3/4
+          "
+          > */}
+          <div className="
+            -mt-3 max-w-192.5 self-end
+            sm:mt-0
           "
           >
             <img
