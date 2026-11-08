@@ -28,25 +28,29 @@ export default function DemoSection() {
     <section
       className="
         bg-better-white py-20
-        sm:py-40
+        lg:py-40
       "
     >
       <div className="mx-auto max-w-250">
         <div className="
           mx-5 mb-10 flex flex-col gap-3
-          sm:mx-0 sm:mb-30 sm:flex-row sm:gap-20
+          sm:mb-30 sm:flex-row sm:gap-20
+          lg:mx-0
         "
         >
           <h2 className="
-            mb-0 w-[270px] text-[40px] leading-none font-semibold text-name
-            sm:mb-0 sm:text-[70px]
+            mb-0 w-67.5 text-[40px] leading-none font-semibold text-name
+            sm:mb-0
+            sm:max-lg:text-[50px]
+            lg:text-[70px]
           "
           >
             Demos
           </h2>
           <p className="
             mt-4 max-w-xl font-zilla text-xl text-name
-            sm:max-w-[400px] sm:text-xl
+            sm:max-w-100 sm:text-xl
+            sm:max-lg:mt-2.5
           "
           >
             I've built a wide variety of UIs, from simple landing pages to complex

@@ -107,18 +107,20 @@ export default function SkillsSection() {
         <div className="
           mx-5 mb-10 flex flex-col gap-3
           sm:mx-0 sm:mb-30 sm:flex-row sm:gap-20
+          sm:max-lg:mx-5 sm:max-lg:gap-10
         "
         >
           <h2 className="
             mb-0 flex max-w-[270px] flex-col text-[40px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
+            sm:max-lg:text-[50px]
           "
           >
             Skills Timeline
           </h2>
           <p className="
             mt-4 max-w-xl font-zilla text-xl text-name
-            sm:max-w-[400px] sm:text-xl
+            sm:max-w-100 sm:text-xl
           "
           >
             Being a programmer for almost two decades allows you to work with a variety of technologies. This is a broad overview of how I developed the motley crew of skills I have today.
@@ -127,24 +129,32 @@ export default function SkillsSection() {
         <div className="
           flex flex-col items-start gap-0
           sm:flex-row sm:gap-20
+          sm:max-lg:gap-10 sm:max-lg:px-5
         "
         >
           <div
             ref={sentinelRef}
             className="
-              sticky top-0 z-2 flex w-full flex-wrap gap-2 bg-index-background p-5
-              sm:top-20 sm:z-1 sm:max-w-75 sm:p-0
+              sticky top-0 z-2 w-full
+              sm:top-20 sm:z-1 sm:max-w-75
+              sm:max-lg:max-w-60
             "
           >
-            {skills.map((skill) => {
-              let selected;
+            <div className="
+              flex flex-wrap gap-2 bg-index-background p-5
+              sm:p-0
+            "
+            >
+              {skills.map((skill) => {
+                let selected;
 
-              if (selectedCompanySkills) {
-                selected = selectedCompanySkills[skill];
-              }
+                if (selectedCompanySkills) {
+                  selected = selectedCompanySkills[skill];
+                }
 
-              return <Skill key={skill} text={skill} selected={selected} />;
-            })}
+                return <Skill key={skill} text={skill} selected={selected} />;
+              })}
+            </div>
           </div>
           <div className="
             ml-10 flex flex-col items-start border-l border-better-black pt-100 pl-5
@@ -164,6 +174,7 @@ export default function SkillsSection() {
         <div className="
           mt-10 flex flex-col items-center gap-12 px-5
           sm:mt-30 sm:px-0
+          sm:max-lg:px-5
         "
         >
           <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site):</p>

@@ -38,6 +38,7 @@ export default function TablesPage({ loaderData }: Route.ComponentProps) {
         className="
           flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-mello-top/80 to-mello-bottom/80 px-2.5 py-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
