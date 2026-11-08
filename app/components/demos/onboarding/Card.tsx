@@ -24,7 +24,14 @@ export default function Card({ planName, selectedPlan, setSelectedPlan, children
   const { size } = useOutletContext<UIContext>();
 
   return (
-    <div className="group relative cursor-pointer text-better-black" onClick={() => handleClick(() => setSelectedPlan(planName), size?.width)} data-selected={selectedPlan === planName}>
+    <div
+      className="
+        group relative cursor-pointer text-better-black
+        sm:max-lg:max-w-64 sm:max-lg:flex-1
+      "
+      onClick={() => handleClick(() => setSelectedPlan(planName), size?.width)}
+      data-selected={selectedPlan === planName}
+    >
       {children}
     </div>
   );

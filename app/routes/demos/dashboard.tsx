@@ -43,6 +43,7 @@ export default function DashboardPage() {
         className="
           flex min-h-dvh flex-1 flex-col bg-linear-to-b from-peach-sea-top to-peach-sea-bottom px-2.5 py-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <div className="mx-auto flex w-full max-w-250 flex-1 flex-col justify-center">
@@ -50,6 +51,7 @@ export default function DashboardPage() {
             <div className="
               flex w-full flex-col gap-5 p-3
               sm:flex-row sm:p-5
+              sm:max-md:flex-col
             "
             >
               <div className="
@@ -63,6 +65,8 @@ export default function DashboardPage() {
               <div className="
                 flex w-full flex-col gap-5
                 sm:max-w-75
+                sm:max-md:max-w-none sm:max-md:flex-row
+                sm:max-md:*:flex-1
               "
               >
                 <SidebarCard header="Rewards points" infoBox={{ header: 'Total Available Points', data: '1,337' }} links={['Points Summary', 'Redeem Points']} />

@@ -83,6 +83,7 @@ export default function EmailTemplatePage() {
         className="
           flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-blue-slate-top to-blue-slate-bottom px-2.5 py-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">

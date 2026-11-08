@@ -19,6 +19,7 @@ export default function IndexHeader() {
         <div className="
           relative flex flex-col-reverse pt-8
           sm:flex-row sm:rounded-bl-3xl sm:pt-14
+          sm:max-lg:justify-center
           lg:pt-45
         "
         >
@@ -31,6 +32,7 @@ export default function IndexHeader() {
           <div className="
             -mt-3 max-w-192.5 self-end
             sm:mt-0
+            sm:max-lg:max-w-145
           "
           >
             <img
@@ -46,6 +48,7 @@ export default function IndexHeader() {
           <div className="
             relative z-3 mb-1 flex justify-center
             sm:mb-5 sm:flex-col sm:justify-start sm:pr-0
+            sm:max-lg:pr-10
             lg:mb-0 lg:ml-15
           "
           >

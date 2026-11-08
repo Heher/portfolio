@@ -107,11 +107,13 @@ export default function SkillsSection() {
         <div className="
           mx-5 mb-10 flex flex-col gap-3
           sm:mx-0 sm:mb-30 sm:flex-row sm:gap-20
+          sm:max-lg:mx-5 sm:max-lg:gap-10
         "
         >
           <h2 className="
             mb-0 flex max-w-[270px] flex-col text-[40px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
+            sm:max-lg:text-[50px]
           "
           >
             Skills Timeline
@@ -127,6 +129,7 @@ export default function SkillsSection() {
         <div className="
           flex flex-col items-start gap-0
           sm:flex-row sm:gap-20
+          sm:max-lg:gap-10 sm:max-lg:px-5
         "
         >
           <div
@@ -134,6 +137,7 @@ export default function SkillsSection() {
             className="
               sticky top-0 z-2 w-full
               sm:top-20 sm:z-1 sm:max-w-75
+              sm:max-lg:max-w-60
             "
           >
             <div className="
@@ -170,6 +174,7 @@ export default function SkillsSection() {
         <div className="
           mt-10 flex flex-col items-center gap-12 px-5
           sm:mt-30 sm:px-0
+          sm:max-lg:px-5
         "
         >
           <p className="font-zilla text-2xl font-medium">My current stack (and the one that I used to build this site):</p>

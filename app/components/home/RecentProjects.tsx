@@ -8,17 +8,20 @@ export default function RecentProjects() {
       className="
         bg-better-white px-5 py-20
         sm:px-0 sm:py-40
+        sm:max-lg:px-5
       "
     >
       <div className="mx-auto max-w-250">
         <div className="
           mb-10 flex flex-col gap-3
           sm:mb-30 sm:flex-row sm:gap-20
+          sm:max-lg:gap-10
         "
         >
           <h2 className="
             mb-0 max-w-[300px] text-[40px] leading-none font-semibold text-name
             sm:mb-0 sm:text-[70px]
+            sm:max-lg:text-[50px]
           "
           >
             Recent projects
@@ -61,7 +64,11 @@ export default function RecentProjects() {
                   sm:h-[280px]
                 "
               />
-              <div className="absolute bottom-0 left-0 h-[110px] w-full bg-gd-page-background/90 px-4 py-2">
+              <div className="
+                absolute bottom-0 left-0 h-[110px] w-full bg-gd-page-background/90 px-4 py-2
+                sm:max-lg:h-auto sm:max-lg:pb-4
+              "
+              >
                 <h3 className="text-2xl font-bold text-gd-text">Fantasy Olympics</h3>
                 <p className="
                   mt-2 font-zilla text-base font-medium text-gd-text/80
@@ -76,7 +83,11 @@ export default function RecentProjects() {
           <Link to="/board">
             <div className="relative h-[300px] w-full max-w-[500px] rounded-lg bg-linear-to-b from-asteroid-top to-asteroid-bottom">
               <LedMatrixPreview className="mx-5 pt-13" />
-              <div className="absolute bottom-0 left-0 h-[110px] w-full bg-better-white/30 px-4 py-2">
+              <div className="
+                absolute bottom-0 left-0 h-[110px] w-full bg-better-white/30 px-4 py-2
+                sm:max-lg:h-auto sm:max-lg:pb-4
+              "
+              >
                 <h3 className="text-2xl font-bold text-asteroid-top">The Board</h3>
                 <p className="
                   mt-2 font-zilla text-base font-medium text-asteroid-top/80

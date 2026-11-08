@@ -24,6 +24,8 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
             sm:h-80 sm:w-60 sm:bg-mist-400
             sm:group-hover:not-group-data-selected:bg-mist-200
             sm:group-data-selected:bg-mist-50
+            sm:max-lg:w-auto
+            sm:max-md:h-90
           "
           >
             <div className="
@@ -68,6 +70,8 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
             sm:h-80 sm:w-60 sm:bg-mist-400
             sm:group-hover:not-group-data-selected:bg-mist-200
             sm:group-data-selected:bg-mist-50
+            sm:max-lg:w-auto
+            sm:max-md:h-90
           "
           >
             <div className="
@@ -113,6 +117,8 @@ export default function HorizontalPlans({ selectedPlan, setSelectedPlan, showDia
             sm:h-80 sm:w-60 sm:bg-mist-400
             sm:group-hover:not-group-data-selected:bg-mist-200
             sm:group-data-selected:bg-mist-50
+            sm:max-lg:w-auto
+            sm:max-md:h-90
           "
           >
             <div className="

@@ -25,6 +25,7 @@ export default function Company({
       <div className={cn(`
         relative w-75 rounded-sm border-2 border-name/40 bg-better-white/40 px-7 py-5
         sm:w-95
+        sm:max-md:w-75
       `, selected && `border-name bg-better-white`)}
       >
         <div className={cn(`absolute top-1/2 -left-8.5 z-1 size-6 -translate-y-1/2 rounded-full border border-name bg-[oklch(0.9302_0.0011_197.14)] transition-colors`, selected && `

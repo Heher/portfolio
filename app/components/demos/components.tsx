@@ -35,6 +35,7 @@ export function MainHeader({ url, children }: MainHeaderProps & { url: string })
       className="
         text-[47px] leading-none font-bold text-name
         sm:text-[80px]
+        sm:max-md:text-[64px]
       "
       style={{ viewTransitionName: headingTransitionName }}
     >
