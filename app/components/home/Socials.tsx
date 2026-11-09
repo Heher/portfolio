@@ -9,7 +9,8 @@ function SocialLink({ children, ...rest }: { children: React.ReactNode; [key: st
       className="
         grid w-34 grid-cols-[26px_1fr] items-center rounded-md bg-better-white/70 p-3 text-sm leading-none font-semibold text-index-link uppercase transition-colors
         hover:bg-better-white
-        sm:w-40 sm:grid-cols-[40px_1fr] sm:rounded-lg sm:px-3 sm:py-2
+        sm:max-lg:py-2.5
+        lg:w-40 lg:grid-cols-[40px_1fr] lg:rounded-lg lg:px-3 lg:py-2
       "
       {...rest}
     >
@@ -27,7 +28,8 @@ export default function Socials() {
     >
       <div className="
         mx-auto grid w-fit grid-cols-2 grid-rows-2 justify-items-start gap-2
-        sm:mx-0 sm:w-full sm:grid-cols-1 sm:grid-rows-4 sm:gap-3 sm:bg-none
+        sm:mx-0 sm:w-full sm:grid-cols-1 sm:grid-rows-4 sm:bg-none
+        lg:gap-3
       "
       >
         <SocialLink
@@ -43,7 +45,7 @@ export default function Socials() {
         >
           <GitHubIcon className="
             h-4 fill-current
-            sm:h-6
+            lg:h-6
           "
           />
           <span className="
@@ -67,7 +69,7 @@ export default function Socials() {
         >
           <LinkedInIcon className="
             h-4 fill-current
-            sm:h-6
+            lg:h-6
           "
           />
           <span className="
@@ -91,7 +93,7 @@ export default function Socials() {
         >
           <ResumeIcon className="
             h-4 fill-current
-            sm:h-6
+            lg:h-6
           "
           />
           <span className="
@@ -115,7 +117,7 @@ export default function Socials() {
         >
           <EmailIcon className="
             w-4 fill-current
-            sm:w-5
+            lg:w-5
           "
           />
           <span className="

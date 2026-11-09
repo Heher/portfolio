@@ -92,6 +92,7 @@ export default function TVGuidePage() {
         className="
           flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-compass-top to-compass-bottom px-2.5 py-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <TVGuide />

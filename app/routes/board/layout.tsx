@@ -249,6 +249,7 @@ export default function BoardIndex() {
         className="
           flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-asteroid-top to-asteroid-bottom p-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <Outlet context={{ status: matrixStatus }} />

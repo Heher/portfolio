@@ -30,6 +30,7 @@ export default function ProductPage() {
         className="
           flex h-full min-h-dvh flex-1 flex-col bg-linear-to-b from-stellar-top to-stellar-bottom px-2.5 py-5
           sm:p-0
+          sm:max-lg:px-5
         "
       >
         <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
@@ -42,11 +43,15 @@ export default function ProductPage() {
               <div className="
                 relative flex h-full flex-col gap-5 rounded-lg
                 sm:flex-row sm:gap-10
+                sm:max-md:gap-6
               "
               >
                 <div className="
                   aspect-square w-full bg-slate-500
                   sm:size-100
+                  sm:max-lg:shrink-0
+                  sm:max-md:size-60
+                  md:max-lg:size-80
                 "
                 >
                   <ClientOnly>{() => <AggroCragContainer />}</ClientOnly>
@@ -95,6 +100,7 @@ export default function ProductPage() {
               <div className="
                 flex items-center
                 sm:gap-14 sm:px-20
+                sm:max-md:gap-6 sm:max-md:px-0
               "
               >
                 <span className="
